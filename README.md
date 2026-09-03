@@ -23,10 +23,9 @@ Site portfolio personnel rassemblant mes projets créatifs : worldbuilding, pixe
 ├── index.html              # Page d'accueil
 ├── projets.html             # Page projets
 ├── liens.html               # Liens externes
-├── operateurs-prives.html   # Opérateurs privés (MLTC)
 ├── css/                     # Feuilles de style
 ├── js/                      # Scripts
-├── mltc/                    # Section MLTC (histoire, livrées, circulations)
+├── mltc/                    # Section MLTC (histoire, livrées, circulations, autres opérateurs)
 ├── 3D/                      # Section modélisation 3D
 └── fangame/                 # Fangame (assets)
 ```

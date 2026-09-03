@@ -59,36 +59,136 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
 }
 .lv-subtitle { color: #a8a3b3; font-size: 1rem; line-height: 1.6; max-width: 900px; }
 
+/* ---- Hero blurred background (livrees.html) ---- */
+.hero-livrees {
+    position: relative;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    height: 320px;
+    overflow: hidden;
+    margin-bottom: var(--spacing-xl);
+    background: #0a0a14;
+}
+.hero-livrees .hero-bg {
+    position: absolute;
+    inset: -20px;
+    background: url('../mltc/assets/bgliv.png') center / cover no-repeat;
+    filter: blur(8px) brightness(0.7);
+}
+.hero-livrees .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(10, 10, 20, 0.55), rgba(10, 10, 20, 0.85));
+    pointer-events: none;
+}
+.hero-livrees .hero-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xl) clamp(24px, 6vw, 80px);
+    text-align: left;
+}
+.hero-livrees .hero-content .lv-subtitle {
+    color: #e8e6f0;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Grille figee a 4 colonnes (au lieu de auto-fit, qui recalculait un nombre
+   de pistes different de 4 selon la largeur exacte du conteneur et faisait
+   parfois retomber le 4e repere seul sur une ligne, etire sur toute la
+   largeur) : les quatre reperes restent alignes sur une meme rangee tant
+   qu'il y a la place, et retombent proprement a 2 puis 1 colonne en dessous. */
 .lv-features {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: var(--spacing-md);
-    padding: var(--spacing-md) 0;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-lg) var(--spacing-md);
+    padding: var(--spacing-lg) 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
 }
 .lv-feature { display: flex; align-items: center; gap: var(--spacing-sm); color: #a8a3b3; font-size: 0.9rem; }
-.lv-feature-icon { flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; }
+.lv-feature-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+}
 .lv-feature-r {
     display: inline-flex; align-items: center; justify-content: center;
     width: 22px; height: 22px; background: var(--primary-600); color: #fff;
-    font-weight: 700; font-size: 0.75rem; border-radius: 2px;
+    font-weight: 700; font-size: 0.75rem;
 }
 
-.lv-category { display: flex; flex-direction: column; gap: var(--spacing-sm); padding-bottom: var(--spacing-lg); border-bottom: 1px solid rgba(255,255,255,0.08); }
-.lv-category:last-child { border-bottom: none; }
+@media (max-width: 980px) {
+    .lv-features { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+    .lv-features { grid-template-columns: 1fr; }
+}
+
+/* Chaque grande categorie (MLTC / Avant la MLTC / En dehors de la MLTC / Reel)
+   devient une carte fermee plutot qu'un bloc separe du suivant par un simple
+   filet horizontal : sur une page qui enchaine plusieurs categories aux
+   contenus tres inegaux (une icone seule pour "Avant la MLTC", une dizaine
+   pour "MLTC"), le filet seul ne suffisait pas a faire voir ou une categorie
+   s'arrete et ou la suivante commence. La carte le rend evident au premier
+   coup d'oeil, meme en scroll rapide. */
+.lv-category {
+    display: flex;
+    flex-direction: column;
+    background: var(--background);
+    border: 1px solid var(--border);
+}
+/* Le titre est un bandeau plein (fond distinct, pleine largeur) plutot qu'un
+   texte precede d'une puce : sur une suite de cartes au contenu tres inegal,
+   un bloc de couleur homogene se repere d'un coup d'oeil, la ou une puce +
+   un simple filet restaient trop proches visuellement du texte des icones. */
 .lv-category-title {
     font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.5rem;
+    font-weight: 800;
+    font-size: 1.7rem;
     letter-spacing: -0.01em;
-    background: linear-gradient(135deg, var(--primary-400), var(--primary-300));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin: 0 0 var(--spacing-xs);
+    color: #fff;
+    margin: 0;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--primary-800);
+    border-bottom: 1px solid var(--border);
 }
-.lv-sub { display: block; color: #7a7485; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: var(--spacing-sm); font-weight: 600; }
+.lv-category-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-lg);
+}
+@media (max-width: 560px) {
+    .lv-category-title { font-size: 1.4rem; padding: var(--spacing-sm) var(--spacing-md); }
+}
+
+/* Sous-groupe (ex. "Services urbains") : un filet degrade plutot qu'un
+   simple texte en majuscules qui se fondait dans le fond de la carte, pour
+   que chaque grappe d'icones a l'interieur d'une categorie reste identifiable
+   sans avoir a lire le texte. */
+.lv-sub {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: #b8b3c5;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: var(--spacing-md);
+    font-weight: 700;
+}
+.lv-sub::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+.lv-sub:first-of-type { margin-top: 0; }
+.lv-icons:first-of-type { margin-top: 0; }
 .lv-icons { display: flex; flex-wrap: wrap; gap: var(--spacing-sm); padding: var(--spacing-sm) 0; }
 .lv-icons a {
     display: inline-block;
@@ -156,7 +256,10 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
 
 /* Engine row */
 .lv-engine { display: grid; grid-template-columns: auto 1fr; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.04); margin: 0; position: relative; }
-.lv-engine + .lv-engine { margin-top: 0; border-top: 2px solid rgba(255,255,255,0.06); }
+/* Écart universel : chaque entrée est un bloc fermé, séparé du suivant.
+   Remplace l'ancien séparateur (border-top 2px) qui fusionnait les entrées
+   en un tableau continu et empêchait chaque bloc d'avoir sa bordure haute. */
+.lv-engine + .lv-engine { margin-top: 5px; }
 .lv-left { padding: 0; display: block; align-self: stretch; }
 .lv-leftrow { display: grid; grid-template-columns: 220px 360px; min-height: 58px; height: 100%; margin: 0; }
 .lv-leftcol { display: flex; align-items: center; min-height: 58px; margin: 0; }
@@ -212,6 +315,57 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
    z-index: 2;
 }
 .lv-flip-btn:hover { opacity: 1; transform: scale(1.1); }
+
+/* ─────────────────────────────────────────────────────────────────────
+   Bouton de variantes (usure, graffiti, chargement)
+
+   Même famille visuelle que le bouton R, mais en pastille à largeur
+   automatique : son libellé affiche l'état COURANT (NEUF / USÉ / TAGS /
+   CH. 1…), ce qui le rend auto-explicatif sans infobulle.
+   ───────────────────────────────────────────────────────────────────── */
+.lv-var-btn {
+   position: absolute;
+   top: 4px;
+   right: 4px;
+   height: 18px;
+   padding: 0 6px;
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   font-family: var(--font-display);
+   font-weight: 700;
+   font-size: 0.62em;
+   letter-spacing: 0.06em;
+   line-height: 1;
+   white-space: nowrap;
+   background: rgba(10, 8, 16, 0.72);
+   color: #e9e2fb;
+   border: 1px solid rgba(167, 139, 250, 0.45);
+   cursor: pointer;
+   border-radius: var(--radius-md);
+   backdrop-filter: blur(6px);
+   -webkit-backdrop-filter: blur(6px);
+   transition: var(--transition-base);
+   opacity: 0.72;
+   z-index: 2;
+}
+.lv-var-btn:hover {
+   opacity: 1;
+   border-color: rgba(167, 139, 250, 0.85);
+   box-shadow: 0 0 10px -2px rgba(139, 92, 246, 0.55);
+}
+
+/* Sur l'état de base, le bouton reste discret ; dès qu'une variante est
+   affichée il s'allume, pour qu'on n'oublie pas qu'on ne voit plus le neuf. */
+.lv-var-btn[data-index]:not([data-index="0"]) {
+   opacity: 1;
+   color: #fff;
+   border-color: rgba(167, 139, 250, 0.9);
+   background: rgba(76, 29, 149, 0.78);
+}
+
+/* Cohabitation avec le bouton R quand les deux sont présents */
+.lv-imgframe:has(.lv-flip-btn) .lv-var-btn { right: 32px; }
 
 /* CSS fallback mirroring when alternate image isn't provided */
 .lv-imgframe img.flip-x { transform: scaleX(-1); }
@@ -275,6 +429,47 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
 .lv-engine.stack > * { margin-block-start: 0 !important; }
 .lv-engine.stack > * + * { margin-block-start: 0 !important; }
 
+/* ========================================
+   Encapsulation des entrées empilées
+   ----------------------------------------
+   Problème : la frontière INTERNE (image → sa propre légende, 1px à 8%)
+   était aussi marquée que la frontière EXTERNE (engin → engin suivant,
+   2px à 6%). Avec plusieurs images longues d'affilée, plus rien ne disait
+   quel texte appartenait à quelle image.
+
+   Solution : on inverse la hiérarchie. La frontière interne disparaît, la
+   frontière externe devient un contour fermé — l'image et son texte sont
+   alors perçus comme un seul objet (« common region »), sans ajouter
+   d'espace vide notable.
+
+   L'écart de 5px et le contour gris sont universels : toutes les entrées,
+   images courtes comprises, sont des blocs distincts et identiques. Ce qui
+   suit ne fait que supprimer la frontière interne des entrées empilées.
+   ======================================== */
+
+/* Chaque entrée empilée est un bloc autonome. La bordure n'est PAS
+   redéclarée ici : elle vient de .lv-engine, donc identique à celle des
+   entrées courtes — tous les blocs de la liste ont le même contour gris. */
+.lv-list .lv-engine.stack {
+   border-radius: var(--radius-md);
+   overflow: hidden;
+}
+
+/* Frontière interne supprimée : l'image et son texte partagent la région */
+.lv-engine.stack .lv-imgframe,
+.lv-engine.stack.has-scroll .lv-imgframe { border-bottom: 0; }
+
+/* La frontière externe est gérée plus haut, pour TOUTES les entrées :
+   voir « Écart universel » sur .lv-engine + .lv-engine. */
+
+/* Survol : c'est le bloc entier qui réagit, ce qui confirme l'unité.
+   Appliqué à toutes les entrées, pas seulement aux empilées, pour que le
+   contour reste homogène d'un bout à l'autre de la liste. Remplace la
+   lueur portée sur l'image, que overflow:hidden rognerait. */
+.lv-list .lv-engine { transition: border-color var(--transition-base); }
+.lv-list .lv-engine:hover { border-color: rgba(124, 58, 237, 0.55); }
+.lv-engine.stack.has-scroll:hover .lv-imgframe { box-shadow: none; }
+
 /* Page navigation (prev/next) */
 .page-nav { display: flex; justify-content: space-between; margin: var(--spacing-xl) 0; gap: var(--spacing-md); }
 .page-nav a { display: inline-flex; align-items: center; padding: var(--spacing-sm) var(--spacing-lg); background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.25); color: #e5e7eb; font-family: var(--font-body); font-weight: 600; font-size: 0.9rem; text-decoration: none; border-radius: var(--radius-md); transition: var(--transition-base); }
@@ -302,6 +497,10 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
 /* Engine hover */
 .lv-theme-red .lv-engine:hover .lv-leftcol .lv-title .lv-name { color: #ff6b6b; }
 .lv-theme-red .lv-engine.has-scroll:hover .lv-imgframe { box-shadow: 0 0 0 2px rgba(209, 3, 34, 0.08), 0 6px 18px rgba(2, 6, 23, 0.35); }
+
+/* Encapsulation : contour gris au repos, accent du thème au survol */
+.lv-theme-red .lv-list .lv-engine:hover { border-color: rgba(209, 3, 34, 0.55); }
+.lv-theme-red .lv-engine.stack.has-scroll:hover .lv-imgframe { box-shadow: none; }
 
 /* Meta accent */
 .lv-theme-red .lv-title .lv-meta { color: #ff6b6b; }
@@ -332,7 +531,7 @@ body:has(.lv-theme-red) .subnav-link:hover { color: #ff6b6b !important; }
    ======================================== */
 
 /* Topbar */
-.lv-theme-orange .lv-topbar { background: linear-gradient(135deg, #a83520, #DF5E47); }
+.lv-theme-orange .lv-topbar { background: #DF5E47; }
 
 /* Buttons */
 .lv-theme-orange .lv-btn { border-color: rgba(223, 94, 71, 0.3); background: rgba(223, 94, 71, 0.12); }
@@ -348,6 +547,10 @@ body:has(.lv-theme-red) .subnav-link:hover { color: #ff6b6b !important; }
 /* Engine hover */
 .lv-theme-orange .lv-engine:hover .lv-leftcol .lv-title .lv-name { color: #ff9a85; }
 .lv-theme-orange .lv-engine.has-scroll:hover .lv-imgframe { box-shadow: 0 0 0 2px rgba(223, 94, 71, 0.08), 0 6px 18px rgba(2, 6, 23, 0.35); }
+
+/* Encapsulation : contour gris au repos, accent du thème au survol */
+.lv-theme-orange .lv-list .lv-engine:hover { border-color: rgba(223, 94, 71, 0.55); }
+.lv-theme-orange .lv-engine.stack.has-scroll:hover .lv-imgframe { box-shadow: none; }
 
 /* Meta accent */
 .lv-theme-orange .lv-title .lv-meta { color: #ff9a85; }
@@ -366,7 +569,7 @@ body:has(.lv-theme-red) .subnav-link:hover { color: #ff6b6b !important; }
 .lv-theme-orange .page-nav a:hover { background: rgba(223, 94, 71, 0.25); border-color: rgba(223, 94, 71, 0.5); }
 
 /* h2 headings in orange theme */
-.lv-theme-orange h2 { background: linear-gradient(135deg, #a83520, #DF5E47); }
+.lv-theme-orange h2 { background: #DF5E47; }
 
 /* Subnav active state override for orange pages */
 body:has(.lv-theme-orange) .subnav-link.active { color: #ff9a85 !important; background: rgba(223, 94, 71, 0.18); }
@@ -378,7 +581,7 @@ body:has(.lv-theme-orange) .subnav-link:hover { color: #ff9a85 !important; }
    ======================================== */
 
 /* Topbar */
-.lv-theme-cfp .lv-topbar { background: linear-gradient(135deg, #8a0316, #D10422); }
+.lv-theme-cfp .lv-topbar { background: #D10422; }
 
 /* Buttons */
 .lv-theme-cfp .lv-btn { border-color: rgba(209, 4, 34, 0.3); background: rgba(209, 4, 34, 0.12); }
@@ -394,6 +597,10 @@ body:has(.lv-theme-orange) .subnav-link:hover { color: #ff9a85 !important; }
 /* Engine hover */
 .lv-theme-cfp .lv-engine:hover .lv-leftcol .lv-title .lv-name { color: #ff7a8a; }
 .lv-theme-cfp .lv-engine.has-scroll:hover .lv-imgframe { box-shadow: 0 0 0 2px rgba(209, 4, 34, 0.08), 0 6px 18px rgba(2, 6, 23, 0.35); }
+
+/* Encapsulation : contour gris au repos, accent du thème au survol */
+.lv-theme-cfp .lv-list .lv-engine:hover { border-color: rgba(209, 4, 34, 0.55); }
+.lv-theme-cfp .lv-engine.stack.has-scroll:hover .lv-imgframe { box-shadow: none; }
 
 /* Meta accent */
 .lv-theme-cfp .lv-title .lv-meta { color: #ff7a8a; }
@@ -412,11 +619,69 @@ body:has(.lv-theme-orange) .subnav-link:hover { color: #ff9a85 !important; }
 .lv-theme-cfp .page-nav a:hover { background: rgba(209, 4, 34, 0.25); border-color: rgba(209, 4, 34, 0.5); }
 
 /* h2 headings in CFP theme */
-.lv-theme-cfp h2 { background: linear-gradient(135deg, #8a0316, #D10422); }
+.lv-theme-cfp h2 { background: #D10422; }
 
 /* Subnav active state override for CFP pages */
 body:has(.lv-theme-cfp) .subnav-link.active { color: #ff7a8a !important; background: rgba(209, 4, 34, 0.18); }
 body:has(.lv-theme-cfp) .subnav-link:hover { color: #ff7a8a !important; }
+
+/* ========================================
+   Flamingo Theme (Flamingo Rail Leasing)
+   Accent: #FC8EAB — aplats: #cc335c, bordure de catbar #7a293f
+
+   Pas de dégradé : seul MLCC en garde un. #FC8EAB est un rose clair, il tient
+   donc le rôle de teinte claire (accents de texte, bordures, pistes de
+   défilement) et non celui des aplats : .lv-topbar et .lv-page h2 imposent
+   color:#fff en dur, et du blanc sur #FC8EAB ne donne que 2,19:1 — illisible.
+   L'aplat est dérivé de la même teinte (344°) en plus sombre, ce qui remonte
+   le blanc à 5,01:1. Même écart que SanGo, dont la carte d'index est #F7864F
+   alors que son aplat est #DF5E47.
+   ======================================== */
+
+/* Topbar */
+.lv-theme-flamingo .lv-topbar { background: #cc335c; }
+
+/* Buttons */
+.lv-theme-flamingo .lv-btn { border-color: rgba(252, 142, 171, 0.3); background: rgba(252, 142, 171, 0.12); }
+.lv-theme-flamingo .lv-btn:hover { background: rgba(252, 142, 171, 0.25); border-color: rgba(252, 142, 171, 0.5); }
+
+/* Category bar */
+.lv-theme-flamingo .lv-catbar { background: #431420; border-color: #7a293f; }
+
+/* Country separator */
+.lv-theme-flamingo .lv-country-sep { color: #FC8EAB; }
+.lv-theme-flamingo .lv-country-sep::after { background: linear-gradient(90deg, rgba(252, 142, 171, 0.4), transparent); }
+
+/* Engine hover */
+.lv-theme-flamingo .lv-engine:hover .lv-leftcol .lv-title .lv-name { color: #FC8EAB; }
+.lv-theme-flamingo .lv-engine.has-scroll:hover .lv-imgframe { box-shadow: 0 0 0 2px rgba(252, 142, 171, 0.08), 0 6px 18px rgba(2, 6, 23, 0.35); }
+
+/* Encapsulation : contour gris au repos, accent du thème au survol */
+.lv-theme-flamingo .lv-list .lv-engine:hover { border-color: rgba(252, 142, 171, 0.55); }
+.lv-theme-flamingo .lv-engine.stack.has-scroll:hover .lv-imgframe { box-shadow: none; }
+
+/* Meta accent */
+.lv-theme-flamingo .lv-title .lv-meta { color: #FC8EAB; }
+
+/* Flip button */
+.lv-theme-flamingo .lv-flip-btn { background: #a63050; border-color: #FC8EAB; }
+
+/* Scroll track */
+.lv-theme-flamingo .lv-scroll-track { background: rgba(252, 142, 171, 0.08); border-color: rgba(252, 142, 171, 0.25); scrollbar-color: #FC8EAB rgba(252, 142, 171, 0.08); }
+.lv-theme-flamingo .lv-scroll-track::-webkit-scrollbar-track { background: rgba(252, 142, 171, 0.08); }
+.lv-theme-flamingo .lv-scroll-track::-webkit-scrollbar-thumb { background: #FC8EAB; border-color: rgba(252, 142, 171, 0.08); }
+.lv-theme-flamingo .lv-scroll-track::-webkit-scrollbar-thumb:hover { background: #ffb3c7; }
+
+/* Page navigation */
+.lv-theme-flamingo .page-nav a { background: rgba(252, 142, 171, 0.12); border-color: rgba(252, 142, 171, 0.3); }
+.lv-theme-flamingo .page-nav a:hover { background: rgba(252, 142, 171, 0.25); border-color: rgba(252, 142, 171, 0.5); }
+
+/* h2 headings in Flamingo theme */
+.lv-theme-flamingo h2 { background: #cc335c; }
+
+/* Subnav active state override for Flamingo pages */
+body:has(.lv-theme-flamingo) .subnav-link.active { color: #FC8EAB !important; background: rgba(252, 142, 171, 0.18); }
+body:has(.lv-theme-flamingo) .subnav-link:hover { color: #FC8EAB !important; }
 
 /* === Responsive === */
 @media (max-width: 940px) { .lv-leftrow { grid-template-columns:180px 300px; } .lv-imgframe { width:300px; } .lv-imgframe img { height:auto; width:auto; } }
@@ -450,9 +715,13 @@ body:has(.lv-theme-cfp) .subnav-link:hover { color: #ff7a8a !important; }
    .lv-title .lv-name { font-size:0.78em; }
    .lv-title .lv-meta { font-size:0.6em; }
    .lv-right .lv-box { font-size:0.78em; }
-   .lv-imgframe { min-height:48px; }
-   .lv-imgframe img { max-height:48px; }
-   .lv-engine.stack .lv-imgframe { background-size:auto 100%; }
+   /* Keep image height consistent across stacked and non-stacked liveries on phones
+      so trains do not appear larger than others. */
+   .lv-imgframe { min-height:58px; }
+   .lv-imgframe img,
+   .lv-engine.stack .lv-imgframe img { max-height:58px; }
+   .lv-engine.stack[data-fit="stretch"] .lv-imgframe img { height:58px; }
+   .lv-engine.stack .lv-imgframe { height:59px; background-size:auto 100%; }
 }
 
 /* Touch scroll hint - mobile only */

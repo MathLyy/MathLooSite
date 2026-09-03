@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autres opérateurs | MathLoo</title>
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/pages.css">
+    <link rel="stylesheet" href="../css/mltc.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-text">MathLoo</span>
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../projets.html" class="nav-link">Projets</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active">MLTC</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../3D/index.html" class="nav-link">3D</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../liens.html" class="nav-link">Liens</a>
+                </li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" aria-label="Changer le thème">
+                    <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2"/>
+                        <path d="M12 20v2"/>
+                        <path d="m4.93 4.93 1.41 1.41"/>
+                        <path d="m17.66 17.66 1.41 1.41"/>
+                        <path d="M2 12h2"/>
+                        <path d="M20 12h2"/>
+                        <path d="m6.34 17.66-1.41 1.41"/>
+                        <path d="m19.07 4.93-1.41 1.41"/>
+                    </svg>
+                    <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                    </svg>
+                </button>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MLTC Sub-navigation -->
+    <nav class="mltc-subnav">
+        <div class="container">
+            <ul class="subnav-menu">
+                <!-- L'Univers -->
+                <li class="subnav-item">
+                    <button class="subnav-toggle" data-category="univers">L'Univers</button>
+                    <div class="subnav-dropdown">
+                        <a href="index.html" class="subnav-link">Accueil</a>
+                        <a href="histoire.html" class="subnav-link">Histoire</a>
+                        <a href="coulisses.html" class="subnav-link">Les coulisses de la MLTC</a>
+                    </div>
+                </li>
+                <!-- Le Réseau -->
+                <li class="subnav-item">
+                    <button class="subnav-toggle" data-category="reseau">Le Réseau</button>
+                    <div class="subnav-dropdown">
+                        <a href="circulations.html" class="subnav-link">Circulations</a>
+                        <a href="livrees.html" class="subnav-link">Livrées</a>
+                        <a href="services.html" class="subnav-link">Services</a>
+                    </div>
+                </li>
+                <!-- Acteurs -->
+                <li class="subnav-item">
+                    <button class="subnav-toggle" data-category="acteurs">Acteurs</button>
+                    <div class="subnav-dropdown">
+                        <a href="autres-operateurs.html" class="subnav-link active">Autres opérateurs</a>
+                        <a href="production.html" class="subnav-link">Production</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero -->
+        <section class="page-hero">
+            <div class="container">
+                <h1 class="mltc-page-title">Autres opérateurs</h1>
+                <p>Dans l'univers de la MLTC, d'autres opérateurs ferroviaires coexistent avec la compagnie publique, proposant des services complémentaires ou concurrents sur le réseau du Mathlyens.</p>
+            </div>
+        </section>
+
+        <!-- ----------- SanGo! ----------- -->
+        <section class="sg-body">
+
+            <!-- Header - logo + slogans -->
+            <div class="sg-header">
+                <img class="sg-header-logo" src="assets/SanGoLogo.png" alt="SanGo!">
+                <div class="sg-header-slogans">
+                    <p class="sg-header-slogan-main">SanGo!, here we go !</p>
+                    <p class="sg-header-slogan-sub">SanGo!, votre nouveau train pour bouger malin.</p>
+                </div>
+            </div>
+
+            <!-- Grid - blocks left, sticky infobox right -->
+            <div class="sg-container">
+
+                <!-- Colonne texte -->
+                <div class="sg-content">
+                    <div class="sg-block sg-block--full">
+                        <span class="sg-tag">Fondation</span>
+                        <p>SanGo! est une entreprise ferroviaire française créée en 2011. La société se positionne comme un opérateur low-cost, avec pour ambition de répondre aux besoins concrets de la mobilité interrégionale, dans un contexte où plusieurs compagnies historiques avaient abandonné ou réduit les dessertes transversales jugées non prioritaires.</p>
+                    </div>
+
+                    <div class="sg-block sg-block--full">
+                        <span class="sg-tag">Réseau</span>
+                        <p>Basée à Nîmes, SanGo! a fait le choix stratégique de développer des liaisons en dehors des corridors ferroviaires classiques à forte densité, historiquement centrés sur Paris. L'entreprise privilégie ainsi les axes transversaux et les liaisons inter-métropoles régionales, avec un maillage incluant des villes telles que Toulouse, Marseille, Montpellier, Nice, Bordeaux ou encore Lyon.</p>
+                    </div>
+
+                    <div class="sg-block sg-block--full">
+                        <span class="sg-tag">Matériel</span>
+                        <p>Le parc matériel de SanGo! est principalement constitué d'anciens matériels de la SNCF, dont les voitures Corail et les BB 9200/9300, </p>
+                    </div>
+                </div>
+
+                <!-- Encadré infos - sticky, accompagne toute la lecture -->
+                <aside class="sg-infobox">
+                    <table class="sg-infotable">
+                        <tbody>
+                            <tr>
+                                <th>Dates clés</th>
+                                <td>
+                                    <strong>2011</strong> - Fondation<br>
+                                    <strong>2013</strong> - Premier train entre Nîmes et Marseille<br>
+                                    <strong>2020</strong> - Lancement de l'offre Grande Vitesse
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Forme juridique</th>
+                                <td>Société par actions simplifiée</td>
+                            </tr>
+                            <tr>
+                                <th>Slogan</th>
+                                <td><em>SanGo!, here we go !</em><br><em>SanGo!, votre nouveau train pour bouger malin.</em></td>
+                            </tr>
+                            <tr>
+                                <th>Siège social</th>
+                                <td>Nîmes, France</td>
+                            </tr>
+                            <tr>
+                                <th>Activité</th>
+                                <td>Transport de passagers</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p class="sg-cta-caption">Cliquez pour découvrir l'identité visuelle !</p>
+                    <a href="livrees_pages/sango.html" class="sg-cta">
+                        <img src="icones_liv/sango.png" alt="SanGo!" class="sg-cta-icon">
+                    </a>
+                </aside>
+
+            </div>
+        </section>
+
+        <!-- ----------- CFP ----------- -->
+        <section class="cfp-body">
+
+            <!-- Header -->
+            <div class="cfp-header">
+                <img class="cfp-header-logo" src="assets/CFPLogo.png" alt="CFP">
+                <div class="cfp-header-slogans">
+                    <p class="cfp-header-slogan-main">CFP, la ligne de vie des Pyrénées.</p>
+                    <p class="cfp-header-slogan-sub">Des vallées aux sommets, votre ligne directe.</p>
+                </div>
+            </div>
+
+            <!-- Grid - blocks left, sticky infobox right -->
+            <div class="cfp-container">
+
+                <!-- Colonne texte -->
+                <div class="cfp-content">
+                    <div class="cfp-block cfp-block--full">
+                        <span class="cfp-tag">Fondation</span>
+                        <p>Les Chemins de fer des Pyrénées sont un opérateur ferroviaire régional semi-public, cogéré par les collectivités locales pyrénéennes et des partenaires privés. Initialement fondés en 1898 et finalement absorbés par la SNCF dans les années 1960, les CFP ont été ressuscités en 2011 à l'initiative d'élus locaux soucieux de maintenir un maillage ferroviaire fin à l'échelle pyrénéenne, région où la MLTC se concentre sur ses axes Xpress et Nocrail.</p>
+                    </div>
+
+                    <div class="cfp-block cfp-block--full">
+                        <span class="cfp-tag">Réseau</span>
+                        <p>Basés à Pau, les CFP s'étendent sur la totalité des Pyrénées françaises, de l'Atlantique à la Méditerranée. Dans cet univers, la désélectrification de plusieurs lignes pyrénéennes n'a pas eu lieu, et de nombreuses lignes sont restées ouvertes, permettant aux CFP de proposer un maillage dense sur l'ensemble du massif.</p>
+                    </div>
+
+                    <div class="cfp-block cfp-block--full">
+                        <span class="cfp-tag">Matériel</span>
+                        <p>Pour ses premières années d'exploitation, les CFP récupèrent des automotrices Z 7100 arrivées en fin de carrière chez la SNCF, modernisées pour l'occasion et recevant une nouvelle livrée aux couleurs de la compagnie, en attendant l'acquisition de matériel plus récent.</p>
+                    </div>
+                </div>
+
+                <!-- Encadré infos - sticky -->
+                <aside class="cfp-infobox">
+                    <table class="cfp-infotable">
+                        <tbody>
+                            <tr>
+                                <th>Dates clés</th>
+                                <td>
+                                    <strong>1898</strong> - Fondation<br>
+                                    <strong>1962</strong> - Absorption par la SNCF<br>
+                                    <strong>2011</strong> - Renaissance des CFP<br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Forme juridique</th>
+                                <td>Société d'économie mixte</td>
+                            </tr>
+                            <tr>
+                                <th>Slogan</th>
+                                <td><em>La ligne de vie des Pyrénées.</em><br>
+                                <em>Des vallées aux sommets, votre ligne directe.</em></td>
+                            </tr>
+                            <tr>
+                                <th>Siège social</th>
+                                <td>Pau, France</td>
+                            </tr>
+                            <tr>
+                                <th>Activité</th>
+                                <td>Transport de passagers et fret à l'échelle locale</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p class="cfp-cta-caption">Cliquez pour découvrir l'identité visuelle !</p>
+                    <a href="livrees_pages/cfp.html" class="cfp-cta">
+                        <img src="livrees_pages/livrees_img/cfp/B-CFPZ7100.png" alt="CFP Z 7100" class="cfp-cta-icon">
+                    </a>
+                </aside>
+
+            </div>
+        </section>
+
+        <!-- Date de dernière modification -->
+        <section class="last-modified">
+            <div class="container">
+                <p>Dernière mise à jour : 23 avril 2026</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-text">MathLoo</span>
+                    <p>Portfolio créatif</p>
+                    <a href="mailto:mathloo.site@gmail.com" class="footer-email">mathloo.site@gmail.com</a>
+                </div>
+                <div class="footer-links">
+                    <a href="../index.html">Accueil</a>
+                    <a href="../projets.html">Projets</a>
+                    <a href="index.html">MLTC</a>
+                    <a href="../3D/index.html">3D</a>
+                    <a href="../liens.html">Liens</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span class="footer-version">v<strong>0.8</strong> (03/09/2026)</span>
+                <p>&copy; 2026 MathLoo. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

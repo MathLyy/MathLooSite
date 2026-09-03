@@ -35,6 +35,61 @@
   if (img.complete) recalc(); else img.addEventListener('load', recalc, { once: true });
   });
 
+  // ─── Variantes d'un même engin : usure, graffiti, chargement ──────────
+  // Déclaré sur l'image, dans le même esprit que data-r :
+  //   data-vars="USÉ|livrees_img/…/D-MLCC_PUcs.png;TAGS|…/D-MLCC_PGUcs.png"
+  // L'image de départ compte comme première variante (« NEUF » par défaut,
+  // ou data-var0 si un autre libellé est voulu). Le libellé du bouton
+  // affiche toujours l'état courant.
+  function variantsOf(img){
+    if(img._lvVars !== undefined) return img._lvVars;
+    const raw = img.getAttribute('data-vars');
+    if(!raw){ img._lvVars = null; return null; }
+    const list = [{ code: img.getAttribute('data-var0') || 'NEUF', src: img.getAttribute('src') }];
+    raw.split(';').forEach(function(part){
+      const i = part.indexOf('|');
+      if(i < 0) return;
+      const code = part.slice(0, i).trim();
+      const src = part.slice(i + 1).trim();
+      if(code && src) list.push({ code: code, src: src });
+    });
+    img._lvVars = list.length > 1 ? list : null;
+    return img._lvVars;
+  }
+
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('.lv-var-btn');
+    if(!btn) return;
+    const card = btn.closest('.lv-engine');
+    const img = card && card.querySelector('.lv-imgframe img');
+    if(!img) return;
+    const vars = variantsOf(img);
+    if(!vars) return;
+
+    const next = (parseInt(btn.dataset.index || '0', 10) + 1) % vars.length;
+    btn.dataset.index = String(next);
+    btn.textContent = vars[next].code;
+    btn.setAttribute('aria-label', 'Variante affichée : ' + vars[next].code);
+    img.setAttribute('src', vars[next].src);
+    img.classList.remove('flip-x');
+
+    // Les variantes chargées ou patinées n'ont pas toujours la même hauteur
+    // (bâche, chargement qui dépasse) : il faut réévaluer la mise en page.
+    const recalc = () => { try { window._lvAssessStack && window._lvAssessStack(card); } catch(_) {} };
+    if(img.complete) recalc(); else img.addEventListener('load', recalc, { once: true });
+  });
+
+  // Préchargement au survol du cadre : évite le clignotement au premier clic.
+  document.addEventListener('pointerover', function(e){
+    const frame = e.target.closest && e.target.closest('.lv-imgframe');
+    if(!frame || frame._lvPrefetched) return;
+    const img = frame.querySelector('img');
+    const vars = img && variantsOf(img);
+    if(!vars) return;
+    frame._lvPrefetched = true;
+    vars.slice(1).forEach(function(v){ const p = new Image(); p.src = v.src; });
+  });
+
   // Auto stacked layout for very long sprites
   function isStackNeeded(img){
     const nw = img.naturalWidth || 0;

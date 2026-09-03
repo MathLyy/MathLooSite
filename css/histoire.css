@@ -1,0 +1,1601 @@
+/* ════════════════════════════════════════════════════════════════════════
+   Chronique du Mathlyens — feuille de style dédiée aux 5 pages Histoire
+   (histoire.html + histoire_pages/{origines,expansion,hisservices}.html +
+   histoire_pages/lignes_territoires/index.html).
+
+   Refonte intégrale : ces pages ne sont plus une suite de blocs de contenu
+   génériques, mais une chronique d'archives du Mathlyens. Trois parties
+   chronologiques (I, II, III) racontent l'histoire dans l'ordre ; un dossier
+   thématique, visuellement distinct (identité ambre plutôt que violette),
+   documente un sujet hors chronologie.
+
+   Namespace : .chr- (Chronique), entièrement nouveau, pour ne courir aucun
+   risque de collision avec les anciennes classes .ht-/.olv-/.prod- retirées
+   de mltc.css. Seules les classes .cov-* (carte de couverture, page
+   Expansion) sont conservées telles quelles : js/coverage-map.js les cible
+   par leur nom exact et n'a pas été modifié.
+
+   Contrainte absolue : aucun border-radius, nulle part, y compris sur les
+   pastilles et points de frise (des carrés, pas des disques). Les jetons
+   --radius-* de style.css valent déjà 0 partout ; ce fichier n'en définit
+   aucun en dur.
+
+   Rythme des fonds : une seule règle, et elle ne souffre pas d'exception.
+   Fond teinté (et pleine largeur) pour les sections de contexte ou de
+   données, qui sortent du récit : aujourd'hui la seule "Alliance du
+   Mathlyens". Fond de page pour tout ce qui relève du récit et de la
+   navigation : couverture, chronologie, chapitres, dossier, structure.
+   Avant cette passe, l'alternance ne suivait aucune règle et le dossier
+   portait un aplat violet sans que rien ne le justifie.
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* ── Fondations ──────────────────────────────────────────────────────── */
+
+/* Les quatre variables locales ci-dessous ne sont plus que des alias des
+   trois niveaux d'usage du violet definis dans style.css (--accent-action /
+   --accent-label / --accent-decor, cf. le commentaire de :root la-bas) :
+     --chr-accent-strong -> ce qui est cliquable ou lu en premier ;
+     --chr-accent-ink    -> les reperes de lecture (labels, periodes, annees) ;
+     --chr-accent        -> le decoratif (noeuds de frise, filigrane, carte) ;
+     --chr-accent-line / -soft -> filets et aplats.
+   Avant cette passe, tout tirait sur deux teintes voisines (500 et 600) et
+   rien ne ressortait : un lien avait exactement le poids d'un point de
+   frise. */
+.chr-page {
+    --chr-accent: var(--accent-decor);
+    --chr-accent-strong: var(--accent-action);
+    --chr-accent-ink: var(--accent-label);
+    --chr-accent-soft: var(--accent-decor-wash);
+    --chr-accent-line: var(--accent-decor-line);
+    /* La police d'affichage (Syne) ne sert plus qu'au titre principal de
+       chaque page (voir .chr-opening h1 / .chr-cover-inner h1 plus bas, qui
+       appellent var(--font-display) directement) : tout le reste du systeme
+       typographique (numeros, chapitres, mention MATHLYENS, structure...)
+       utilise desormais la police de texte en gras, pour eviter la
+       surenchere de police de titre denoncee sur la page d'index. */
+    --chr-serif: var(--font-body);
+    max-width: 1240px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+    font-family: var(--font-body);
+}
+/* Plus de surcharge de theme sombre ici : les trois niveaux de style.css
+   basculent deja d'eux-memes sous [data-theme="dark"]. */
+
+/* Dossier hors chronologie : identité ambre, pour que l'oeil sache tout de
+   suite qu'on a quitté le fil chronologique des Parties I/II/III. La meme
+   hierarchie a trois niveaux y est rejouee en ambre. */
+.chr-page.chr-dossier {
+    --chr-accent: #b6790a;
+    --chr-accent-strong: #7a5008;
+    --chr-accent-ink: #96630a;
+    --chr-accent-soft: rgba(182, 121, 10, 0.10);
+    --chr-accent-line: rgba(182, 121, 10, 0.32);
+}
+[data-theme="dark"] .chr-page.chr-dossier {
+    --chr-accent: #e3a94a;
+    --chr-accent-strong: #f7d49a;
+    --chr-accent-ink: #f0bd6b;
+    --chr-accent-soft: rgba(227, 169, 74, 0.12);
+    --chr-accent-line: rgba(227, 169, 74, 0.32);
+}
+
+.chr-page * { box-sizing: border-box; }
+
+.chr-page section { padding: var(--spacing-3xl) 0; }
+.chr-page section.chr-tight { padding: var(--spacing-2xl) 0; }
+.chr-page section + section { border-top: 1px solid var(--border); }
+.chr-page section.chr-nodiv { border-top: 0; }
+
+@media (max-width: 640px) {
+    .chr-page { padding: 0 var(--spacing-md); }
+    .chr-page section { padding: var(--spacing-2xl) 0; }
+}
+
+/* ── Vocabulaire typographique récurrent ─────────────────────────────── */
+
+.chr-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--chr-accent-ink);
+    margin-bottom: var(--spacing-sm);
+}
+.chr-eyebrow::before {
+    content: '';
+    width: 22px;
+    height: 1px;
+    background: var(--chr-accent);
+    flex-shrink: 0;
+}
+
+/* Grand numéro éditorial : le motif qui revient sur toute la chronique
+   (numéro de partie, années, chiffres-clés). */
+.chr-num {
+    font-family: var(--chr-serif);
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: var(--chr-accent);
+}
+
+.chr-h3 {
+    font-family: var(--chr-serif);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: var(--spacing-xl) 0 var(--spacing-sm);
+}
+.chr-h3:first-child { margin-top: 0; }
+
+.chr-mt { margin-top: var(--spacing-xl); }
+
+/* ── Prose ────────────────────────────────────────────────────────────── */
+
+.chr-prose { max-width: 74ch; }
+.chr-prose p {
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin-bottom: 1.1em;
+    font-size: 1.02rem;
+}
+.chr-prose p:last-child { margin-bottom: 0; }
+.chr-prose strong { color: var(--text-primary); font-weight: 700; }
+.chr-prose em { font-style: italic; color: var(--text-primary); }
+.chr-prose a {
+    color: var(--chr-accent-strong);
+    text-decoration: underline;
+    text-decoration-color: var(--chr-accent-line);
+    text-underline-offset: 3px;
+}
+.chr-prose a:hover { text-decoration-color: var(--chr-accent-strong); }
+
+.chr-lead p:first-child {
+    font-size: 1.2rem;
+    line-height: 1.65;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* Citation détachée du texte courant : un mot qui résume l'enjeu. */
+.chr-pull {
+    border-left: 3px solid var(--chr-accent);
+    padding: 4px 0 4px var(--spacing-xl);
+    margin: var(--spacing-xl) 0;
+}
+.chr-pull p {
+    font-family: var(--chr-serif);
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+}
+
+/* ── En-tête de chaque page (héros) ──────────────────────────────────── */
+
+/* La navbar (70px) + le sous-menu MLTC (44px fixe, top:70px) occupent
+   114px en haut de chaque page : la marge doit rester nettement au-dessus
+   de ce total pour ne jamais mordre sur le titre. Aligne sur le
+   padding-top:156px deja utilise ailleurs sur le site (.lv-page-section,
+   .page-hero), avec un peu plus de marge.
+   Selecteur "en dur" .chr-page section.chr-opening (2 classes + 1 element) :
+   .chr-page section seul (1 classe + 1 element) a une specificite plus
+   faible mais suffisante pour gagner sur ".chr-opening" seul si celui-ci
+   n'a qu'une classe. Cette regle ecrasait silencieusement le padding-top
+   ci-dessus par les 4rem generiques de .chr-page section, recreant le bug
+   de titre sous la navbar malgre cette declaration. */
+.chr-page section.chr-opening {
+    padding: 168px 0 var(--spacing-2xl);
+}
+.chr-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-bottom: var(--spacing-xl);
+    transition: color var(--transition-base);
+}
+.chr-back:hover { color: var(--chr-accent-strong); }
+.chr-back svg { width: 14px; height: 14px; }
+
+.chr-opening-kicker {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    flex-wrap: wrap;
+}
+.chr-part-num {
+    font-family: var(--chr-serif);
+    font-weight: 800;
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    color: var(--chr-accent);
+    line-height: 1;
+}
+/* Le dossier n'a pas de numéro de partie : une étiquette texte à la place. */
+.chr-part-num--tag {
+    font-size: 1.05rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+.chr-opening-period {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    border-left: 1px solid var(--border);
+    padding-left: var(--spacing-md);
+}
+/* Seul titre de toute la chronique a utiliser la police d'affichage (Syne) :
+   le vrai titre de page (h1), sur les sous-pages (.chr-opening) comme sur
+   la couverture de l'index (.chr-cover-inner). Tout le reste du systeme
+   (chapitres, chiffres, mention MATHLYENS...) reste en police de texte. */
+.chr-opening h1,
+.chr-cover-inner h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2.6rem, 6.5vw, 4.2rem);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    max-width: 18ch;
+    margin: 0 0 var(--spacing-lg);
+}
+.chr-opening-sub {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    max-width: 62ch;
+}
+
+@media (max-width: 640px) {
+    .chr-page section.chr-opening { padding-top: 148px; }
+}
+
+/* ── Section : entête générique (eyebrow + titre) ────────────────────── */
+
+.chr-head { margin-bottom: var(--spacing-xl); max-width: 68ch; }
+/* Les sections qui n'ont plus de libelle a tiret commencent directement par
+   leur h2 : il reprend a son compte le petit espace que le libelle occupait
+   au-dessus, pour que le rythme vertical reste le meme d'une section a
+   l'autre. */
+.chr-head h2:first-child { margin-top: 2px; }
+.chr-head h2 {
+    font-family: var(--chr-serif);
+    font-size: clamp(1.6rem, 3.2vw, 2.1rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+    margin: 0;
+}
+.chr-head p { color: var(--text-secondary); margin-top: var(--spacing-sm); line-height: 1.6; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   INDEX (histoire.html) — couverture, chronologie, chapitres, interlude,
+   contexte, structure.
+
+   Deuxieme passe : la premiere version lisait comme une page documentaire
+   (frise discrete en encart, trois liens identiques, cartes alignees). Ici
+   chaque bloc est traite comme une piece editoriale distincte — couverture,
+   frise monumentale, chapitres a l'echelle d'une ouverture de livre,
+   interlude dossier, section de contexte avec mention typographique, et
+   une hierarchie organisationnelle plutot qu'une grille de cartes — tout
+   en restant assemble par le meme systeme graphique (violet, ambre pour le
+   hors-chronologie, aucun angle arrondi).
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* ── Couverture ──────────────────────────────────────────────────────────
+   Deux colonnes : le texte existant a gauche, une carte "Etapes cles" a
+   droite. Toute la bande sort de la colonne de texte et prend la largeur de
+   la fenetre, sur un violet plat (une seule teinte, pas de degrade ni
+   d'image) assez clair pour que le texte sombre reste lisible tel quel :
+   aucune couleur de texte n'a eu besoin d'etre revue.
+   La carte, elle, reste sur fond clair pour trancher avec ce violet.
+   Le padding haut de 168px reserve la place de la navbar (70px) et du
+   sous-menu MLTC (44px), qui sont fixes au-dessus de chaque page. */
+.chr-page section.chr-cover {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding: 168px max(var(--spacing-lg), calc((100vw - 1240px) / 2 + var(--spacing-lg))) var(--spacing-3xl);
+    background: #efe7fd;
+}
+[data-theme="dark"] .chr-page section.chr-cover { background: #1b1230; }
+
+@media (max-width: 640px) {
+    .chr-page section.chr-cover { padding-top: 148px; }
+}
+
+.chr-cover-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(320px, 1fr);
+    gap: var(--spacing-3xl);
+    align-items: start;
+}
+.chr-cover-inner { max-width: 58ch; }
+
+/* Carte des etapes cles : fond clair, filet fin et ombre douce. Pas de coin
+   arrondi, contrairement a la maquette de reference : le systeme du site est
+   anguleux et tous les jetons --radius-* valent 0. */
+.chr-steps {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-xl);
+}
+.chr-steps-label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--chr-accent-ink);
+    margin-bottom: var(--spacing-lg);
+}
+
+/* Frise verticale : un filet continu a gauche, un point par etape. Les
+   points sont carres, comme tous les noeuds de frise du site. */
+.chr-steps-list {
+    position: relative;
+    list-style: none;
+    margin: 0 0 var(--spacing-xl);
+    padding: 0 0 0 var(--spacing-xl);
+}
+.chr-steps-list::before {
+    content: '';
+    position: absolute;
+    /* cale sur l'axe des points (points de 9px commencant a 4px) pour que le
+       filet les traverse au lieu de longer leur bord */
+    left: 8px;
+    top: 10px;
+    bottom: 10px;
+    width: 1px;
+    background: var(--chr-accent-line);
+}
+.chr-step {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-md);
+    padding: 7px 0;
+}
+.chr-step::before {
+    content: '';
+    position: absolute;
+    left: -28px;
+    top: 13px;
+    width: 9px;
+    height: 9px;
+    background: var(--chr-accent);
+}
+.chr-step-year {
+    flex-shrink: 0;
+    min-width: 3.6em;
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--chr-accent-strong);
+}
+.chr-step-name {
+    font-size: 0.9rem;
+    line-height: 1.35;
+    color: var(--text-secondary);
+}
+
+/* Lien de bas de carte vers le recit detaille. */
+.chr-steps-go {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border: 1px solid var(--border);
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--chr-accent-strong);
+    text-decoration: none;
+    transition: border-color var(--transition-base), background var(--transition-base);
+}
+.chr-steps-go:hover,
+.chr-steps-go:focus-visible {
+    border-color: var(--chr-accent);
+    background: var(--chr-accent-soft);
+    outline: none;
+}
+.chr-steps-go svg { width: 16px; height: 16px; flex-shrink: 0; transition: transform var(--transition-base); }
+.chr-steps-go:hover svg,
+.chr-steps-go:focus-visible svg { transform: translateX(4px); }
+
+/* Sous 960px, deux colonnes deviennent trop etroites pour le titre : la
+   carte passe sous le texte, toujours dans la couverture. */
+@media (max-width: 960px) {
+    .chr-cover-grid { grid-template-columns: 1fr; gap: var(--spacing-xl); }
+    .chr-steps { max-width: 520px; }
+}
+
+/* Encart de bas de couverture : boite fermee (bordure + fond teinte),
+   plutot qu'une simple note filante, pour rester lisible comme un avis
+   distinct. */
+.chr-footnote {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    max-width: 62ch;
+    margin-top: var(--spacing-2xl);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border: 1px solid var(--chr-accent-line);
+    background: var(--chr-accent-soft);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.6;
+}
+.chr-footnote svg { flex-shrink: 0; margin-top: 2px; color: var(--chr-accent-ink); opacity: 0.8; }
+.chr-footnote strong { color: var(--text-secondary); font-weight: 600; }
+
+/* ── Trois chapitres : trois colonnes strictement paralleles, la meme
+   structure verticale repetee (numero / periode / titre / description /
+   lien) dans chacune, pour que 01 -> 02 -> 03 se lise comme trois etapes
+   d'une meme histoire plutot que trois blocs disperses. Filets de
+   separation obtenus par la meme technique "seam" que .chr-fleet plus bas
+   dans ce fichier (fond de la couleur de bordure + 1px de gap). */
+.chr-chapters {
+    margin-top: var(--spacing-xl);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+/* Toute la carte est cliquable : le fond violet tres pale au survol le dit,
+   sur la surface entiere et pas seulement sur le lien de bas de carte.
+   --chr-accent-soft est un aplat a 10% d'opacite, assez leger pour que le
+   texte secondaire garde son contraste. */
+.chr-chapter {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background: var(--background);
+    padding: var(--spacing-xl) var(--spacing-lg);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background var(--transition-base);
+}
+.chr-chapter:hover,
+.chr-chapter:focus-visible {
+    background: var(--chr-accent-soft);
+    outline: none;
+}
+.chr-chapter-num {
+    font-weight: 800;
+    font-size: 2.2rem;
+    line-height: 1;
+    color: var(--text-muted);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--spacing-md);
+}
+.chr-chapter-period {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--chr-accent-ink);
+    margin-bottom: 6px;
+}
+.chr-chapter-title {
+    font-weight: 800;
+    font-size: 1.3rem;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-sm);
+    transition: color var(--transition-base);
+}
+.chr-chapter:hover .chr-chapter-title,
+.chr-chapter:focus-visible .chr-chapter-title { color: var(--chr-accent-strong); }
+.chr-chapter-desc {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.55;
+    margin: 0 0 var(--spacing-lg);
+}
+.chr-chapter-go {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--chr-accent-strong);
+}
+.chr-chapter-go svg { width: 14px; height: 14px; transition: transform var(--transition-base); }
+.chr-chapter:hover .chr-chapter-go svg,
+.chr-chapter:focus-visible .chr-chapter-go svg { transform: translateX(5px); }
+
+@media (max-width: 760px) {
+    .chr-chapters { grid-template-columns: 1fr; }
+}
+
+/* ── Dossiers thematiques ────────────────────────────────────────────────
+   Liste extensible, plus un bloc unique code en dur : ajouter un dossier ne
+   demande que de dupliquer une carte dans le HTML, la grille se reorganise
+   seule (une colonne tant qu'il n'y a qu'une carte, deux des que la largeur
+   le permet).
+   Accent dore et non violet : c'est le seul signal qui distingue, d'un coup
+   d'oeil, un dossier hors chronologie des trois chapitres du recit. La meme
+   ambre que celle deja definie pour les pages de dossier (.chr-dossier plus
+   haut dans ce fichier), pour qu'il n'y ait pas deux dorés sur le site. Le
+   dore ne touche que le liseré, l'etiquette et le lien : le fond, le titre
+   et la description restent neutres. */
+.chr-dossiers {
+    --dos-accent: #b6790a;
+    --dos-accent-strong: #7a5008;
+    --dos-line: rgba(182, 121, 10, 0.34);
+    --dos-soft: rgba(182, 121, 10, 0.07);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(520px, 1fr));
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-xl);
+}
+[data-theme="dark"] .chr-dossiers {
+    --dos-accent: #e3a94a;
+    --dos-accent-strong: #f7d49a;
+    --dos-line: rgba(227, 169, 74, 0.34);
+    --dos-soft: rgba(227, 169, 74, 0.08);
+}
+
+.chr-dossier-card {
+    display: flex;
+    align-items: stretch;
+    gap: var(--spacing-xl);
+    text-decoration: none;
+    border: 1px solid var(--dos-line);
+    border-left: 3px solid var(--dos-accent);
+    background: var(--background);
+    padding: var(--spacing-lg) var(--spacing-xl);
+    cursor: pointer;
+    transition: background var(--transition-base);
+}
+.chr-dossier-card:hover,
+.chr-dossier-card:focus-visible { background: var(--dos-soft); outline: none; }
+
+/* Etiquette de tranche : le mot DOSSIER lu de bas en haut, comme au dos
+   d'une chemise d'archives. */
+.chr-dossier-spine {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: var(--spacing-md) 10px;
+    border: 1px solid var(--dos-line);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--dos-accent);
+}
+.chr-dossier-body { flex: 1; min-width: 0; }
+.chr-dossier-title {
+    font-weight: 800;
+    font-size: clamp(1.4rem, 2.6vw, 1.8rem);
+    color: var(--text-primary);
+    margin: 0 0 8px;
+}
+.chr-dossier-desc {
+    color: var(--text-secondary);
+    font-size: 0.96rem;
+    line-height: 1.6;
+    margin: 0 0 var(--spacing-md);
+}
+.chr-dossier-go {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--dos-accent-strong);
+}
+.chr-dossier-go svg { width: 14px; height: 14px; transition: transform var(--transition-base); }
+.chr-dossier-card:hover .chr-dossier-go svg,
+.chr-dossier-card:focus-visible .chr-dossier-go svg { transform: translateX(5px); }
+
+@media (max-width: 620px) {
+    .chr-dossiers { grid-template-columns: 1fr; }
+    .chr-dossier-card { flex-direction: column; gap: var(--spacing-lg); padding: var(--spacing-lg); }
+    .chr-dossier-spine {
+        writing-mode: horizontal-tb;
+        transform: none;
+        align-self: flex-start;
+        padding: 5px 12px;
+    }
+}
+
+/* ── Alliance du Mathlyens : contexte geopolitique, avec la carte des Etats
+   membres (memes geometries que la carte de couverture de la page
+   Expansion, cf. js/coverage-map-data.js, jamais modifie) en calque tres
+   discret derriere le texte -- jamais une illustration dominante. Rendue
+   par une fonction dediee dans js/histoire.js (pas d'interactivite, pas de
+   legende : ce n'est ici qu'un repere geographique en toile de fond). */
+/* Traitee comme une double page detachee du reste : la section sort de la
+   colonne de texte et occupe toute la largeur de la fenetre, sur un fond
+   lavande, la carte des Etats membres en toile de fond assumee. Le padding
+   lateral recale le texte sur la meme marge que les autres sections. */
+.chr-page section.chr-alliance {
+    position: relative;
+    overflow: hidden;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding: var(--spacing-3xl) max(var(--spacing-lg), calc((100vw - 1240px) / 2 + var(--spacing-lg)));
+    border-top: 0;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, rgba(124, 58, 237, 0.13) 100%);
+}
+[data-theme="dark"] .chr-page section.chr-alliance {
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.07) 0%, rgba(167, 139, 250, 0.16) 100%);
+}
+.chr-alliance-map {
+    position: absolute;
+    top: -4%;
+    right: -6%;
+    width: 62%;
+    height: 108%;
+    opacity: 0.30;
+    pointer-events: none;
+    z-index: 0;
+}
+[data-theme="dark"] .chr-alliance-map { opacity: 0.24; }
+/* Un trait de separation entre les aplats : sans lui, les douze Etats
+   membres se fondaient en une seule tache de couleur et le chiffre "12"
+   affiche juste a cote n'etait verifiable nulle part. La couleur du trait
+   est celle du fond de section, pour lire comme un interstice plutot que
+   comme un contour ajoute. */
+.chr-alliance-shape {
+    fill: var(--chr-accent);
+    stroke: var(--background);
+    stroke-width: 2;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+}
+.chr-alliance-inner { position: relative; z-index: 1; }
+.chr-head h2.chr-alliance-title {
+    font-weight: 800;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    margin: 0;
+}
+.chr-ctx-figures { display: flex; gap: var(--spacing-2xl); margin: var(--spacing-lg) 0 var(--spacing-xl); }
+.chr-ctx-fig { padding-left: var(--spacing-lg); border-left: 1px solid var(--border); }
+.chr-ctx-fig:first-child { padding-left: 0; border-left: 0; }
+.chr-ctx-fig .chr-num { display: block; font-size: 2.2rem; }
+.chr-ctx-fig span:last-child { display: block; font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* Legende de la carte : sans elle, le chiffre "12" affiche a cote d'une
+   silhouette continue n'etait verifiable nulle part. La pastille reprend
+   exactement la teinte des aplats de la carte. */
+.chr-alliance-legend {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    max-width: 62ch;
+    margin: 0 0 var(--spacing-xl);
+    font-size: 0.84rem;
+    line-height: 1.55;
+    color: var(--text-muted);
+}
+.chr-alliance-swatch {
+    flex-shrink: 0;
+    width: 9px;
+    height: 9px;
+    background: var(--chr-accent);
+    opacity: 0.55;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 760px) {
+    .chr-alliance-map { display: none; }
+    .chr-ctx-figures { flex-wrap: wrap; gap: var(--spacing-xl); }
+}
+
+/* ── Structure : diagramme hierarchique du groupe ────────────────────────
+   Remplace la liste plate precedente (une carte "branche principale" suivie
+   de cinq lignes de texte), qui n'exprimait la hierarchie que par l'ordre de
+   lecture. Trois niveaux dessines : le groupe, la branche principale, les
+   cinq filiales. Les connecteurs sont de simples filets de 1px, comme le
+   reste des separations de la page : pas d'organigramme d'entreprise.
+   La taille fait la hierarchie, pas la couleur. */
+.chr-tree {
+    margin-top: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.chr-tree-kicker {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--chr-accent-ink);
+    margin-bottom: 8px;
+}
+/* Filet vertical qui relie un niveau au suivant. */
+.chr-tree-stem {
+    display: block;
+    width: 1px;
+    height: 32px;
+    background: var(--chr-accent-line);
+}
+
+/* Niveau 1 : la racine, la plus large des trois. */
+.chr-tree-root {
+    border: 1px solid var(--text-primary);
+    padding: var(--spacing-lg) var(--spacing-2xl);
+    min-width: 260px;
+}
+.chr-tree-root-name {
+    font-weight: 800;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+/* Niveau 2 : la branche principale, encadree d'un trait accentue pour la
+   distinguer des filiales sans changer de palette. */
+.chr-tree-flagship {
+    border: 2px solid var(--chr-accent);
+    background: var(--chr-accent-soft);
+    padding: var(--spacing-lg) var(--spacing-2xl);
+    max-width: 520px;
+}
+.chr-tree-flagship h3 {
+    font-family: var(--font-body);
+    font-weight: 800;
+    font-size: clamp(1.4rem, 2.6vw, 1.8rem);
+    color: var(--text-primary);
+    margin: 0 0 6px;
+}
+.chr-tree-flagship p {
+    color: var(--text-secondary);
+    font-size: 0.94rem;
+    line-height: 1.55;
+    margin: 0;
+}
+
+/* Le label "Filiales" s'intercale sur le filet : la descente est donc
+   coupee en deux, une amorce au-dessus du label et une reprise en dessous,
+   pour que le trait rejoigne bien la barre horizontale du niveau 3. */
+.chr-tree-stem-short { height: 16px; }
+.chr-tree-sublabel {
+    margin: var(--spacing-sm) 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-muted);
+}
+
+/* Niveau 3 : les cinq filiales, plus petites et plus legeres. Le filet
+   horizontal court d'un centre de colonne a l'autre (10% de part et
+   d'autre, soit le centre des colonnes extremes d'une grille a cinq
+   colonnes), et chaque noeud y accroche sa propre descente. */
+.chr-tree-level { width: 100%; }
+.chr-tree-branches {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--spacing-md);
+    list-style: none;
+    margin: 0;
+    padding: 30px 0 0;
+}
+.chr-tree-branches::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: var(--chr-accent-line);
+}
+.chr-tree-node {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--border);
+    padding: var(--spacing-lg) var(--spacing-md);
+}
+.chr-tree-node::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    width: 1px;
+    height: 30px;
+    background: var(--chr-accent-line);
+}
+.chr-tree-node-name {
+    font-weight: 700;
+    font-size: 0.94rem;
+    color: var(--text-primary);
+    line-height: 1.3;
+}
+.chr-tree-node-desc {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.45;
+}
+.chr-org-icon {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    color: var(--chr-accent);
+}
+
+/* Sous 900px, l'arbre a cinq colonnes deviendrait illisible : on retombe sur
+   une liste verticale, connecteurs compris (filet vertical a gauche, petite
+   amorce horizontale par noeud), plutot que de comprimer les cinq colonnes. */
+@media (max-width: 900px) {
+    .chr-tree { align-items: stretch; text-align: left; }
+    .chr-tree-stem { margin-left: 20px; }
+    .chr-tree-root,
+    .chr-tree-flagship { max-width: none; min-width: 0; }
+    .chr-tree-sublabel { margin-left: 0; }
+    .chr-tree-branches {
+        grid-template-columns: 1fr;
+        gap: 0;
+        padding: 0 0 0 40px;
+    }
+    .chr-tree-branches::before {
+        top: 0;
+        bottom: 0;
+        left: 20px;
+        right: auto;
+        width: 1px;
+        height: auto;
+    }
+    .chr-tree-node {
+        flex-direction: row;
+        align-items: center;
+        gap: var(--spacing-md);
+        flex-wrap: wrap;
+        border: 0;
+        border-bottom: 1px solid var(--border);
+        padding: var(--spacing-md) 0;
+    }
+    .chr-tree-node:last-child { border-bottom: 0; }
+    .chr-tree-node::before {
+        top: 50%;
+        left: -20px;
+        width: 20px;
+        height: 1px;
+    }
+    .chr-tree-node-desc { color: var(--text-muted); }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   PARTIE I — ORIGINES : ledger des trois projets, spécimens fondateurs
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* Ledger des trois voies étudiées : un tableau de verdict, pas trois
+   cartes égales — l'oeil doit lire tout de suite laquelle a gagné. */
+.chr-trial { margin-top: var(--spacing-xl); border-top: 1px solid var(--border); }
+.chr-trial-row {
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    gap: var(--spacing-lg);
+    align-items: start;
+    padding: var(--spacing-lg) 0;
+    border-bottom: 1px solid var(--border);
+}
+.chr-trial-num {
+    font-family: var(--chr-serif);
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: var(--text-muted);
+}
+.chr-trial-body h3 {
+    font-family: var(--chr-serif);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+}
+.chr-trial-body p { color: var(--text-secondary); font-size: 0.94rem; line-height: 1.6; margin: 0; }
+.chr-trial-verdict {
+    align-self: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 5px 12px;
+    border: 1px solid currentColor;
+    white-space: nowrap;
+}
+.chr-trial-row--out { opacity: 0.62; }
+.chr-trial-row--out .chr-trial-verdict { color: var(--text-muted); }
+.chr-trial-row--won { border-bottom-color: var(--chr-accent); }
+.chr-trial-row--won .chr-trial-verdict { color: var(--chr-accent-ink); border-color: var(--chr-accent); background: var(--chr-accent-soft); }
+.chr-trial-row--won .chr-trial-num { color: var(--chr-accent); }
+
+@media (max-width: 640px) {
+    .chr-trial-row { grid-template-columns: 1fr; gap: var(--spacing-sm); }
+    .chr-trial-verdict { justify-self: start; }
+}
+
+/* Spécimens fondateurs : fiche d'archive pour chacune des trois compagnies,
+   avec la bande de livrée présentée comme une pièce conservée en vitrine. */
+.chr-specimen {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: var(--spacing-xl);
+    padding: var(--spacing-xl) 0;
+    border-bottom: 1px solid var(--border);
+}
+.chr-specimen:first-of-type { border-top: 1px solid var(--border); margin-top: var(--spacing-xl); }
+.chr-specimen-plate {
+    font-family: var(--chr-serif);
+}
+.chr-specimen-year {
+    display: block;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+}
+.chr-specimen-acronym {
+    display: block;
+    font-weight: 800;
+    font-size: 2.2rem;
+    color: var(--chr-accent);
+    line-height: 1.05;
+    margin-top: 2px;
+}
+.chr-specimen-full {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+    line-height: 1.4;
+}
+.chr-specimen-body p { color: var(--text-secondary); line-height: 1.7; font-size: 0.98rem; margin: 0 0 var(--spacing-md); }
+.chr-specimen-body p:last-child { margin-bottom: 0; }
+
+/* Triple appellation CCFM / MSVM / GEVM : trois noms pour une seule
+   compagnie, présentés côte à côte plutôt qu'empilés. */
+.chr-triple {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md) var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+}
+.chr-triple-item { min-width: 140px; }
+.chr-triple-acro {
+    display: block;
+    font-family: var(--chr-serif);
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: var(--chr-accent);
+}
+.chr-triple-lang { display: block; font-size: 0.76rem; color: var(--text-muted); line-height: 1.35; margin-top: 2px; }
+
+@media (max-width: 720px) {
+    .chr-specimen { grid-template-columns: 1fr; gap: var(--spacing-md); }
+}
+
+/* Bande de livrée : image de sprite à taille réelle, jamais redimensionnée.
+   Même technique que les pages Livrées : cadre à défilement horizontal si
+   l'image déborde, largeur/hauteur laissées intactes. */
+.chr-strip {
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    background: #0a0a10;
+    border: 1px solid var(--border);
+    max-width: 100%;
+    scrollbar-width: thin;
+    scrollbar-color: var(--chr-accent) rgba(124, 58, 237, 0.10);
+}
+.chr-strip img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    image-rendering: pixelated;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+.chr-strip::-webkit-scrollbar { height: 8px; }
+.chr-strip::-webkit-scrollbar-track { background: rgba(124, 58, 237, 0.08); }
+.chr-strip::-webkit-scrollbar-thumb { background: var(--chr-accent); }
+.chr-strip::-webkit-scrollbar-thumb:hover { background: var(--chr-accent-ink); }
+.chr-strip-hint {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+    font-style: italic;
+}
+
+/* Cartes d'événement (réunification allemande / tunnel sous la Manche). */
+.chr-event-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: var(--spacing-lg) 0 var(--spacing-xl);
+}
+.chr-event-card { background: var(--surface); padding: var(--spacing-lg); }
+.chr-event-year {
+    display: inline-block;
+    font-family: var(--chr-serif);
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--chr-accent);
+    margin-bottom: 6px;
+}
+.chr-event-card h4 { font-size: 1.02rem; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+.chr-event-card p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; margin: 0; }
+
+/* ── Codex des marques : sélecteur de spécimen partagé (Origines + Services) ── */
+
+.chr-codex {
+    margin-top: var(--spacing-xl);
+    border: 1px solid var(--border);
+}
+.chr-codex-nav {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-elevated);
+}
+.chr-codex-tab {
+    appearance: none;
+    background: none;
+    border: 0;
+    border-right: 1px solid var(--border);
+    padding: 12px 18px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.86rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color var(--transition-base), background var(--transition-base);
+}
+.chr-codex-tab:hover { color: var(--text-primary); }
+.chr-codex-tab.active {
+    color: var(--chr-accent-ink);
+    background: var(--chr-accent-soft);
+    box-shadow: inset 0 -2px 0 var(--chr-accent);
+}
+.chr-codex-panel { display: none; padding: var(--spacing-xl); }
+.chr-codex-panel.active { display: block; animation: chr-fade-in 0.3s ease; }
+.chr-codex-panel .chr-strip { margin-bottom: var(--spacing-lg); }
+.chr-codex-panel h4 {
+    font-family: var(--chr-serif);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+.chr-codex-panel p { color: var(--text-secondary); line-height: 1.7; }
+.chr-svc-abbr {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--chr-accent-ink);
+    border: 1px solid var(--chr-accent-line);
+    padding: 1px 7px;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+@keyframes chr-fade-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+    .chr-codex-tab { flex: 1 1 auto; text-align: center; padding: 10px 12px; font-size: 0.8rem; }
+    .chr-codex-panel { padding: var(--spacing-lg); }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   PARTIE II — EXPANSION : chronologie liée à la carte
+   ════════════════════════════════════════════════════════════════════════ */
+
+.chr-exp-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 460px;
+    gap: var(--spacing-2xl);
+    align-items: start;
+    margin-top: var(--spacing-xl);
+}
+.chr-exp-map-slot { position: sticky; top: 110px; }
+
+@media (max-width: 1080px) {
+    .chr-exp-layout { grid-template-columns: 1fr; }
+    .chr-exp-map-slot { position: static; margin-bottom: var(--spacing-xl); order: -1; }
+}
+
+.chr-phase-group + .chr-phase-group { margin-top: var(--spacing-2xl); }
+.chr-phase-head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    flex-wrap: wrap;
+}
+.chr-phase-dates {
+    font-family: var(--chr-serif);
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--chr-accent);
+}
+.chr-phase-head h3 { font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin: 0; }
+.chr-phase-summary { color: var(--text-muted); font-size: 0.9rem; margin: 2px 0 var(--spacing-md); }
+
+.chr-evt {
+    position: relative;
+    padding: var(--spacing-md) 0 var(--spacing-md) var(--spacing-lg);
+    border-left: 2px solid var(--border);
+    transition: border-color var(--transition-base);
+    cursor: pointer;
+}
+.chr-evt::before {
+    content: '';
+    position: absolute;
+    left: -5px; top: 20px;
+    width: 8px; height: 8px;
+    background: var(--background);
+    border: 2px solid var(--text-muted);
+    transition: background var(--transition-base), border-color var(--transition-base);
+}
+.chr-evt.active { border-left-color: var(--chr-accent); }
+.chr-evt.active::before { background: var(--chr-accent); border-color: var(--chr-accent); }
+.chr-evt-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.chr-evt-year {
+    font-family: var(--chr-serif);
+    font-weight: 700;
+    font-size: 0.98rem;
+    color: var(--text-primary);
+}
+.chr-evt-flag { font-size: 1rem; line-height: 1; }
+.chr-evt-title {
+    appearance: none;
+    background: none;
+    border: 0;
+    padding: 0;
+    text-align: left;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.98rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    flex: 1;
+    min-width: 160px;
+}
+.chr-evt.active .chr-evt-title { color: var(--chr-accent-strong); }
+.chr-evt-body {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s ease;
+}
+.chr-evt-body.chr-visible { max-height: 260px; }
+.chr-evt-body p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; margin: var(--spacing-sm) 0 0; }
+
+.chr-exp-closing { margin-top: var(--spacing-2xl); max-width: 74ch; }
+
+/* La carte reprend l'exact balisage .cov-* déjà câblé par
+   js/coverage-map.js : seule l'enveloppe visuelle change ici. */
+.chr-map-frame {
+    border: 1px solid var(--border);
+    background: var(--surface-elevated);
+    padding: var(--spacing-lg);
+}
+.cov-map-wrap { position: relative; }
+.cov-status { font-size: 0.85rem; color: var(--text-muted); margin-bottom: var(--spacing-sm); min-height: 1.2em; }
+.cov-map-wrap[data-state="ready"] .cov-status { display: none; }
+.cov-map { display: block; width: 100%; height: auto; }
+.cov-country { cursor: pointer; outline: none; }
+.cov-shape { stroke: var(--surface-elevated); stroke-width: 1.2; transition: opacity var(--transition-base), filter var(--transition-base); }
+.cov-country:hover .cov-shape,
+.cov-country:focus-visible .cov-shape,
+.cov-country.cov-active .cov-shape { filter: brightness(1.15); }
+.cov-country:focus-visible .cov-shape { stroke: var(--chr-accent); stroke-width: 2; }
+.cov-context-shape { fill: var(--border); opacity: 0.5; }
+.cov-legend {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border);
+}
+.cov-legend-title { font-size: 0.76rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+.cov-legend-scale { display: flex; flex-wrap: wrap; gap: 10px; }
+.cov-legend-item { display: inline-flex; align-items: center; gap: 5px; font-size: 0.76rem; color: var(--text-muted); }
+.cov-legend-swatch { display: inline-block; width: 10px; height: 10px; }
+.cov-map-hint { font-size: 0.78rem; color: var(--text-muted); margin-top: var(--spacing-sm); }
+
+.cov-tooltip {
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border);
+    min-height: 90px;
+}
+.cov-tt-idle { color: var(--text-muted); font-size: 0.88rem; line-height: 1.55; }
+.cov-tt-content { display: none; }
+.cov-tooltip.cov-has-country .cov-tt-idle { display: none; }
+.cov-tooltip.cov-has-country .cov-tt-content { display: block; }
+.cov-tt-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--spacing-sm); margin-bottom: 8px; }
+.cov-tt-head h4 { font-family: var(--chr-serif); font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin: 0; }
+.cov-tt-group { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--chr-accent-ink); }
+.cov-tt-meter { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.cov-tt-bar-wrap { flex: 1; height: 6px; background: var(--border); }
+.cov-tt-bar { height: 100%; background: var(--chr-accent); transition: width 0.4s ease; }
+.cov-tt-level { font-size: 0.76rem; color: var(--text-muted); white-space: nowrap; }
+.cov-tooltip p#cov-tt-desc { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.55; margin: 0 0 var(--spacing-sm); }
+.ht-country-services { display: flex; flex-wrap: wrap; gap: 6px; }
+.ht-svc-pill {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+}
+
+/* ── Coexistence : ledger à deux colonnes ────────────────────────────── */
+
+.chr-ledger-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: var(--spacing-xl) 0;
+    max-width: 640px;
+}
+.chr-ledger-stat { background: var(--surface); padding: var(--spacing-lg); text-align: center; }
+.chr-ledger-stat .chr-num { font-size: 2.2rem; display: block; }
+.chr-ledger-stat span { display: block; font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
+
+.chr-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-2xl);
+    margin: var(--spacing-xl) 0;
+}
+.chr-split-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+    font-size: 0.95rem;
+}
+.chr-split-mark { width: 9px; height: 9px; background: var(--chr-accent); flex-shrink: 0; }
+.chr-split:nth-child(1) .chr-split-mark,
+.chr-split-col:first-child .chr-split-mark { background: var(--chr-accent); }
+.chr-split-col:last-child .chr-split-mark { background: var(--text-muted); }
+.chr-split-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--spacing-md); }
+.chr-tag {
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    padding: 3px 9px;
+}
+
+.chr-conclusion { margin-top: var(--spacing-xl); }
+
+@media (max-width: 780px) {
+    .chr-split { grid-template-columns: 1fr; gap: var(--spacing-lg); }
+    .chr-ledger-stats { grid-template-columns: 1fr; max-width: 320px; }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   PARTIE III — SERVICES : MLCC
+   ════════════════════════════════════════════════════════════════════════ */
+
+.chr-mlcc {
+    background: linear-gradient(135deg, #7c032d 0%, #d10322 100%);
+    color: #fff;
+    padding: var(--spacing-3xl) 0;
+}
+.chr-mlcc-head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+.chr-mlcc-head img { height: 3rem; width: auto; flex-shrink: 0; }
+.chr-mlcc-head h2 { font-family: var(--chr-serif); font-size: 1.8rem; color: #fff; margin: 0; }
+.chr-mlcc-head p { color: rgba(255,255,255,0.8); margin: 4px 0 0; font-size: 1rem; }
+.chr-mlcc-prose { max-width: 74ch; }
+.chr-mlcc-prose p { color: rgba(255,255,255,0.92); line-height: 1.75; margin-bottom: 1em; }
+.chr-mlcc-prose p:last-child { margin-bottom: 0; }
+.chr-mlcc-prose strong { color: #fff; }
+.chr-mlcc-note {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: rgba(255,255,255,0.12);
+    border-left: 3px solid rgba(255,255,255,0.5);
+    color: rgba(255,255,255,0.85);
+    font-size: 0.9rem;
+    font-style: italic;
+    max-width: 74ch;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   DOSSIER — Lignes & Territoires
+   ════════════════════════════════════════════════════════════════════════ */
+
+.chr-dos-header { padding: var(--spacing-2xl) 0; }
+.chr-dos-sigles {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    flex-wrap: wrap;
+}
+.chr-dos-prlc {
+    font-family: var(--chr-serif);
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--chr-accent);
+    letter-spacing: 0.02em;
+}
+.chr-dos-divider { width: 1px; height: 20px; background: var(--border); }
+.chr-dos-full { font-size: 0.82rem; color: var(--text-muted); }
+.chr-dos-header h2 {
+    font-family: var(--chr-serif);
+    font-weight: 800;
+    font-size: clamp(1.9rem, 4vw, 2.6rem);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+}
+.chr-dos-lede { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.65; max-width: 68ch; margin-bottom: var(--spacing-lg); }
+.chr-dos-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.chr-dos-pill {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    padding: 5px 12px;
+}
+.chr-dos-pill strong { color: var(--chr-accent-ink); font-weight: 700; }
+
+/* Frise du dossier : même schéma que la carte de couverture (ligne
+   continue, noeuds carrés), teinte ambre du dossier. */
+.chr-frise { position: relative; margin-top: var(--spacing-xl); padding-left: 28px; }
+.chr-frise::before {
+    content: '';
+    position: absolute;
+    left: 5px; top: 6px; bottom: 6px;
+    width: 1px;
+    background: var(--border);
+}
+.chr-frise-item { position: relative; padding-bottom: var(--spacing-xl); }
+.chr-frise-item:last-child { padding-bottom: 0; }
+.chr-frise-dot {
+    position: absolute;
+    left: -28px; top: 4px;
+    width: 11px; height: 11px;
+    background: var(--background);
+    border: 2px solid var(--chr-accent);
+}
+.chr-frise-date {
+    font-family: var(--chr-serif);
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--chr-accent-ink);
+    margin-bottom: 6px;
+}
+.chr-frise-item h3 { font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+.chr-frise-item p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.62; margin: 0; max-width: 68ch; }
+
+/* Ledger des lignes : remplace un ancien encart de carte factice (icône +
+   texte "carte à venir") par un vrai schéma linéaire de gares, technique et
+   honnête plutôt que décoratif. */
+.chr-lines {
+    margin-top: var(--spacing-xl);
+    border: 1px solid var(--border);
+}
+.chr-line-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--spacing-lg);
+    align-items: start;
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--border);
+}
+.chr-line-row:last-child { border-bottom: 0; }
+.chr-line-row.chr-line-tbd { opacity: 0.68; }
+.chr-line-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--chr-serif);
+    font-weight: 700;
+    font-size: 1.02rem;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+}
+.chr-line-name::before { content: ''; width: 9px; height: 9px; background: var(--chr-accent); flex-shrink: 0; }
+.chr-line-tbd .chr-line-name::before { background: var(--text-muted); }
+.chr-line-row p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.55; margin: 0; }
+.chr-line-status {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--chr-accent-ink);
+    border: 1px solid var(--chr-accent-line);
+    padding: 4px 9px;
+    white-space: nowrap;
+}
+.chr-line-tbd .chr-line-status { color: var(--text-muted); border-color: var(--border); }
+
+.chr-ext-note {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--chr-accent-soft);
+    border-left: 2px solid var(--chr-accent);
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+.chr-ext-note strong { color: var(--text-primary); }
+
+@media (max-width: 640px) {
+    .chr-line-row { grid-template-columns: 1fr; }
+    .chr-line-status { justify-self: start; }
+}
+
+/* Registre du matériel (Valado). */
+.chr-fleet {
+    margin-top: var(--spacing-xl);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+}
+.chr-fleet-card { background: var(--surface); padding: var(--spacing-lg); }
+.chr-fleet-visual { color: var(--chr-accent); margin-bottom: var(--spacing-md); }
+.chr-fleet-kind { display: block; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 4px; }
+.chr-fleet-card h3 { font-family: var(--chr-serif); font-size: 1.3rem; font-weight: 700; color: var(--text-primary); margin-bottom: var(--spacing-md); }
+.chr-fleet-specs { display: grid; grid-template-columns: 1fr; gap: 7px; }
+.chr-fleet-spec { display: flex; justify-content: space-between; gap: var(--spacing-md); font-size: 0.86rem; padding-bottom: 7px; border-bottom: 1px solid var(--border); }
+.chr-fleet-spec:last-child { border-bottom: 0; padding-bottom: 0; }
+.chr-fleet-spec span:first-child { color: var(--text-muted); }
+.chr-fleet-spec strong { color: var(--text-primary); text-align: right; font-weight: 600; }
+
+/* Communiqué de presse : traitement papier-à-en-tête. */
+.chr-press {
+    margin-top: var(--spacing-xl);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    padding: var(--spacing-2xl);
+    max-width: 760px;
+}
+.chr-press-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 2px solid var(--text-primary);
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+}
+.chr-press-logo { font-family: var(--chr-serif); font-weight: 800; font-size: 1.3rem; letter-spacing: 0.04em; color: var(--text-primary); }
+.chr-press-meta { text-align: right; }
+.chr-press-type { display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--chr-accent-ink); }
+.chr-press-date { display: block; font-size: 0.82rem; color: var(--text-muted); margin-top: 3px; }
+.chr-press h3 { font-family: var(--chr-serif); font-size: 1.25rem; font-weight: 700; color: var(--text-primary); line-height: 1.35; margin-bottom: var(--spacing-lg); }
+.chr-press-body p { color: var(--text-secondary); line-height: 1.75; margin-bottom: 1em; font-size: 0.96rem; }
+.chr-press-body p:last-child { margin-bottom: 0; }
+.chr-press-body strong { color: var(--text-primary); }
+.chr-press-foot {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+}
+.chr-press-foot strong { display: block; font-size: 0.82rem; color: var(--text-primary); margin-bottom: 3px; }
+.chr-press-foot p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0; }
+.chr-press-ref { font-size: 0.76rem; color: var(--text-muted); align-self: flex-end; }
+
+@media (max-width: 640px) {
+    .chr-press { padding: var(--spacing-lg); }
+    .chr-press-head { flex-direction: column; }
+    .chr-press-meta { text-align: left; }
+}
+
+/* ── Tourner la page : navigation de fin de chapitre ─────────────────── */
+
+.chr-turn {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing-xl);
+    flex-wrap: wrap;
+}
+.chr-turn-link {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-decoration: none;
+    padding: var(--spacing-lg);
+    border: 1px solid var(--border);
+    min-width: 220px;
+    flex: 1;
+    transition: border-color var(--transition-base), background var(--transition-base);
+}
+.chr-turn-link:hover,
+.chr-turn-link:focus-visible {
+    border-color: var(--chr-accent);
+    background: var(--chr-accent-soft);
+    outline: none;
+}
+.chr-turn-next { text-align: right; margin-left: auto; }
+.chr-turn-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); }
+.chr-turn-title { font-family: var(--chr-serif); font-weight: 700; font-size: 1.1rem; color: var(--chr-accent-strong); }
+
+@media (max-width: 640px) {
+    .chr-turn { flex-direction: column; }
+    .chr-turn-next { text-align: left; }
+}
+
+/* ── Révélation au défilement ─────────────────────────────────────────── */
+
+.chr-reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.chr-reveal.chr-in { opacity: 1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+    .chr-reveal { opacity: 1; transform: none; transition: none; }
+    .chr-evt-body { transition: none; }
+    .chr-chapter, .chr-dossier-card, .chr-dossier-go svg,
+    .chr-turn-link, .chr-codex-tab, .chr-codex-panel {
+        transition: none !important;
+        animation: none !important;
+    }
+}

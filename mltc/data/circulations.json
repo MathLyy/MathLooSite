@@ -98,6 +98,65 @@
           "Suisse",
           "France"
         ]
+      },
+      {
+        "service": "SanGo!",
+        "name": "[Régional] Nîmes → Nîmes Pont du Gard → Tarascon → Arles → Saint-Martin-de-Crau → Miramas → Vitrolles → Marseille",
+        "detail": "BB 8500 + N-Wagen",
+        "vehicles": [
+          "livrees_pages/livrees_img/sango/C-SanGoNWBdnrzf.png",
+          "livrees_pages/livrees_img/sango/C-SanGoNWB.png",
+          "livrees_pages/livrees_img/sango/C-SanGoNWB.png",
+          "livrees_pages/livrees_img/sango/C-SanGoNWB.png",
+          "livrees_pages/livrees_img/sango/C-SanGoNWB.png",
+          "livrees_pages/livrees_img/sango/A-SanGoBB8500.png"
+        ],
+        "countries": [
+          "France"
+        ]
+      },
+      {
+        "service": "SanGo!",
+        "name": "[Grandes Lignes] Nîmes → Avignon → Orange → Montélimar → Valence",
+        "detail": "BB 9200 + Corail VTU",
+        "vehicles": [
+          "livrees_pages/livrees_img/sango/A-SanGoBB9200.png",
+          "livrees_pages/livrees_img/sango/C-SanGoCorailVTU.png",
+          "livrees_pages/livrees_img/sango/C-SanGoCorailVTU_site.png",
+          "livrees_pages/livrees_img/sango/C-SanGoCorailVTU.png",
+          "livrees_pages/livrees_img/sango/C-SanGoCorailVTUB10r.png",
+          "livrees_pages/livrees_img/sango/C-SanGoCorailVTU.png",
+          "livrees_pages/livrees_img/sango/C-SanGoCorailVTU_site.png",
+          "livrees_pages/livrees_img/sango/C-SanGoCorailVTU.png"
+        ],
+        "countries": [
+          "France"
+        ]
+      },
+      {
+        "service": "SanGo!",
+        "name": "[Régional Omnibus] - Neussargues → Clermont-Ferrand",
+        "detail": "X 2200 + remorques",
+        "vehicles": [
+          "livrees_pages/livrees_img/sango/B-SanGoX2200.png",
+          "livrees_pages/livrees_img/sango/C-SanGoXR6100.png",
+          "livrees_pages/livrees_img/sango/C-SanGoXR6100.png",
+          "livrees_pages/livrees_img/sango/C-SanGoXRx6200_r.png"
+        ],
+        "countries": [
+          "France"
+        ]
+      },
+      {
+        "service": "CFP",
+        "name": "Arreau-Cadéac → Sarrancolin → Hèches → La Barthe-Azevac → Lannemezan",
+        "detail": "Z 7100",
+        "vehicles": [
+          "livrees_pages/livrees_img/cfp/B-CFPZ7100.png"
+        ],
+        "countries": [
+          "France"
+        ]
       }
     ]
   },

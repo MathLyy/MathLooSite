@@ -88,7 +88,6 @@
         searchEl.value = '';
         filterEl.value = '';
         titleEl.textContent = DEFAULT_TITLE;
-        descEl.textContent = DEFAULT_DESC;
         clearList();
         setLayoutState(false);
     }
@@ -141,7 +140,6 @@
         const opts = options || {};
         const token = ++renderToken;
         titleEl.textContent = opts.title || DEFAULT_TITLE;
-        descEl.textContent = opts.description || DEFAULT_DESC;
         setLayoutState(Boolean(opts.active));
 
         if (compsEl) compsEl.classList.add('is-updating');
@@ -235,7 +233,7 @@
         } else if (hasVehicles) {
             consistBlocks = buildConsistBlock(buildVehicleRow(item.vehicles), null);
         } else if (hasImg) {
-            const imgContent = `<img class="circ-train-img" draggable="false" src="${esc(item.img)}" alt="${esc(item.name)}" onload="${IMG_ONLOAD}">`;
+            const imgContent = `<div class="circ-vehicle-row"><img class="circ-train-img" draggable="false" src="${esc(item.img)}" alt="${esc(item.name)}" onload="${IMG_ONLOAD}"></div>`;
             consistBlocks = buildConsistBlock(imgContent, null);
         }
 
@@ -258,7 +256,7 @@
         return `
             <li class="circ-item">
                 <div class="circ-item-head">
-                    <span class="circ-item-service">${esc(item.service)}</span>
+                    <span class="circ-item-service" data-service="${esc(item.service)}">${esc(item.service)}</span>
                     ${routeHTML}
                     <span class="circ-item-detail">${esc(item.detail)}</span>
                 </div>
@@ -312,6 +310,37 @@
         activeCountry = null;
     }
 
+    function getAvailableOperators(name) {
+        const entry = DATA[name];
+        if (!entry) return new Set();
+        const local = (entry.compositions || []).map(item => ({ item }));
+        const cross = (crossCountry[name] || []).map(c => ({ item: c.item }));
+        const ops = new Set();
+        local.concat(cross).forEach(e => ops.add(operatorOf(e.item)));
+        return ops;
+    }
+
+    function updateOperatorTabsVisibility(name) {
+        const available = getAvailableOperators(name);
+        opTabs.forEach(t => {
+            const op = t.dataset.operator;
+            const show = available.has(op);
+            t.hidden = !show;
+        });
+        if (!available.has(activeOperator)) {
+            const fallback = available.has('mltc') ? 'mltc' : (Array.from(available)[0] || 'mltc');
+            if (fallback !== activeOperator) {
+                activeOperator = fallback;
+                opTabs.forEach(t => {
+                    const on = t.dataset.operator === fallback;
+                    t.classList.toggle('active', on);
+                    t.setAttribute('aria-selected', on ? 'true' : 'false');
+                });
+                refreshServiceFilter();
+            }
+        }
+    }
+
     function selectCountry(name) {
         const entry = DATA[name];
         if (!entry) return;
@@ -319,6 +348,7 @@
         activeCountry = name;
         const shape = shapes.find(s => s.dataset.country === name);
         if (shape) shape.classList.add('active');
+        updateOperatorTabsVisibility(name);
         renderEntries(getCountryEntries(name), {
             active: true,
             title: name,
@@ -548,7 +578,6 @@
 
     init().catch(err => {
         titleEl.textContent = 'Erreur de chargement';
-        descEl.textContent  = err.message || 'Impossible de charger les données.';
         console.error('[Circulations]', err);
     });
 })();

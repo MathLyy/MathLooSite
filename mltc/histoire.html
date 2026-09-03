@@ -13,6 +13,7 @@
     </script>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/mltc.css">
+    <link rel="stylesheet" href="../css/histoire.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -92,7 +93,7 @@
                 <li class="subnav-item">
                     <button class="subnav-toggle" data-category="acteurs">Acteurs</button>
                     <div class="subnav-dropdown">
-                        <a href="../operateurs-prives.html" class="subnav-link">Opérateurs privés</a>
+                        <a href="autres-operateurs.html" class="subnav-link">Autres opérateurs</a>
                         <a href="production.html" class="subnav-link">Production</a>
                     </div>
                 </li>
@@ -100,125 +101,158 @@
         </div>
     </nav>
 
-    <main>
-        <!-- Hero -->
-        <section class="ht-hero">
-            <div class="container">
-                <div class="ht-hero-content">
-                    <h1 class="mltc-page-title">Histoire de la MLTC</h1>
-                    <p class="ht-hero-sub">Plongez dans l'univers narratif de la MathLy Travel Company, depuis le Traité de Londres jusqu'à nos jours.</p>
+    <main class="chr-page">
+        <section class="chr-cover chr-nodiv">
+            <div class="chr-cover-grid">
+                <div class="chr-cover-inner">
+                    <div class="chr-eyebrow">Chronique du Mathlyens</div>
+                    <h1>Histoire de la MLTC</h1>
+                    <p class="chr-opening-sub">Dans ces pages, découvrez l'histoire de la MLTC et le contexte derrière la compagnie, à travers trois périodes distinctes et des dossiers thématiques.</p>
+                    <p class="chr-footnote">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                        <span><strong>Uchronie fantaisiste.</strong> La MLTC évolue dans un univers fantaisiste. Tout ce qui est raconté ici est purement fictif et volontairement très éloigné de la réalité.</span>
+                    </p>
                 </div>
+                <aside class="chr-steps">
+                    <span class="chr-steps-label">Étapes clés</span>
+                    <ol class="chr-steps-list">
+                        <li class="chr-step"><span class="chr-step-year">1955</span><span class="chr-step-name">Traité de Londres</span></li>
+                        <li class="chr-step"><span class="chr-step-year">1990</span><span class="chr-step-name">Réunification allemande</span></li>
+                        <li class="chr-step"><span class="chr-step-year">1994</span><span class="chr-step-name">Tunnel sous la Manche</span></li>
+                        <li class="chr-step"><span class="chr-step-year">1999</span><span class="chr-step-name">Groupe MLTC</span></li>
+                        <li class="chr-step"><span class="chr-step-year">2001</span><span class="chr-step-name">MLTC Railways</span></li>
+                        <li class="chr-step"><span class="chr-step-year">2012</span><span class="chr-step-name">Refonte des services</span></li>
+                        <li class="chr-step"><span class="chr-step-year">2015</span><span class="chr-step-name">Lignes de Vie</span></li>
+                    </ol>
+                </aside>
             </div>
         </section>
 
-        <!-- Disclaimer -->
-        <section class="ht-disclaimer-section">
-            <div class="container">
-                <div class="ht-callout">
-                    <div class="ht-callout-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        <section class="chr-reveal" id="chronologie">
+
+                <h1>Une histoire en trois périodes</h1>
+                <p>Chaque partie couvre une période distincte de l'histoire de la MLTC Railways.</p>
+            </div>
+
+            <nav class="chr-chapters" aria-label="Sommaire">
+                <a href="histoire_pages/origines.html" class="chr-chapter">
+                    <span class="chr-chapter-num" aria-hidden="true">01</span>
+                    <span class="chr-chapter-period">1955 &ndash; 2001</span>
+                    <span class="chr-chapter-title">Les origines</span>
+                    <span class="chr-chapter-desc">Les trois projets fondateurs, la création de la CCFM, de la WME et de la MSER, et leur unification tardive en MLTC Railways.</span>
+                    <span class="chr-chapter-go">Lire ce chapitre <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                </a>
+                <a href="histoire_pages/expansion.html" class="chr-chapter">
+                    <span class="chr-chapter-num" aria-hidden="true">02</span>
+                    <span class="chr-chapter-period">2001 &ndash; 2012</span>
+                    <span class="chr-chapter-title">Réseau et expansion</span>
+                    <span class="chr-chapter-desc">L'expansion progressive à travers les 12 États membres, la carte de couverture du réseau et la coexistence avec les compagnies nationales.</span>
+                    <span class="chr-chapter-go">Lire ce chapitre <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                </a>
+                <a href="histoire_pages/hisservices.html" class="chr-chapter">
+                    <span class="chr-chapter-num" aria-hidden="true">03</span>
+                    <span class="chr-chapter-period">2012 &ndash; aujourd'hui</span>
+                    <span class="chr-chapter-title">Les services</span>
+                    <span class="chr-chapter-desc">La refonte de 2012 et les filiations entre marques, une fois le réseau étendu. L'exploitation actuelle est traitée sous Le Réseau.</span>
+                    <span class="chr-chapter-go">Lire ce chapitre <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                </a>
+            </nav>
+
+            <p class="chr-mt">Découvrez également les dossiers thématiques consacrés aux lignes et territoires de la MLTC.</p>
+            <!-- Liste de dossiers : pour en ajouter un, dupliquer un bloc
+                 <a class="chr-dossier-card"> ci-dessous. La grille se
+                 reorganise seule, rien d'autre n'est a toucher. -->
+            <div class="chr-dossiers">
+                <a href="histoire_pages/lignes_territoires/index.html" class="chr-dossier-card">
+                    <span class="chr-dossier-spine" aria-hidden="true">Dossier</span>
+                    <div class="chr-dossier-body">
+                        <p class="chr-dossier-title">Lignes &amp; Territoires</p>
+                        <p class="chr-dossier-desc">Projets remarquables, lignes emblématiques et initiatives territoriales de la MLTC à travers le Mathlyens. Un format thématique, distinct des chapitres du récit.</p>
+                        <span class="chr-dossier-go">Consulter le dossier <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
                     </div>
-                    <div>
-                        <strong>Uchronie fantaisiste</strong>
-                        <p>La MLTC évolue dans un univers fantaisiste.Tout ce qui est raconté ici est purement fictif. Les éléments de cette histoire sont volontairement très éloignés de la réalité.</p>
-                    </div>
-                </div>
+                </a>
             </div>
         </section>
 
-        <!-- ----------- CONTEXTE GÉNÉRAL ----------- -->
-        <section id="contexte" class="ht-section">
-            <div class="container">
-                <div class="ht-section-header">
-                    <span class="ht-section-tag">Contexte</span>
-                    <h2>Le monde du Mathlyens</h2>
+        <section class="chr-reveal chr-alliance">
+            <svg class="chr-alliance-map" viewBox="0 0 800 650" aria-hidden="true" focusable="false"></svg>
+            <div class="chr-alliance-inner">
+                <div class="chr-head">
+                    <div class="chr-eyebrow">Contexte</div>
+                    <h2 class="chr-alliance-title">Alliance du Mathlyens</h2>
                 </div>
-                <div class="ht-prose">
-                    <p>La MLTC Railways est une compagnie ferroviaire desservant principalement le Mathlyens, union politico-économique plus ou moins comparable à l'Union Européenne dans notre réalité. Le Mathlyens comporte en son sein 12 états : la France, le Royaume-Uni, le Benelux, l'Allemagne, le Danemark, l'Espagne, l'Italie, l'Autriche, la République Tchèque et la Suisse.</p>
+                <div class="chr-ctx-figures">
+                    <div class="chr-ctx-fig"><span class="chr-num">1955</span><span>Fondation</span></div>
+                    <div class="chr-ctx-fig"><span class="chr-num">12</span><span>États membres</span></div>
+                </div>
+                <p class="chr-alliance-legend">
+                    <span class="chr-alliance-swatch" aria-hidden="true"></span>
+                    Allemagne, Autriche, Belgique, Danemark, Espagne, France, Italie, Luxembourg, Pays-Bas, Royaume-Uni, Suisse, Tchéquie.
+                </p>
+                <div class="chr-prose chr-lead">
+                    <p>La MLTC Railways est une compagnie ferroviaire desservant principalement le Mathlyens, union politico-économique plus ou moins comparable à l'Union Européenne dans notre réalité.</p>
                     <p>Il a été fondé en 1955 par le traité de Londres instituant la Communauté du Mathlyens et comportait à son origine la France, le Royaume-Uni, l'Allemagne de l'Ouest, le Benelux et l'Italie. Sa traduction anglaise Mathly est à l'origine de l'appellation Mathly Travel Company.</p>
-                    <p>Il est important de distinguer la MLTC Railways, branche ferroviaire de l'entreprise, du groupe MLTC dans son ensemble. La Mathly Travel Company est un conglomérat multinational public-privé chargé de la coordination des transports dans tout le Mathlyens. Il supervise plusieurs filiales spécialisées dans les différents modes de transport, avec pour objectif de faciliter l'intégration régionale par une offre multimodale cohérente, efficace et transfrontalière.</p>
-                </div>
-
-                <div class="ht-grid-cards">
-                    <div class="ht-mini-card">
-                        <span class="ht-mini-icon">🚆</span>
-                        <strong>MLTC Railways</strong>
-                        <p>Transport ferroviaire de voyageurs, réseau principal du continent</p>
-                    </div>
-                    <div class="ht-mini-card">
-                        <span class="ht-mini-icon">🚌</span>
-                        <strong>Mathlines</strong>
-                        <p>Compagnie de bus longue distance, complémentaire au rail</p>
-                    </div>
-                    <div class="ht-mini-card">
-                        <span class="ht-mini-icon">✈️</span>
-                        <strong>Mathly Alliance Airlines</strong>
-                        <p>Réseau aérien régional et intercontinental</p>
-                    </div>
-                    <div class="ht-mini-card">
-                        <span class="ht-mini-icon">🚢</span>
-                        <strong>Mathly Cruises</strong>
-                        <p>Croisières et liaisons maritimes intra-Mathlyens</p>
-                    </div>
-                    <div class="ht-mini-card">
-                        <span class="ht-mini-icon">📦</span>
-                        <strong>MLCC</strong>
-                        <p>Transport de fret (ferroviaire, routier, aérien et maritime)</p>
-                    </div>
-                    <div class="ht-mini-card">
-                        <span class="ht-mini-icon">📮</span>
-                        <strong>MLUP</strong>
-                        <p>Services de courrier</p>
-                    </div>
-                </div>
-
-                <div class="ht-prose">
-                    <p>Dans le langage courant, et par simplification, le terme MLTC est souvent employé pour désigner la branche ferroviaire du groupe (MLTC Railways), bien que celle-ci ne soit qu'une filiale parmi d'autres.</p>
+                    <p>Il est important de distinguer la MLTC Railways, branche ferroviaire de l'entreprise, du groupe MLTC dans son ensemble. La Mathly Travel Company est un conglomérat multinational public-privé chargé de la coordination des transports dans tout le Mathlyens, avec pour objectif de faciliter l'intégration régionale par une offre multimodale cohérente, efficace et transfrontalière.</p>
                 </div>
             </div>
         </section>
 
-        <!-- ----------- NAVIGATION CHAPITRES ----------- -->
-        <section class="ht-section ht-section-alt">
-            <div class="container">
-                <div class="ht-section-header">
-                    <span class="ht-section-tag">Chapitres</span>
-                    <h2>Explorer l'histoire</h2>
+        <section class="chr-reveal">
+            <div class="chr-head">
+                <div class="chr-eyebrow">Structure</div>
+                <h2>Le groupe MLTC</h2>
+                <p>MLTC Railways est la branche principale du groupe. Les cinq filiales qui suivent couvrent chacune un autre mode de transport ou service, au sein d'un même ensemble.</p>
+            </div>
+
+            <div class="chr-tree">
+                <div class="chr-tree-root">
+                    <span class="chr-tree-kicker">Groupe</span>
+                    <p class="chr-tree-root-name">Groupe MLTC</p>
                 </div>
-                <div class="ht-chapter-grid">
-                    <a href="histoire_pages/origines.html" class="ht-chapter-card">
-                        <span class="ht-chapter-tag">1955 - 2001</span>
-                        <h3>Les origines</h3>
-                        <p>Les trois projets fondateurs, la création de la CCFM, de la WME et de la MSER, et leur unification tardive en MLTC Railways.</p>
-                        <span class="ht-chapter-arrow">→</span>
-                    </a>
-                    <a href="histoire_pages/expansion.html" class="ht-chapter-card">
-                        <span class="ht-chapter-tag">2001 - 2012</span>
-                        <h3>Réseau et expansion</h3>
-                        <p>L'expansion progressive à travers les 12 États membres, la carte de couverture du réseau et la coexistence avec les compagnies nationales.</p>
-                        <span class="ht-chapter-arrow">→</span>
-                    </a>
-                    <a href="histoire_pages/services.html" class="ht-chapter-card">
-                        <span class="ht-chapter-tag">2001 - aujourd'hui</span>
-                        <h3>Les services</h3>
-                        <p>Les quatre services fondateurs de 2001, la refonte de 2012 et l'offre actuelle de la MLTC Railways et de la MLCC.</p>
-                        <span class="ht-chapter-arrow">→</span>
-                    </a>
-                    <a href="histoire_pages/lignes_territoires/index.html" class="ht-chapter-card">
-                        <span class="ht-chapter-tag">Dossiers thématiques</span>
-                        <h3>Lignes &amp; Territoires</h3>
-                        <p>Projets remarquables, lignes emblématiques et initiatives territoriales de la MLTC à travers le Mathlyens.</p>
-                        <span class="ht-chapter-arrow">→</span>
-                    </a>
+                <span class="chr-tree-stem" aria-hidden="true"></span>
+                <div class="chr-tree-flagship">
+                    <span class="chr-tree-kicker">Branche principale</span>
+                    <h3>MLTC Railways</h3>
+                    <p>Transport ferroviaire de voyageurs, réseau principal du continent.</p>
+                </div>
+                <span class="chr-tree-stem" aria-hidden="true"></span>
+                <span class="chr-tree-sublabel">Filiales</span>
+                <span class="chr-tree-stem chr-tree-stem-short" aria-hidden="true"></span>
+                <div class="chr-tree-level">
+                    <ul class="chr-tree-branches">
+                        <li class="chr-tree-node">
+                            <svg class="chr-org-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v11"/><path d="M4 11h16"/><path d="M3 17h18"/><path d="M7 17v2"/><path d="M17 17v2"/></svg>
+                            <span class="chr-tree-node-name">Mathlines</span>
+                            <span class="chr-tree-node-desc">Bus longue distance</span>
+                        </li>
+                        <li class="chr-tree-node">
+                            <svg class="chr-org-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 13l20-7-7 20-3-8-10-5z"/></svg>
+                            <span class="chr-tree-node-name">Mathly Alliance Airlines</span>
+                            <span class="chr-tree-node-desc">Transport aérien</span>
+                        </li>
+                        <li class="chr-tree-node">
+                            <svg class="chr-org-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18c1.5 1.3 3 1.3 4.5 0S10.5 16.7 12 18s3 1.3 4.5 0S19.5 16.7 21 18"/><path d="M5 14l1.5-5h11L19 14"/><path d="M12 4v5"/></svg>
+                            <span class="chr-tree-node-name">Mathly Cruises</span>
+                            <span class="chr-tree-node-desc">Transport maritime</span>
+                        </li>
+                        <li class="chr-tree-node">
+                            <svg class="chr-org-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 16V8h11v8"/><path d="M13 11h4l3 3v2"/><path d="M2 16h18"/><path d="M6 16v2"/><path d="M16 16v2"/></svg>
+                            <span class="chr-tree-node-name">MLCC</span>
+                            <span class="chr-tree-node-desc">Transport de fret</span>
+                        </li>
+                        <li class="chr-tree-node">
+                            <svg class="chr-org-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18v12H3z"/><path d="m3 7 9 6 9-6"/></svg>
+                            <span class="chr-tree-node-name">MLUP</span>
+                            <span class="chr-tree-node-desc">Services de courrier</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </section>
 
         <!-- Date de dernière modification -->
-        <section class="last-modified">
-            <div class="container">
-                <p>Dernière mise à jour : 23 avril 2026</p>
-            </div>
+        <section class="last-modified chr-nodiv">
+            <p>Dernière mise à jour : 23 avril 2026</p>
         </section>
     </main>
 
@@ -239,12 +273,14 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <span class="footer-version">v<strong>0.7</strong> (23/04/2026)</span>
+                <span class="footer-version">v<strong>0.8</strong> (03/09/2026)</span>
                 <p>&copy; 2026 MathLoo. Tous droits réservés.</p>
             </div>
         </div>
     </footer>
 
     <script src="../js/main.js"></script>
+    <script src="../js/coverage-map-data.js"></script>
+    <script src="../js/histoire.js"></script>
 </body>
 </html>

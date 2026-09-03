@@ -8,7 +8,7 @@
   if (!container) return;
 
   /* ── configuration ── */
-  const SPEED         = 380;         // px/s constant cruise
+  const SPEED         = 280;         // px/s constant cruise
   const GAP_MIN_MS    = 2000;        // min gap between trains
   const GAP_MAX_MS    = 5000;        // max gap
   const FRAME_H       = 68;          // frame height (matches circulations)

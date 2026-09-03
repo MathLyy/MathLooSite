@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - Histoire MLTC | MathLoo</title>
+    <link rel="icon" type="image/png" href="../../favicon.png">
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/mltc.css">
+    <link rel="stylesheet" href="../../css/histoire.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../../index.html" class="nav-logo">
+                <span class="logo-text">MathLoo</span>
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../../index.html" class="nav-link">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../../projets.html" class="nav-link">Projets</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link active">MLTC</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../../3D/index.html" class="nav-link">3D</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../../liens.html" class="nav-link">Liens</a>
+                </li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" aria-label="Changer le thème">
+                    <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2"/>
+                        <path d="M12 20v2"/>
+                        <path d="m4.93 4.93 1.41 1.41"/>
+                        <path d="m17.66 17.66 1.41 1.41"/>
+                        <path d="M2 12h2"/>
+                        <path d="M20 12h2"/>
+                        <path d="m6.34 17.66-1.41 1.41"/>
+                        <path d="m19.07 4.93-1.41 1.41"/>
+                    </svg>
+                    <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                    </svg>
+                </button>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MLTC Sub-navigation -->
+    <nav class="mltc-subnav">
+        <div class="container">
+            <ul class="subnav-menu">
+                <!-- L'Univers -->
+                <li class="subnav-item">
+                    <button class="subnav-toggle" data-category="univers">L'Univers</button>
+                    <div class="subnav-dropdown">
+                        <a href="../index.html" class="subnav-link">Accueil</a>
+                        <a href="../histoire.html" class="subnav-link active">Histoire</a>
+                        <a href="../coulisses.html" class="subnav-link">Les coulisses de la MLTC</a>
+                    </div>
+                </li>
+                <!-- Le Réseau -->
+                <li class="subnav-item">
+                    <button class="subnav-toggle" data-category="reseau">Le Réseau</button>
+                    <div class="subnav-dropdown">
+                        <a href="../circulations.html" class="subnav-link">Circulations</a>
+                        <a href="../livrees.html" class="subnav-link">Livrées</a>
+                        <a href="../services.html" class="subnav-link">Services</a>
+                    </div>
+                </li>
+                <!-- Acteurs -->
+                <li class="subnav-item">
+                    <button class="subnav-toggle" data-category="acteurs">Acteurs</button>
+                    <div class="subnav-dropdown">
+                        <a href="../autres-operateurs.html" class="subnav-link">Autres opérateurs</a>
+                        <a href="../production.html" class="subnav-link">Production</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="chr-page">
+        <section class="chr-opening chr-nodiv">
+            <a href="../histoire.html" class="chr-back">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+                Histoire de la MLTC
+            </a>
+            <div class="chr-opening-kicker">
+                <span class="chr-part-num">III</span>
+                <span class="chr-opening-period">Après l'expansion</span>
+            </div>
+            <h1>Les services</h1>
+            <p class="chr-opening-sub">L'offre ferroviaire de la MLTC Railways, des quatre services fondateurs de 2001 à la refonte complète de 2012.</p>
+        </section>
+
+        <section id="services-2001" class="chr-reveal">
+            <div class="chr-head">
+                <div class="chr-eyebrow">Rappel</div>
+                <h2>Les quatre services fondateurs</h2>
+            </div>
+            <div class="chr-prose chr-lead">
+                <p>Lors de sa création en 2001, la MLTC structure son offre autour de <a href="origines.html#origines">quatre grands services ferroviaires</a> hérités des trois compagnies fondatrices : l'<strong>InterCity</strong> (grandes lignes), le <strong>TransRegio</strong> (régional), le <strong>HighSpeed</strong> (grande vitesse) et le <strong>NightLine</strong> (trains de nuit). Cette offre reste inchangée pendant plus d'une décennie, jusqu'à la refonte de 2012.</p>
+            </div>
+        </section>
+
+        <section id="refonte-2012" class="chr-reveal">
+            <div class="chr-head">
+                <div class="chr-eyebrow">Refonte 2012</div>
+                <h2>Refonte des services</h2>
+            </div>
+            <div class="chr-prose">
+                <p>Face à l'extension progressive du réseau, à l'évolution des besoins en mobilité et à l'hétérogénéité croissante des territoires desservis, la MLTC engage en 2012 une vaste refonte de ses services. Cette réorganisation vise à clarifier l'offre, à renforcer la lisibilité pour les usagers et à mieux intégrer les réalités urbaines, périurbaines et transnationales du Mathlyens.</p>
+                <p>En pratique, des dessertes périurbaines existaient déjà du temps de la CCFM et de la WME, mais lors de la création de la MLTC en 2001, elles avaient été intégrées au service TransRegio par souci de simplification. Avec le temps, ce regroupement s'est avéré peu lisible pour les usagers, mêlant desserte régionale et desserte de proximité sous une même marque. La refonte de 2012 rétablit donc des services urbains et suburbains distincts, tout en restructurant l'ensemble de l'offre en deux grandes catégories.</p>
+            </div>
+
+            <h3 class="chr-h3">Services urbains &amp; suburbains</h3>
+            <div class="chr-prose">
+                <p>Frail et Urbahn reprennent et modernisent les anciennes dessertes périurbaines héritées de la CCFM et de la WME, désormais séparées du TransRegio pour retrouver une identité propre. L'Intracity, en revanche, est une création entièrement nouvelle, sans équivalent dans les compagnies fondatrices.</p>
+            </div>
+            <div class="chr-codex">
+                <div class="chr-codex-nav">
+                    <button class="chr-codex-tab active" data-codex-target="0">Frail</button>
+                    <button class="chr-codex-tab" data-codex-target="1">Urbahn</button>
+                    <button class="chr-codex-tab" data-codex-target="2">Intracity</button>
+                </div>
+                <div class="chr-codex-panel active" data-codex-index="0">
+                    <div class="chr-strip"><img src="../icones_lore/ht_fr.png" alt="Frail" width="1077" height="72"></div>
+                    <h4>Frail</h4>
+                    <p>Réseau express régional dédié aux grandes métropoles françaises, le Frail assure une desserte cadencée entre les centres-villes et leurs couronnes périurbaines. Opérant sur des infrastructures ferroviaires lourdes avec un cadencement de type RER, il dessert notamment les agglomérations de Paris, Lyon, Marseille et Lille. Le matériel utilisé est spécifiquement adapté aux flux massifs de voyageurs pendulaires.</p>
+                </div>
+                <div class="chr-codex-panel" data-codex-index="1">
+                    <div class="chr-strip"><img src="../icones_lore/ht_ub.png" alt="Urbahn" width="1077" height="72"></div>
+                    <h4>Urbahn</h4>
+                    <p>Équivalent germanophone du Frail, l'Urbahn assure la desserte express des métropoles allemandes, autrichiennes et suisses dans une logique de S-Bahn renforcé. Il opère sur les nœuds ferroviaires de Berlin, Munich, Hambourg, Vienne, Zurich et d'autres grandes agglomérations, avec des fréquences élevées et une intégration poussée aux réseaux de transport urbain locaux.</p>
+                </div>
+                <div class="chr-codex-panel" data-codex-index="2">
+                    <div class="chr-strip"><img src="../icones_lore/ht_iac.png" alt="Intracity" width="1077" height="72"></div>
+                    <h4>Intracity</h4>
+                    <p>Service ferroviaire intra-urbain présent dans l'ensemble des pays membres, l'Intracity est destiné à renforcer les liaisons internes d'une même ville ou entre communes limitrophes. Il s'appuie sur du matériel léger (automotrices courtes, tram-trains) adapté à une desserte fine et fréquente, venant compléter les réseaux Frail et Urbahn dans les métropoles, ou servant de service urbain principal dans les villes de taille intermédiaire.</p>
+                </div>
+            </div>
+
+            <h3 class="chr-h3">Services nationaux &amp; transfrontaliers</h3>
+            <div class="chr-prose">
+                <p>Les services longue distance et régionaux sont réorganisés pour mieux refléter la diversité des besoins : liaisons rapides nationales, grande vitesse internationale, trains de nuit et desserte régionale. Plusieurs services historiques sont renommés ou fusionnés, et de nouvelles marques apparaissent.</p>
+            </div>
+            <div class="chr-codex">
+                <div class="chr-codex-nav">
+                    <button class="chr-codex-tab active" data-codex-target="0">TransRegio</button>
+                    <button class="chr-codex-tab" data-codex-target="1">Xpress</button>
+                    <button class="chr-codex-tab" data-codex-target="2">HSX</button>
+                    <button class="chr-codex-tab" data-codex-target="3">Vivarail</button>
+                    <button class="chr-codex-tab" data-codex-target="4">Nocrail</button>
+                </div>
+                <div class="chr-codex-panel active" data-codex-index="0">
+                    <div class="chr-strip"><img src="../icones_lore/ht_tr2.png" alt="TransRegio" width="1077" height="72"></div>
+                    <h4>TransRegio <span class="chr-svc-abbr">TR</span></h4>
+                    <p>Seul service conservé sans changement de nom, le TransRegio poursuit sa mission de maillage régional. Il connecte villes secondaires, bourgs et zones rurales aux grands axes, avec des correspondances optimisées vers les services Xpress et HSX. Son parc est progressivement modernisé avec de nouvelles automotrices régionales.</p>
+                </div>
+                <div class="chr-codex-panel" data-codex-index="1">
+                    <div class="chr-strip"><img src="../icones_lore/ht_xp.png" alt="Xpress" width="1077" height="72"></div>
+                    <h4>Xpress <span class="chr-svc-abbr">XP</span></h4>
+                    <p>Successeur de l'InterCity, le service Xpress reprend les liaisons rapides entre grandes villes à l'échelle nationale. Circulant à 160-200 km/h sur voie classique et voie rapide, il constitue le cœur de l'offre grandes lignes de la MLTC. Certains Xpress franchissent les frontières pour relier des villes frontalières (Strasbourg-Karlsruhe, Lille-Bruxelles, etc.).</p>
+                </div>
+                <div class="chr-codex-panel" data-codex-index="2">
+                    <div class="chr-strip"><img src="../icones_lore/ht_hsx.png" alt="HSX" width="1077" height="72"></div>
+                    <h4>HighSpeedXpress <span class="chr-svc-abbr">HSX</span></h4>
+                    <p>Successeur du HighSpeed, le HSX regroupe l'ensemble des trains à grande vitesse de la MLTC, circulant à 300 km/h et plus sur les LGV du réseau. Le service couvre aussi bien les liaisons nationales (Paris-Lyon, Londres-Birmingham) qu'internationales (Paris-Londres, Bruxelles-Amsterdam, Munich-Vienne). Son nom s'inscrit dans la continuité de la marque Xpress.</p>
+                </div>
+                <div class="chr-codex-panel" data-codex-index="3">
+                    <div class="chr-strip"><img src="../icones_lore/ht_vr.png" alt="Vivarail" width="1077" height="72"></div>
+                    <h4>Vivarail <span class="chr-svc-abbr">VR</span></h4>
+                    <p>Création majeure de la refonte 2012, le Vivarail est un service de grandes lignes internationales premium, positionné entre le Xpress et le HSX. Circulant sur voie classique et voie rapide, il relie les capitales et grandes villes de pays différents avec un confort accru : voitures panoramiques, restauration à bord, espaces de travail. Il se distingue par des trajets plus longs et une expérience orientée voyage.</p>
+                </div>
+                <div class="chr-codex-panel" data-codex-index="4">
+                    <div class="chr-strip"><img src="../icones_lore/ht_nr.png" alt="Nocrail" width="1077" height="72"></div>
+                    <h4>Nocrail <span class="chr-svc-abbr">NR</span></h4>
+                    <p>Héritier du NightLine, le Nocrail reprend et modernise l'offre de trains de nuit de la MLTC. Il propose des sièges inclinables, des couchettes et des cabines privatives sur des liaisons nocturnes couvrant l'ensemble du Mathlyens. Le service connaît un regain d'intérêt dans les années 2010 comme alternative écologique au transport aérien sur les trajets moyens et longs.</p>
+                </div>
+            </div>
+
+            <h3 class="chr-h3">Transport de marchandises</h3>
+            <div class="chr-prose">
+                <p>Concernant le transport de marchandises, celui-ci est confié à la Mathly Cargo Company (MLCC), la filiale fret du groupe MLTC.</p>
+            </div>
+        </section>
+
+        <section class="chr-mlcc">
+            <div class="chr-mlcc-head">
+                <img src="../assets/MLCCb.png" alt="MLCC" width="697" height="200">
+                <div>
+                    <h2>Mathly Cargo Company</h2>
+                    <p>Le fret ferroviaire du Mathlyens et au-delà</p>
+                </div>
+            </div>
+            <div class="chr-mlcc-prose">
+                <p>La MLCC est la filiale fret du groupe MLTC, chargée du transport de marchandises par rail, route, air et mer. Sur le plan ferroviaire, elle hérite dès 2001 des activités fret des trois compagnies fondatrices (CCFM, WME, MSER), ce qui lui confère d'emblée un réseau étendu sur les pays membres historiques.</p>
+                <p>Au fil de l'expansion de la MLTC à l'ensemble des 12 États membres, la MLCC récupère progressivement plusieurs flux de fret à travers l'Europe, devenant l'opérateur cargo principal du Mathlyens. Elle est également présente, dans une moindre mesure, dans plusieurs pays voisins non membres, à travers des partenariats et des concessions ponctuelles.</p>
+                <p>En 2015, afin de mieux répondre aux besoins des territoires et d'optimiser l'utilisation des lignes secondaires, la MLCC lance <strong>RegioCargo</strong>, un service dédié aux dessertes locales de fret, venant compléter son offre longue distance.</p>
+            </div>
+            <p class="chr-mlcc-note">Une page dédiée à la MLCC et à ses services est prévue ultérieurement.</p>
+        </section>
+
+        <section class="chr-tight">
+            <div class="chr-turn">
+                <a href="expansion.html" class="chr-turn-link">
+                    <span class="chr-turn-label">Partie précédente</span>
+                    <span class="chr-turn-title">&larr; II &middot; Réseau et expansion</span>
+                </a>
+                <a href="lignes_territoires/index.html" class="chr-turn-link chr-turn-next">
+                    <span class="chr-turn-label">Dossier thématique</span>
+                    <span class="chr-turn-title">Lignes &amp; Territoires &rarr;</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Date de dernière modification -->
+        <section class="last-modified">
+            <p>Dernière mise à jour : 23 avril 2026</p>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-text">MathLoo</span>
+                    <p>Portfolio créatif</p>
+                    <a href="mailto:mathloo.site@gmail.com" class="footer-email">mathloo.site@gmail.com</a>
+                </div>
+                <div class="footer-links">
+                    <a href="../../index.html">Accueil</a>
+                    <a href="../../projets.html">Projets</a>
+                    <a href="../index.html">MLTC</a>
+                    <a href="../../3D/index.html">3D</a>
+                    <a href="../../liens.html">Liens</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span class="footer-version">v<strong>0.8</strong> (03/09/2026)</span>
+                <p>&copy; 2026 MathLoo. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+    <script src="../../js/histoire.js"></script>
+</body>
+</html>

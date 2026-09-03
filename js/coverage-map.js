@@ -1,10 +1,14 @@
 // Histoire - Carte de couverture du réseau MLTC
-// Reuses the same TopoJSON + Mercator approach as circulations.js
+//
+// Le fond de carte vient de js/coverage-map-data.js, versé dans le dépôt :
+// aucun appel réseau, aucune bibliothèque externe, fonctionne hors ligne et
+// en file://. La projection Mercator reste celle de circulations.js.
 (function () {
     'use strict';
 
     const svgEl = document.querySelector('.cov-map');
     if (!svgEl) return;
+    const wrap = svgEl.closest('.cov-map-wrap');
 
     /* ---- Country data (ISO numeric → info) ---- */
     const COUNTRIES = new Map([
@@ -46,48 +50,59 @@
                 services: ['HSX','Xpress','Vivarail','Nocrail'] }],
     ]);
 
-    /* ---- Colour helpers ---- */
-    // Interpolate between low-coverage colour and high-coverage colour
-    function coverageColor(ratio) {
-        // Light: from #ede9fe (very light violet) to #7c3aed (deep violet)
-        // We'll use opacity on a solid violet instead for simplicity
-        const minOp = 0.10, maxOp = 0.90;
-        const op = minOp + ratio * (maxOp - minOp);
-        return 'rgba(124, 58, 237, ' + op.toFixed(2) + ')';
-    }
+    /* ---- Échelle de couverture ------------------------------------------
+       Cinq paliers discrets plutôt qu'un dégradé d'opacité continu : sur fond
+       sombre, les faibles opacités devenaient indiscernables du fond et la
+       légende « Faible / Forte » n'était rattachable à aucune forme précise.
+       Chaque palier est une couleur pleine, nommée, reprise telle quelle dans
+       la légende, qui est construite depuis ce tableau pour ne pas dériver.
 
-    /* ---- Tooltip ---- */
-    const tooltip = document.getElementById('cov-tooltip');
-    const ttFlag  = document.getElementById('cov-tt-flag');
-    const ttName  = document.getElementById('cov-tt-name');
-    const ttBar   = document.getElementById('cov-tt-bar');
-    const ttDesc  = document.getElementById('cov-tt-desc');
-    const ttSvc   = document.getElementById('cov-tt-services');
+       Le plus sombre tient 3,45:1 contre le fond de page (l'ancien dégradé
+       tombait à 1,51:1 pour l'Espagne et la Tchéquie, quasi invisibles), et
+       deux paliers voisins restent nettement séparés à l'oeil. */
+    const LEVELS = [
+        { max: 0.50, label: 'Ciblée',    fill: '#6a6096' },
+        { max: 0.62, label: 'Partielle', fill: '#7a63c4' },
+        { max: 0.72, label: 'Étendue',   fill: '#8f74e6' },
+        { max: 0.82, label: 'Dense',     fill: '#a98ef8' },
+        { max: 1.01, label: 'Intégrale', fill: '#c9bcfd' }
+    ];
+    const levelOf = r => LEVELS.find(l => r < l.max) || LEVELS[LEVELS.length - 1];
+
+    /* ---- Panneau de détail ---- */
+    const panel  = document.getElementById('cov-tooltip');
+    const ttName = document.getElementById('cov-tt-name');
+    const ttBar  = document.getElementById('cov-tt-bar');
+    const ttDesc = document.getElementById('cov-tt-desc');
+    const ttSvc  = document.getElementById('cov-tt-services');
     const ttGroup = document.getElementById('cov-tt-group');
+    const ttLevel = document.getElementById('cov-tt-level');
 
     let activeShape = null;
 
-    function showTooltip(info, side) {
-        ttFlag.textContent = info.flag || '';
-        ttName.textContent = info.alias || info.name;
-        ttBar.style.width  = (info.coverage * 100) + '%';
-        ttDesc.textContent = info.desc;
+    function showDetail(info, shape) {
+        if (activeShape && activeShape !== shape) activeShape.classList.remove('cov-active');
+        activeShape = shape || null;
+        if (shape) shape.classList.add('cov-active');
+
+        const lvl = levelOf(info.coverage);
+        ttName.textContent  = info.name;
+        ttBar.style.width   = (info.coverage * 100) + '%';
+        ttBar.style.background = lvl.fill;
+        ttDesc.textContent  = info.desc;
         ttGroup.textContent = info.group === 'fondateur' ? 'Pays fondateur' : "Pays d'expansion";
-        ttSvc.innerHTML = info.services.map(s =>
-            '<span class="ht-svc-pill">' + s + '</span>').join('');
-        tooltip.classList.toggle('cov-tt-left', side === 'left');
-        tooltip.classList.add('visible');
+        ttLevel.textContent = 'Couverture ' + lvl.label.toLowerCase();
+        ttSvc.innerHTML = '';
+        info.services.forEach(s => {
+            const pill = document.createElement('span');
+            pill.className = 'ht-svc-pill';
+            pill.textContent = s;
+            ttSvc.appendChild(pill);
+        });
+        panel.classList.add('cov-has-country');
     }
 
-    function hideTooltip() {
-        tooltip.classList.remove('visible');
-        if (activeShape) {
-            activeShape.classList.remove('cov-active');
-            activeShape = null;
-        }
-    }
-
-    /* ---- Map builder (same Mercator logic as circulations.js) ---- */
+    /* ---- Projection (même logique Mercator que circulations.js) ---- */
     const NS  = 'http://www.w3.org/2000/svg';
     const W   = 800, H = 650, PAD = 24;
 
@@ -96,32 +111,14 @@
         return Math.log(Math.tan(Math.PI / 4 + r / 2));
     }
 
-    function europeanOnly(feature) {
-        const inEurope = (ring) => {
-            let sLon = 0, sLat = 0;
-            ring.forEach(c => { sLon += c[0]; sLat += c[1]; });
-            const aLon = sLon / ring.length, aLat = sLat / ring.length;
-            return aLat > 34 && aLat < 65 && aLon > -12 && aLon < 25;
-        };
-        const g = feature.geometry;
-        if (g.type === 'MultiPolygon') {
-            const coords = g.coordinates.filter(poly => inEurope(poly[0]));
-            if (!coords.length) return null;
-            return { ...feature, geometry: { ...g, coordinates: coords } };
-        }
-        if (!inEurope(g.coordinates[0])) return null;
-        return feature;
-    }
-
-    function geoBounds(features) {
+    function geoBounds(geoms) {
         let minLon = Infinity, maxLon = -Infinity,
             minLat = Infinity, maxLat = -Infinity;
-        const scan = coords => coords.forEach(([lon, lat]) => {
+        const scan = ring => ring.forEach(([lon, lat]) => {
             if (lon < minLon) minLon = lon; if (lon > maxLon) maxLon = lon;
             if (lat < minLat) minLat = lat; if (lat > maxLat) maxLat = lat;
         });
-        features.forEach(f => {
-            const g = f.geometry;
+        geoms.forEach(g => {
             if (g.type === 'Polygon') g.coordinates.forEach(scan);
             else g.coordinates.forEach(p => p.forEach(scan));
         });
@@ -150,79 +147,114 @@
         }).join('') + 'Z';
     }
 
-    function featureD(f, proj) {
-        const g = f.geometry;
+    function pathD(g, proj) {
         const rings = g.type === 'MultiPolygon'
             ? g.coordinates.flatMap(p => p) : g.coordinates;
         return rings.map(r => ringD(r, proj)).join('');
     }
 
-    async function buildMap() {
-        const resp = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
-        if (!resp.ok) throw new Error('Carte : HTTP ' + resp.status);
-        const world = await resp.json();
-        const all = topojson.feature(world, world.objects.countries);
-
-        let features = all.features
-            .filter(f => COUNTRIES.has(Number(f.id)))
-            .map(europeanOnly).filter(Boolean);
-
-        const bounds = geoBounds(features);
-        const proj   = fitProjection(bounds);
-        svgEl.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-
-        features.forEach(f => {
-            const info = COUNTRIES.get(Number(f.id));
-            if (!info) return;
-
-            const g = document.createElementNS(NS, 'g');
-            g.classList.add('cov-country');
-            g.dataset.country = info.name;
-
-            const title = document.createElementNS(NS, 'title');
-            title.textContent = info.alias || info.name;
-            g.appendChild(title);
-
-            const path = document.createElementNS(NS, 'path');
-            path.classList.add('cov-shape');
-            path.setAttribute('d', featureD(f, proj));
-            path.style.fill = coverageColor(info.coverage);
-            g.appendChild(path);
-
-            svgEl.appendChild(g);
+    /* ---- Légende, construite depuis LEVELS ---- */
+    function buildLegend() {
+        const host = wrap.querySelector('.cov-legend-scale');
+        if (!host) return;
+        host.innerHTML = '';
+        LEVELS.forEach(l => {
+            const item = document.createElement('span');
+            item.className = 'cov-legend-item';
+            const sw = document.createElement('span');
+            sw.className = 'cov-legend-swatch';
+            sw.style.background = l.fill;
+            item.appendChild(sw);
+            item.appendChild(document.createTextNode(l.label));
+            host.appendChild(item);
         });
-
-        // Second pass: now that all paths are in the DOM, getBBox works
-        svgEl.querySelectorAll('.cov-country').forEach(g => {
-            const name = g.dataset.country;
-            const info = [...COUNTRIES.values()].find(c => c.name === name);
-            if (!info) return;
-
-            const LEFT_COUNTRIES = new Set(['Italie', 'Autriche', 'Suisse']);
-            let side = LEFT_COUNTRIES.has(name) ? 'left' : 'right';
-
-            g.addEventListener('mouseenter', () => {
-                if (activeShape && activeShape !== g) activeShape.classList.remove('cov-active');
-                activeShape = g;
-                g.classList.add('cov-active');
-                showTooltip(info, side);
-            });
-
-            g.addEventListener('click', () => {
-                if (activeShape && activeShape !== g) activeShape.classList.remove('cov-active');
-                activeShape = g;
-                g.classList.add('cov-active');
-                showTooltip(info, side);
-            });
-        });
-
-        // Click outside map → close tooltip
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.cov-map-wrap')) hideTooltip();
-        });
-
-
     }
 
-    buildMap().catch(err => console.error('[CoverageMap]', err));
+    /* ---- États ---- */
+    function setStatus(state, message) {
+        wrap.dataset.state = state;
+        const box = wrap.querySelector('.cov-status');
+        if (box) box.textContent = message || '';
+    }
+
+    /* ---- Construction ---- */
+    function buildMap() {
+        const geo = window.COV_GEO;
+        if (!geo || !geo.membres) {
+            setStatus('error', "Le fond de carte n'a pas pu être chargé.");
+            return;
+        }
+
+        const members = [];
+        COUNTRIES.forEach((info, id) => {
+            const g = geo.membres[id];
+            if (g) members.push({ id: id, info: info, geom: g });
+        });
+        if (!members.length) {
+            setStatus('error', "Le fond de carte ne contient aucun pays membre.");
+            return;
+        }
+
+        /* Le cadrage est calculé sur les seuls pays membres : les voisins
+           dessinés en fond débordent volontairement et sont rognés. */
+        const proj = fitProjection(geoBounds(members.map(m => m.geom)));
+        svgEl.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+
+        const gContext = document.createElementNS(NS, 'g');
+        gContext.setAttribute('class', 'cov-layer-context');
+        gContext.setAttribute('aria-hidden', 'true');
+        (geo.contexte || []).forEach(g => {
+            const p = document.createElementNS(NS, 'path');
+            p.setAttribute('class', 'cov-context-shape');
+            p.setAttribute('d', pathD(g, proj));
+            gContext.appendChild(p);
+        });
+        svgEl.appendChild(gContext);
+
+        const gMembers = document.createElementNS(NS, 'g');
+        gMembers.setAttribute('class', 'cov-layer-members');
+        svgEl.appendChild(gMembers);
+
+        members.forEach(m => {
+            const lvl = levelOf(m.info.coverage);
+
+            const g = document.createElementNS(NS, 'g');
+            g.setAttribute('class', 'cov-country');
+            g.dataset.country = m.info.name;
+            /* Le survol était le seul moyen d'atteindre un pays : le groupe
+               devient focusable et annonce son nom, pour que la carte soit
+               utilisable au clavier et par un lecteur d'écran. */
+            g.setAttribute('tabindex', '0');
+            g.setAttribute('role', 'button');
+            g.setAttribute('aria-label',
+                m.info.name + ', couverture ' + lvl.label.toLowerCase());
+
+            const path = document.createElementNS(NS, 'path');
+            path.setAttribute('class', 'cov-shape');
+            path.setAttribute('d', pathD(m.geom, proj));
+            path.style.fill = lvl.fill;
+            g.appendChild(path);
+
+            const activate = () => showDetail(m.info, g);
+            g.addEventListener('mouseenter', activate);
+            g.addEventListener('focus', activate);
+            g.addEventListener('click', activate);
+            g.addEventListener('keydown', e => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+            });
+
+            gMembers.appendChild(g);
+        });
+
+        buildLegend();
+        setStatus('ready', '');
+    }
+
+    setStatus('loading', 'Chargement de la carte...');
+    try {
+        buildMap();
+    } catch (err) {
+        console.error('[CoverageMap]', err);
+        setStatus('error', "La carte n'a pas pu être affichée.");
+    }
 })();

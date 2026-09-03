@@ -42,6 +42,24 @@
     --card-hover-border: var(--primary-200);
     --accent-text: var(--primary-600);
     --accent-bg: var(--primary-100);
+
+    /* Hierarchie du violet : trois niveaux d'usage, du plus porteur de sens
+       au purement decoratif. Toute nouvelle page doit puiser ici plutot que
+       de reprendre une teinte au hasard dans l'echelle --primary-*, sans quoi
+       tout se retrouve au meme niveau de lecture et plus rien ne ressort.
+         1. --accent-action  : ce sur quoi on peut cliquer ou ce qui doit etre
+                               lu en premier (liens, titres actifs).
+         2. --accent-label   : les reperes de lecture (labels de section,
+                               periodes, annees, valeurs chiffrees).
+         3. --accent-decor   : ce qui ne porte aucune information (filets,
+                               noeuds de frise, filigranes, fonds teintes) ;
+                               --accent-decor-line et --accent-decor-wash en
+                               sont les declinaisons filet et aplat. */
+    --accent-action: var(--primary-700);
+    --accent-label: var(--primary-600);
+    --accent-decor: var(--primary-500);
+    --accent-decor-line: rgba(124, 58, 237, 0.30);
+    --accent-decor-wash: rgba(124, 58, 237, 0.10);
     --footer-bg: var(--neutral-900);
     --footer-border: var(--neutral-800);
 
@@ -94,6 +112,14 @@
     --card-hover-border: var(--primary-700);
     --accent-text: var(--primary-400);
     --accent-bg: rgba(168, 85, 247, 0.15);
+
+    /* Meme hierarchie qu'en theme clair, remontee dans l'echelle : sur fond
+       sombre, ce sont les teintes claires qui portent le plus loin. */
+    --accent-action: var(--primary-300);
+    --accent-label: var(--primary-400);
+    --accent-decor: var(--primary-500);
+    --accent-decor-line: rgba(192, 132, 252, 0.32);
+    --accent-decor-wash: rgba(192, 132, 252, 0.12);
     --footer-bg: #080510;
     --footer-border: #2d2240;
 
@@ -500,20 +526,6 @@ h1, h2, h3, h4, h5, h6 {
     object-fit: cover;
 }
 
-.placeholder-image {
-    width: 100%;
-    aspect-ratio: 16/10;
-    background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
-    border-radius: var(--radius-xl);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-family: var(--font-display);
-    font-size: 2rem;
-    font-weight: 700;
-}
-
 .featured-content {
     padding: var(--spacing-2xl) var(--spacing-2xl) var(--spacing-2xl) 0;
     display: flex;
@@ -566,10 +578,6 @@ h1, h2, h3, h4, h5, h6 {
 /* ========================================
    Explore Section
    ======================================== */
-.explore-section {
-    padding: var(--spacing-3xl) var(--spacing-lg);
-}
-
 .explore-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -594,11 +602,6 @@ h1, h2, h3, h4, h5, h6 {
     border-color: var(--card-hover-border);
 }
 
-.explore-icon {
-    font-size: 2.5rem;
-    margin-bottom: var(--spacing-md);
-}
-
 .explore-card h3 {
     font-size: 1.25rem;
     margin-bottom: var(--spacing-sm);
@@ -610,17 +613,6 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1.6;
     margin-bottom: var(--spacing-lg);
     flex-grow: 1;
-}
-
-.explore-link {
-    color: var(--accent-text);
-    font-weight: 500;
-    font-size: 0.95rem;
-    transition: var(--transition-fast);
-}
-
-.explore-card:hover .explore-link {
-    color: var(--primary-400);
 }
 
 /* ========================================

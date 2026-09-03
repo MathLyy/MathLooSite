@@ -13,6 +13,7 @@
     </script>
     <link rel="stylesheet" href="../../css/style.css">
     <link rel="stylesheet" href="../../css/mltc.css">
+    <link rel="stylesheet" href="../../css/histoire.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -92,7 +93,7 @@
                 <li class="subnav-item">
                     <button class="subnav-toggle" data-category="acteurs">Acteurs</button>
                     <div class="subnav-dropdown">
-                        <a href="../../operateurs-prives.html" class="subnav-link">Opérateurs privés</a>
+                        <a href="../autres-operateurs.html" class="subnav-link">Autres opérateurs</a>
                         <a href="../production.html" class="subnav-link">Production</a>
                     </div>
                 </li>
@@ -100,153 +101,152 @@
         </div>
     </nav>
 
-    <main>
-        <!-- Hero -->
-        <section class="ht-hero">
-            <div class="container">
-                <div class="ht-hero-content">
-                    <a href="../histoire.html" class="ht-back-link">← Histoire</a>
-                    <h1>Réseau et expansion</h1>
-                    <p class="ht-hero-sub">L'expansion progressive de la MLTC Railways à travers les 12 États membres du Mathlyens, de 2001 à 2012.</p>
-                </div>
+    <main class="chr-page">
+        <section class="chr-opening chr-nodiv">
+            <a href="../histoire.html" class="chr-back">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+                Histoire de la MLTC
+            </a>
+            <div class="chr-opening-kicker">
+                <span class="chr-part-num">II</span>
+                <span class="chr-opening-period">2001 &ndash; 2012</span>
             </div>
+            <h1>Réseau et expansion</h1>
+            <p class="chr-opening-sub">L'expansion progressive de la MLTC Railways à travers les 12 États membres du Mathlyens, de 2001 à 2012.</p>
         </section>
 
-        <!-- ----------- EXPANSION DU RÉSEAU ----------- -->
-        <section id="expansion" class="ht-section">
-            <div class="container">
-                <div class="ht-section-header">
-                    <span class="ht-section-tag">2001 - 2012</span>
-                    <h2>Phase d'expansion</h2>
-                </div>
-                <div class="ht-prose">
-                    <p>Le réseau de la MLTC est géré par MLTC Railways Infrastructures (simplifié en MLTC Infrastructures). À sa création, il est composé des réseaux français, belge, luxembourgeois, néerlandais, allemand ex-RFA et du sud du réseau anglais. La carte et la chronologie ci-dessous retracent les étapes successives de son élargissement à 12 pays.</p>
-                </div>
+        <section id="expansion" class="chr-reveal">
+            <div class="chr-head">
+                <div class="chr-eyebrow">2001 &ndash; 2012</div>
+                <h2>Phase d'expansion</h2>
+            </div>
+            <div class="chr-prose chr-lead">
+                <p>Le réseau de la MLTC est géré par MLTC Railways Infrastructures (simplifié en MLTC Infrastructures). À sa création, il est composé des réseaux français, belge, luxembourgeois, néerlandais, allemand ex-RFA et du sud du réseau anglais. La chronologie ci-dessous retrace, pays par pays, les étapes de son élargissement à 12 pays : survolez ou atteignez un événement pour repérer le pays correspondant sur la carte.</p>
+            </div>
 
-                <div class="ht-expansion-module">
-                    <div class="ht-expansion-module-header">
-                        <h3 class="ht-expansion-title">Chronologie de l'expansion</h3>
+            <div class="chr-exp-layout">
+                <div class="chr-exp-timeline">
+
+                    <div class="chr-phase-group">
+                        <div class="chr-phase-head">
+                            <span class="chr-phase-dates">2001&ndash;2005</span>
+                            <h3>Premiers élargissements</h3>
+                        </div>
+                        <p class="chr-phase-summary">Extension vers les pays limitrophes du noyau fondateur.</p>
+
+                        <div class="chr-evt" data-index="0" data-country="Allemagne">
+                            <div class="chr-evt-head">
+                                <span class="chr-evt-year">2001</span>
+                                <span class="chr-evt-flag" aria-hidden="true">🇩🇪</span>
+                                <button class="chr-evt-title">Intégration complète du réseau allemand</button>
+                            </div>
+                            <div class="chr-evt-body">
+                                <p>La fondation de la MLTC permet l'intégration des anciennes régions de la RDA, dont l'intégration par la WME avait été différée dans l'attente du projet MLTC. L'implantation de la compagnie reste cependant nettement plus dense à l'ouest du pays, coeur historique de la WME.</p>
+                            </div>
+                        </div>
+                        <div class="chr-evt" data-index="1" data-country="Italie">
+                            <div class="chr-evt-head">
+                                <span class="chr-evt-year">2002</span>
+                                <span class="chr-evt-flag" aria-hidden="true">🇮🇹</span>
+                                <button class="chr-evt-title">Entrée en Italie</button>
+                            </div>
+                            <div class="chr-evt-body">
+                                <p>L'un des premiers jalons majeurs de l'expansion survient avec le lancement des services vers le nord de l'Italie, notamment en Lombardie, au Piémont et en Vénétie. La MLTC y concentre ses liaisons rapides et régionales, laissant le centre et le sud du pays à l'opérateur national.</p>
+                            </div>
+                        </div>
+                        <div class="chr-evt" data-index="2" data-country="Suisse,Autriche">
+                            <div class="chr-evt-head">
+                                <span class="chr-evt-year">2005</span>
+                                <span class="chr-evt-flag" aria-hidden="true">🇨🇭🇦🇹</span>
+                                <button class="chr-evt-title">Intégration de la Suisse et de l'Autriche</button>
+                            </div>
+                            <div class="chr-evt-body">
+                                <p>En Autriche, la MLTC obtient une couverture étendue du réseau, s'imposant sur les corridors internationaux comme sur de nombreuses lignes intérieures. En Suisse, l'implantation se concentre sur les lignes à écartement standard ; les réseaux métriques alpins restent confiés aux opérateurs spécialisés locaux.</p>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="ht-expansion-layout">
-                    <!-- Timeline phases -->
-                    <div class="ht-expansion-left">
+                    <div class="chr-phase-group">
+                        <div class="chr-phase-head">
+                            <span class="chr-phase-dates">2007&ndash;2008</span>
+                            <h3>Consolidation</h3>
+                        </div>
+                        <p class="chr-phase-summary">Renforcement du réseau existant et extension vers le nord.</p>
 
-                        <!-- Phase 1 -->
-                        <div class="ht-phase" data-phase="1">
-                            <div class="ht-phase-header">
-                                <h4 class="ht-phase-title"><span class="ht-phase-dates">2001 - 2005</span> Premiers élargissements</h4>
-                                <p class="ht-phase-summary">Extension vers les pays limitrophes du noyau fondateur.</p>
+                        <div class="chr-evt" data-index="3" data-country="Royaume-Uni">
+                            <div class="chr-evt-head">
+                                <span class="chr-evt-year">2007</span>
+                                <span class="chr-evt-flag" aria-hidden="true">🇬🇧</span>
+                                <button class="chr-evt-title">Renforcement au Royaume-Uni</button>
                             </div>
-                            <div class="ht-phase-events">
-                                <div class="ht-evt" data-index="0" data-country="Allemagne">
-                                    <span class="ht-evt-dot"></span>
-                                    <span class="ht-evt-date">2001</span>
-                                    <span class="ht-evt-flag">🇩🇪</span>
-                                    <button class="ht-evt-title">Intégration complète du réseau allemand</button>
-                                    <div class="ht-evt-body" hidden>
-                                        <p>La fondation de la MLTC permet l'intégration des anciennes régions de la RDA, dont l'intégration par la WME avait été différée dans l'attente du projet MLTC. L'implantation de la compagnie reste cependant nettement plus dense à l'ouest du pays, coeur historique de la WME.</p>
-                                    </div>
-                                </div>
-                                <div class="ht-evt" data-index="1" data-country="Italie">
-                                    <span class="ht-evt-dot"></span>
-                                    <span class="ht-evt-date">2002</span>
-                                    <span class="ht-evt-flag">🇮🇹</span>
-                                    <button class="ht-evt-title">Entrée en Italie</button>
-                                    <div class="ht-evt-body" hidden>
-                                        <p>L'un des premiers jalons majeurs de l'expansion survient avec le lancement des services vers le nord de l'Italie, notamment en Lombardie, au Piémont et en Vénétie. La MLTC y concentre ses liaisons rapides et régionales, laissant le centre et le sud du pays à l'opérateur national.</p>
-                                    </div>
-                                </div>
-                                <div class="ht-evt" data-index="2" data-country="Suisse,Autriche">
-                                    <span class="ht-evt-dot"></span>
-                                    <span class="ht-evt-date">2005</span>
-                                    <span class="ht-evt-flag">🇨🇭🇦🇹</span>
-                                    <button class="ht-evt-title">Intégration de la Suisse et de l'Autriche</button>
-                                    <div class="ht-evt-body" hidden>
-                                        <p>En Autriche, la MLTC obtient une couverture étendue du réseau, s'imposant sur les corridors internationaux comme sur de nombreuses lignes intérieures. En Suisse, l'implantation se concentre sur les lignes à écartement standard ; les réseaux métriques alpins restent confiés aux opérateurs spécialisés locaux.</p>
-                                    </div>
-                                </div>
+                            <div class="chr-evt-body">
+                                <p>Le périmètre hérité de la MSER, concentré dans le sud de l'Angleterre, est élargi vers le centre du pays. La MLTC prend en charge l'essentiel des services grandes lignes et régionaux, mais la plupart des services urbains restent opérés sous franchises locales.</p>
                             </div>
                         </div>
-
-                        <!-- Phase 2 -->
-                        <div class="ht-phase" data-phase="2">
-                            <div class="ht-phase-header">
-                                <h4 class="ht-phase-title"><span class="ht-phase-dates">2007 - 2008</span> Consolidation</h4>
-                                <p class="ht-phase-summary">Renforcement du réseau existant et extension vers le nord.</p>
+                        <div class="chr-evt" data-index="4" data-country="Danemark">
+                            <div class="chr-evt-head">
+                                <span class="chr-evt-year">2008</span>
+                                <span class="chr-evt-flag" aria-hidden="true">🇩🇰</span>
+                                <button class="chr-evt-title">Premiers services au Danemark</button>
                             </div>
-                            <div class="ht-phase-events">
-                                <div class="ht-evt" data-index="3" data-country="Royaume-Uni">
-                                    <span class="ht-evt-dot"></span>
-                                    <span class="ht-evt-date">2007</span>
-                                    <span class="ht-evt-flag">🇬🇧</span>
-                                    <button class="ht-evt-title">Renforcement au Royaume-Uni</button>
-                                    <div class="ht-evt-body" hidden>
-                                        <p>Le périmètre hérité de la MSER, concentré dans le sud de l'Angleterre, est élargi vers le centre du pays. La MLTC prend en charge l'essentiel des services grandes lignes et régionaux, mais la plupart des services urbains restent opérés sous franchises locales.</p>
-                                    </div>
-                                </div>
-                                <div class="ht-evt" data-index="4" data-country="Danemark">
-                                    <span class="ht-evt-dot"></span>
-                                    <span class="ht-evt-date">2008</span>
-                                    <span class="ht-evt-flag">🇩🇰</span>
-                                    <button class="ht-evt-title">Premiers services au Danemark</button>
-                                    <div class="ht-evt-body" hidden>
-                                        <p>La MLTC débute ses opérations dans la partie sud du Danemark, depuis la frontière allemande du Schleswig jusqu'à Copenhague. L'offre se concentre sur les liaisons rapides et à grande vitesse.</p>
-                                    </div>
-                                </div>
+                            <div class="chr-evt-body">
+                                <p>La MLTC débute ses opérations dans la partie sud du Danemark, depuis la frontière allemande du Schleswig jusqu'à Copenhague. L'offre se concentre sur les liaisons rapides et à grande vitesse.</p>
                             </div>
                         </div>
-
-                        <!-- Phase 3 -->
-                        <div class="ht-phase" data-phase="3">
-                            <div class="ht-phase-header">
-                                <h4 class="ht-phase-title"><span class="ht-phase-dates">2010 - 2012</span> Les douze</h4>
-                                <p class="ht-phase-summary">Derniers élargissements vers l'est et le sud.</p>
-                            </div>
-                            <div class="ht-phase-events">
-                                <div class="ht-evt" data-index="5" data-country="Tchéquie">
-                                    <span class="ht-evt-dot"></span>
-                                    <span class="ht-evt-date">2010</span>
-                                    <span class="ht-evt-flag">🇨🇿</span>
-                                    <button class="ht-evt-title">Expansion en République tchèque</button>
-                                    <div class="ht-evt-body" hidden>
-                                        <p>L'entrée dans ce marché d'Europe centrale se fait par étapes : d'abord par des dessertes internationales depuis Vienne et Munich, puis par l'obtention de concessions dans les régions occidentales du pays, principalement en Bohême.</p>
-                                    </div>
-                                </div>
-                                <div class="ht-evt" data-index="6" data-country="Espagne">
-                                    <span class="ht-evt-dot"></span>
-                                    <span class="ht-evt-date">2012</span>
-                                    <span class="ht-evt-flag">🇪🇸</span>
-                                    <button class="ht-evt-title">Intégration de l'Espagne</button>
-                                    <div class="ht-evt-body" hidden>
-                                        <p>Dernier jalon de cette première phase d'expansion, l'Espagne rejoint le réseau MLTC avec le lancement de lignes depuis la France vers Barcelone, puis progressivement vers Madrid. L'implantation se concentre dans le nord du pays, sur les liaisons rapides et à grande vitesse. La MLTC devient ainsi présente dans l'ensemble des 12 États membres du Mathlyens.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
 
-                    <!-- Sticky panel -->
-                    <div class="ht-expansion-right">
-                        <div class="ht-expansion-sticky">
-                            <div class="cov-map-wrap">
-                                <svg class="cov-map"></svg>
-                                <div class="cov-legend">
-                                    <span class="cov-legend-title">Densité du réseau</span>
-                                    <span class="cov-legend-label">Faible</span>
-                                    <div class="cov-legend-bar"></div>
-                                    <span class="cov-legend-label">Forte</span>
-                                </div>
-                                <p class="cov-map-hint">Survolez un pays pour plus de détails</p>
-                                <!-- Tooltip -->
-                                <div id="cov-tooltip" class="cov-tooltip">
+                    <div class="chr-phase-group">
+                        <div class="chr-phase-head">
+                            <span class="chr-phase-dates">2010&ndash;2012</span>
+                            <h3>Les douze</h3>
+                        </div>
+                        <p class="chr-phase-summary">Derniers élargissements vers l'est et le sud.</p>
+
+                        <div class="chr-evt" data-index="5" data-country="Tchéquie">
+                            <div class="chr-evt-head">
+                                <span class="chr-evt-year">2010</span>
+                                <span class="chr-evt-flag" aria-hidden="true">🇨🇿</span>
+                                <button class="chr-evt-title">Expansion en République tchèque</button>
+                            </div>
+                            <div class="chr-evt-body">
+                                <p>L'entrée dans ce marché d'Europe centrale se fait par étapes : d'abord par des dessertes internationales depuis Vienne et Munich, puis par l'obtention de concessions dans les régions occidentales du pays, principalement en Bohême.</p>
+                            </div>
+                        </div>
+                        <div class="chr-evt" data-index="6" data-country="Espagne">
+                            <div class="chr-evt-head">
+                                <span class="chr-evt-year">2012</span>
+                                <span class="chr-evt-flag" aria-hidden="true">🇪🇸</span>
+                                <button class="chr-evt-title">Intégration de l'Espagne</button>
+                            </div>
+                            <div class="chr-evt-body">
+                                <p>Dernier jalon de cette première phase d'expansion, l'Espagne rejoint le réseau MLTC avec le lancement de lignes depuis la France vers Barcelone, puis progressivement vers Madrid. L'implantation se concentre dans le nord du pays, sur les liaisons rapides et à grande vitesse. La MLTC devient ainsi présente dans l'ensemble des 12 États membres du Mathlyens.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="chr-exp-map-slot">
+                    <div class="chr-map-frame">
+                        <div class="cov-map-wrap" data-state="loading">
+                            <p class="cov-status" role="status"></p>
+                            <svg class="cov-map" role="group" aria-label="Carte de la couverture du réseau MLTC dans les douze États membres du Mathlyens"></svg>
+                            <div class="cov-legend">
+                                <span class="cov-legend-title">Couverture du réseau</span>
+                                <div class="cov-legend-scale"></div>
+                            </div>
+                            <p class="cov-map-hint">Survolez un pays, ou atteignez-le au clavier, pour le détail de sa couverture.</p>
+                            <div id="cov-tooltip" class="cov-tooltip">
+                                <p class="cov-tt-idle">Douze États membres, du noyau fondateur de 1958 à l'Espagne rejointe en 2012.</p>
+                                <div class="cov-tt-content" aria-live="polite">
                                     <div class="cov-tt-head">
-                                        <span id="cov-tt-flag" class="cov-tt-flag"></span>
                                         <h4 id="cov-tt-name"></h4>
                                         <span id="cov-tt-group" class="cov-tt-group"></span>
                                     </div>
-                                    <div class="cov-tt-bar-wrap"><div id="cov-tt-bar" class="cov-tt-bar"></div></div>
+                                    <div class="cov-tt-meter">
+                                        <div class="cov-tt-bar-wrap"><div id="cov-tt-bar" class="cov-tt-bar"></div></div>
+                                        <span id="cov-tt-level" class="cov-tt-level"></span>
+                                    </div>
                                     <p id="cov-tt-desc"></p>
                                     <div id="cov-tt-services" class="ht-country-services"></div>
                                 </div>
@@ -254,107 +254,82 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="ht-expansion-closing">
-                    <p>Cette croissance est rendue possible par une stratégie active d'accords bilatéraux entre les États membres, permettant l'harmonisation des normes techniques et une interopérabilité accrue. En 2012, la MLTC Railways atteint son objectif d'épine dorsale du transport ferroviaire mathlyéen.</p>
-                </div>
-                </div><!-- /.ht-expansion-module -->
+            <div class="chr-exp-closing chr-prose">
+                <p>Cette croissance est rendue possible par une stratégie active d'accords bilatéraux entre les États membres, permettant l'harmonisation des normes techniques et une interopérabilité accrue. En 2012, la MLTC Railways atteint son objectif d'épine dorsale du transport ferroviaire mathlyéen.</p>
             </div>
         </section>
 
-        <!-- ----------- COEXISTENCE ----------- -->
-        <section class="ht-section ht-section-alt">
-            <div class="container">
-                <div class="ht-section-header">
-                    <span class="ht-section-tag">Cohabitation</span>
-                    <h2>Coexistence avec les compagnies nationales</h2>
-                </div>
+        <section class="chr-reveal">
+            <div class="chr-head">
+                <div class="chr-eyebrow">Cohabitation</div>
+                <h2>Coexistence avec les compagnies nationales</h2>
+            </div>
+            <div class="chr-prose">
+                <p>L'expansion de la MLTC ne signifie pas la disparition des compagnies ferroviaires nationales. Celles-ci continuent d'exister dans chacun des États membres, et leur rôle a naturellement évolué au fil de l'intégration progressive voulue par l'Alliance.</p>
+            </div>
 
-                <div class="ht-prose">
-                    <p>L'expansion de la MLTC ne signifie pas la disparition des compagnies ferroviaires nationales. Celles-ci continuent d'exister dans chacun des États membres, et leur rôle a naturellement évolué au fil de l'intégration progressive voulue par l'Alliance.</p>
-                </div>
+            <div class="chr-ledger-stats">
+                <div class="chr-ledger-stat"><span class="chr-num">12</span><span>États membres</span></div>
+                <div class="chr-ledger-stat"><span class="chr-num">6</span><span>Opérateurs partenaires</span></div>
+                <div class="chr-ledger-stat"><span class="chr-num">2</span><span>Régimes de cohabitation</span></div>
+            </div>
 
-                <!-- Chiffres-clés -->
-                <div class="ht-coex-stats">
-                    <div class="ht-coex-stat">
-                        <span class="ht-coex-stat-num">12</span>
-                        <span class="ht-coex-stat-label">États membres</span>
+            <div class="chr-split">
+                <div class="chr-split-col">
+                    <div class="chr-split-label"><span class="chr-split-mark" aria-hidden="true"></span>Pays fondateurs</div>
+                    <div class="chr-prose">
+                        <p>Les opérateurs historiques ont progressivement cédé l'essentiel de leurs concessions grandes lignes et régionales à la MLTC et à ses prédécesseurs. Ils conservent néanmoins certaines dessertes locales, périurbaines ou spécifiques que la MLTC n'a pas souhaité reprendre. En France, par exemple, la SNCF reste présente sur quelques lignes secondaires et assure une partie du fret non couvert par la MLCC. Au Royaume-Uni, la situation est particulière : la MLTC est héritière de la MSER, qui n'a jamais couvert l'ensemble du réseau britannique. De nombreuses franchises locales continuent d'opérer indépendamment, notamment dans le nord de l'Angleterre, en Écosse et au Pays de Galles.</p>
                     </div>
-                    <div class="ht-coex-stat">
-                        <span class="ht-coex-stat-num">6</span>
-                        <span class="ht-coex-stat-label">Opérateurs partenaires</span>
-                    </div>
-                    <div class="ht-coex-stat">
-                        <span class="ht-coex-stat-num">2</span>
-                        <span class="ht-coex-stat-label">Régimes de cohabitation</span>
-                    </div>
-                </div>
-
-                <!-- Split fondateurs / expansion -->
-                <div class="ht-coex-split">
-                    <div class="ht-coex-col">
-                        <div class="ht-coex-col-label"><span class="ht-coex-dot ht-coex-dot--fondateur"></span>Pays fondateurs</div>
-                        <div class="ht-prose">
-                            <p>Les opérateurs historiques ont progressivement cédé l'essentiel de leurs concessions grandes lignes et régionales à la MLTC et à ses prédécesseurs. Ils conservent néanmoins certaines dessertes locales, périurbaines ou spécifiques que la MLTC n'a pas souhaité reprendre. En France, par exemple, la SNCF reste présente sur quelques lignes secondaires et assure une partie du fret non couvert par la MLCC. Au Royaume-Uni, la situation est particulière : la MLTC est héritière de la MSER, qui n'a jamais couvert l'ensemble du réseau britannique. De nombreuses franchises locales continuent d'opérer indépendamment, notamment dans le nord de l'Angleterre, en Écosse et au Pays de Galles.</p>
-                        </div>
-                        <div class="ht-coex-tags">
-                            <span class="ht-coex-tag">SNCF</span>
-                            <span class="ht-coex-tag">DB</span>
-                            <span class="ht-coex-tag">SNCB</span>
-                            <span class="ht-coex-tag">NS</span>
-                            <span class="ht-coex-tag">CFL</span>
-                        </div>
-                    </div>
-                    <div class="ht-coex-col">
-                        <div class="ht-coex-col-label"><span class="ht-coex-dot ht-coex-dot--expansion"></span>Pays d'expansion</div>
-                        <div class="ht-prose">
-                            <p>La situation est plus équilibrée. Les compagnies nationales restent souvent dominantes sur les lignes que la MLTC ne dessert pas, notamment dans les régions périphériques ou sur des services de proximité. En Italie et en Espagne, la compagnie nationale conserve la majorité du réseau hors des corridors exploités par la MLTC. En Suisse et en Autriche, la cohabitation est plus étroite, la MLTC assurant une part importante du trafic sur les lignes à écartement standard.</p>
-                        </div>
-                        <div class="ht-coex-tags">
-                            <span class="ht-coex-tag">Trenitalia</span>
-                            <span class="ht-coex-tag">ÖBB</span>
-                            <span class="ht-coex-tag">CFF</span>
-                            <span class="ht-coex-tag">DSB</span>
-                            <span class="ht-coex-tag">České dráhy</span>
-                            <span class="ht-coex-tag">Renfe</span>
-                        </div>
+                    <div class="chr-split-tags">
+                        <span class="chr-tag">SNCF</span>
+                        <span class="chr-tag">DB</span>
+                        <span class="chr-tag">SNCB</span>
+                        <span class="chr-tag">NS</span>
+                        <span class="chr-tag">CFL</span>
                     </div>
                 </div>
-
-                <!-- Conclusion avec pull quote -->
-                <div class="ht-coex-conclusion">
-                    <div class="ht-coex-conclusion-body">
-                        <p>Cette cohabitation repose sur une <strong>coordination étroite en matière de tarification et d'accès aux sillons</strong>, encadrée par le Mathlyens à travers des accords-cadres négociés entre les États et MLTC Infrastructures.</p>
+                <div class="chr-split-col">
+                    <div class="chr-split-label"><span class="chr-split-mark" aria-hidden="true"></span>Pays d'expansion</div>
+                    <div class="chr-prose">
+                        <p>La situation est plus équilibrée. Les compagnies nationales restent souvent dominantes sur les lignes que la MLTC ne dessert pas, notamment dans les régions périphériques ou sur des services de proximité. En Italie et en Espagne, la compagnie nationale conserve la majorité du réseau hors des corridors exploités par la MLTC. En Suisse et en Autriche, la cohabitation est plus étroite, la MLTC assurant une part importante du trafic sur les lignes à écartement standard.</p>
                     </div>
-                    <aside class="ht-coex-pullquote">
-                        <p>La MLTC assure l'ossature du réseau transnational, tandis que les compagnies nationales se concentrent sur les dessertes de proximité.</p>
-                    </aside>
+                    <div class="chr-split-tags">
+                        <span class="chr-tag">Trenitalia</span>
+                        <span class="chr-tag">ÖBB</span>
+                        <span class="chr-tag">CFF</span>
+                        <span class="chr-tag">DSB</span>
+                        <span class="chr-tag">České dráhy</span>
+                        <span class="chr-tag">Renfe</span>
+                    </div>
                 </div>
+            </div>
 
+            <div class="chr-conclusion chr-prose">
+                <p>Cette cohabitation repose sur une <strong>coordination étroite en matière de tarification et d'accès aux sillons</strong>, encadrée par le Mathlyens à travers des accords-cadres négociés entre les États et MLTC Infrastructures.</p>
+            </div>
+            <div class="chr-pull">
+                <p>La MLTC assure l'ossature du réseau transnational, tandis que les compagnies nationales se concentrent sur les dessertes de proximité.</p>
             </div>
         </section>
 
-        <!-- Navigation vers les autres chapitres -->
-        <section class="ht-section">
-            <div class="container">
-                <div class="ht-chapter-nav">
-                    <a href="origines.html" class="ht-chapter-nav-link ht-chapter-nav-prev">
-                        <span class="ht-chapter-nav-label">Chapitre précédent</span>
-                        <span class="ht-chapter-nav-title">← Les origines</span>
-                    </a>
-                    <a href="services.html" class="ht-chapter-nav-link ht-chapter-nav-next">
-                        <span class="ht-chapter-nav-label">Chapitre suivant</span>
-                        <span class="ht-chapter-nav-title">Les services →</span>
-                    </a>
-                </div>
+        <section class="chr-tight">
+            <div class="chr-turn">
+                <a href="origines.html" class="chr-turn-link">
+                    <span class="chr-turn-label">Partie précédente</span>
+                    <span class="chr-turn-title">&larr; I &middot; Les origines</span>
+                </a>
+                <a href="hisservices.html" class="chr-turn-link chr-turn-next">
+                    <span class="chr-turn-label">Partie suivante</span>
+                    <span class="chr-turn-title">III &middot; Les services &rarr;</span>
+                </a>
             </div>
         </section>
 
         <!-- Date de dernière modification -->
         <section class="last-modified">
-            <div class="container">
-                <p>Dernière mise à jour : 23 avril 2026</p>
-            </div>
+            <p>Dernière mise à jour : 23 avril 2026</p>
         </section>
     </main>
 
@@ -375,14 +350,15 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <span class="footer-version">v<strong>0.7</strong> (23/04/2026)</span>
+                <span class="footer-version">v<strong>0.8</strong> (03/09/2026)</span>
                 <p>&copy; 2026 MathLoo. Tous droits réservés.</p>
             </div>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
+    <script src="../../js/coverage-map-data.js"></script>
     <script src="../../js/coverage-map.js"></script>
     <script src="../../js/main.js"></script>
+    <script src="../../js/histoire.js"></script>
 </body>
 </html>

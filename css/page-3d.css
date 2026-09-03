@@ -364,43 +364,6 @@
     font-style: normal;
 }
 
-/* ── Milestone marker ── */
-.milestone {
-    max-width: 720px;
-    margin: var(--spacing-2xl) auto;
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-md);
-    padding: var(--spacing-sm) 0;
-}
-
-.milestone-dot {
-    width: 8px;
-    height: 8px;
-    background: var(--primary-400);
-    flex-shrink: 0;
-    border-radius: 50%;
-}
-
-.milestone-line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, var(--primary-300), var(--border));
-}
-
-.milestone-line:last-of-type {
-    background: linear-gradient(90deg, var(--border), var(--primary-300));
-}
-
-.milestone-text {
-    font-family: var(--font-display);
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--accent-text);
-    white-space: nowrap;
-    letter-spacing: 0.02em;
-}
-
 /* ── Image pair – two images side by side ── */
 .fig-pair {
     display: grid;
@@ -408,14 +371,6 @@
     gap: var(--spacing-lg);
     max-width: 1100px;
     margin: var(--spacing-2xl) auto;
-}
-
-/* ── Section divider ── */
-.section-divider {
-    max-width: 1100px;
-    margin: 0 auto;
-    border: none;
-    border-top: 1px solid var(--border);
 }
 
 /* ── Conclusion ── */
@@ -454,22 +409,6 @@
 
 .conclusion-inner p:last-of-type {
     margin-bottom: var(--spacing-xl);
-}
-
-/* ── Image gallery strip ── */
-.gallery-strip {
-    display: flex;
-    gap: var(--spacing-md);
-    overflow-x: auto;
-    padding: var(--spacing-sm) 0;
-    max-width: 1100px;
-    margin: var(--spacing-xl) auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-.gallery-strip .fig-story {
-    flex: 0 0 auto;
-    width: 300px;
 }
 
 /* ── Compact article (for short/unfinished sections) ── */
@@ -562,9 +501,6 @@
         margin-right: 0;
     }
 
-    .milestone {
-        gap: var(--spacing-sm);
-    }
 }
 
 /* ── Scroll reveal animations ── */
