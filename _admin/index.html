@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Livrées — MLTC</title>
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<div class="topbar">
+    <div class="brand">Admin <span>Livrées</span></div>
+    <div class="dot" id="dot" title="Dossier non connecté"></div>
+    <div class="rootname" id="rootname">non connecté</div>
+    <button class="btn" id="btn-connect">Connecter le dossier</button>
+    <div class="spacer"></div>
+    <button class="btn" id="btn-autotest" disabled title="Vérifie que toutes les pages se relisent et se réécrivent à l'octet près">Auto-test</button>
+    <button class="btn" id="btn-integrity" disabled>Intégrité</button>
+    <button class="btn" id="btn-preview" disabled>Aperçu</button>
+    <button class="btn danger" id="btn-revert" disabled>Annuler les modifications</button>
+    <button class="btn primary" id="btn-save" disabled>Enregistrer</button>
+</div>
+
+<div class="warnbar">
+    Committez ou stashez avant d'éditer, et relisez <code>git diff</code> après chaque enregistrement — git est le seul filet de sécurité.
+</div>
+
+<div class="layout no-preview" id="layout">
+    <div class="rail" id="rail"></div>
+    <div class="editor" id="editor">
+        <div class="empty" id="welcome">
+            <p><strong>Connectez le dossier du site</strong> pour commencer.</p>
+            <p class="dim">Le navigateur demandera l'autorisation d'écrire dans <code>SiteNew</code>.<br>
+            Seuls les fichiers de livrées sont modifiés ; le head, la navbar et le footer ne sont jamais régénérés.</p>
+        </div>
+    </div>
+    <div class="preview" id="preview">
+        <div class="pvbar">
+            <strong style="font-size:12.5px">Aperçu</strong>
+            <span class="dim" style="font-size:11.5px" id="pv-status"></span>
+            <div class="spacer"></div>
+            <button class="btn sm" id="pv-refresh">Rafraîchir</button>
+        </div>
+        <!-- Pas d'attribut sandbox : une origine opaque ne peut pas charger
+             les blob: du parent, ce qui viderait toutes les images. -->
+        <iframe id="pv-frame"></iframe>
+    </div>
+</div>
+
+<script src="js/kit.js"></script>
+<script src="js/scan.js"></script>
+<script src="js/parse.js"></script>
+<script src="js/serialize.js"></script>
+<script src="js/model.js"></script>
+<script src="js/fs.js"></script>
+<script src="js/diff.js"></script>
+<script src="js/validate.js"></script>
+<script src="js/preview.js"></script>
+<script src="js/integrity.js"></script>
+<script src="js/ui-extra.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>

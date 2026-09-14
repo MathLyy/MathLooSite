@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Services - Histoire MLTC | MathLoo</title>
+    <!-- Chapitre en attente de reecriture : on redirige vers histoire.html
+         plutot que de laisser une URL directe atteindre un contenu qui ne
+         doit plus etre visible pour l'instant. -->
+    <script>window.location.replace('../histoire.html');</script>
+    <noscript><meta http-equiv="refresh" content="0; url=../histoire.html"></noscript>
     <link rel="icon" type="image/png" href="../../favicon.png">
     <script>
         (function() {
@@ -113,6 +118,11 @@
             </div>
             <h1>Les services</h1>
             <p class="chr-opening-sub">L'offre ferroviaire de la MLTC Railways, des quatre services fondateurs de 2001 à la refonte complète de 2012.</p>
+
+            <aside class="chr-fiction">
+                <span class="chr-fiction-tag">Fiction &middot; Uchronie</span>
+                <p class="chr-fiction-text"><strong>Ceci est un univers fictif.</strong> La MLTC évolue dans une histoire alternative volontairement éloignée de notre réalité. Les événements, institutions et entreprises présentés ici sont imaginaires.</p>
+            </aside>
         </section>
 
         <section id="services-2001" class="chr-reveal">
@@ -135,6 +145,48 @@
                 <p>En pratique, des dessertes périurbaines existaient déjà du temps de la CCFM et de la WME, mais lors de la création de la MLTC en 2001, elles avaient été intégrées au service TransRegio par souci de simplification. Avec le temps, ce regroupement s'est avéré peu lisible pour les usagers, mêlant desserte régionale et desserte de proximité sous une même marque. La refonte de 2012 rétablit donc des services urbains et suburbains distincts, tout en restructurant l'ensemble de l'offre en deux grandes catégories.</p>
             </div>
 
+            <!-- Vue d'ensemble de la filiation des marques : sans elle, les
+                 onze noms introduits sur cette page et la precedente (quatre
+                 fondateurs, huit actuels) ne se recoupent que si le lecteur
+                 les retient un par un en parcourant les onglets plus bas. -->
+            <div class="chr-lineage">
+                <p class="chr-lineage-caption">Quatre marques fondatrices (2001) devenues huit à la refonte de 2012.</p>
+                <div class="chr-lineage-grid">
+                    <div class="chr-lineage-group">
+                        <span class="chr-lineage-then">InterCity</span>
+                        <svg class="chr-lineage-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                        <div class="chr-lineage-now"><span>Xpress</span></div>
+                    </div>
+                    <div class="chr-lineage-group">
+                        <span class="chr-lineage-then">TransRegio</span>
+                        <svg class="chr-lineage-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                        <div class="chr-lineage-now">
+                            <span>TransRegio</span>
+                            <span>Frail</span>
+                            <span>Urbahn</span>
+                        </div>
+                    </div>
+                    <div class="chr-lineage-group">
+                        <span class="chr-lineage-then">HighSpeed</span>
+                        <svg class="chr-lineage-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                        <div class="chr-lineage-now"><span>HighSpeedXpress</span></div>
+                    </div>
+                    <div class="chr-lineage-group">
+                        <span class="chr-lineage-then">NightLine</span>
+                        <svg class="chr-lineage-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                        <div class="chr-lineage-now"><span>Nocrail</span></div>
+                    </div>
+                    <div class="chr-lineage-group chr-lineage-group--new">
+                        <span class="chr-lineage-then chr-lineage-then--empty">Sans équivalent en 2001</span>
+                        <svg class="chr-lineage-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                        <div class="chr-lineage-now">
+                            <span>Vivarail</span>
+                            <span>Intracity</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <h3 class="chr-h3">Services urbains &amp; suburbains</h3>
             <div class="chr-prose">
                 <p>Frail et Urbahn reprennent et modernisent les anciennes dessertes périurbaines héritées de la CCFM et de la WME, désormais séparées du TransRegio pour retrouver une identité propre. L'Intracity, en revanche, est une création entièrement nouvelle, sans équivalent dans les compagnies fondatrices.</p>
@@ -148,7 +200,7 @@
                 <div class="chr-codex-panel active" data-codex-index="0">
                     <div class="chr-strip"><img src="../icones_lore/ht_fr.png" alt="Frail" width="1077" height="72"></div>
                     <h4>Frail</h4>
-                    <p>Réseau express régional dédié aux grandes métropoles françaises, le Frail assure une desserte cadencée entre les centres-villes et leurs couronnes périurbaines. Opérant sur des infrastructures ferroviaires lourdes avec un cadencement de type RER, il dessert notamment les agglomérations de Paris, Lyon, Marseille et Lille. Le matériel utilisé est spécifiquement adapté aux flux massifs de voyageurs pendulaires.</p>
+                    <p>Réseau express régional dédié aux grandes métropoles françaises, le Frail assure une desserte cadencée entre les centres-villes et leurs couronnes périurbaines. Opérant sur des infrastructures ferroviaires lourdes avec un cadencement de type RER, il dessert notamment les agglomérations de Toulouse et de Perpignan. Paris reste hors de son périmètre : la RATP y exploite déjà un réseau express dense, et la MLTC n'a jamais cherché à s'y substituer. Le matériel utilisé est spécifiquement adapté aux flux massifs de voyageurs pendulaires.</p>
                 </div>
                 <div class="chr-codex-panel" data-codex-index="1">
                     <div class="chr-strip"><img src="../icones_lore/ht_ub.png" alt="Urbahn" width="1077" height="72"></div>
@@ -207,22 +259,6 @@
             </div>
         </section>
 
-        <section class="chr-mlcc">
-            <div class="chr-mlcc-head">
-                <img src="../assets/MLCCb.png" alt="MLCC" width="697" height="200">
-                <div>
-                    <h2>Mathly Cargo Company</h2>
-                    <p>Le fret ferroviaire du Mathlyens et au-delà</p>
-                </div>
-            </div>
-            <div class="chr-mlcc-prose">
-                <p>La MLCC est la filiale fret du groupe MLTC, chargée du transport de marchandises par rail, route, air et mer. Sur le plan ferroviaire, elle hérite dès 2001 des activités fret des trois compagnies fondatrices (CCFM, WME, MSER), ce qui lui confère d'emblée un réseau étendu sur les pays membres historiques.</p>
-                <p>Au fil de l'expansion de la MLTC à l'ensemble des 12 États membres, la MLCC récupère progressivement plusieurs flux de fret à travers l'Europe, devenant l'opérateur cargo principal du Mathlyens. Elle est également présente, dans une moindre mesure, dans plusieurs pays voisins non membres, à travers des partenariats et des concessions ponctuelles.</p>
-                <p>En 2015, afin de mieux répondre aux besoins des territoires et d'optimiser l'utilisation des lignes secondaires, la MLCC lance <strong>RegioCargo</strong>, un service dédié aux dessertes locales de fret, venant compléter son offre longue distance.</p>
-            </div>
-            <p class="chr-mlcc-note">Une page dédiée à la MLCC et à ses services est prévue ultérieurement.</p>
-        </section>
-
         <section class="chr-tight">
             <div class="chr-turn">
                 <a href="expansion.html" class="chr-turn-link">
@@ -238,7 +274,7 @@
 
         <!-- Date de dernière modification -->
         <section class="last-modified">
-            <p>Dernière mise à jour : 23 avril 2026</p>
+            <p>Dernière mise à jour : 12 septembre 2026</p>
         </section>
     </main>
 

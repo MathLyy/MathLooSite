@@ -133,6 +133,104 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
     .lv-features { grid-template-columns: 1fr; }
 }
 
+/* "Dernieres nouveautes" : journal de mises a jour en liste, volontairement
+   different des cartes .lv-category (ce n'est pas une categorie de livrees
+   mais un flux d'activite recente), sans en-tete plein ni grille d'icones. */
+.lv-changelog {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+.lv-changelog-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #a8a3b3;
+    margin: 0;
+}
+.lv-changelog-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0 var(--spacing-lg);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--border);
+}
+.lv-changelog-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--border);
+}
+.lv-changelog-thumb-wrap {
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    width: 87px;
+    height: 58px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.03);
+}
+.lv-changelog-thumb {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    image-rendering: pixelated;
+}
+.lv-changelog-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+}
+.lv-changelog-name {
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+.lv-changelog-meta {
+    color: #7d7787;
+    font-size: 0.8rem;
+}
+.lv-changelog-badge {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 4px 10px;
+    border: 1px solid currentColor;
+}
+.lv-badge-new { color: #4ade80; }
+.lv-badge-update { color: #7c9aff; }
+.lv-changelog-link {
+    flex-shrink: 0;
+    color: var(--primary-300);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+}
+.lv-changelog-link:hover { border-bottom-color: currentColor; }
+
+@media (max-width: 760px) {
+    .lv-changelog-list { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+    .lv-changelog-item { flex-wrap: wrap; }
+    .lv-changelog-info { order: 1; width: calc(100% - 72px); }
+    .lv-changelog-badge { order: 2; }
+    .lv-changelog-link { order: 3; }
+}
+
 /* Chaque grande categorie (MLTC / Avant la MLTC / En dehors de la MLTC / Reel)
    devient une carte fermee plutot qu'un bloc separe du suivant par un simple
    filet horizontal : sur une page qui enchaine plusieurs categories aux
@@ -272,6 +370,8 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
 .lv-imgframe img { height: auto; max-height: 58px; max-width: none; width: auto; position: absolute; left:0; bottom:0; image-rendering: pixelated; user-select: none; -webkit-user-drag: none; pointer-events: none; }
 .lv-right { border-left: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); padding: 0; display: flex; align-items: center; min-height:58px; height:auto; overflow: hidden; align-self:stretch; }
 .lv-right .lv-box { border: none; background: transparent; padding: 6px var(--spacing-md); color: #d1d5db; white-space: normal; overflow-wrap: anywhere; word-break: break-word; font-size: 0.9em; line-height:1.4; letter-spacing:.1px; }
+.lv-desc-link { color: var(--primary-300); text-decoration: none; border-bottom: 1px solid rgba(124, 58, 237, 0.4); }
+.lv-desc-link:hover { border-bottom-color: currentColor; }
 
 /* Reset internal margins for clean top alignment */
 .lv-right .lv-box p,
@@ -285,10 +385,12 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
 .lv-right .lv-box ol { margin:0; }
 .lv-right .lv-box > * + * { margin-top:.25rem; }
 
-/* No scroll for descriptions - box grows with content */
-@media (min-width: 761px) {
-   .lv-right .lv-box { display:flex; align-items:center; }
-}
+/* No scroll for descriptions - box grows with content. Vertical centering is
+   already handled by .lv-right (display:flex; align-items:center) one level
+   up: making .lv-box itself a flex container too would turn its text runs
+   into anonymous flex items, and browsers trim the whitespace at the edges
+   of those boxes, which glues words to an inline link right next to them
+   (e.g. "VR2N" losing its surrounding spaces). */
 
 /* Flip button (R) in the top-right corner */
 .lv-flip-btn {

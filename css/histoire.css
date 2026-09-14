@@ -295,15 +295,18 @@
    ════════════════════════════════════════════════════════════════════════ */
 
 /* ── Couverture ──────────────────────────────────────────────────────────
-   Deux colonnes : le texte existant a gauche, une carte "Etapes cles" a
-   droite. Toute la bande sort de la colonne de texte et prend la largeur de
-   la fenetre, sur un violet plat (une seule teinte, pas de degrade ni
-   d'image) assez clair pour que le texte sombre reste lisible tel quel :
-   aucune couleur de texte n'a eu besoin d'etre revue.
-   La carte, elle, reste sur fond clair pour trancher avec ce violet.
+   Le role de cette page n'est pas de raconter l'histoire de la MLTC mais
+   d'ouvrir son univers : la couverture installe donc le cadre (chronique du
+   Mathlyens), la promesse de lecture, et se termine par l'avertissement de
+   fiction.
+   Toute la bande sort de la colonne de texte et prend la largeur de la
+   fenetre, sur un violet plat (une seule teinte, pas de degrade ni d'image)
+   assez clair pour que le texte sombre reste lisible tel quel.
    Le padding haut de 168px reserve la place de la navbar (70px) et du
    sous-menu MLTC (44px), qui sont fixes au-dessus de chaque page. */
 .chr-page section.chr-cover {
+    position: relative;
+    overflow: hidden;
     width: 100vw;
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
@@ -316,161 +319,128 @@
     .chr-page section.chr-cover { padding-top: 148px; }
 }
 
-.chr-cover-grid {
+/* Photo d'archive en fond fondu : la photo (mltc/histoire_pages/fondh.jpg)
+   n'est ni recadree hors de ses proportions ni etiree, seulement affichee en
+   "cover" (remplissage proportionnel, comme partout ailleurs sur le site) et
+   dissoute par un masque radial plutot que coupee par un bord net. Positionnee
+   a droite, la ou la colonne de texte (62ch) laisse le plus d'espace libre a
+   large largeur, pour ne jamais passer derriere le titre. */
+.chr-cover-photo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 56%;
+    z-index: 0;
+    background-image: url('../mltc/histoire_pages/fondh.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.4;
+    -webkit-mask-image: radial-gradient(ellipse 78% 70% at 82% 38%, #000 0%, #000 28%, transparent 78%);
+    mask-image: radial-gradient(ellipse 78% 70% at 82% 38%, #000 0%, #000 28%, transparent 78%);
+}
+[data-theme="dark"] .chr-cover-photo { opacity: 0.3; }
+
+/* Credit d'autrice, en coin d'image : le conteneur de la photo couvre toute
+   la hauteur de la section (top:0 a bottom:0) mais le masque radial ne laisse
+   l'image visible qu'autour de son centre (82% / 38%) ; un coin "bas-droite"
+   litteral serait donc pose sur la partie deja dissoute a rien, illisible.
+   Le credit est ancre pres de ce centre optique a la place, dans la zone ou
+   l'image reste effectivement visible. */
+.chr-cover-credit {
+    position: absolute;
+    top: 54%;
+    right: 6%;
+    z-index: 1;
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+/* Sous 900px, la colonne de texte occupe toute la largeur : la photo
+   passerait derriere le texte plutot qu'a cote, elle est donc retiree plutot
+   que recadree en catastrophe. */
+@media (max-width: 900px) {
+    .chr-cover-photo { display: none; }
+}
+
+.chr-cover-inner { position: relative; z-index: 1; max-width: 62ch; }
+.chr-cover-body {
+    max-width: 66ch;
+    margin: var(--spacing-lg) 0 0;
+    font-size: 0.98rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+}
+
+/* ── Mention de fiction ──────────────────────────────────────────────────
+   La page cite des dates, des pays, des traites et des evenements reels
+   (traite de Londres, reunification allemande, tunnel sous la Manche) : sans
+   avertissement, rien ne distingue cette chronique de la notice d'une vraie
+   entreprise. C'est donc une information editoriale de premier plan, pas une
+   note de bas de page, d'ou l'etiquette pleine et le filet qui l'isole.
+   Le violet de l'etiquette est pris dans la palette fixe (--primary-700) et
+   non dans les jetons de theme : il doit rester assez fonce pour porter du
+   texte blanc dans les deux themes. */
+.chr-fiction {
     position: relative;
     z-index: 1;
-    display: grid;
-    grid-template-columns: minmax(0, 1.35fr) minmax(320px, 1fr);
-    gap: var(--spacing-3xl);
-    align-items: start;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-lg);
+    max-width: 86ch;
+    margin-top: var(--spacing-3xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--chr-accent-line);
 }
-.chr-cover-inner { max-width: 58ch; }
-
-/* Carte des etapes cles : fond clair, filet fin et ombre douce. Pas de coin
-   arrondi, contrairement a la maquette de reference : le systeme du site est
-   anguleux et tous les jetons --radius-* valent 0. */
-.chr-steps {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-lg);
-    padding: var(--spacing-xl);
-}
-.chr-steps-label {
-    display: block;
-    font-size: 0.72rem;
+.chr-fiction-tag {
+    flex-shrink: 0;
+    padding: 6px 11px;
+    background: var(--primary-700);
+    color: #fff;
+    font-size: 0.66rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.16em;
-    color: var(--chr-accent-ink);
-    margin-bottom: var(--spacing-lg);
+    white-space: nowrap;
 }
-
-/* Frise verticale : un filet continu a gauche, un point par etape. Les
-   points sont carres, comme tous les noeuds de frise du site. */
-.chr-steps-list {
-    position: relative;
-    list-style: none;
-    margin: 0 0 var(--spacing-xl);
-    padding: 0 0 0 var(--spacing-xl);
-}
-.chr-steps-list::before {
-    content: '';
-    position: absolute;
-    /* cale sur l'axe des points (points de 9px commencant a 4px) pour que le
-       filet les traverse au lieu de longer leur bord */
-    left: 8px;
-    top: 10px;
-    bottom: 10px;
-    width: 1px;
-    background: var(--chr-accent-line);
-}
-.chr-step {
-    position: relative;
-    display: flex;
-    align-items: baseline;
-    gap: var(--spacing-md);
-    padding: 7px 0;
-}
-.chr-step::before {
-    content: '';
-    position: absolute;
-    left: -28px;
-    top: 13px;
-    width: 9px;
-    height: 9px;
-    background: var(--chr-accent);
-}
-.chr-step-year {
-    flex-shrink: 0;
-    min-width: 3.6em;
-    font-size: 1.05rem;
-    font-weight: 800;
-    letter-spacing: -0.01em;
-    color: var(--chr-accent-strong);
-}
-.chr-step-name {
-    font-size: 0.9rem;
-    line-height: 1.35;
+.chr-fiction-text {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.65;
     color: var(--text-secondary);
 }
+.chr-fiction-text strong { color: var(--text-primary); font-weight: 700; }
 
-/* Lien de bas de carte vers le recit detaille. */
-.chr-steps-go {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-md);
-    padding: var(--spacing-md) var(--spacing-lg);
-    border: 1px solid var(--border);
-    font-size: 0.92rem;
-    font-weight: 600;
-    color: var(--chr-accent-strong);
-    text-decoration: none;
-    transition: border-color var(--transition-base), background var(--transition-base);
-}
-.chr-steps-go:hover,
-.chr-steps-go:focus-visible {
-    border-color: var(--chr-accent);
-    background: var(--chr-accent-soft);
-    outline: none;
-}
-.chr-steps-go svg { width: 16px; height: 16px; flex-shrink: 0; transition: transform var(--transition-base); }
-.chr-steps-go:hover svg,
-.chr-steps-go:focus-visible svg { transform: translateX(4px); }
-
-/* Sous 960px, deux colonnes deviennent trop etroites pour le titre : la
-   carte passe sous le texte, toujours dans la couverture. */
-@media (max-width: 960px) {
-    .chr-cover-grid { grid-template-columns: 1fr; gap: var(--spacing-xl); }
-    .chr-steps { max-width: 520px; }
+@media (max-width: 620px) {
+    .chr-fiction { flex-direction: column; gap: var(--spacing-md); }
 }
 
-/* Encart de bas de couverture : boite fermee (bordure + fond teinte),
-   plutot qu'une simple note filante, pour rester lisible comme un avis
-   distinct. */
-.chr-footnote {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-    max-width: 62ch;
-    margin-top: var(--spacing-2xl);
-    padding: var(--spacing-md) var(--spacing-lg);
-    border: 1px solid var(--chr-accent-line);
-    background: var(--chr-accent-soft);
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    line-height: 1.6;
-}
-.chr-footnote svg { flex-shrink: 0; margin-top: 2px; color: var(--chr-accent-ink); opacity: 0.8; }
-.chr-footnote strong { color: var(--text-secondary); font-weight: 600; }
-
-/* ── Trois chapitres : trois colonnes strictement paralleles, la meme
-   structure verticale repetee (numero / periode / titre / description /
-   lien) dans chacune, pour que 01 -> 02 -> 03 se lise comme trois etapes
-   d'une meme histoire plutot que trois blocs disperses. Filets de
-   separation obtenus par la meme technique "seam" que .chr-fleet plus bas
-   dans ce fichier (fond de la couleur de bordure + 1px de gap). */
+/* ── Trois chapitres : le coeur de la page ───────────────────────────────
+   Precedemment trois colonnes etroites, qui donnaient aux trois periodes le
+   poids de trois vignettes de navigation. Ce sont pourtant elles le recit :
+   chaque chapitre occupe donc une rangee pleine largeur, avec un numero a
+   l'echelle d'une ouverture de livre, un titre de vraie taille et de l'air
+   autour. Trois rangees empilees se lisent aussi dans l'ordre 01, 02, 03,
+   ce que trois colonnes cote a cote ne garantissaient pas. */
 .chr-chapters {
     margin-top: var(--spacing-xl);
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-}
-/* Toute la carte est cliquable : le fond violet tres pale au survol le dit,
-   sur la surface entiere et pas seulement sur le lien de bas de carte.
-   --chr-accent-soft est un aplat a 10% d'opacite, assez leger pour que le
-   texte secondaire garde son contraste. */
-.chr-chapter {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    background: var(--background);
-    padding: var(--spacing-xl) var(--spacing-lg);
+    border-top: 1px solid var(--border);
+}
+/* La colonne du numero est de largeur fixe et non "auto" : le "1" etroit de
+   01 rendait sinon sa colonne plus courte que celles de 02 et 03, et les
+   trois titres ne tombaient pas sur la meme verticale. (font-variant-numeric
+   ne suffit pas : DM Sans n'expose pas de chiffres tabulaires ici.) */
+.chr-chapter {
+    display: grid;
+    grid-template-columns: clamp(3.6rem, 8.4vw, 6.5rem) minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--spacing-2xl);
+    padding: var(--spacing-2xl) var(--spacing-md);
+    border-bottom: 1px solid var(--border);
     text-decoration: none;
     cursor: pointer;
     transition: background var(--transition-base);
@@ -480,26 +450,64 @@
     background: var(--chr-accent-soft);
     outline: none;
 }
-.chr-chapter-num {
-    font-weight: 800;
-    font-size: 2.2rem;
-    line-height: 1;
-    color: var(--text-muted);
-    letter-spacing: -0.02em;
-    margin-bottom: var(--spacing-md);
+/* Chapitres et dossiers desactives en attendant leur reecriture : la carte
+   reste visible (on ne cache pas qu'un chapitre existe) mais n'est plus un
+   lien, se grise, et l'invite de lecture est remplacee par un statut. */
+.chr-chapter--disabled,
+.chr-dossier-card--disabled {
+    cursor: default;
+    opacity: 0.55;
 }
-.chr-chapter-period {
-    font-size: 0.78rem;
+.chr-chapter--disabled:hover,
+.chr-chapter--disabled:focus-visible,
+.chr-dossier-card--disabled:hover,
+.chr-dossier-card--disabled:focus-visible {
+    background: none;
+}
+.chr-chapter--disabled:hover .chr-chapter-num,
+.chr-chapter--disabled .chr-chapter-num,
+.chr-chapter--disabled:hover .chr-chapter-title,
+.chr-chapter--disabled .chr-chapter-title { color: var(--chr-accent-line); }
+.chr-chapter-status,
+.chr-dossier-status {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    font-size: 0.76rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.06em;
+    color: var(--text-secondary);
+}
+/* Le numero est grand mais pose en retrait (couleur de filet) : il structure
+   la page sans venir concurrencer le titre du chapitre. */
+.chr-chapter-num {
+    font-family: var(--chr-serif);
+    font-weight: 800;
+    font-size: clamp(3rem, 7vw, 5.4rem);
+    line-height: 0.82;
+    letter-spacing: -0.03em;
+    color: var(--chr-accent-line);
+    transition: color var(--transition-base);
+}
+.chr-chapter:hover .chr-chapter-num,
+.chr-chapter:focus-visible .chr-chapter-num { color: var(--chr-accent); }
+
+.chr-chapter-body { display: flex; flex-direction: column; }
+.chr-chapter-period {
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
     color: var(--chr-accent-ink);
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 .chr-chapter-title {
     font-weight: 800;
-    font-size: 1.3rem;
-    letter-spacing: -0.01em;
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
     color: var(--text-primary);
     margin: 0 0 var(--spacing-sm);
     transition: color var(--transition-base);
@@ -507,16 +515,18 @@
 .chr-chapter:hover .chr-chapter-title,
 .chr-chapter:focus-visible .chr-chapter-title { color: var(--chr-accent-strong); }
 .chr-chapter-desc {
+    max-width: 64ch;
     color: var(--text-secondary);
-    font-size: 0.9rem;
-    line-height: 1.55;
-    margin: 0 0 var(--spacing-lg);
+    font-size: 0.98rem;
+    line-height: 1.65;
+    margin: 0;
 }
 .chr-chapter-go {
-    margin-top: auto;
+    flex-shrink: 0;
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    white-space: nowrap;
     font-size: 0.76rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -527,8 +537,15 @@
 .chr-chapter:hover .chr-chapter-go svg,
 .chr-chapter:focus-visible .chr-chapter-go svg { transform: translateX(5px); }
 
-@media (max-width: 760px) {
-    .chr-chapters { grid-template-columns: 1fr; }
+/* Sous 860px, la rangee a trois colonnes se replie : le numero coiffe le
+   texte et le lien passe en bas, l'ordre de lecture restant le meme. */
+@media (max-width: 860px) {
+    .chr-chapter {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+        padding: var(--spacing-xl) 0;
+    }
+    .chr-chapter-num { font-size: 2.6rem; line-height: 1; }
 }
 
 /* ── Dossiers thematiques ────────────────────────────────────────────────
@@ -636,10 +653,14 @@
    par une fonction dediee dans js/histoire.js (pas d'interactivite, pas de
    legende : ce n'est ici qu'un repere geographique en toile de fond). */
 /* Traitee comme une double page detachee du reste : la section sort de la
-   colonne de texte et occupe toute la largeur de la fenetre, sur un fond
-   lavande, la carte des Etats membres en toile de fond assumee. Le padding
-   lateral recale le texte sur la meme marge que les autres sections. */
-.chr-page section.chr-alliance {
+   colonne de texte et occupe toute la largeur de la fenetre, la carte des
+   Etats membres en toile de fond assumee. Le padding lateral recale le texte
+   sur la meme marge que les autres sections.
+   La meme geometrie sert a la bande teintee (.chr-band) : l'Alliance a besoin
+   de la pleine largeur pour laisser la carte deborder et se fondre au bord
+   droit de la fenetre, la bande pour porter son aplat d'un bord a l'autre. */
+.chr-page section.chr-alliance,
+.chr-page section.chr-band {
     position: relative;
     overflow: hidden;
     width: 100vw;
@@ -647,20 +668,35 @@
     margin-right: calc(50% - 50vw);
     padding: var(--spacing-3xl) max(var(--spacing-lg), calc((100vw - 1240px) / 2 + var(--spacing-lg)));
     border-top: 0;
+}
+/* L'aplat lavande est porte par la position, pas par le contenu : il doit
+   alterner avec les sections sur fond de page (couverture teintee, Contexte
+   sur fond de page, chronologie teintee, Structure sur fond de page). Quand
+   le Contexte est passe juste sous la couverture, lui laisser son aplat
+   aurait colle deux violets presque identiques l'un sur l'autre, sans
+   couture visible entre les deux. */
+.chr-page section.chr-band {
     background: linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, rgba(124, 58, 237, 0.13) 100%);
 }
-[data-theme="dark"] .chr-page section.chr-alliance {
+[data-theme="dark"] .chr-page section.chr-band {
     background: linear-gradient(135deg, rgba(167, 139, 250, 0.07) 0%, rgba(167, 139, 250, 0.16) 100%);
 }
+/* Carte volontairement plus grande que son cadre : elle est rognee en haut,
+   en bas et a droite (preserveAspectRatio="slice" cote SVG), ce qui donne
+   une echelle de vraie carte plutot qu'une vignette centree. Le degrade de
+   masque la dissout avant le bord droit de la fenetre, pour qu'elle sorte du
+   champ au lieu de s'y arreter net. */
 .chr-alliance-map {
     position: absolute;
-    top: -4%;
-    right: -6%;
-    width: 62%;
-    height: 108%;
+    top: -15%;
+    right: -8%;
+    width: 78%;
+    height: 130%;
     opacity: 0.30;
     pointer-events: none;
     z-index: 0;
+    -webkit-mask-image: linear-gradient(to right, #000 0%, #000 38%, transparent 88%);
+    mask-image: linear-gradient(to right, #000 0%, #000 38%, transparent 88%);
 }
 [data-theme="dark"] .chr-alliance-map { opacity: 0.24; }
 /* Un trait de separation entre les aplats : sans lui, les douze Etats
@@ -684,11 +720,22 @@
     color: var(--text-primary);
     margin: 0;
 }
-.chr-ctx-figures { display: flex; gap: var(--spacing-2xl); margin: var(--spacing-lg) 0 var(--spacing-xl); }
-.chr-ctx-fig { padding-left: var(--spacing-lg); border-left: 1px solid var(--border); }
+/* Phrase d'accroche : elle donne la mesure de l'Alliance avant les chiffres,
+   pour que "12" et "1955" tombent sur un contexte deja pose. */
+.chr-alliance-lead {
+    max-width: 46ch;
+    margin: var(--spacing-md) 0 0;
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+/* Chiffres monumentaux : c'est le contexte fondamental de tout l'univers,
+   il doit s'afficher a l'echelle d'une ouverture et non en note. */
+.chr-ctx-figures { display: flex; gap: var(--spacing-2xl); margin: var(--spacing-2xl) 0; }
+.chr-ctx-fig { padding-left: var(--spacing-xl); border-left: 1px solid var(--border); }
 .chr-ctx-fig:first-child { padding-left: 0; border-left: 0; }
-.chr-ctx-fig .chr-num { display: block; font-size: 2.2rem; }
-.chr-ctx-fig span:last-child { display: block; font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.06em; }
+.chr-ctx-fig .chr-num { display: block; font-size: clamp(2.8rem, 6vw, 4.4rem); }
+.chr-ctx-fig span:last-child { display: block; font-size: 0.78rem; color: var(--text-muted); margin-top: 8px; text-transform: uppercase; letter-spacing: 0.1em; }
 
 /* Legende de la carte : sans elle, le chiffre "12" affiche a cote d'une
    silhouette continue n'etait verifiable nulle part. La pastille reprend
@@ -698,7 +745,7 @@
     align-items: baseline;
     gap: 10px;
     max-width: 62ch;
-    margin: 0 0 var(--spacing-xl);
+    margin: var(--spacing-xl) 0 0;
     font-size: 0.84rem;
     line-height: 1.55;
     color: var(--text-muted);
@@ -717,119 +764,106 @@
     .chr-ctx-figures { flex-wrap: wrap; gap: var(--spacing-xl); }
 }
 
-/* ── Structure : diagramme hierarchique du groupe ────────────────────────
-   Remplace la liste plate precedente (une carte "branche principale" suivie
-   de cinq lignes de texte), qui n'exprimait la hierarchie que par l'ordre de
-   lecture. Trois niveaux dessines : le groupe, la branche principale, les
-   cinq filiales. Les connecteurs sont de simples filets de 1px, comme le
-   reste des separations de la page : pas d'organigramme d'entreprise.
-   La taille fait la hierarchie, pas la couleur. */
-.chr-tree {
-    margin-top: var(--spacing-xl);
+/* ── Qui possede quoi ────────────────────────────────────────────────────
+   Mathlyens, Mathly, MLTC, MLTC Railways, Mathly Alliance Airlines : les
+   noms de l'univers se ressemblent trop pour qu'un visiteur devine seul la
+   relation entre eux. Ce schema existe uniquement pour repondre a la
+   question "qui detient quoi", donc la relation est portee par un mot
+   ("detient", "reunit") pose sur le connecteur, et pas seulement par la
+   position des blocs.
+   Deux niveaux, pas trois : l'Alliance detient le groupe, le groupe reunit
+   six filiales de meme rang. MLTC Railways est l'une d'elles et ne recoit
+   aucun traitement particulier ici ; c'est la section suivante, et elle
+   seule, qui la designe comme le sujet de la page. */
+.chr-own {
+    margin-top: var(--spacing-2xl);
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
 }
-.chr-tree-kicker {
+.chr-own-tier {
+    border: 1px solid var(--text-primary);
+    padding: var(--spacing-lg) var(--spacing-2xl);
+    min-width: 300px;
+    max-width: 100%;
+}
+.chr-own-tier--group { border-color: var(--chr-accent); }
+.chr-own-kicker {
     display: block;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.16em;
     color: var(--chr-accent-ink);
     margin-bottom: 8px;
 }
-/* Filet vertical qui relie un niveau au suivant. */
-.chr-tree-stem {
-    display: block;
-    width: 1px;
-    height: 32px;
-    background: var(--chr-accent-line);
-}
-
-/* Niveau 1 : la racine, la plus large des trois. */
-.chr-tree-root {
-    border: 1px solid var(--text-primary);
-    padding: var(--spacing-lg) var(--spacing-2xl);
-    min-width: 260px;
-}
-.chr-tree-root-name {
+.chr-own-name {
     font-weight: 800;
-    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-size: clamp(1.3rem, 2.6vw, 1.8rem);
     letter-spacing: -0.01em;
     color: var(--text-primary);
     margin: 0;
 }
 
-/* Niveau 2 : la branche principale, encadree d'un trait accentue pour la
-   distinguer des filiales sans changer de palette. */
-.chr-tree-flagship {
-    border: 2px solid var(--chr-accent);
-    background: var(--chr-accent-soft);
-    padding: var(--spacing-lg) var(--spacing-2xl);
-    max-width: 520px;
-}
-.chr-tree-flagship h3 {
-    font-family: var(--font-body);
-    font-weight: 800;
-    font-size: clamp(1.4rem, 2.6vw, 1.8rem);
-    color: var(--text-primary);
-    margin: 0 0 6px;
-}
-.chr-tree-flagship p {
-    color: var(--text-secondary);
-    font-size: 0.94rem;
-    line-height: 1.55;
-    margin: 0;
-}
-
-/* Le label "Filiales" s'intercale sur le filet : la descente est donc
-   coupee en deux, une amorce au-dessus du label et une reprise en dessous,
-   pour que le trait rejoigne bien la barre horizontale du niveau 3. */
-.chr-tree-stem-short { height: 16px; }
-.chr-tree-sublabel {
-    margin: var(--spacing-sm) 0;
-    font-size: 0.72rem;
+/* Le verbe est le connecteur : un filet, le mot, un filet. */
+.chr-own-verb {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+    font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.14em;
     color: var(--text-muted);
 }
+.chr-own-verb::before,
+.chr-own-verb::after {
+    content: '';
+    width: 1px;
+    height: 20px;
+    background: var(--chr-accent-line);
+}
 
-/* Niveau 3 : les cinq filiales, plus petites et plus legeres. Le filet
-   horizontal court d'un centre de colonne a l'autre (10% de part et
-   d'autre, soit le centre des colonnes extremes d'une grille a cinq
-   colonnes), et chaque noeud y accroche sa propre descente. */
-.chr-tree-level { width: 100%; }
-.chr-tree-branches {
+/* Les six filiales : de vrais blocs fermes (fond + bordure), et non des
+   colonnes de texte separees par de simples filets verticaux, qui lisaient
+   comme un tableau plutot que comme six entites distinctes. Chaque bloc
+   accroche sa propre descente au filet horizontal partage, dans le meme
+   esprit que les connecteurs "detient"/"reunit" au-dessus. Le mode de
+   transport passe devant le nom commercial : "Ferroviaire" se comprend
+   immediatement, "MLCC" non. */
+.chr-modes {
     position: relative;
+    width: 100%;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: var(--spacing-md);
     list-style: none;
     margin: 0;
     padding: 30px 0 0;
+    text-align: left;
 }
-.chr-tree-branches::before {
+.chr-modes::before {
     content: '';
     position: absolute;
     top: 0;
-    left: 10%;
-    right: 10%;
+    left: 0;
+    right: 0;
     height: 1px;
     background: var(--chr-accent-line);
 }
-.chr-tree-node {
+.chr-mode {
     position: relative;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    border: 1px solid var(--border);
+    gap: 9px;
     padding: var(--spacing-lg) var(--spacing-md);
+    background: var(--surface);
+    border: 1px solid var(--border);
 }
-.chr-tree-node::before {
+.chr-mode::before {
     content: '';
     position: absolute;
     top: -30px;
@@ -838,64 +872,100 @@
     height: 30px;
     background: var(--chr-accent-line);
 }
-.chr-tree-node-name {
+.chr-mode-icon { width: 22px; height: 22px; flex-shrink: 0; color: var(--chr-accent); }
+.chr-mode-label {
+    font-size: 0.66rem;
     font-weight: 700;
-    font-size: 0.94rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--chr-accent-ink);
+}
+.chr-mode-name {
+    font-weight: 700;
+    font-size: 0.98rem;
+    line-height: 1.35;
     color: var(--text-primary);
-    line-height: 1.3;
-}
-.chr-tree-node-desc {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    line-height: 1.45;
-}
-.chr-org-icon {
-    width: 22px;
-    height: 22px;
-    flex-shrink: 0;
-    color: var(--chr-accent);
 }
 
-/* Sous 900px, l'arbre a cinq colonnes deviendrait illisible : on retombe sur
-   une liste verticale, connecteurs compris (filet vertical a gauche, petite
-   amorce horizontale par noeud), plutot que de comprimer les cinq colonnes. */
-@media (max-width: 900px) {
-    .chr-tree { align-items: stretch; text-align: left; }
-    .chr-tree-stem { margin-left: 20px; }
-    .chr-tree-root,
-    .chr-tree-flagship { max-width: none; min-width: 0; }
-    .chr-tree-sublabel { margin-left: 0; }
-    .chr-tree-branches {
-        grid-template-columns: 1fr;
-        gap: 0;
-        padding: 0 0 0 40px;
-    }
-    .chr-tree-branches::before {
-        top: 0;
-        bottom: 0;
-        left: 20px;
-        right: auto;
-        width: 1px;
-        height: auto;
-    }
-    .chr-tree-node {
-        flex-direction: row;
-        align-items: center;
-        gap: var(--spacing-md);
-        flex-wrap: wrap;
-        border: 0;
-        border-bottom: 1px solid var(--border);
-        padding: var(--spacing-md) 0;
-    }
-    .chr-tree-node:last-child { border-bottom: 0; }
-    .chr-tree-node::before {
-        top: 50%;
-        left: -20px;
-        width: 20px;
-        height: 1px;
-    }
-    .chr-tree-node-desc { color: var(--text-muted); }
+@media (max-width: 1100px) {
+    .chr-modes { grid-template-columns: repeat(3, 1fr); }
 }
+@media (max-width: 620px) {
+    .chr-own-tier { min-width: 0; width: 100%; padding: var(--spacing-lg); }
+    .chr-modes { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── Charniere : MLTC Railways ───────────────────────────────────────────
+   La page bascule ici du cadre institutionnel au recit. Bande inversee sur
+   un violet profond fixe (hors jetons de theme, donc identique en clair et
+   en sombre) : elle doit trancher a la fois sur le fond de page et sur
+   l'aplat lavande des bandes de contexte, dans les deux themes. */
+.chr-page section.chr-pivot {
+    position: relative;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding: var(--spacing-3xl) max(var(--spacing-lg), calc((100vw - 1240px) / 2 + var(--spacing-lg)));
+    border-top: 0;
+    background: #331a63;
+}
+.chr-pivot .chr-eyebrow { color: #cbb4f7; }
+.chr-pivot .chr-eyebrow::before { background: #a179ef; }
+.chr-pivot-title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin: 0 0 var(--spacing-md);
+}
+.chr-pivot-text {
+    max-width: 62ch;
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.76);
+}
+
+/* ── Sortie de page ──────────────────────────────────────────────────────
+   La chronique s'arrete a 2015 ; le reste du site documente le present. */
+.chr-outro-title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-sm);
+}
+.chr-outro-text {
+    max-width: 58ch;
+    margin: 0 0 var(--spacing-xl);
+    color: var(--text-secondary);
+    line-height: 1.65;
+}
+.chr-outro-go {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: var(--spacing-md) var(--spacing-xl);
+    border: 1px solid var(--chr-accent);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--chr-accent-strong);
+    text-decoration: none;
+    transition: background var(--transition-base), color var(--transition-base);
+}
+.chr-outro-go:hover,
+.chr-outro-go:focus-visible {
+    background: var(--chr-accent-strong);
+    color: #fff;
+    outline: none;
+}
+.chr-outro-go svg { width: 16px; height: 16px; transition: transform var(--transition-base); }
+.chr-outro-go:hover svg,
+.chr-outro-go:focus-visible svg { transform: translateX(4px); }
 
 /* ════════════════════════════════════════════════════════════════════════
    PARTIE I — ORIGINES : ledger des trois projets, spécimens fondateurs
@@ -1042,8 +1112,12 @@
     font-style: italic;
 }
 
-/* Cartes d'événement (réunification allemande / tunnel sous la Manche). */
-.chr-event-row {
+/* Cartes de jalon, statiques (réunification allemande / tunnel sous la
+   Manche) : deux rappels ponctuels, sans lien avec une carte, à ne pas
+   confondre avec .chr-evt plus bas (Expansion), qui est un accordéon lié
+   au survol de la carte de couverture. Le nom "milestone" plutôt que
+   "event" evite la quasi-collision entre les deux prefixes. */
+.chr-milestone-row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 1px;
@@ -1051,8 +1125,8 @@
     border: 1px solid var(--border);
     margin: var(--spacing-lg) 0 var(--spacing-xl);
 }
-.chr-event-card { background: var(--surface); padding: var(--spacing-lg); }
-.chr-event-year {
+.chr-milestone-card { background: var(--surface); padding: var(--spacing-lg); }
+.chr-milestone-year {
     display: inline-block;
     font-family: var(--chr-serif);
     font-weight: 800;
@@ -1060,8 +1134,8 @@
     color: var(--chr-accent);
     margin-bottom: 6px;
 }
-.chr-event-card h4 { font-size: 1.02rem; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
-.chr-event-card p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; margin: 0; }
+.chr-milestone-card h4 { font-size: 1.02rem; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+.chr-milestone-card p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; margin: 0; }
 
 /* ── Codex des marques : sélecteur de spécimen partagé (Origines + Services) ── */
 
@@ -1115,6 +1189,53 @@
     margin-left: 8px;
     vertical-align: middle;
 }
+
+/* ── Filiation des marques (Services) ────────────────────────────────────
+   Vue d'ensemble de la refonte 2012 : quatre marques fondatrices en haut de
+   chaque groupe, une fleche, une ou plusieurs marques actuelles en dessous.
+   Chaque groupe est autonome (pas de lignes de connexion traversant toute la
+   grille) : le TransRegio se scinde en trois heritiers, les autres n'en ont
+   qu'un, et un groupe n'a aucun predecesseur ; forcer ces cas dans un seul
+   diagramme a lignes aurait demande un calcul de position par JS pour rester
+   robuste en responsive, alors qu'un groupe independant s'empile de lui-meme
+   quel que soit son nombre d'heritiers. */
+.chr-lineage { margin: var(--spacing-xl) 0 var(--spacing-2xl); }
+.chr-lineage-caption {
+    margin: 0 0 var(--spacing-md);
+    font-size: 0.82rem;
+    font-style: italic;
+    color: var(--text-muted);
+}
+.chr-lineage-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: var(--spacing-md);
+}
+.chr-lineage-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    padding: var(--spacing-lg) var(--spacing-md);
+    background: var(--surface);
+    border: 1px solid var(--border);
+}
+.chr-lineage-then {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+.chr-lineage-then--empty {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-style: italic;
+}
+.chr-lineage-arrow { width: 15px; height: 15px; flex-shrink: 0; color: var(--chr-accent); }
+.chr-lineage-now { display: flex; flex-direction: column; gap: 4px; }
+.chr-lineage-now span { font-weight: 800; font-size: 1rem; color: var(--text-primary); }
 
 @keyframes chr-fade-in {
     from { opacity: 0; transform: translateY(4px); }
@@ -1321,44 +1442,9 @@
     padding: 3px 9px;
 }
 
-.chr-conclusion { margin-top: var(--spacing-xl); }
-
 @media (max-width: 780px) {
     .chr-split { grid-template-columns: 1fr; gap: var(--spacing-lg); }
     .chr-ledger-stats { grid-template-columns: 1fr; max-width: 320px; }
-}
-
-/* ════════════════════════════════════════════════════════════════════════
-   PARTIE III — SERVICES : MLCC
-   ════════════════════════════════════════════════════════════════════════ */
-
-.chr-mlcc {
-    background: linear-gradient(135deg, #7c032d 0%, #d10322 100%);
-    color: #fff;
-    padding: var(--spacing-3xl) 0;
-}
-.chr-mlcc-head {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-lg);
-    margin-bottom: var(--spacing-xl);
-}
-.chr-mlcc-head img { height: 3rem; width: auto; flex-shrink: 0; }
-.chr-mlcc-head h2 { font-family: var(--chr-serif); font-size: 1.8rem; color: #fff; margin: 0; }
-.chr-mlcc-head p { color: rgba(255,255,255,0.8); margin: 4px 0 0; font-size: 1rem; }
-.chr-mlcc-prose { max-width: 74ch; }
-.chr-mlcc-prose p { color: rgba(255,255,255,0.92); line-height: 1.75; margin-bottom: 1em; }
-.chr-mlcc-prose p:last-child { margin-bottom: 0; }
-.chr-mlcc-prose strong { color: #fff; }
-.chr-mlcc-note {
-    margin-top: var(--spacing-xl);
-    padding: var(--spacing-md) var(--spacing-lg);
-    background: rgba(255,255,255,0.12);
-    border-left: 3px solid rgba(255,255,255,0.5);
-    color: rgba(255,255,255,0.85);
-    font-size: 0.9rem;
-    font-style: italic;
-    max-width: 74ch;
 }
 
 /* ════════════════════════════════════════════════════════════════════════
