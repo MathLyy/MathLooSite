@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projets | MathLoo</title>
-    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="robots" content="noindex">
+    <title>Autres projets 3D | MathLoo</title>
+    <link rel="icon" type="image/png" href="../favicon.png">
     <script>
         (function() {
             const theme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', theme);
         })();
     </script>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/pages.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/pages.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -20,24 +21,28 @@
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo">
+            <a href="../index.html" class="nav-logo">
                 <span class="logo-text">MathLoo</span>
             </a>
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="index.html" class="nav-link">Accueil</a>
+                    <a href="../index.html" class="nav-link">Accueil</a>
                 </li>
                 <li class="nav-item">
-                    <a href="projets.html" class="nav-link active">Projets</a>
+                    <a href="../mltc/index.html" class="nav-link">MLTC</a>
                 </li>
                 <li class="nav-item">
-                    <a href="mltc/index.html" class="nav-link">MLTC</a>
+                    <a href="index.html" class="nav-link active">3D</a>
                 </li>
                 <li class="nav-item">
-                    <a href="3D/index.html" class="nav-link">3D</a>
+                    <a href="../design/index.html" class="nav-link">Design</a>
                 </li>
+                <!-- Divers masque temporairement (rubrique encore vide)
                 <li class="nav-item">
-                    <a href="liens.html" class="nav-link">Liens</a>
+                    <a href="../divers/index.html" class="nav-link">Divers</a>
+                </li> -->
+                <li class="nav-item">
+                    <a href="../liens.html" class="nav-link">Liens</a>
                 </li>
             </ul>
             <div class="nav-actions">
@@ -67,68 +72,53 @@
     </nav>
 
     <main>
-        <!-- Hero -->
         <section class="page-hero">
             <div class="container">
-                <h1>Mes Projets</h1>
+                <h1>Autres projets 3D</h1>
+                <p>Ce que la 3D devient quand elle sort de la grille.</p>
             </div>
         </section>
 
-        <!-- Featured Project -->
         <section class="projects-section">
             <div class="container">
                 <div class="project-featured-clean">
-                    <span class="project-label">Projet Principal</span>
-                    <h2>MathLy Travel Company</h2>
-                    <p>Une compagnie ferroviaire fictive dans un univers alternatif européen. Un worldbuilding complet avec son histoire, ses livrées, ses circulations et son identité visuelle unique, développé depuis 2020.</p>
-                    <div class="project-stats">
-                        <div class="project-stat">
-                            <span class="project-stat-number">800+</span>
-                            <span class="project-stat-label">Dessins</span>
-                        </div>
-                        <div class="project-stat">
-                            <span class="project-stat-number">2020</span>
-                            <span class="project-stat-label">Depuis</span>
-                        </div>
-                        <div class="project-stat">
-                            <span class="project-stat-number">20+</span>
-                            <span class="project-stat-label">Identités visuelles</span>
-                        </div>
-                    </div>
-                    <a href="mltc/index.html" class="btn btn-primary">Explorer MLTC →</a>
+                    <span class="project-label">Après le voxel</span>
+                    <h2>Sortir de la grille</h2>
+                    <p>Le voxel impose ses règles : une grille, des cubes, aucune courbe. Cette contrainte a servi d'école. Les projets qui suivent choisiront leurs propres outils.</p>
+                    <p>Cette page les réunira au fil du temps.</p>
+                    <a href="voxel.html" class="btn btn-secondary">Voir les modèles voxel</a>
                 </div>
             </div>
         </section>
 
-        <!-- Other Projects -->
+        <!-- Ajouter ici une carte par projet, avant le placeholder :
+             <a href="mon-projet.html" class="project-card project-card-secondary">
+                 <div class="project-card-icon">...</div>
+                 <div class="project-card-content">
+                     <h3>Titre</h3>
+                     <p>Description courte.</p>
+                     <span class="project-card-link">Voir →</span>
+                 </div>
+             </a>
+        -->
         <section class="projects-section projects-section--other">
             <div class="container">
-                <h2 class="section-title">Autres Projets</h2>
+                <h2 class="section-title">Projets</h2>
                 <div class="projects-grid">
-                    <a href="3D/index.html" class="project-card project-card-secondary">
-                        <div class="project-card-icon">🎨</div>
-                        <div class="project-card-content">
-                            <h3>Modélisation Voxel</h3>
-                            <p>Rétrospective de mes créations 3D en voxel art : locomotives et autorails SNCF modélisés avec MagicaVoxel.</p>
-                            <span class="project-card-link">Découvrir →</span>
-                        </div>
-                    </a>
-                    
                     <div class="project-card project-card-placeholder">
                         <div class="project-placeholder-content">
                             <div class="placeholder-icon">+</div>
-                            <h3>Projet à venir</h3>
-                            <p>De nouveaux projets créatifs seront ajoutés ici prochainement.</p>
+                            <h3>À venir</h3>
+                            <p>Le prochain projet prendra place ici.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Date de dernière modification -->
         <section class="last-modified">
             <div class="container">
-                <p>Dernière mise à jour : 23 avril 2026</p>
+                <p>Dernière mise à jour : 20 septembre 2026</p>
             </div>
         </section>
     </main>
@@ -142,20 +132,21 @@
                     <a href="mailto:mathloo.site@gmail.com" class="footer-email">mathloo.site@gmail.com</a>
                 </div>
                 <div class="footer-links">
-                    <a href="index.html">Accueil</a>
-                    <a href="projets.html">Projets</a>
-                    <a href="mltc/index.html">MLTC</a>
-                    <a href="3D/index.html">3D</a>
-                    <a href="liens.html">Liens</a>
+                    <a href="../index.html">Accueil</a>
+                    <a href="../mltc/index.html">MLTC</a>
+                    <a href="index.html">3D</a>
+                    <a href="../design/index.html">Design</a>
+                    <!-- <a href="../divers/index.html">Divers</a> -->
+                    <a href="../liens.html">Liens</a>
                 </div>
             </div>
             <div class="footer-bottom">
-                <span class="footer-version">v<strong>0.8</strong> (03/09/2026)</span>
+                <span class="footer-version">v<strong>0.9</strong> (25/09/2026)</span>
                 <p>&copy; 2026 MathLoo. Tous droits réservés.</p>
             </div>
         </div>
     </footer>
 
-    <script src="js/main.js"></script>
+    <script src="../js/main.js"></script>
 </body>
 </html>

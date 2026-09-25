@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fangame | MathLoo</title>
+    <!-- Rubrique Divers masquee tant qu'elle est vide : on redirige vers
+         l'accueil plutot que de laisser une URL directe atteindre une page
+         sans contenu. Retirer ces deux lignes pour la rouvrir. -->
+    <script>window.location.replace('../index.html');</script>
+    <noscript><meta http-equiv="refresh" content="0; url=../index.html"></noscript>
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/pages.css">
+    <link rel="stylesheet" href="../css/story.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-text">MathLoo</span>
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../mltc/index.html" class="nav-link">MLTC</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../3D/index.html" class="nav-link">3D</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../design/index.html" class="nav-link">Design</a>
+                </li>
+                <!-- Divers masque temporairement (rubrique encore vide)
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active">Divers</a>
+                </li> -->
+                <li class="nav-item">
+                    <a href="../liens.html" class="nav-link">Liens</a>
+                </li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" aria-label="Changer le thème">
+                    <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2"/>
+                        <path d="M12 20v2"/>
+                        <path d="m4.93 4.93 1.41 1.41"/>
+                        <path d="m17.66 17.66 1.41 1.41"/>
+                        <path d="M2 12h2"/>
+                        <path d="M20 12h2"/>
+                        <path d="m6.34 17.66-1.41 1.41"/>
+                        <path d="m19.07 4.93-1.41 1.41"/>
+                    </svg>
+                    <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                    </svg>
+                </button>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="page-hero page-hero--story">
+            <div class="container">
+                <span class="project-tag">Fangame • Inachevé</span>
+                <h1>Un fangame d'Undertale</h1>
+                <p>Un jeu resté à l'état d'ébauche, que j'ai envie de raconter malgré tout.</p>
+            </div>
+        </section>
+
+        <section class="story-section">
+            <div class="container">
+                <div class="intro-callout reveal">
+                    <div class="intro-callout-icon" aria-hidden="true"></div>
+                    <p>Le jeu n'existe plus que par fragments. Cette page en garde la trace, sans prétendre en faire davantage.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════════════════════════════════════
+             01 · Le contexte
+             À compléter : quand ce projet a-t-il commencé, dans quel
+             contexte, avec quel outil (GameMaker, Godot, autre), et
+             pourquoi Undertale plutôt qu'un autre jeu.
+             ════════════════════════════════════════ -->
+        <article id="contexte" class="story-section story-section--alt">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-number">01</span>
+                    <div class="section-header-text">
+                        <h2>Le contexte</h2>
+                        <p class="section-subtitle">Où tout a commencé</p>
+                    </div>
+                </div>
+                <div class="story-prose reveal">
+                    <p>Undertale a l'art de laisser de la place : des sprites sobres, un système de combat lisible, un univers qui invite à le prolonger.</p>
+                    <div class="story-todo">
+                        <span class="story-todo-label">À compléter</span>
+                        <p>Préciser ici l'année de démarrage, le moteur ou l'outil utilisé, le point de départ de l'idée, et ce que le fangame devait raconter.</p>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ════════════════════════════════════════
+             02 · Les sprites
+             Déposer les images dans divers/fangame/ puis remplacer le
+             bloc .story-todo par des <figure class="fig-story fig-story--dark">
+             (fond noir adapté au pixel art) dans une .fig-pair, sur ce modèle :
+
+             <div class="fig-pair reveal">
+                 <figure class="fig-story fig-story--dark" onclick="openLightbox(this)">
+                     <img src="fangame/nom-du-fichier.png" alt="Description" loading="lazy">
+                     <figcaption>Légende.</figcaption>
+                 </figure>
+                 <figure class="fig-story fig-story--dark" onclick="openLightbox(this)">
+                     <img src="fangame/autre-fichier.png" alt="Description" loading="lazy">
+                     <figcaption>Légende.</figcaption>
+                 </figure>
+             </div>
+             ════════════════════════════════════════ -->
+        <article id="sprites" class="story-section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-number">02</span>
+                    <div class="section-header-text">
+                        <h2>Les sprites</h2>
+                        <p class="section-subtitle">Ce qu'il reste de plus concret</p>
+                    </div>
+                </div>
+                <div class="story-prose reveal">
+                    <p>Le pixel art se joue à quelques pixels près : à cette taille, une silhouette se lit ou ne se lit pas.</p>
+                    <div class="story-todo">
+                        <span class="story-todo-label">Images à ajouter</span>
+                        <p>Déposer les sprites dans <strong>divers/fangame/</strong>, puis remplacer ce bloc par les figures décrites dans le commentaire HTML juste au-dessus de cette section.</p>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ════════════════════════════════════════
+             03 · La musique
+             Déposer le fichier audio dans divers/fangame/ et renseigner
+             le <source> ci-dessous, puis retirer le bloc .story-todo.
+             ════════════════════════════════════════ -->
+        <article id="musique" class="story-section story-section--alt">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-number">03</span>
+                    <div class="section-header-text">
+                        <h2>La musique</h2>
+                        <p class="section-subtitle">Ce qui a été composé pour lui</p>
+                    </div>
+                </div>
+                <div class="story-prose reveal">
+                    <p>Undertale doit beaucoup à sa musique. Celle qui reste de ce projet est la mienne, composée pour lui.</p>
+                    <div class="story-todo">
+                        <span class="story-todo-label">Audio à ajouter</span>
+                        <p>Déposer le fichier dans <strong>divers/fangame/</strong> puis décommenter le lecteur ci-dessous en corrigeant le nom du fichier et le titre du morceau.</p>
+                    </div>
+                    <!--
+                    <div class="story-audio">
+                        <p class="story-audio-title">Titre du morceau</p>
+                        <audio controls preload="none">
+                            <source src="fangame/nom-du-fichier.mp3" type="audio/mpeg">
+                            Votre navigateur ne prend pas en charge la lecture audio.
+                        </audio>
+                        <p class="story-audio-note">Composé en [année].</p>
+                    </div>
+                    -->
+                </div>
+            </div>
+        </article>
+
+        <!-- ════════════════════════════════════════
+             04 · Ce qui était prévu
+             À compléter : le scénario envisagé, les mécaniques de combat,
+             les personnages, et la raison de l'arrêt du projet.
+             ════════════════════════════════════════ -->
+        <article id="prevu" class="story-section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-number">04</span>
+                    <div class="section-header-text">
+                        <h2>Ce qui était prévu</h2>
+                        <p class="section-subtitle">Le jeu tel qu'il aurait dû exister</p>
+                    </div>
+                </div>
+                <div class="story-prose reveal">
+                    <div class="story-todo">
+                        <span class="story-todo-label">À compléter</span>
+                        <p>Décrire ici le scénario envisagé, les personnages, les mécaniques de combat prévues, et ce qui a fait que le projet s'est arrêté. C'est souvent la partie la plus intéressante d'un projet inachevé.</p>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <section class="story-conclusion story-section--alt">
+            <div class="container">
+                <div class="conclusion-inner reveal">
+                    <h2>Ce qu'il en reste</h2>
+                    <p>Il reste peu de chose de ce projet, mais assez pour lui garder une place ici.</p>
+                    <a href="index.html" class="btn btn-secondary">← Retour aux divers</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="last-modified">
+            <div class="container">
+                <p>Dernière mise à jour : 20 septembre 2026</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img id="lightbox-img" src="" alt="">
+        <p id="lightbox-caption"></p>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-text">MathLoo</span>
+                    <p>Portfolio créatif</p>
+                    <a href="mailto:mathloo.site@gmail.com" class="footer-email">mathloo.site@gmail.com</a>
+                </div>
+                <div class="footer-links">
+                    <a href="../index.html">Accueil</a>
+                    <a href="../mltc/index.html">MLTC</a>
+                    <a href="../3D/index.html">3D</a>
+                    <a href="../design/index.html">Design</a>
+                    <!-- <a href="index.html">Divers</a> -->
+                    <a href="../liens.html">Liens</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span class="footer-version">v<strong>0.9</strong> (25/09/2026)</span>
+                <p>&copy; 2026 MathLoo. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/story.js"></script>
+</body>
+</html>

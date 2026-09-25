@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design | MathLoo</title>
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/pages.css">
+    <link rel="stylesheet" href="../css/design-hub.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-text">MathLoo</span>
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../mltc/index.html" class="nav-link">MLTC</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../3D/index.html" class="nav-link">3D</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active">Design</a>
+                </li>
+                <!-- Divers masque temporairement (rubrique encore vide)
+                <li class="nav-item">
+                    <a href="../divers/index.html" class="nav-link">Divers</a>
+                </li> -->
+                <li class="nav-item">
+                    <a href="../liens.html" class="nav-link">Liens</a>
+                </li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" aria-label="Changer le thème">
+                    <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2"/>
+                        <path d="M12 20v2"/>
+                        <path d="m4.93 4.93 1.41 1.41"/>
+                        <path d="m17.66 17.66 1.41 1.41"/>
+                        <path d="M2 12h2"/>
+                        <path d="M20 12h2"/>
+                        <path d="m6.34 17.66-1.41 1.41"/>
+                        <path d="m19.07 4.93-1.41 1.41"/>
+                    </svg>
+                    <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                    </svg>
+                </button>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="design-page">
+        <!-- Hero : planche de construction -->
+        <section class="design-hero">
+            <div class="design-hero-inner">
+                <div class="design-hero-text">
+                    <span class="design-eyebrow">Projets racontés</span>
+                    <h1 data-text="Design">Design</h1>
+                    <p class="design-lede">Ici, je vous partage mes travaux de design, explorés <strong>projet par projet</strong>, à travers différents domaines et approches !</p>
+                    <p class="design-lede">Vous trouverez ici des projets aux styles et aux objectifs différents, témoignant de ma volonté d’explorer le design sous plusieurs angles, tout en accordant une attention particulière aux détails, à la cohérence visuelle et à l’expérience.</p>
+                </div>
+
+                <svg class="design-figure" viewBox="0 0 460 400" aria-hidden="true" focusable="false">
+                    <path class="dz-guide" d="M0 200H460 M230 0V400 M20 20H440V380H20Z"/>
+                    <rect class="dz-shape dz-shape--a" x="150" y="50" width="190" height="190" style="fill:var(--dz-blue)"/>
+                    <polygon class="dz-shape dz-shape--b" points="90,190 190,90 290,190 190,290" style="fill:var(--dz-red)"/>
+                    <polygon class="dz-shape dz-shape--c" points="250,370 360,170 450,370" style="fill:var(--dz-yellow)"/>
+                    <rect class="dz-shape dz-shape--d" x="50" y="270" width="100" height="100" style="fill:var(--dz-green)"/>
+                    <path class="dz-mark" d="M40 60H80 M60 40V80 M400 340H440 M420 320V360"/>
+                </svg>
+            </div>
+            <div class="design-ruler" aria-hidden="true"></div>
+        </section>
+
+        <!-- Bande de verbes -->
+        <div class="dz-band-zone" aria-hidden="true">
+            <div class="dz-band">
+                <div class="dz-band-track">
+                    <span>Observer</span><span>Esquisser</span><span>Écarter</span><span>Choisir</span><span>Construire</span><span>Montrer</span><span>Observer</span><span>Esquisser</span><span>Écarter</span><span>Choisir</span><span>Construire</span><span>Montrer</span><span>Observer</span><span>Esquisser</span><span>Écarter</span><span>Choisir</span><span>Construire</span><span>Montrer</span><span>Observer</span><span>Esquisser</span><span>Écarter</span><span>Choisir</span><span>Construire</span><span>Montrer</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════
+             Projets
+             Pour ajouter un projet : dupliquer design/gabarit-projet.html
+             sous un nom parlant (par exemple design/affiche-festival.html),
+             remplir ses sections, puis remplacer un emplacement libre
+             (.dz-slot) par une carte sur ce modele, en changeant le tag
+             de domaine (Design d'espace, Graphisme...) :
+
+             <a href="mon-projet.html" class="dz-project">
+                 <div class="dz-project-visual">
+                     <img loading="lazy" src="mon-projet/visuel.jpg" alt="...">
+                     <span class="dz-project-num">02</span>
+                 </div>
+                 <div class="dz-project-body">
+                     <div class="dz-project-meta">
+                         <span class="dz-tag">Domaine</span>
+                         <span>Lieu ou client · 2026</span>
+                     </div>
+                     <h3>Titre du projet</h3>
+                     <p>Deux phrases : le problème, puis ce qui l'a résolu.</p>
+                     <span class="dz-project-link">Lire le projet →</span>
+                 </div>
+             </a>
+             ════════════════════════════════════════ -->
+        <section class="design-projects">
+            <div class="design-projects-inner">
+                <div class="design-section-head">
+                    <h2>Les projets</h2>
+                    <span>Index</span>
+                </div>
+
+                <a href="la-cour-des-grands.html" class="dz-project">
+                    <div class="dz-project-visual">
+                        <img loading="lazy" src="lcdg/maquettefinale.jpg" alt="Maquette de La cour des grands">
+                        <span class="dz-project-num">01</span>
+                    </div>
+                    <div class="dz-project-body">
+                        <div class="dz-project-meta">
+                            <span class="dz-tag">Design d'espace</span>
+                            <span>Strate Lyon · 2026</span>
+                        </div>
+                        <h3>La cour des grands</h3>
+                        <p>Une cour dans l'ombre et très ventée : comment lui rendre de la lumière ? Croquis, maquette au 1:50, pétales qui bougent avec le vent.</p>
+                        <span class="dz-project-link">Lire le projet →</span>
+                    </div>
+                </a>
+
+                <div class="dz-slots">
+                    <div class="dz-slot">
+                        <span class="dz-slot-num" aria-hidden="true">02</span>
+                        <span class="dz-tag">Domaine à venir</span>
+                        <h3>Prochain projet</h3>
+                        <p>Cette place attend son projet.</p>
+                    </div>
+                    <div class="dz-slot">
+                        <span class="dz-slot-num" aria-hidden="true">03</span>
+                        <span class="dz-tag">Domaine à venir</span>
+                        <h3>Prochain projet</h3>
+                        <p>Cette place attend son projet.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="last-modified">
+            <div class="container">
+                <p>Dernière mise à jour : 21 septembre 2026</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-text">MathLoo</span>
+                    <p>Portfolio créatif</p>
+                    <a href="mailto:mathloo.site@gmail.com" class="footer-email">mathloo.site@gmail.com</a>
+                </div>
+                <div class="footer-links">
+                    <a href="../index.html">Accueil</a>
+                    <a href="../mltc/index.html">MLTC</a>
+                    <a href="../3D/index.html">3D</a>
+                    <a href="index.html">Design</a>
+                    <!-- <a href="../divers/index.html">Divers</a> -->
+                    <a href="../liens.html">Liens</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span class="footer-version">v<strong>0.9</strong> (25/09/2026)</span>
+                <p>&copy; 2026 MathLoo. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

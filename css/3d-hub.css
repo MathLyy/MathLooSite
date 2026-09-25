@@ -1,0 +1,449 @@
+/* ========================================
+   Hub 3D
+   Page d'entree de la rubrique 3D : elle emprunte a la 3D ses propres reperes
+   (vue isometrique, axes X/Y/Z, sol quadrille, extrusion). La locomotive du
+   hero est dessinee cube par cube en SVG, comme dans MagicaVoxel.
+   Angles droits partout, aucun arrondi.
+   Charge apres style.css et pages.css, sur 3D/index.html uniquement.
+   ======================================== */
+
+.td-page {
+    /* Couleurs conventionnelles des axes dans les logiciels 3D */
+    --td-x: #e5484d;
+    --td-y: #3fae7a;
+    --td-z: #3b82f6;
+    --td-mid: #6d28d9;
+    --td-dark: #4c1d95;
+    overflow-x: clip;
+}
+
+/* ── Hero ── */
+.td-hero {
+    position: relative;
+    isolation: isolate;
+    padding: 150px var(--spacing-lg) var(--spacing-3xl);
+    background: var(--surface-elevated);
+    overflow: hidden;
+}
+
+/* Quadrillage isometrique (deux familles de lignes a 30 degres), estompe vers le bas */
+.td-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image:
+        repeating-linear-gradient(30deg, var(--border) 0 1px, transparent 1px 40px),
+        repeating-linear-gradient(150deg, var(--border) 0 1px, transparent 1px 40px);
+    -webkit-mask-image: linear-gradient(180deg, #000 25%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 25%, transparent 100%);
+}
+
+.td-hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: var(--spacing-2xl);
+    align-items: center;
+}
+
+.td-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-label);
+    margin-bottom: var(--spacing-md);
+}
+
+.td-eyebrow::before {
+    content: '';
+    width: 28px;
+    height: 2px;
+    background: currentColor;
+}
+
+/* Titre extrude : une pile d'ombres pleines decalees en diagonale donne l'epaisseur.
+   A l'ouverture, l'epaisseur "sort" de la face avant. */
+.td-hero h1 {
+    display: block;
+    width: fit-content;
+    font-family: var(--font-display);
+    font-size: clamp(6rem, 22vw, 14rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    margin-bottom: var(--spacing-xl);
+    text-shadow:
+        0.011em 0.011em 0 #a855f7,
+        0.022em 0.022em 0 #994ce7,
+        0.033em 0.033em 0 #8942d6,
+        0.044em 0.044em 0 #7a39c6,
+        0.055em 0.055em 0 #6b30b6,
+        0.066em 0.066em 0 #5b26a5,
+        0.077em 0.077em 0 #4c1d95;
+    animation: tdExtrude 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+@keyframes tdExtrude {
+    from {
+        text-shadow:
+        0em 0em 0 #a855f7,
+        0em 0em 0 #994ce7,
+        0em 0em 0 #8942d6,
+        0em 0em 0 #7a39c6,
+        0em 0em 0 #6b30b6,
+        0em 0em 0 #5b26a5,
+        0em 0em 0 #4c1d95;
+    }
+}
+
+.td-lede {
+    max-width: 28em;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.td-lede strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* ── Fenetre de vue 3D ── */
+.td-viewport {
+    position: relative;
+    background: #171021;
+    border: 1px solid #3a2a55;
+    box-shadow: 8px 8px 0 var(--td-mid), 16px 16px 0 var(--td-dark);
+    color: #b9aed0;
+}
+
+.td-viewport-bar,
+.td-viewport-foot {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    padding: 0.55rem var(--spacing-md);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.td-viewport-bar {
+    border-bottom: 1px solid #2d2240;
+}
+
+.td-viewport-foot {
+    border-top: 1px solid #2d2240;
+}
+
+.td-scene {
+    display: block;
+    width: 100%;
+    height: auto;
+    padding: var(--spacing-md) var(--spacing-md) 0;
+}
+
+.td-floor {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.13);
+    stroke-width: 1;
+}
+
+.td-shadow {
+    fill: rgba(0, 0, 0, 0.45);
+}
+
+.td-voxel polygon {
+    stroke: rgba(0, 0, 0, 0.28);
+    stroke-width: 0.7;
+    stroke-linejoin: miter;
+}
+
+/* La locomotive se monte cube par cube, de bas en haut */
+.td-voxel {
+    animation: tdDrop 0.55s cubic-bezier(0.2, 0.9, 0.25, 1) both;
+    animation-delay: calc(0.5s + var(--i) * 24ms);
+}
+
+@keyframes tdDrop {
+    from {
+        opacity: 0;
+        transform: translateY(-36px);
+    }
+}
+
+/* Repere d'axes, en bas a gauche de la fenetre */
+.td-gizmo {
+    position: absolute;
+    left: var(--spacing-md);
+    bottom: 2.6rem;
+    width: 76px;
+    height: 76px;
+}
+
+.td-gizmo line {
+    stroke-width: 2;
+}
+
+.td-gizmo text {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 700;
+}
+
+/* ── Projets ── */
+.td-projects {
+    padding: var(--spacing-3xl) var(--spacing-lg);
+}
+
+.td-projects-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.td-section-head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-2xl);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid var(--text-primary);
+}
+
+.td-section-head h2 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    letter-spacing: -0.02em;
+}
+
+.td-section-head span {
+    margin-left: auto;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+/* Carte-bloc : posee sur sa propre extrusion, qui s'allonge au survol */
+.td-project {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    margin: 0 16px 16px 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 6px 6px 0 var(--td-mid), 12px 12px 0 var(--td-dark);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.td-project:hover {
+    transform: translate(-6px, -6px);
+    box-shadow: 12px 12px 0 var(--td-mid), 24px 24px 0 var(--td-dark);
+}
+
+.td-project-visual {
+    position: relative;
+    overflow: hidden;
+    min-height: 360px;
+    background: #171021;
+}
+
+.td-project-visual img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.td-project:hover .td-project-visual img {
+    transform: scale(1.04);
+}
+
+.td-project-num {
+    position: absolute;
+    left: var(--spacing-lg);
+    bottom: var(--spacing-md);
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 9vw, 7rem);
+    font-weight: 800;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 2px #fff;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.45);
+}
+
+.td-project-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-2xl);
+}
+
+.td-project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.td-tag {
+    display: inline-block;
+    padding: 0.3rem 0.7rem;
+    background: var(--text-primary);
+    color: var(--surface);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.td-project h3 {
+    font-size: clamp(1.8rem, 3.4vw, 2.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.td-project p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.td-project-link {
+    align-self: flex-start;
+    margin-top: var(--spacing-sm);
+    padding-bottom: 2px;
+    font-weight: 700;
+    color: var(--accent-action);
+    border-bottom: 2px solid currentColor;
+    transition: letter-spacing 0.3s ease;
+}
+
+.td-project:hover .td-project-link {
+    letter-spacing: 0.04em;
+}
+
+/* Emplacement libre : un cube filaire */
+.td-slot {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: var(--spacing-sm);
+    min-height: 240px;
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-xl);
+    border: 2px dashed var(--border);
+}
+
+.td-slot-cube {
+    position: absolute;
+    top: var(--spacing-lg);
+    right: var(--spacing-xl);
+    width: 130px;
+    height: 130px;
+    fill: none;
+    stroke: var(--text-muted);
+    stroke-width: 1.5;
+    stroke-dasharray: 5 5;
+    stroke-linejoin: miter;
+    opacity: 0.55;
+}
+
+.td-slot .td-tag {
+    align-self: flex-start;
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px dashed var(--text-muted);
+}
+
+.td-slot h3 {
+    font-size: 1.3rem;
+    color: var(--text-secondary);
+}
+
+.td-slot p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+    .td-hero {
+        padding-top: 120px;
+    }
+
+    .td-hero-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .td-viewport {
+        box-shadow: 6px 6px 0 var(--td-mid), 12px 12px 0 var(--td-dark);
+        margin: 0 12px 12px 0;
+    }
+
+.td-project {
+        grid-template-columns: 1fr;
+    }
+
+    .td-project-visual {
+        min-height: 260px;
+    }
+
+    .td-project-body {
+        padding: var(--spacing-xl);
+    }
+}
+
+@media (max-width: 640px) {
+    .td-section-head span {
+        display: none;
+    }
+
+    .td-slot-cube {
+        width: 90px;
+        height: 90px;
+    }
+}
+
+/* Pas de survol sur ecran tactile */
+@media (hover: none) {
+    .td-project:hover {
+        transform: none;
+        box-shadow: 6px 6px 0 var(--td-mid), 12px 12px 0 var(--td-dark);
+    }
+
+    .td-project:hover .td-project-visual img {
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .td-hero h1,
+    .td-voxel {
+        animation: none;
+    }
+
+    .td-project,
+    .td-project-visual img,
+    .td-project-link {
+        transition: none;
+    }
+}

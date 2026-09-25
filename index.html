@@ -12,6 +12,7 @@
         })();
     </script>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/hub-cards.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -27,14 +28,18 @@
                     <a href="index.html" class="nav-link active">Accueil</a>
                 </li>
                 <li class="nav-item">
-                    <a href="projets.html" class="nav-link">Projets</a>
-                </li>
-                <li class="nav-item">
                     <a href="mltc/index.html" class="nav-link">MLTC</a>
                 </li>
                 <li class="nav-item">
                     <a href="3D/index.html" class="nav-link">3D</a>
                 </li>
+                <li class="nav-item">
+                    <a href="design/index.html" class="nav-link">Design</a>
+                </li>
+                <!-- Divers masque temporairement (rubrique encore vide)
+                <li class="nav-item">
+                    <a href="divers/index.html" class="nav-link">Divers</a>
+                </li> -->
                 <li class="nav-item">
                     <a href="liens.html" class="nav-link">Liens</a>
                 </li>
@@ -75,52 +80,144 @@
                 </h1>
                 <p class="hero-subtitle">Design, univers fictifs & créations en tout genre</p>
                 <div class="hero-cta">
-                    <a href="projets.html" class="btn btn-primary">Découvrir mes projets</a>
+                    <a href="#projets" class="btn btn-primary">Découvrir mes projets</a>
                 </div>
             </div>
-            <div class="hero-visual">
-                <div class="hero-shape"></div>
-            </div>
-
             <!-- Floating update tab -->
             <div class="update-callout">
                 <div class="update-callout-header">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
                     Dernière mise à jour
                 </div>
-                <p class="update-callout-date">3 septembre 2026 - v0.8</p>
-                <p class="update-callout-body">Refonte complète des pages Histoire et Livrées de la MLTC, avec des cartes de catégorie mieux hiérarchisées et une lisibilité repensée, et ajout massif de contenu sur les sous-pages Livrées (nouvelles pages WME et MSER, dizaines de nouvelles livrées réparties sur l'ensemble des opérateurs, boutons de retournement et dates de mise à jour complétés partout où il en manquait).</p>
+                <p class="update-callout-date">25 septembre 2026 - v0.9</p>
+                <p class="update-callout-body">Refonte de l'architecture du site. La page Projets fusionne avec l'accueil, qui présente désormais l'ensemble des catégories. La rubrique 3D devient un hub où le voxel n'est plus qu'un projet parmi d'autres, et une nouvelle catégorie apparaît : Design, pour les projets graphiques racontés en profondeur.</p>
             </div>
         </section>
 
-        <!-- Featured Project -->
-        <section class="featured-section">
+        <!-- Projets -->
+        <section class="hub-section" id="projets">
+            <div class="explore-bg" aria-hidden="true">
+                <div class="explore-grid-pattern"></div>
+            </div>
             <div class="container">
-                <h2 class="section-title">Projet phare</h2>
-                <div class="featured-card">
-                    <div class="featured-image">
-                        <img src="bgindexmltc.png" alt="MathLy Travel Company">
-                    </div>
-                    <div class="featured-content">
-                        <span class="featured-tag">Worldbuilding • Design</span>
-                        <h3>MathLy Travel Company</h3>
-                        <p>Une compagnie ferroviaire fictive dans un univers alternatif européen. Un worldbuilding complet avec son histoire, ses livrées, ses circulations et ses identités visuelles uniques, développé depuis 2020.</p>
-                        <div class="featured-stats">
-                            <div class="stat">
-                                <span class="stat-number">800+</span>
-                                <span class="stat-label">Dessins</span>
+                <div class="explore-header">
+                    <span class="explore-eyebrow">Mon univers</span>
+                    <h2 class="explore-title">Mes <span class="explore-title-accent">projets</span></h2>
+                    <p class="explore-lede">Un grand chantier au long cours, et plusieurs manières de créer autour.</p>
+                </div>
+
+                <!-- Divers masque temporairement : la grille repasse en
+                     explore-grid de base (MLTC + deux cartes empilees).
+                     Pour rouvrir la rubrique, remettre explore-grid--4 et
+                     decommenter la carte Divers plus bas. -->
+                <div class="explore-grid">
+                    <!-- Projet principal -->
+                    <a href="mltc/index.html" class="explore-card explore-card--featured">
+                        <div class="explore-card-bg" style="background-image:url('bgindexmltc.png')"></div>
+                        <div class="explore-card-overlay"></div>
+                        <div class="explore-card-shine" aria-hidden="true"></div>
+                        <div class="explore-card-content">
+                            <div class="explore-card-top">
+                                <span class="explore-card-tag">Worldbuilding • Design</span>
+                                <div class="explore-card-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                                </div>
                             </div>
-                            <div class="stat">
-                                <span class="stat-number">2020</span>
-                                <span class="stat-label">Depuis</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-number">20+</span>
-                                <span class="stat-label">Identités visuelles</span>
+                            <div class="explore-card-bottom">
+                                <h3 class="explore-card-title">MathLy Travel Company</h3>
+                                <p class="explore-card-desc">Une compagnie ferroviaire fictive dans un univers alternatif européen, dessinée train après train depuis 2020.</p>
+                                <div class="explore-card-stats">
+                                    <div class="explore-card-stat">
+                                        <span class="explore-card-stat-number">1000+</span>
+                                        <span class="explore-card-stat-label">Dessins</span>
+                                    </div>
+                                    <div class="explore-card-stat">
+                                        <span class="explore-card-stat-number">2020</span>
+                                        <span class="explore-card-stat-label">Depuis</span>
+                                    </div>
+                                    <div class="explore-card-stat">
+                                        <span class="explore-card-stat-number">20+</span>
+                                        <span class="explore-card-stat-label">Identités visuelles</span>
+                                    </div>
+                                </div>
+                                <span class="explore-card-cta">
+                                    <span class="explore-card-cta-label">Explorer la MLTC</span>
+                                    <span class="explore-card-cta-arrow" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                                    </span>
+                                </span>
                             </div>
                         </div>
-                        <a href="mltc/index.html" class="btn btn-primary">Explorer la MLTC</a>
-                    </div>
+                    </a>
+
+                    <!-- 3D -->
+                    <a href="3D/index.html" class="explore-card explore-card--secondary" style="--card-color:#5b7fd4">
+                        <div class="explore-card-shine" aria-hidden="true"></div>
+                        <div class="explore-card-content">
+                            <div class="explore-card-top">
+                                <span class="explore-card-tag">Modélisation</span>
+                                <div class="explore-card-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                                </div>
+                            </div>
+                            <div class="explore-card-bottom">
+                                <h3 class="explore-card-title">3D</h3>
+                                <p class="explore-card-desc">Passer du profil au volume, cube après cube.</p>
+                                <span class="explore-card-cta">
+                                    <span class="explore-card-cta-label">Voir la 3D</span>
+                                    <span class="explore-card-cta-arrow" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Design -->
+                    <a href="design/index.html" class="explore-card explore-card--secondary" style="--card-color:#c2557a">
+                        <div class="explore-card-shine" aria-hidden="true"></div>
+                        <div class="explore-card-content">
+                            <div class="explore-card-top">
+                                <span class="explore-card-tag">Conception</span>
+                                <div class="explore-card-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19 7-7 3 3-7 7-3-3z"/><path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="m2 2 7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+                                </div>
+                            </div>
+                            <div class="explore-card-bottom">
+                                <h3 class="explore-card-title">Design</h3>
+                                <p class="explore-card-desc">Des projets graphiques racontés de l'intérieur.</p>
+                                <span class="explore-card-cta">
+                                    <span class="explore-card-cta-label">Voir le design</span>
+                                    <span class="explore-card-cta-arrow" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Divers (masque temporairement, rubrique encore vide)
+                    <a href="divers/index.html" class="explore-card explore-card--secondary" style="--card-color:#4f9d8a">
+                        <div class="explore-card-shine" aria-hidden="true"></div>
+                        <div class="explore-card-content">
+                            <div class="explore-card-top">
+                                <span class="explore-card-tag">En marge</span>
+                                <div class="explore-card-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                                </div>
+                            </div>
+                            <div class="explore-card-bottom">
+                                <h3 class="explore-card-title">Divers</h3>
+                                <p class="explore-card-desc">Ce qui se fait en marge, par simple envie.</p>
+                                <span class="explore-card-cta">
+                                    <span class="explore-card-cta-label">Voir les divers</span>
+                                    <span class="explore-card-cta-arrow" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </a> -->
                 </div>
             </div>
         </section>
@@ -134,7 +231,7 @@
                 <div class="about-content">
                     <h2 class="section-title">À propos</h2>
                     <p>Je suis Mathis, passionné de ferroviaire, de design et de création en tout genre. Ce site rassemble mes différents projets, entre worldbuilding, pixel art, modélisation 3D et plus encore.</p>
-                    <p>Mon projet principal, la <strong>MathLy Travel Company (MLTC)</strong>, est un univers ferroviaire fictif que je développe depuis 2020. Sur ce site, vous retrouverez aussi mes <strong>modélisations 3D en voxel</strong> de trains français réalisées avec MagicaVoxel, et d'autres créations à venir.</p>
+                    <p>Mon projet principal, la <strong>MathLy Travel Company (MLTC)</strong>, est un univers ferroviaire fictif que je développe depuis 2020. Le reste s'est fait autour, au fil des envies : passer un train du dessin au volume, raconter un projet graphique de l'intérieur, garder la trace de ce qui n'a pas abouti.</p>
                 </div>
             </div>
         </section>
@@ -150,14 +247,15 @@
                 </div>
                 <div class="footer-links">
                     <a href="index.html">Accueil</a>
-                    <a href="projets.html">Projets</a>
                     <a href="mltc/index.html">MLTC</a>
                     <a href="3D/index.html">3D</a>
+                    <a href="design/index.html">Design</a>
+                    <!-- <a href="divers/index.html">Divers</a> -->
                     <a href="liens.html">Liens</a>
                 </div>
             </div>
             <div class="footer-bottom">
-                <span class="footer-version">v<strong>0.8</strong> (03/09/2026)</span>
+                <span class="footer-version">v<strong>0.9</strong> (25/09/2026)</span>
                 <p>&copy; 2026 MathLoo. Tous droits réservés.</p>
             </div>
         </div>

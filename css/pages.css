@@ -325,6 +325,51 @@
 }
 
 /* ========================================
+   Galerie d'images (dessins, planches)
+   ======================================== */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.gallery-item {
+    margin: 0;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    overflow: hidden;
+    transition: box-shadow var(--transition-base), transform var(--transition-base);
+}
+
+.gallery-item:hover {
+    box-shadow: var(--shadow-xl);
+    transform: translateY(-3px);
+}
+
+.gallery-item img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+    background: var(--surface-elevated);
+}
+
+.gallery-item figcaption {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+}
+
+.gallery-empty {
+    border: 2px dashed var(--border);
+    padding: var(--spacing-3xl) var(--spacing-xl);
+    text-align: center;
+    color: var(--text-muted);
+}
+
+/* ========================================
    Responsive
    ======================================== */
 @media (max-width: 768px) {

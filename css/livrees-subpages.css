@@ -785,6 +785,41 @@ body:has(.lv-theme-cfp) .subnav-link:hover { color: #ff7a8a !important; }
 body:has(.lv-theme-flamingo) .subnav-link.active { color: #FC8EAB !important; background: rgba(252, 142, 171, 0.18); }
 body:has(.lv-theme-flamingo) .subnav-link:hover { color: #FC8EAB !important; }
 
+/* ========================================
+   Compagnies historiques (CCFM / WME / MSER)
+   Chaque époque de livrée porte sa propre couleur (posée en inline style
+   via --era-color / --era-text sur le h2 et sur chaque section .lv-cat de
+   cette époque), au lieu d'un thème unique par page comme pour les autres
+   compagnies : ces trois compagnies fondatrices doivent se distinguer
+   visuellement du reste des pages livrées.
+   ======================================== */
+.lv-historic-badge {
+   display: inline-flex;
+   align-items: center;
+   margin: 6px 0 0;
+   padding: 4px 10px;
+   border: 1px solid rgba(255,255,255,0.15);
+   background: rgba(255,255,255,0.04);
+   color: #c9c4d6;
+   font-family: var(--font-body);
+   font-size: 0.78rem;
+   font-weight: 600;
+   text-transform: uppercase;
+   letter-spacing: 0.06em;
+}
+
+h2.lv-era { background: var(--era-color, var(--primary-700)); color: var(--era-text, #fff); }
+.lv-era .lv-catbar { background: var(--era-color); border-color: var(--era-color); color: var(--era-text, #fff); }
+.lv-era .lv-country-sep { color: var(--era-text-accent, var(--era-color)); }
+.lv-era .lv-country-sep::after { background: linear-gradient(90deg, var(--era-text-accent, var(--era-color)), transparent); }
+.lv-country-empty { color: #7d7787; font-size: 0.82em; font-style: italic; margin: 0 0 0.7rem; }
+.lv-era .lv-title .lv-meta { color: var(--era-text-accent, var(--era-color)); }
+.lv-era .lv-engine:hover .lv-leftcol .lv-title .lv-name { color: var(--era-text-accent, var(--era-color)); }
+.lv-era .lv-list .lv-engine:hover { border-color: var(--era-color); }
+.lv-era .lv-flip-btn { background: var(--era-color); border-color: var(--era-color); }
+.lv-era .lv-var-btn[data-index]:not([data-index="0"]) { background: var(--era-color); border-color: var(--era-color); }
+.lv-era .lv-box { color: var(--era-box-text, inherit); }
+
 /* === Responsive === */
 @media (max-width: 940px) { .lv-leftrow { grid-template-columns:180px 300px; } .lv-imgframe { width:300px; } .lv-imgframe img { height:auto; width:auto; } }
 @media (max-width: 760px) {

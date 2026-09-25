@@ -1,32 +1,86 @@
 /* ========================================
-   3D Page – Visual Storytelling Layout
+   Story layout – pages « article long »
+   ----------------------------------------
+   Gabarit de recit illustre, ne sur la page 3D puis
+   generalise : 3D/voxel.html, divers/fangame.html et les
+   sous-pages de design partagent cette mise en page.
+
+   Dependance : js/story.js. Sans lui, les blocs .reveal
+   restent en opacity: 0 et la page parait vide.
    ======================================== */
 
 /* ── Hero override ── */
-.page-hero--3d {
+.page-hero--story {
     padding: 160px var(--spacing-lg) var(--spacing-3xl);
     text-align: center;
     background: linear-gradient(180deg, var(--surface-elevated) 0%, var(--background) 100%);
 }
 
-[data-theme="dark"] .page-hero--3d {
+[data-theme="dark"] .page-hero--story {
     background: linear-gradient(180deg, var(--surface) 0%, var(--background) 100%);
 }
 
-.page-hero--3d .project-tag {
+.page-hero--story .project-tag {
     margin-left: auto;
     margin-right: auto;
 }
 
-.page-hero--3d h1 {
+.page-hero--story h1 {
     letter-spacing: -0.02em;
 }
 
-.page-hero--3d p {
+.page-hero--story p {
     max-width: 640px;
     margin: 0 auto;
     font-size: 1.2rem;
     line-height: 1.7;
+}
+
+/* ── Hero avec image de fond ──
+   A combiner avec .page-hero--story. L'image se pose en ligne sur la section :
+   style="background-image:url('...'); background-size:cover; background-position:center 46%;
+   background-repeat:no-repeat" (en ligne, pour que le chemin soit relatif a la page
+   et que le theme sombre ne le reinitialise pas). Le voile ci-dessous garantit la
+   lisibilite du texte quelle que soit l'image. */
+.page-hero--image {
+    position: relative;
+    isolation: isolate;
+    padding-top: 180px;
+    padding-bottom: var(--spacing-3xl);
+}
+
+.page-hero--image::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(15, 10, 26, 0.62) 0%, rgba(15, 10, 26, 0.80) 100%);
+    /* Flou de l'image de fond : masque le manque de definition d'une photo de petite taille */
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+}
+
+.page-hero--image .container {
+    position: relative;
+}
+
+.page-hero--image h1 {
+    background: none;
+    -webkit-text-fill-color: #fff;
+    color: #fff;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
+}
+
+.page-hero--image p {
+    color: rgba(255, 255, 255, 0.88);
+}
+
+.page-hero--image .project-tag {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 /* ── Intro note – styled callout ── */
@@ -257,8 +311,15 @@
     height: auto;
     display: block;
     object-fit: contain;
-    background: var(--neutral-900);
+    background: var(--surface-elevated);
     transition: transform 0.4s ease;
+}
+
+/* Fond sombre : pour le voxel et le pixel art, dont les images
+   sont detourees sur fond noir. */
+.fig-story--dark img,
+.fig-showcase--dark img {
+    background: var(--neutral-900);
 }
 
 .fig-story:hover img {
@@ -296,7 +357,7 @@
     height: auto;
     display: block;
     object-fit: contain;
-    background: var(--neutral-900);
+    background: var(--surface-elevated);
 }
 
 .fig-showcase figcaption {
@@ -309,11 +370,128 @@
     border-top: 1px solid var(--border);
 }
 
+/* Showcase recadre en 16:9 (--crop-focus regle le cadrage vertical) */
+.fig-showcase--crop img {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: center var(--crop-focus, 50%);
+}
+
 /* Extra-wide showcase that breaks out of container */
 .fig-showcase--bleed {
     max-width: 1300px;
     margin-left: auto;
     margin-right: auto;
+}
+
+/* ── Emplacement a remplir ──
+   Bloc visible signalant une section dont les images ou le texte
+   restent a fournir. A retirer une fois le contenu en place. */
+.story-todo {
+    max-width: 720px;
+    margin: var(--spacing-xl) auto;
+    padding: var(--spacing-xl);
+    border: 2px dashed var(--border);
+    background: var(--surface);
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.story-todo p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.story-todo-label {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-text);
+    margin-bottom: var(--spacing-sm);
+}
+
+/* ── Lecteur audio (morceaux composes) ── */
+.story-audio {
+    max-width: 720px;
+    margin: var(--spacing-xl) auto;
+    padding: var(--spacing-lg);
+    border: 1px solid var(--border);
+    background: var(--surface);
+}
+
+.story-audio audio {
+    width: 100%;
+    display: block;
+}
+
+.story-audio-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-sm);
+}
+
+.story-audio-note {
+    font-size: 0.88rem;
+    font-style: italic;
+    color: var(--text-muted);
+    margin: var(--spacing-sm) 0 0;
+}
+
+/* ── Figure recadree ──
+   Ramene une image (souvent verticale) a un cadre 4:3 pour qu'elle ne prenne pas
+   plus de place que le texte. La lightbox montre l'image entiere : le recadrage
+   n'existe que dans la page. --crop-focus regle le cadrage vertical (0% = haut). */
+.fig-story--crop img {
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center var(--crop-focus, 50%);
+}
+
+/* Colonne de texte alignee a gauche (au lieu de justifiee) */
+.grid-text--left p {
+    text-align: left;
+}
+
+/* Bloc grille qui en suit un autre sans intertitre : il prend sa distance */
+.story-grid--spaced {
+    margin-top: var(--spacing-3xl);
+}
+
+/* Encart place dans une colonne de texte : il en prend la largeur */
+.grid-text .insight-callout {
+    max-width: none;
+    margin: var(--spacing-xl) 0;
+}
+
+.grid-text .insight-callout:first-child {
+    margin-top: 0;
+}
+
+.grid-text .insight-callout:last-child {
+    margin-bottom: 0;
+}
+
+/* Grille texte + images dont la hauteur depend du texte : alignement en haut */
+.story-grid--top {
+    align-items: start;
+}
+
+/* Pile de figures dans une colonne */
+.fig-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.fig-stack .fig-story {
+    margin: 0;
 }
 
 /* ── Insight / learning callout ── */
@@ -325,24 +503,6 @@
     border-left: 4px solid var(--primary-400);
     position: relative;
     box-shadow: var(--shadow-sm);
-}
-
-.insight-callout::after {
-    content: '';
-    position: absolute;
-    right: var(--spacing-lg);
-    top: 50%;
-    transform: translateY(-50%);
-    width: 28px;
-    height: 28px;
-    opacity: 0.12;
-    background: var(--primary-400);
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z'/%3E%3Cpath d='M10 21h4'/%3E%3C/svg%3E");
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z'/%3E%3Cpath d='M10 21h4'/%3E%3C/svg%3E");
-    mask-size: contain;
-    -webkit-mask-size: contain;
-    mask-repeat: no-repeat;
-    -webkit-mask-repeat: no-repeat;
 }
 
 .insight-callout p {
@@ -469,7 +629,7 @@
 }
 
 @media (max-width: 768px) {
-    .page-hero--3d {
+    .page-hero--story {
         padding-top: 120px;
     }
 
@@ -533,6 +693,121 @@
 .reveal.is-visible .fig-showcase {
     animation: revealUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
     opacity: 0;
+}
+
+/* ── Page "spectre" (a poser sur <main>) ──
+   Reprend les couleurs du projet La cour des grands : les losanges du dossier
+   (rouge, orange, jaune, vert, bleu) et les petales holographiques. Chaque
+   section porte deux teintes (--sp-a, --sp-b) qui colorent son numero et la
+   barre de ses intertitres. Les encarts recoivent un filet irise. */
+.story-spectrum {
+    --sp-red: #e5484d;
+    --sp-orange: #f28c3c;
+    --sp-yellow: #f2bf3a;
+    --sp-green: #3fae7a;
+    --sp-blue: #3b82f6;
+    --sp-violet: #a855f7;
+}
+
+.story-spectrum article:nth-of-type(1) { --sp-a: var(--sp-red);    --sp-b: var(--sp-orange); }
+.story-spectrum article:nth-of-type(2) { --sp-a: var(--sp-yellow); --sp-b: var(--sp-green); }
+.story-spectrum article:nth-of-type(3) { --sp-a: var(--sp-green);  --sp-b: var(--sp-blue); }
+.story-spectrum article:nth-of-type(4) { --sp-a: var(--sp-blue);   --sp-b: var(--sp-violet); }
+
+.story-spectrum .section-number {
+    background: linear-gradient(135deg, var(--sp-a, var(--primary-400)), var(--sp-b, var(--primary-200)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    opacity: 0.8;
+}
+
+.story-spectrum .story-content h3::before {
+    background: linear-gradient(180deg, var(--sp-a, var(--primary-400)), var(--sp-b, var(--primary-400)));
+}
+
+.story-spectrum .insight-callout {
+    border-left-color: transparent;
+    border-image: linear-gradient(180deg, var(--sp-red), var(--sp-yellow), var(--sp-green), var(--sp-blue), var(--sp-violet)) 1;
+    background-image: linear-gradient(115deg,
+        rgba(229, 72, 77, 0.07) 0%,
+        rgba(242, 191, 58, 0.07) 30%,
+        rgba(63, 174, 122, 0.07) 60%,
+        rgba(59, 130, 246, 0.09) 100%);
+}
+
+.story-spectrum .stat-strip::before {
+    background: linear-gradient(90deg, var(--sp-red), var(--sp-orange), var(--sp-yellow), var(--sp-green), var(--sp-blue));
+}
+
+.story-spectrum .stat-strip-item:nth-child(1) .stat-strip-value { --sp-a: var(--sp-red);    --sp-b: var(--sp-orange); }
+.story-spectrum .stat-strip-item:nth-child(2) .stat-strip-value { --sp-a: var(--sp-orange); --sp-b: var(--sp-yellow); }
+.story-spectrum .stat-strip-item:nth-child(3) .stat-strip-value { --sp-a: var(--sp-green);  --sp-b: var(--sp-blue); }
+.story-spectrum .stat-strip-item:nth-child(4) .stat-strip-value { --sp-a: var(--sp-blue);   --sp-b: var(--sp-violet); }
+
+/* ── Bande de chiffres : quelques faits en grand ── */
+.stat-strip {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 1100px;
+    margin: var(--spacing-2xl) auto;
+    border: 1px solid var(--border);
+}
+
+.stat-strip::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-400), var(--primary-200));
+}
+
+.stat-strip-item {
+    padding: var(--spacing-xl) var(--spacing-md) var(--spacing-lg);
+    text-align: center;
+    border-left: 1px solid var(--border);
+}
+
+.stat-strip-item:first-child {
+    border-left: 0;
+}
+
+.stat-strip-value {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 2.6rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--sp-a, var(--primary-500)), var(--sp-b, var(--primary-300)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.stat-strip-label {
+    display: block;
+    margin-top: var(--spacing-sm);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+    .stat-strip {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .stat-strip-item:nth-child(3) {
+        border-left: 0;
+    }
+
+    .stat-strip-item:nth-child(n+3) {
+        border-top: 1px solid var(--border);
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {

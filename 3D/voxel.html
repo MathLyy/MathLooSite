@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voxel | MathLoo</title>
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/pages.css">
+    <link rel="stylesheet" href="../css/story.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-text">MathLoo</span>
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../mltc/index.html" class="nav-link">MLTC</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active">3D</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../design/index.html" class="nav-link">Design</a>
+                </li>
+                <!-- Divers masque temporairement (rubrique encore vide)
+                <li class="nav-item">
+                    <a href="../divers/index.html" class="nav-link">Divers</a>
+                </li> -->
+                <li class="nav-item">
+                    <a href="../liens.html" class="nav-link">Liens</a>
+                </li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" aria-label="Changer le thème">
+                    <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2"/>
+                        <path d="M12 20v2"/>
+                        <path d="m4.93 4.93 1.41 1.41"/>
+                        <path d="m17.66 17.66 1.41 1.41"/>
+                        <path d="M2 12h2"/>
+                        <path d="M20 12h2"/>
+                        <path d="m6.34 17.66-1.41 1.41"/>
+                        <path d="m19.07 4.93-1.41 1.41"/>
+                    </svg>
+                    <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                    </svg>
+                </button>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero -->
+        <section class="page-hero page-hero--story page-hero--image" style="background-image:url('voxel/VTUOr.png'); background-size:cover; background-position:center 55%; background-repeat:no-repeat">
+            <div class="container">
+                <span class="project-tag">Voxel art · MagicaVoxel · 2021 à 2026</span>
+                <h1>Modélisations en voxel</h1>
+                <p>Rétrospective de mes créations 3D en voxel art réalisées avec MagicaVoxel pour le pack "Voxel Trains" sur Minecraft.</p>
+            </div>
+        </section>
+
+        <!-- Intro callout -->
+        <section class="story-section">
+            <div class="container">
+                <div class="intro-callout reveal">
+                    <div class="intro-callout-icon">i</div>
+                    <p><strong>Note :</strong> La plupart de ces modèles ont été réalisés il y a cinq ans (à l'exception du dernier présenté). Cette page fait donc office de rétrospective sur mes débuts en modélisation 3D. Il est prévu qu'un jour je revisite ces modèles de manière beaucoup plus rigoureuse.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ---------------------------------------
+             Section 1 - Genèse
+             --------------------------------------- -->
+        <article class="story-section story-section--alt">
+            <div class="container">
+                <div class="section-header reveal">
+                    <div class="section-header-text">
+                        <h2>Genèse</h2>
+                        <p class="section-subtitle">Découverte du voxel art et premiers pas dans MagicaVoxel</p>
+                    </div>
+                </div>
+
+                <div class="story-grid reveal">
+                    <div class="grid-text">
+                        <p>En 2020, je découvre par hasard le pack "Voxel Trains", une extension d'un mod Minecraft qui ajoute des trains (Immersive Railroading, ou IR). Je suis immédiatement séduit par le style voxel des trains qui épouse l'esthétique cubique du jeu. Je rejoins alors le serveur Discord du projet par curiosité.</p>
+                        <p>Au début, je me contente de regarder ce que font les créateurs. Mais rapidement, j'ai envie de contribuer avec des trains français, je décide donc de m'initier à MagicaVoxel, le logiciel utilisé par les membres du pack.</p>
+                    </div>
+                    <figure class="fig-story fig-story--dark" onclick="openLightbox(this)">
+                        <img loading="lazy" src="voxel/VT.png" alt="Voxel Trains - ICE, Vectron, locomotives à vapeur">
+                        <figcaption>Aperçu du pack Voxel Trains (photo de SebastianD334, 2024).</figcaption>
+                    </figure>
+                </div>
+
+                <div class="insight-callout reveal">
+                    <p><span class="insight-label">A propos</span><em>P.S. : cet article n'est pas un tutoriel, il présente quelques aspects du logiciel mais n'en détaille volontairement pas le côté technique. MagicaVoxel est assez facile à prendre en main si vous souhaitez vous y lancer !</em></p>
+                </div>
+            </div>
+        </article>
+
+        <!-- ---------------------------------------
+             Section 2 - Autorail X 2200
+             --------------------------------------- -->
+        <article id="x2200" class="story-section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-number">01</span>
+                    <div class="section-header-text">
+                        <h2>Autorail X 2200</h2>
+                        <p class="section-subtitle">Premier modèle, premiers apprentissages</p>
+                    </div>
+                </div>
+
+                <!-- Intro prose -->
+                <div class="story-prose reveal">
+                    <p>Je me demande alors quel sera le premier train que je vais modéliser. Évidemment, quand on pense aux trains français emblématiques, le TGV, les "Nez Cassés" ou encore les voitures Corail viennent vite à l'esprit. Mais je préfère commencer simple : à ce stade, je ne maîtrise pas du tout le logiciel, je n'ai jamais fait de modélisation 3D, et les formes courbes me paraissent hors de portée.</p>
+                    <p>Je me dis aussi qu'il est plus intéressant de faire un autorail, qui pourra circuler seul, là où faire une locomotive ou une voiture m'aurait obligé à créer du matériel supplémentaire pour l'accompagner. Je me rabats donc sur l'X 2200, un autorail monocaisse à l'esthétique assez simple, qui devient mon tout premier projet. C'est avec lui que j'apprends les bases de MagicaVoxel.</p>
+                </div>
+
+                <!-- Le bogie -->
+                <div class="story-content">
+                    <h3>Le bogie - premiers pas</h3>
+                </div>
+                <div class="story-grid story-grid--reverse story-grid--wide-img reveal">
+                    <div class="grid-text">
+                        <p>Comme en dessin, mon réflèxe est de commencer par le bas ! <i>P.S. : j'ai remarqué plus tard que mes collègues avaient l'approche, sans doute plus logique, de commencer par la caisse.</i></p>
+                        <p>En plus de découvrir le logiciel, je devais composer avec la taille des voxels ! L'échelle est de 16 voxels = 1 mètre, donc représenter au mieux les détails mécaniques relève vite du casse-tête. Je me suis basé sur un croquis du bogie de l'autorail, mais sans photo réelle précise de cet élément, j'ai dû faire des approximations pour certains petits éléments. Le dessus, le dessous et l'intérieur du bogie restent d'ailleurs très simplistes, faute de références suffisantes.</p>
+                    </div>
+                    <figure class="fig-story fig-story--dark" onclick="openLightbox(this)">
+                        <img loading="lazy" src="voxel/X2200Bog.png" alt="Bogie de X 2200 en cours de création">
+                        <figcaption>Les premiers pas dans MagicaVoxel : création d'un bogie d'X 2200.</figcaption>
+                    </figure>
+                </div>
+
+                <!-- Le chassis -->
+                <div class="story-content">
+                    <h3>Le chassis</h3>
+                </div>
+                <div class="story-grid story-grid--narrow-img reveal">
+                    <div class="grid-text">
+                        <p>À l'inverse, le chassis était plus simple à réaliser : une base rectangulaire, avec les détails à sculpter par-dessus. C'est aussi l'élément le plus visible sur les photos disponibles en ligne, ce qui me donnait un grand nombre de références. L'intérieur, en revanche, était plus compliqué à appréhender.</p>
+                        <p>À noter qu'à cette époque, j'utilisais encore la palette de couleurs fournie par défaut dans MagicaVoxel. Les teintes n'étaient donc pas très fidèles, un problème que j'ai corrigé par la suite.</p>
+                    </div>
+                    <figure class="fig-story fig-story--dark" onclick="openLightbox(this)">
+                        <img loading="lazy" src="voxel/X2200Chassis.png" alt="Chassis du X 2200">
+                        <figcaption>Interface MagicaVoxel et débuts du chassis, encore avec la palette de couleurs par défaut.</figcaption>
+                    </figure>
+                </div>
+
+                <!-- La caisse -->
+                <div class="story-content">
+                    <h3>La caisse et la comparaison avec le réel</h3>
+                </div>
+                <div class="story-prose">
+                    <p>Sur le moment, en comparant mon modèle avec des photos du matériel réel, j'étais fier de la forme globale. Évidemment, avec le recul, il y a des détails qui ne sont pas exacts, mais à l'époque, le résultat me satisfaisait pleinement.</p>
+                    <p>Toutefois, je savais que la réalisation du bas de caisse et des équipements en dessous allaient poser problème : dans l'idéal, il m'aurait fallu plusieurs photos de profil avec des angles précis, que je n'avais pas. Je me suis alors appuyé sur mon X 2200 Jouef pour établir l'échelle du bas de caisse, mais en comparant avec les photos réelles, il était évident que le modèle Jouef privilégiait le fonctionnel au détriment de la fidélité. Le résultat fut donc un bas de caisse assez plat (visible sur les autres photos).</p>
+                </div>
+                <figure class="fig-showcase fig-showcase--dark fig-showcase--bleed reveal" onclick="openLightbox(this)">
+                    <img loading="lazy" src="voxel/X2200Deb.png" alt="Comparaison X 2200 modèle et réel">
+                    <figcaption>Comparaison du modèle voxel avec le matériel réel.</figcaption>
+                </figure>
+
+                <!-- Les livrées -->
+                <div class="story-content">
+                    <h3>Les livrées</h3>
+                </div>
+                <div class="story-grid story-grid--wide-img reveal">
+                    <div class="grid-text">
+                        <p>J'ai reproduit la quasi-totalité des livrées portées par les X 2200, sept au total : Vert, Rouge, Bleu, Jaune, TLR (Lorraine), TER 1997 (bleu foncé et argent), ainsi que l'X 2250, un exemplaire particulier avec ses façades en inox. Seules les variantes régionales TER 1997 et la livrée du Train des Merveilles n'ont pas été réalisées.</p>
+                        <p>Le processus de déclinaison en livrée n'est pas aussi simple qu'il n'y paraît : il ne s'agit pas d'une texture que l'on modifie dans un éditeur d'image. Il faut faire le travail directement sur le modèle 3D, ce qui n'est pas évident, et il faut faire attention à ne pas laisser de coquilles.</p>
+                    </div>
+                    <figure class="fig-story fig-story--dark" onclick="openLightbox(this)">
+                        <img loading="lazy" src="voxel/X2200Fin.png" alt="X 2200 trois premières livrées">
+                        <figcaption>Les trois premières livrées terminées : Jaune, Rouge, Bleu.</figcaption>
+                    </figure>
+                </div>
+
+                <div class="insight-callout reveal">
+                    <p><span class="insight-label">Defi</span>La livrée la plus complexe a sans doute été la TLR (Trains du Languedoc-Roussillon) : une livrée dont il n'existe que très peu de photos réelles, la plupart provenant d'un vieux modèle réduit Lima.</p>
+                </div>
+
+                <div class="story-prose">
+                    <p>Initialement, je n'avais réalisé que trois livrées (Jaune, Rouge, Bleu), avant de finir par étendre la collection par la suite.</p>
+                </div>
+
+                <figure class="fig-showcase fig-showcase--dark fig-showcase--bleed reveal" onclick="openLightbox(this)">
+                    <img loading="lazy" src="voxel/X2200jeu.png" alt="X 2200 en jeu dans Minecraft">
+                    <figcaption>Rendu en jeu des trois premières variantes (image par SebastianD334). On constate le bas de caisse assez plat, peu fidèle à la réalité. La caisse est elle aussi sans doute trop haute.</figcaption>
+                </figure>
+
+                <div class="story-grid story-grid--reverse reveal">
+                    <div class="grid-text">
+                        <p>Le projet a démarré le 12 février 2021 et les trois premiers modèles étaient terminés dès le 19 février, soit une semaine de travail. Les quatre livrées restantes ont suivi bien plus tard, le 8 juillet de la même année.</p>
+                        <p>C'est avec les trois premières variantes que j'ai soumis le modèle aux membres de Voxel Trains, qui n'étaient alors que quatre. L'X 2200 a été accepté dans le pack, lançant ainsi ma période de modélisation.</p>
+                    </div>
+                    <figure class="fig-story fig-story--dark" onclick="openLightbox(this)">
+                        <img loading="lazy" src="voxel/X2200TER.png" alt="X 2200 livrée TER">
+                        <figcaption>Quelques mois après, je m'attarde à la création des autres livrées : ici la livrée TER de 1997.</figcaption>
+                    </figure>
+                </div>
+
+                <figure class="fig-showcase fig-showcase--dark fig-showcase--bleed reveal" onclick="openLightbox(this)">
+                    <img loading="lazy" src="voxel/X2200.png" alt="X 2200 différentes livrées">
+                    <figcaption>Vue d'ensemble des X 2200 dans leurs sept livrées. Les quatre livrées complémentaires ont été réalisées le 8 juillet 2021. On distingue sous cet angle une tentative de correction du bas de caisse, qui se résume en réalité à un simple allongement des éléments.</figcaption>
+                </figure>
+            </div>
+        </article>
+
+        <!-- ---------------------------------------
+             Section 3 - BB 8500
+             --------------------------------------- -->
+        <article id="bb8500" class="story-section story-section--alt">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-number">02</span>
+                    <div class="section-header-text">
+                        <h2>Locomotive BB 8500</h2>
+                        <p class="section-subtitle">Les "danseuses" d'Alsthom</p>
+                    </div>
+                </div>
+
+                <div class="story-prose reveal">
+                    <p>Les BB Alsthom, surnommées "danseuses", font partie de mes locomotives préférées. Leur esthétique assez carrée se prêtait bien au voxel art, et elles me permettaient d'explorer de nouveaux défis : modéliser une locomotive plutôt qu'un autorail, avec ses pantographes et ses spécificités propres.</p>
+                </div>
+
+                <!-- Petites cabines -->
+                <div class="story-content">
+                    <h3>Débuts, "petites cabines"</h3>
+                </div>
+                <div class="story-grid story-grid--wide-img reveal">
+                    <div class="grid-text">
+                        <p>J'ai commencé la modélisation le 26 février 2021, soit à peine une semaine après avoir terminé l'X 2200. Le modèle était fini deux jours plus tard, le 28 février : une rapidité qui s'explique à la fois par ma meilleure maîtrise de MagicaVoxel et par l'abondance de références photographiques disponibles pour la BB 8500.</p>
+                        <p>J'ai modélisé la version "petites cabines", soit celle d'origine, déclinée en trois livrées : Fret, Béton et Vert.</p>
+                    </div>
+                    <figure class="fig-story fig-story--dark" onclick="openLightbox(this)">
+                        <img loading="lazy" src="voxel/BB8500PC.png" alt="BB 8500 Petites Cabines">
+                        <figcaption>De gauche à droite : Fret, Béton, Vert.</figcaption>
+                    </figure>
+                </div>
+
+                <!-- Compartiment moteur -->
+                <div class="story-content">
+                    <h3>Le compartiment moteur</h3>
+                </div>
+                <div class="story-grid story-grid--reverse story-grid--narrow-img reveal">
+                    <div class="grid-text">
+                        <p>À l'époque, la plupart des locomotives du pack Voxel Trains ne disposaient pas de compartiment moteur modélisé. Mais les standards du pack commençaient à évoluer, et j'ai donc dû m'y attarder. Le problème : je n'avais quasiment pas de références pour l'intérieur d'une BB 8500.</p>
+                        <p>J'ai fini par dénicher une image de référence, qui s'est avérée être... un compartiment moteur de BB 17000. Les BB 17000 sont certes des séries soeurs des BB 8500, mais elles sont aptes au 25 kV alternatif, ce qui signifie que leur intérieur est précisément le point sur lequel les deux séries diffèrent le plus. J'ai donc utilisé comme référence un élément pas vraiment très fiable, oups.</p>
+                    </div>
+                    <figure class="fig-story fig-story--dark" onclick="openLightbox(this)">
+                        <img loading="lazy" src="voxel/BB8500Mot.png" alt="Compartiment moteur BB 8500">
+                        <figcaption>Le compartiment moteur, très simplifié.</figcaption>
+                    </figure>
+                </div>
+
+                <div class="insight-callout reveal">
+                    <p>Le résultat est plus que simpliste : il fait le travail, mais je ne m'en vante pas. Malheureusement, la documentation disponible impose des compromis.</p>
+                </div>
+
+                <!-- Grandes cabines -->
+                <div class="story-content">
+                    <h3>Les grandes cabines</h3>
+                </div>
+                <div class="story-prose">
+                    <p>Les grandes cabines sont arrivées plus tard, fin octobre 2021. Cette sous-série se distingue par un allongement de la caisse, initialement prévu pour accueillir un futur attelage automatique européen qui n'a finalement jamais été mis en place. Visuellement, cela se traduit par une vitre supplémentaire entre la porte d'accès et l'extrémité de l'engin, et des cabines plus spacieuses, plus confortables pour les conducteurs.</p>
+                    <p>Si j'ai choisi de les modéliser, c'est surtout parce qu'elles me permettaient de réaliser davantage de livrées : dans la réalité, seules trois livrées différentes ont été portées par les Petites Cabines, contre six pour les Grandes Cabines. C'était aussi une variante relativement rapide à produire, puisque je partais de la même base. Les modifications principales portaient sur les cabines elles-mêmes (évidemment) et sur les persiennes. Cela me permettait d'étoffer le nombre de matériels disponibles en jeu sans repartir de zéro.</p>
+                </div>
+
+                <div class="story-grid story-grid--narrow-img reveal">
+                    <div class="grid-text">
+                        <p>Parmi les livrées réalisées, la tentative de livrée "En Voyage" mérite une mention. J'ai essayé d'importer directement une image du pelliculage dans MagicaVoxel. Le résultat n'était pas très convaincant : le texte est flou et les couleurs peu fidèles.</p>
+                        <p>Les grandes cabines n'ont d'ailleurs jamais été intégrées en jeu : elles sont arrivées à un moment où je n'avais pas les compétences de développement nécessaires pour le faire moi-même, et les autres développeurs du pack étaient occupés par leurs propres modèles.</p>
+                    </div>
+                    <figure class="fig-story fig-story--dark" onclick="openLightbox(this)">
+                        <img loading="lazy" src="voxel/BB8500EV.png" alt="BB 8500 livrée En Voyage">
+                        <figcaption>La livrée "En Voyage"</figcaption>
+                    </figure>
+                </div>
+
+                <figure class="fig-showcase fig-showcase--dark fig-showcase--bleed reveal" onclick="openLightbox(this)">
+                    <img loading="lazy" src="voxel/BB8500GC.png" alt="BB 8500 grandes cabines">
+                    <figcaption>BB 8500 "grandes cabines" dans leurs différentes livrées historiques.</figcaption>
+                </figure>
+
+                <!-- Intégration en jeu -->
+                <div class="story-content">
+                    <h3>Intégration en jeu</h3>
+                </div>
+                <div class="story-grid story-grid--reverse reveal">
+                    <div class="grid-text">
+                        <p>Seules les BB 8500 petites cabines ont été intégrées dans Minecraft, par un autre membre du pack, dans leurs trois livrées. Il s'agit d'ailleurs de mon dernier modèle à avoir été effectivement ajouté en jeu.</p>
+                        <p>Tous les modèles qui ont suivi (BB 8500 grandes cabines, BB 7200, voitures Corail) ne l'ont jamais été. De nouvelles contraintes sont apparues, notamment un système d'animations qui complexifiait considérablement le processus d'intégration. Cela impliquait de refaire les modèles en profondeur, ce qui a fini par me décourager. Je ne l'ai finalement jamais fait.</p>
+                    </div>
+                    <figure class="fig-story fig-story--dark" onclick="openLightbox(this)">
+                        <img loading="lazy" src="voxel/BB8500.png" alt="BB 8500 petites cabines en jeu">
+                        <figcaption>BB 8500 petites cabines en jeu (image par SebastianD334).</figcaption>
+                    </figure>
+                </div>
+
+                <figure class="fig-showcase fig-showcase--dark" onclick="openLightbox(this)">
+                    <img loading="lazy" src="voxel/8500bug.png" alt="BB 8500 bug d'intégration avec pantographes flottants">
+                    <figcaption>Bug d'intégration de la BB 8500 : les pantographes flottent à cause d'une erreur de code.</figcaption>
+                </figure>
+            </div>
+        </article>
+
+        <!-- ---------------------------------------
+             Section 4 - BB 63000
+             --------------------------------------- -->
+        <article id="bb63000" class="story-section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-number">03</span>
+                    <div class="section-header-text">
+                        <h2>Locomotive BB 63000</h2>
+                        <p class="section-subtitle">Un projet resté inachevé</p>
+                    </div>
+                </div>
+
+                <div class="story-compact reveal">
+                    <div class="compact-text">
+                        <p>La BB 63000 est un projet qui n'a malheureusement jamais été achevé. Une autre personne du projet Voxel Trains travaillait dessus en parallèle, mais elle a soudainement disparu sans laisser d'archives de son travail. Le projet est donc resté en l'état.</p>
+                    </div>
+                    <div class="fig-pair" style="grid-template-columns: 1fr; gap: var(--spacing-lg);">
+                        <figure class="fig-story fig-story--dark" onclick="openLightbox(this)">
+                            <img loading="lazy" src="voxel/BB63000Cheddar.png" alt="BB 63000 - débuts de la caisse">
+                            <figcaption>BB 63000 - les débuts de la caisse.</figcaption>
+                        </figure>
+                        <figure class="fig-story fig-story--dark" onclick="openLightbox(this)">
+                            <img loading="lazy" src="voxel/BB63000.png" alt="BB 63000">
+                            <figcaption>BB 63000 - état du modèle inachevé.</figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ---------------------------------------
+             Section 5 - BB 7200
+             --------------------------------------- -->
+        <article id="bb7200" class="story-section story-section--alt">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-number">04</span>
+                    <div class="section-header-text">
+                        <h2>Locomotive BB 7200</h2>
+                        <p class="section-subtitle">Une "Nez Cassé" à partir d'une base communautaire</p>
+                    </div>
+                </div>
+
+                <div class="story-grid story-grid--reverse story-grid--wide-img reveal">
+                    <div class="grid-text">
+                        <p>La BB 7200, surnommée "Nez Cassé", est une locomotive électrique française iconique. Pour ce projet, j'ai eu la chance de partir d'une base existante.</p>
+                        <p>Joao Fonseca, modélisateur du projet Voxel Trains, m'a aimablement prêté son modèle de CP 2600 (l'export portugais des "Nez Cassés") comme base de travail. J'ai ensuite adapté ce modèle pour créer les différentes livrées françaises.</p>
+                    </div>
+                    <figure class="fig-story fig-story--dark" onclick="openLightbox(this)">
+                        <img loading="lazy" src="voxel/CP2600.png" alt="CP 2600 portugaise">
+                        <figcaption>CP 2600 par Joao Fonseca - ma base de travail.</figcaption>
+                    </figure>
+                </div>
+
+                <figure class="fig-showcase fig-showcase--dark" onclick="openLightbox(this)">
+                    <img loading="lazy" src="voxel/BB7200FM.png" alt="BB 7200 Fret et Multiservices">
+                    <figcaption>BB 7200 en livrée Fret et Multiservices (FM).</figcaption>
+                </figure>
+
+                <figure class="fig-showcase fig-showcase--dark fig-showcase--bleed reveal" onclick="openLightbox(this)">
+                    <img loading="lazy" src="voxel/BB7200.png" alt="BB 7200 différentes livrées">
+                    <figcaption>BB 7200 dans leurs différentes livrées, adaptées à partir du modèle de CP 2600.</figcaption>
+                </figure>
+            </div>
+        </article>
+
+        <!-- ---------------------------------------
+             Section 6 - Voitures Corail
+             --------------------------------------- -->
+        <article id="vtu" class="story-section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-number">05</span>
+                    <div class="section-header-text">
+                        <h2>Voitures Corail VTU</h2>
+                        <p class="section-subtitle">Le confort sur rails</p>
+                    </div>
+                </div>
+
+                <div class="story-grid reveal">
+                    <div class="grid-text">
+                        <p>Les voitures Corail VTU (à couloir central) sont LES voitures voyageurs emblématiques du parc SNCF !</p>
+                        <p></p>
+                    </div>
+                    <figure class="fig-story fig-story--dark" onclick="openLightbox(this)">
+                        <img loading="lazy" src="voxel/VTUOr.png" alt="Voiture Corail VTU extérieur">
+                        <figcaption>Vue extérieure d'une voiture Corail.</figcaption>
+                    </figure>
+                </div>
+
+                <div class="fig-pair reveal">
+                    <figure class="fig-story fig-story--dark" onclick="openLightbox(this)">
+                        <img loading="lazy" src="voxel/VTUInt.png" alt="Intérieur voiture Corail">
+                        <figcaption>Intérieur : sièges et couloir.</figcaption>
+                    </figure>
+                    <figure class="fig-story fig-story--dark" onclick="openLightbox(this)">
+                        <img loading="lazy" src="voxel/porte mielich.png" alt="Porte voiture Corail">
+                        <figcaption>Détail d'une porte d'accès.</figcaption>
+                    </figure>
+                </div>
+
+                <figure class="fig-showcase fig-showcase--dark fig-showcase--bleed reveal" onclick="openLightbox(this)">
+                    <img loading="lazy" src="voxel/VTUND.png" alt="Voiture Corail autre vue">
+                    <figcaption>Autre vue d'une voiture Corail VTU.</figcaption>
+                </figure>
+
+                <div class="fig-pair reveal">
+                    <figure class="fig-story fig-story--dark" onclick="openLightbox(this)">
+                        <img loading="lazy" src="voxel/VTUCarm.png" alt="Voiture Corail VTU livrée Carmillon">
+                        <figcaption>Voiture Corail VTU en livrée Carmillon.</figcaption>
+                    </figure>
+                    <figure class="fig-story fig-story--dark" onclick="openLightbox(this)">
+                        <img loading="lazy" src="voxel/VTUTER.png" alt="Voiture Corail VTU livrée TER">
+                        <figcaption>Voiture Corail VTU en livrée TER.</figcaption>
+                    </figure>
+                </div>
+
+                <figure class="fig-showcase fig-showcase--dark fig-showcase--bleed reveal" onclick="openLightbox(this)">
+                    <img loading="lazy" src="voxel/Corail+.png" alt="Voiture Corail Plus">
+                    <figcaption>Voiture Corail Plus.</figcaption>
+                </figure>
+            </div>
+        </article>
+
+        <!-- ---------------------------------------
+             Section 6 - Locotracteur Y 2200
+             --------------------------------------- -->
+        <article id="y2200" class="story-section story-section--alt">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-number">06</span>
+                    <div class="section-header-text">
+                        <h2>Locotracteur Y 2200</h2>
+                        <p class="section-subtitle">Reprendre après une longue pause</p>
+                    </div>
+                </div>
+
+                <div class="story-grid story-grid--top reveal">
+                    <div class="grid-text">
+                        <p>En avril 2026, après une longue pause, j'ai voulu me remettre un peu dans la modélisation voxel. Je suis reparti d'un modèle simple : un petit locotracteur, les Y 2200.</p>
+                        <p>Cette fois, je voulais en faire un modèle le plus détaillé possible. L'intérêt, c'est la suite : une fois cette base établie, je pourrais éventuellement en faire assez simplement les dérivés (Y 2100, Y 5100...).</p>
+                        <p>J'avais aussi envie d'une version patinée, et éventuellement d'autres livrées.</p>
+                    </div>
+                    <figure class="fig-story fig-story--dark" onclick="openLightbox(this)">
+                        <img loading="lazy" src="voxel/Y2200.png" alt="Locotracteur Y 2200 en voxel, vu de trois quarts avant">
+                        <figcaption>Le Y 2200 dans son état actuel.</figcaption>
+                    </figure>
+                </div>
+
+                <div class="story-grid story-grid--reverse story-grid--top story-grid--spaced reveal">
+                    <div class="grid-text">
+                        <div class="insight-callout">
+                            <p><span class="insight-label">État du projet</span>Pour l'instant, le projet est à l'arrêt, mais je n'exclus pas de le reprendre bientôt. Il manque encore l'intérieur de la cabine, le dessous de la caisse et l'intégration au jeu.</p>
+                        </div>
+                    </div>
+                    <figure class="fig-story fig-story--dark" onclick="openLightbox(this)">
+                        <img loading="lazy" src="voxel/Y2200unfinished.png" alt="Locotracteur Y 2200 en voxel, vue de profil">
+                        <figcaption>Vue de profil, sur une version encore inachevée du modèle.</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </article>
+
+        <!-- ---------------------------------------
+             Conclusion
+             --------------------------------------- -->
+        <section class="story-conclusion">
+            <div class="container">
+                <div class="conclusion-inner reveal">
+                    <h2>Et la suite ?</h2>
+                    <p>De l'X 2200 aux voitures Corail, chaque modèle a représenté une étape d'apprentissage : découverte du logiciel, gestion des contraintes d'échelle, recherche de références, déclinaison en livrées, et tentatives d'intégration en jeu. Le chemin a été autant technique que créatif.</p>
+                    <p>Ces modèles représentent mes premiers pas dans la modélisation voxel. À l'avenir, cette section pourrait s'enrichir d'autres types de modélisation 3D, et les modèles présentés ici pourraient être revisités avec plus de détails et de précision.</p>
+                    <a href="index.html" class="btn btn-secondary">← Retour à la 3D</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Date de dernière modification -->
+        <section class="last-modified">
+            <div class="container">
+                <p>Dernière mise à jour : 21 septembre 2026</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <img id="lightbox-img" src="" alt="">
+        <p id="lightbox-caption"></p>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-text">MathLoo</span>
+                    <p>Portfolio créatif</p>
+                    <a href="mailto:mathloo.site@gmail.com" class="footer-email">mathloo.site@gmail.com</a>
+                </div>
+                <div class="footer-links">
+                    <a href="../index.html">Accueil</a>
+                    <a href="../mltc/index.html">MLTC</a>
+                    <a href="index.html">3D</a>
+                    <a href="../design/index.html">Design</a>
+                    <!-- <a href="../divers/index.html">Divers</a> -->
+                    <a href="../liens.html">Liens</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span class="footer-version">v<strong>0.9</strong> (25/09/2026)</span>
+                <p>&copy; 2026 MathLoo. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/story.js"></script>
+</body>
+</html>

@@ -142,6 +142,9 @@
 html {
     scroll-behavior: smooth;
     overflow-x: hidden;
+    /* Navbar fixe de 70px : evite que les ancres passent dessous.
+       mltc.css remonte cette valeur a 130px pour les pages a sous-navigation. */
+    scroll-padding-top: 90px;
 }
 
 body {
@@ -573,46 +576,6 @@ h1, h2, h3, h4, h5, h6 {
 .stat-label {
     font-size: 0.85rem;
     color: var(--text-muted);
-}
-
-/* ========================================
-   Explore Section
-   ======================================== */
-.explore-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: var(--spacing-xl);
-}
-
-.explore-card {
-    display: flex;
-    flex-direction: column;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-xl);
-    padding: var(--spacing-xl);
-    text-decoration: none;
-    color: inherit;
-    transition: var(--transition-base);
-}
-
-.explore-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-xl), var(--shadow-glow);
-    border-color: var(--card-hover-border);
-}
-
-.explore-card h3 {
-    font-size: 1.25rem;
-    margin-bottom: var(--spacing-sm);
-}
-
-.explore-card p {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin-bottom: var(--spacing-lg);
-    flex-grow: 1;
 }
 
 /* ========================================

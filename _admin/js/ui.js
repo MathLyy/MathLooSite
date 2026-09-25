@@ -8,6 +8,7 @@
     const Fs = window.LvFs, P = window.LvParse, Ser = window.LvSer;
     const M = window.LvModel, V = window.LvValidate, D = window.LvDiff;
     const Pv = window.LvPreview, Ig = window.LvIntegrity, X = window.LvExtra;
+    const Rc = window.LvRecent;
 
     const DIR = 'mltc/livrees_pages';
     const INDEX_PAGE = 'mltc/livrees.html';
@@ -55,6 +56,7 @@
         $('btn-revert').onclick = revertCurrent;
         $('btn-autotest').onclick = runAutoTest;
         $('btn-integrity').onclick = showIntegrity;
+        $('btn-recent').onclick = showRecent;
         $('btn-preview').onclick = togglePreview;
         $('pv-refresh').onclick = () => Pv.render(S.current, $('pv-frame'), $('pv-status'));
 
@@ -68,7 +70,7 @@
         $('dot').title = 'Connecté';
         $('rootname').textContent = name;
         $('btn-connect').textContent = 'Changer de dossier';
-        ['btn-autotest', 'btn-integrity', 'btn-preview'].forEach(i => { $(i).disabled = false; });
+        ['btn-autotest', 'btn-integrity', 'btn-recent', 'btn-preview'].forEach(i => { $(i).disabled = false; });
 
         S.files = await Fs.listDir(DIR, '.html');
         K.toast('Indexation des images…');
@@ -1187,14 +1189,10 @@
         }
 
         const diff = D.diffLines(page.originalText, out);
-        const touched = Math.max(Ser.dirtyCount(page), 1);
-        const limit = Math.max(20, 4 * touched);
-        const tooBig = diff.added + diff.removed > limit;
-
-        showDiff(page, out, diff, tooBig, limit);
+        showDiff(page, out, diff);
     }
 
-    function showDiff(page, out, diff, tooBig, limit) {
+    function showDiff(page, out, diff) {
         const rows = D.withContext(diff, page.originalText, out, 3);
         const view = el('div.diff');
         for (const r of rows) {
@@ -1206,33 +1204,24 @@
             ]));
         }
 
-        const override = el('input', { type: 'checkbox' });
         const okBtn = el('button.btn.primary', {
             text: 'Écrire le fichier',
-            disabled: tooBig,
             onclick: async () => {
                 m.close();
                 await write(page, out);
             }
         });
-        override.addEventListener('change', () => { okBtn.disabled = !override.checked; });
 
         const m = K.modal({
             title: 'Modifications de ' + page.path,
             body: el('div', {}, [
                 el('p', {
                     html: '<strong class="err">−' + diff.removed + '</strong> / '
-                        + '<strong class="ok">+' + diff.added + '</strong> ligne(s) — '
-                        + '<span class="dim">seuil d\'alerte : ' + limit + '</span>'
+                        + '<strong class="ok">+' + diff.added + '</strong> ligne(s)'
                 }),
-                tooBig ? el('p.err', {
-                    html: '<strong>Diff anormalement gros.</strong> C\'est le symptôme d\'une '
-                        + 'régression du sérialiseur : relisez le diff ci-dessous avant de forcer.'
-                }) : null,
                 view
             ]),
             footer: [
-                tooBig ? el('label.check', {}, [override, 'J\'ai relu ce diff et je veux l\'écrire']) : null,
                 el('div.spacer'),
                 el('button.btn', { text: 'Annuler', onclick: () => m.close() }),
                 okBtn
@@ -1377,6 +1366,152 @@
             body.appendChild(el('ul', { style: 'margin:0' },
                 items.map(i => el('li', {}, [el('span.' + cls, { text: String(i) })]))));
         }
+    }
+
+    /* ---------------------------------------------------------------------
+       Onglet Nouveautes : edition manuelle du bloc "Dernieres nouveautes"
+       de livrees.html (voir js/recent.js pour la lecture/ecriture du bloc).
+       Formulaire libre, sans detection automatique : chaque champ est tape
+       ou choisi a la main, dans l'esprit du reste de l'outil.
+       --------------------------------------------------------------------- */
+    async function showRecent() {
+        const openIndex = S.pages.get(Rc.INDEX_PAGE);
+        if (openIndex && openIndex.dirty) {
+            return K.toast('Enregistrez ou annulez d\'abord vos modifications en cours sur livrees.html.', 'bad');
+        }
+
+        let loaded;
+        try { loaded = await Rc.loadItems(); }
+        catch (err) { return K.toast(err.message, 'bad'); }
+
+        const rows = loaded.items.map(it => Object.assign({}, it));
+        const tb = el('tbody');
+
+        function fieldInput(value, ph, onInput) {
+            const inp = el('input', { type: 'text', value: value || '', placeholder: ph || '' });
+            inp.addEventListener('input', () => onInput(inp.value));
+            return inp;
+        }
+
+        function renderRows() {
+            K.clear(tb);
+            rows.forEach((it, i) => {
+                const thumb = el('img', {
+                    src: '', alt: '', style: 'width:44px;height:30px;object-fit:cover;background:var(--bg3);cursor:pointer;display:block'
+                });
+                if (it.img) Fs.imageURL(it.img.replace(/^livrees_pages\//, '')).then(u => { if (u) thumb.src = u; });
+                thumb.addEventListener('click', async () => {
+                    const r = await X.pickImage({ current: (it.img || '').replace(/^livrees_pages\//, '') });
+                    if (!r) return;
+                    it.img = r.src ? 'livrees_pages/' + r.src : '';
+                    renderRows();
+                });
+
+                const sel = el('select', {}, [
+                    el('option', { value: 'new', text: 'Nouveauté', selected: it.status === 'new' }),
+                    el('option', { value: 'update', text: 'Modification', selected: it.status === 'update' })
+                ]);
+                sel.addEventListener('change', () => { it.status = sel.value; });
+
+                tb.appendChild(el('tr', {}, [
+                    el('td', {}, [thumb]),
+                    el('td', {}, [fieldInput(it.name, 'Nom', v => it.name = v)]),
+                    el('td', {}, [fieldInput(it.meta, 'Page · date', v => it.meta = v)]),
+                    el('td', {}, [fieldInput(it.href, 'livrees_pages/…', v => it.href = v)]),
+                    el('td', {}, [sel]),
+                    el('td', { style: 'white-space:nowrap' }, [
+                        el('button.btn.sm', { text: '↑', disabled: i === 0, onclick: () => { rows.splice(i - 1, 0, rows.splice(i, 1)[0]); renderRows(); } }),
+                        el('button.btn.sm', { text: '↓', disabled: i === rows.length - 1, onclick: () => { rows.splice(i + 1, 0, rows.splice(i, 1)[0]); renderRows(); } }),
+                        el('button.btn.sm.danger', { text: '×', onclick: () => { rows.splice(i, 1); renderRows(); } })
+                    ])
+                ]));
+            });
+        }
+        renderRows();
+
+        const m = K.modal({
+            title: 'Dernières nouveautés',
+            width: '900px',
+            body: el('div', {}, [
+                el('p.dim', {
+                    text: 'Édition manuelle du bloc affiché en haut de livrees.html. Le champ « Page · date » est '
+                        + 'le texte affiché tel quel (ex. « Services urbains · 13 septembre 2026 »). Cliquez sur la '
+                        + 'vignette pour choisir l\'image.'
+                }),
+                el('table.rep', {}, [
+                    el('thead', {}, [el('tr', {}, [
+                        el('th', { text: 'Image' }), el('th', { text: 'Nom' }), el('th', { text: 'Page · date' }),
+                        el('th', { text: 'Lien' }), el('th', { text: 'Statut' }), el('th', { text: '' })
+                    ])]),
+                    tb
+                ]),
+                el('div', { style: 'margin-top:10px' }, [
+                    el('button.btn.sm', {
+                        text: '+ Ajouter une entrée',
+                        onclick: () => { rows.push({ img: '', name: '', meta: '', href: '', status: 'new' }); renderRows(); }
+                    })
+                ])
+            ]),
+            footer: [
+                el('div.spacer'),
+                el('button.btn', { text: 'Annuler', onclick: () => m.close() }),
+                el('button.btn.primary', {
+                    text: 'Prévisualiser le diff',
+                    onclick: () => {
+                        let after;
+                        try { after = Rc.applyItems(loaded.text, rows); }
+                        catch (err) { return K.toast(err.message, 'bad'); }
+                        m.close();
+                        showRecentDiff(loaded.text, after);
+                    }
+                })
+            ]
+        });
+    }
+
+    function showRecentDiff(before, after) {
+        const diff = D.diffLines(before, after);
+        const rowsD = D.withContext(diff, before, after, 3);
+        const view = el('div.diff');
+        for (const r of rowsD) {
+            if (r === null) { view.appendChild(el('div.fold', { text: '⋯' })); continue; }
+            const cls = r.op === '+' ? '.add' : r.op === '-' ? '.del' : '';
+            view.appendChild(el('div' + cls, {}, [
+                el('span.ln', { text: r.op === '+' ? '+' + r.b : r.op === '-' ? '-' + r.a : ' ' + r.a }),
+                r.text.replace(/\r$/, '')
+            ]));
+        }
+
+        const m = K.modal({
+            title: 'Modifications de ' + Rc.INDEX_PAGE,
+            body: el('div', {}, [
+                el('p', { html: '<strong class="err">−' + diff.removed + '</strong> / <strong class="ok">+' + diff.added + '</strong> ligne(s)' }),
+                view
+            ]),
+            footer: [
+                el('div.spacer'),
+                el('button.btn', { text: 'Annuler', onclick: () => m.close() }),
+                el('button.btn.primary', {
+                    text: 'Écrire',
+                    onclick: async () => {
+                        try { await Fs.writeText(Rc.INDEX_PAGE, after); }
+                        catch (err) { m.close(); return K.toast('Écriture impossible : ' + err.message, 'bad'); }
+                        m.close();
+                        K.toast('livrees.html mis à jour.');
+                        /* La copie en memoire de livrees.html, si l'onglet est
+                           ouvert, ne connait pas cette ecriture directe sur
+                           disque : on la purge pour forcer une relecture au
+                           prochain acces, plutot que de risquer un futur
+                           "Enregistrer" qui reecrirait par-dessus l'ancien bloc. */
+                        if (S.pages.has(Rc.INDEX_PAGE)) {
+                            const wasCurrent = S.current && S.current.path === Rc.INDEX_PAGE;
+                            S.pages.delete(Rc.INDEX_PAGE);
+                            if (wasCurrent) await openPage(Rc.INDEX_PAGE); else drawRail();
+                        }
+                    }
+                })
+            ]
+        });
     }
 
     boot();

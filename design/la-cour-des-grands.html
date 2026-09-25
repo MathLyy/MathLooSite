@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La cour des grands | MathLoo</title>
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/pages.css">
+    <link rel="stylesheet" href="../css/story.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-text">MathLoo</span>
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../mltc/index.html" class="nav-link">MLTC</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../3D/index.html" class="nav-link">3D</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active">Design</a>
+                </li>
+                <!-- Divers masque temporairement (rubrique encore vide)
+                <li class="nav-item">
+                    <a href="../divers/index.html" class="nav-link">Divers</a>
+                </li> -->
+                <li class="nav-item">
+                    <a href="../liens.html" class="nav-link">Liens</a>
+                </li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" aria-label="Changer le thème">
+                    <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2"/>
+                        <path d="M12 20v2"/>
+                        <path d="m4.93 4.93 1.41 1.41"/>
+                        <path d="m17.66 17.66 1.41 1.41"/>
+                        <path d="M2 12h2"/>
+                        <path d="M20 12h2"/>
+                        <path d="m6.34 17.66-1.41 1.41"/>
+                        <path d="m19.07 4.93-1.41 1.41"/>
+                    </svg>
+                    <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                    </svg>
+                </button>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="story-spectrum">
+        <section class="page-hero page-hero--story page-hero--image" style="background-image:url('lcdg/maquettefinale.jpg'); background-size:cover; background-position:center 30%; background-repeat:no-repeat">
+            <div class="container">
+                <span class="project-tag">Design d'espace · Strate Lyon · 2026</span>
+                <h1>La cour des grands</h1>
+                <p>Workshop de rentrée 2026 à Strate Lyon : imaginer l'aménagement de la cour du campus, et l'illustrer avec une maquette.</p>
+            </div>
+        </section>
+
+        <!-- Intro callout -->
+        <section class="story-section">
+            <div class="container">
+                <div class="intro-callout reveal">
+                    <div class="intro-callout-icon">i</div>
+                    <p><strong>Note :</strong> La cour des grands est mon premier projet à Strate Lyon, et ma première mise en pratique concrète des approches et des techniques du design. Cette page en suit les étapes dans l'ordre, du premier croquis à la maquette finale.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ---------------------------------------
+             01 - Le sujet
+             --------------------------------------- -->
+        <article id="sujet" class="story-section story-section--alt">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-number">01</span>
+                    <div class="section-header-text">
+                        <h2>Le sujet</h2>
+                        <p class="section-subtitle">Aménager la cour du campus</p>
+                    </div>
+                </div>
+
+                <div class="story-prose reveal">
+                    <p>Tout part d'une consigne donnée à la rentrée 2026, à Strate Lyon. Les étudiants ont été répartis en 40 groupes de 8 à 9 personnes, avec le même terrain, la cour du campus, et le même exercice de design d'espace : imaginer comment l'aménager, en tenant compte de son environnement et de ses contraintes.</p>
+                    <p>Chaque groupe travaillait donc pour une maquette qui, si elle convainquait le staff de l'école, serait construite pour de vrai. Il fallait en rendre deux choses : la maquette elle-même, et une affiche A3 qui la représente. Le reste était laissé libre. Notre groupe y a ajouté un texte de présentation et une maquette d'intention, dont je reparle plus bas.</p>
+                    <p>Ce projet compte pour moi parce que c'est une première : c'est la première fois que je mets la main sur les approches et les techniques du design, avec un exercice précis, construire une maquette pour raconter un projet.</p>
+                </div>
+
+                <div class="stat-strip reveal">
+                    <div class="stat-strip-item">
+                        <span class="stat-strip-value">40</span>
+                        <span class="stat-strip-label">groupes d'étudiants</span>
+                    </div>
+                    <div class="stat-strip-item">
+                        <span class="stat-strip-value">8 à 9</span>
+                        <span class="stat-strip-label">personnes par groupe</span>
+                    </div>
+                    <div class="stat-strip-item">
+                        <span class="stat-strip-value">1:50</span>
+                        <span class="stat-strip-label">échelle de la maquette</span>
+                    </div>
+                    <div class="stat-strip-item">
+                        <span class="stat-strip-value">40 %</span>
+                        <span class="stat-strip-label">de la cour ensoleillée au mieux, vers 14 h</span>
+                    </div>
+                </div>
+
+                <figure class="fig-showcase reveal" onclick="openLightbox(this)">
+                    <img loading="lazy" src="lcdg/cour-droite.jpg" alt="Panorama de la cour du campus de Strate Lyon">
+                    <figcaption>La cour du campus : du gravier clair, quelques tables, quelques arbres, et des immeubles tout autour.</figcaption>
+                </figure>
+            </div>
+        </article>
+
+        <!-- ---------------------------------------
+             02 - Sketching et brainstorming
+             --------------------------------------- -->
+        <article id="sketching" class="story-section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-number">02</span>
+                    <div class="section-header-text">
+                        <h2>Sketching et brainstorming</h2>
+                        <p class="section-subtitle">De quoi la cour manque-t-elle ?</p>
+                    </div>
+                </div>
+
+                <div class="story-prose reveal">
+                    <p>La première étape consistait à imaginer un aménagement en prenant en compte l'environnement et les contraintes de la cour.</p>
+                </div>
+
+                <!-- Le repérage -->
+                <div class="story-content">
+                    <h3>Le repérage</h3>
+                </div>
+                <div class="story-grid story-grid--narrow-img reveal">
+                    <div class="grid-text grid-text--left">
+                        <p>Avant de dessiner quoi que ce soit, j'ai commencé par regarder la cour telle qu'elle est : du gravier clair, une terrasse en bois, quelques tables et quelques arbres, et un balcon. J'en ai fait un schéma, que l'on retrouve sur mes premières notes plus bas.</p>
+                        <p>Ce qui frappe en premier, c'est l'ombre. La cour est assombrie par les deux grands immeubles qui l'entourent. En septembre, elle n'est ensoleillée que de midi à 16 h environ, et au mieux sur 40 % de sa surface, vers 14 h. Le reste du temps, elle est à l'ombre. La vue satellite le montre bien, avec des ombres portées qui en recouvrent une grande partie.</p>
+                        <p>Le repérage m'a donc donné une première question, qui a orienté la suite : de quoi cette cour manque-t-elle ? De lumière.</p>
+                    </div>
+                    <figure class="fig-story fig-story--crop" style="--crop-focus:55%" onclick="openLightbox(this)">
+                        <img loading="lazy" src="lcdg/vuesatellite.jpg" alt="Vue satellite de la cour, en grande partie dans l'ombre des immeubles">
+                        <figcaption>Vue satellite de la cour (Google). Les ombres portées des immeubles en recouvrent une grande partie.</figcaption>
+                    </figure>
+                </div>
+
+                <!-- Le brainstorming -->
+                <div class="story-content">
+                    <h3>Le brainstorming</h3>
+                </div>
+                <div class="story-grid story-grid--narrow-img story-grid--top reveal">
+                    <div class="grid-text">
+                        <p>De mon côté, j'étais parti sur deux idées. La première : apporter davantage de lumière dans la cour, sans doute avec des miroirs pour renvoyer directement le soleil. Mais les contraintes étaient nombreuses, l'éblouissement par exemple, et j'ai choisi de ne pas creuser cette piste dans un premier temps. La seconde : un aménagement végétalisé, avec des lieux de convivialité autour d'îlots de verdure, ce qui convenait aussi à la charte de qualité urbaine de Lyon.</p>
+                        <p>En groupe, j'ai présenté mes deux idées, et nous avons retenu la première : ramener de la lumière. Nos questions ressemblaient beaucoup aux miennes : utiliserait-on des miroirs ? des lumières artificielles ? Nous avons mené des études dans la cour avec différents matériaux : croquer des aménagements, constater l'étendue de l'ensoleillement, puis regarder ce que donnaient le verre ou le miroir.</p>
+                        <div class="insight-callout">
+                            <p><span class="insight-label">Le constat</span>Finalement, un constat a décidé de la suite : la cour est très ventée. Plutôt que de le subir, nous avons choisi de jouer avec. Le vent ferait bouger des morceaux de verre, ce qui produirait un jeu de lumières. Restait à trouver ce qui les porterait : la première forme a été un banc, dessiné juste en dessous.</p>
+                        </div>
+                    </div>
+                    <div class="fig-stack">
+                        <figure class="fig-story fig-story--crop" style="--crop-focus:12%" onclick="openLightbox(this)">
+                            <img loading="lazy" src="lcdg/sketch1.jpg" alt="Page de notes et d'esquisses : idées, schéma de la cour actuelle, îlots végétalisés">
+                            <figcaption>Mes premières notes : les deux pistes, un schéma de la cour actuelle, et des esquisses d'îlots avec bancs et tables. Une règle figure déjà sur la feuille : ne pas supprimer de places assises.</figcaption>
+                        </figure>
+                        <figure class="fig-story fig-story--crop" style="--crop-focus:22%" onclick="openLightbox(this)">
+                            <img loading="lazy" src="lcdg/sketch2.jpg" alt="Croquis de la cour avec un banc en forme de serpent et des poteaux à halos">
+                            <figcaption>Croquis du groupe : un banc en forme de serpent, des poteaux surmontés de halos de lumière circulaires.</figcaption>
+                        </figure>
+                    </div>
+                </div>
+
+                <figure class="fig-showcase fig-showcase--crop reveal" style="--crop-focus:65%" onclick="openLightbox(this)">
+                    <img loading="lazy" src="lcdg/sketchbanc.jpg" alt="Croquis du banc : assise creusée et dossier de losanges colorés">
+                    <figcaption>Le premier concept : un banc. Au centre, une assise plus basse et plus profonde, où l'on peut s'allonger. Derrière, un dossier composé de losanges de verre accrochés sur des barres, que le vent viendrait faire bouger.</figcaption>
+                </figure>
+            </div>
+        </article>
+
+        <!-- ---------------------------------------
+             03 - La maquette
+             --------------------------------------- -->
+        <article id="maquette" class="story-section story-section--alt">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-number">03</span>
+                    <div class="section-header-text">
+                        <h2>La maquette</h2>
+                        <p class="section-subtitle">Construire pour raconter</p>
+                    </div>
+                </div>
+
+                <div class="story-prose reveal">
+                    <p>La maquette devait être à l'échelle 1:50. J'avais acquis un peu d'expérience dans la réalisation de maquettes grâce au modélisme ferroviaire, si bien que certaines techniques m'étaient déjà familières.</p>
+                </div>
+
+                <!-- La base -->
+                <div class="story-grid story-grid--narrow-img story-grid--spaced reveal">
+                    <div class="grid-text">
+                        <p>Nous avons commencé par une base qui reprend l'allure générale de la cour : le gravier clair, la végétation, le décor dans lequel l'installation viendrait s'insérer.</p>
+                        <p>Pour le gravier, nous avons utilisé celui de la cour elle-même, que nous avons filtré pour ne garder que les tout petits morceaux : à l'échelle 1:50, les cailloux d'origine auraient ressemblé à des rochers. La végétation vient de buissons et d'éponges peintes en vert.</p>
+                        <p>Ce sont des moyens simples, mais ils suffisent à donner à la maquette l'aspect de la vraie cour, avant même d'y poser la moindre structure.</p>
+                    </div>
+                    <figure class="fig-story fig-story--crop" style="--crop-focus:30%" onclick="openLightbox(this)">
+                        <img loading="lazy" src="lcdg/reproductioncour.jpg" alt="Base de la maquette en cours de réalisation">
+                        <figcaption>La base en cours de réalisation : gravier de la cour, arbres et végétation.</figcaption>
+                    </figure>
+                </div>
+
+                <!-- La structure -->
+                <div class="story-grid story-grid--wide-img story-grid--reverse story-grid--top story-grid--spaced reveal">
+                    <div class="grid-text">
+                        <p>Il a fallu ensuite imaginer la structure. Nous sommes partis sur une forme organique, en queue de baleine : un grillage sur lequel s'accrocheraient les losanges, et qui viendrait plonger dans une assise ovale où l'on peut s'allonger.</p>
+                        <p>Pour intégrer le concept de losanges, nous les avons imaginés comme des écailles. Elles seraient attachées au grillage par le haut, avec deux attaches, pour pouvoir basculer avec le vent.</p>
+                        <p>À l'échelle 1:50, les écailles étaient beaucoup trop petites pour qu'on comprenne ce qu'elles font. Nous avons donc dû réaliser une maquette d'intention, à l'échelle réelle, pour le concept d'écailles (voir plus bas).</p>
+                    </div>
+                    <figure class="fig-story" onclick="openLightbox(this)">
+                        <img loading="lazy" src="lcdg/structure.jpg" alt="Mise en forme du grillage sur la base de la maquette">
+                        <figcaption>Mise en forme du grillage sur la base de la maquette.</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </article>
+
+        <!-- ---------------------------------------
+             04 - Finalisation
+             --------------------------------------- -->
+        <article id="finalisation" class="story-section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-number">04</span>
+                    <div class="section-header-text">
+                        <h2>Finalisation</h2>
+                        <p class="section-subtitle">Mettre au propre</p>
+                    </div>
+                </div>
+
+                <div class="story-prose reveal">
+                    <p>Il restait à mettre le projet au propre. Nous avons ajouté des personnages à la maquette, puis collé le tout.</p>
+                    <p>Toute l'installation repose sur la lumière : nous avons donc pris la photo de la maquette en extérieur, en ensoleillement naturel, pour obtenir le meilleur effet. C'est cette photo, imprimée, qui accompagne la maquette pour la présentation.</p>
+                    <p>Nous avons aussi écrit une description du projet, sous le titre Luminescence.</p>
+                </div>
+
+                <div class="story-grid story-grid--narrow-img reveal">
+                    <div class="grid-text">
+                        <div class="insight-callout">
+                            <p><span class="insight-label">Luminescence</span>Cette installation réinvestit une cour d'école quasiment toujours plongée dans l'ombre en utilisant ses contraintes comme matière de projet : la lumière et le vent.<br><br>Deux structures organiques viennent transformer cet espace vide. Elles sont recouvertes de pétales holographiques mobiles qui captent la lumière et la réfléchissent au sol sous forme de reflets colorés et mouvants. Le vent met les pétales en mouvement et fait ainsi évoluer constamment les projections.<br><br>Elle apporte couleur, mouvement et lumière à une cour jusqu'alors peu investie, tout en créant une présence spectaculaire dans l'espace.</p>
+                        </div>
+                    </div>
+                    <figure class="fig-story" onclick="openLightbox(this)">
+                        <img loading="lazy" src="lcdg/final.jpg" alt="L'ensemble présenté : maquette, maquette d'intention, photos imprimées et texte de présentation">
+                        <figcaption>L'ensemble présenté : la maquette, la maquette d'intention, les photos imprimées et le texte de présentation.</figcaption>
+                    </figure>
+                </div>
+
+                <div class="fig-pair reveal">
+                    <figure class="fig-story fig-story--crop" style="--crop-focus:30%" onclick="openLightbox(this)">
+                        <img loading="lazy" src="lcdg/maquettefinale.jpg" alt="La maquette terminée, avec ses personnages">
+                        <figcaption>La maquette terminée, à l'échelle 1:50, avec ses personnages. Derrière, un bout de la maquette d'intention.</figcaption>
+                    </figure>
+                    <figure class="fig-story fig-story--crop" style="--crop-focus:40%" onclick="openLightbox(this)">
+                        <img loading="lazy" src="lcdg/photopro.jpg" alt="Photo de la maquette prise en extérieur, imprimée">
+                        <figcaption>La photo de la maquette prise en extérieur, imprimée pour la présentation.</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </article>
+
+        <section class="story-conclusion story-section--alt">
+            <div class="container">
+                <div class="conclusion-inner reveal">
+                    <h2>Ce que j'en retiens</h2>
+                    <p>J'ai beaucoup appris de ce premier projet, qui permet de se projeter concrètement dans ces études de design. Ce que je retiens d'abord, c'est qu'un projet peut partir de ce qu'un lieu impose : l'ombre et le vent, qui étaient des défauts de la cour, sont devenus la matière de l'installation, et c'est le constat sur le vent qui a décidé de la suite.</p>
+                    <p>Travailler en groupe m'a aussi fait sociabiliser, et m'a donné un aperçu de ce que sera la collaboration avec une équipe plus tard. Présenter mes deux idées, puis voir le groupe en retenir une, a été un premier exercice dans ce sens.</p>
+                    <p>Le résultat final est, à mes yeux, un bon accomplissement pour un premier projet.</p>
+                    <a href="index.html" class="btn btn-secondary">← Retour au design</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="last-modified">
+            <div class="container">
+                <p>Dernière mise à jour : 20 septembre 2026</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img id="lightbox-img" src="" alt="">
+        <p id="lightbox-caption"></p>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-text">MathLoo</span>
+                    <p>Portfolio créatif</p>
+                    <a href="mailto:mathloo.site@gmail.com" class="footer-email">mathloo.site@gmail.com</a>
+                </div>
+                <div class="footer-links">
+                    <a href="../index.html">Accueil</a>
+                    <a href="../mltc/index.html">MLTC</a>
+                    <a href="../3D/index.html">3D</a>
+                    <a href="index.html">Design</a>
+                    <!-- <a href="../divers/index.html">Divers</a> -->
+                    <a href="../liens.html">Liens</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span class="footer-version">v<strong>0.9</strong> (25/09/2026)</span>
+                <p>&copy; 2026 MathLoo. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/story.js"></script>
+</body>
+</html>

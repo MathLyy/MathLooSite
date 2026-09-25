@@ -1,0 +1,496 @@
+/* ═══════════════════════════════════════════════════
+   Hub cards - cartes de navigation premium
+   ───────────────────────────────────────────────────
+   Gabarit partage par tous les hubs du site : accueil
+   (section Projets), 3D, Design, Divers, et la section
+   « Explorer la MLTC ».
+
+   Extrait de css/mltc.css, ou ce systeme est ne. Les
+   decors propres a la MLTC (pile de livrees, carte
+   d'Europe) restent dans mltc.css.
+
+   Convention : chaque carte peut porter un
+   style="--card-color: #xxxxxx" pour teinter son anneau
+   de survol. Sans lui, l'accent violet du site est
+   utilise.
+   ═══════════════════════════════════════════════════ */
+
+.hub-section {
+    position: relative;
+    padding: clamp(64px, 8vw, 120px) var(--spacing-lg);
+    background: color-mix(in srgb, var(--primary-200) 22%, var(--background));
+    overflow: hidden;
+    isolation: isolate;
+}
+[data-theme="dark"] .hub-section {
+    background: color-mix(in srgb, #2a1a4a 28%, var(--background));
+}
+
+/* Decorative background layer */
+.explore-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+.explore-blob {
+    display: none;
+}
+.explore-grid-pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(to right, color-mix(in srgb, var(--primary-400) 8%, transparent) 1px, transparent 1px),
+        linear-gradient(to bottom, color-mix(in srgb, var(--primary-400) 8%, transparent) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 65% 55% at 50% 45%, #000 20%, transparent 85%);
+    -webkit-mask-image: radial-gradient(ellipse 65% 55% at 50% 45%, #000 20%, transparent 85%);
+    opacity: 0.35;
+}
+[data-theme="dark"] .explore-grid-pattern { opacity: 0.22; }
+
+.hub-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Header block */
+.explore-header {
+    text-align: center;
+    margin-bottom: clamp(32px, 4vw, 56px);
+}
+.explore-eyebrow {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--primary-600);
+    background: color-mix(in srgb, var(--primary-200) 50%, transparent);
+    padding: 6px 16px;
+    border-radius: var(--radius-full);
+    margin-bottom: var(--spacing-md);
+}
+[data-theme="dark"] .explore-eyebrow {
+    color: #c4b5fd;
+    background: rgba(167, 139, 250, 0.12);
+}
+.explore-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-sm);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+.explore-title-accent {
+    background: linear-gradient(135deg, var(--primary-500), var(--primary-700));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.explore-lede {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 52ch;
+    margin: 0 auto;
+    line-height: 1.55;
+}
+
+/* Asymmetric grid: featured (full-height) + 2 stacked secondary */
+.explore-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: clamp(16px, 1.6vw, 24px);
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 560px;
+}
+.explore-card--featured {
+    grid-row: 1 / span 2;
+}
+
+/* Variante 1 carte principale + 3 secondaires (accueil).
+   Les rangees ont un plancher mais peuvent grandir : une carte
+   secondaire dont le texte deborderait etire la grille plutot que
+   de se faire rogner par l'overflow: hidden de .explore-card. */
+.explore-grid--4 {
+    grid-template-rows: repeat(3, minmax(230px, auto));
+    min-height: 0;
+}
+.explore-grid--4 .explore-card--featured {
+    grid-row: 1 / span 3;
+}
+
+/* Variante carte unique (hub 3D tant qu'il n'y a qu'un projet) */
+.explore-grid--1 {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    min-height: 0;
+}
+.explore-grid--1 .explore-card {
+    min-height: 380px;
+}
+
+/* Variante 2 cartes cote a cote, sans carte principale (hub 3D) */
+.explore-grid--2 {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    min-height: 0;
+}
+.explore-grid--2 .explore-card {
+    min-height: 340px;
+}
+
+/* Dans les grilles a colonnes egales, une carte principale ne s'etire pas
+   sur deux rangees : elle occupe simplement sa cellule. */
+.explore-grid--2 .explore-card--featured,
+.explore-grid--3 .explore-card--featured {
+    grid-row: auto;
+    min-height: 0;
+}
+
+/* Variante 3 cartes egales (hub Divers) */
+.explore-grid--3 {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+    min-height: 0;
+}
+.explore-grid--3 .explore-card {
+    min-height: 340px;
+}
+
+/* Card base */
+.explore-card {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: var(--radius-2xl);
+    text-decoration: none;
+    color: inherit;
+    isolation: isolate;
+    transition:
+        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow:
+        0 4px 16px rgba(124, 58, 237, 0.08),
+        0 1px 3px rgba(0, 0, 0, 0.06);
+    border: 1px solid color-mix(in srgb, var(--primary-300) 30%, var(--border));
+}
+.explore-card:hover {
+    transform: translateY(-6px);
+    box-shadow:
+        0 24px 48px rgba(124, 58, 237, 0.25),
+        0 8px 16px rgba(124, 58, 237, 0.15),
+        0 0 0 1px var(--card-color, var(--primary-400));
+}
+
+/* Featured card: image-driven, dark gradient */
+.explore-card--featured {
+    background: #1a0d33;
+    color: #fff;
+    min-height: 380px;
+}
+.explore-card-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    transform: scale(1.04);
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    filter: saturate(1.05);
+}
+.explore-card--featured:hover .explore-card-bg {
+    transform: scale(1.1);
+}
+.explore-card-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+        linear-gradient(180deg,
+            rgba(26, 13, 51, 0.35) 0%,
+            rgba(26, 13, 51, 0.55) 50%,
+            rgba(26, 13, 51, 0.92) 100%),
+        linear-gradient(135deg,
+            color-mix(in srgb, var(--primary-700) 60%, transparent) 0%,
+            transparent 60%);
+    transition: opacity 0.5s ease;
+}
+
+/* Secondary cards: gradient surface */
+.explore-card--secondary {
+    background: linear-gradient(135deg,
+        var(--surface) 0%,
+        color-mix(in srgb, var(--primary-100) 55%, var(--surface)) 100%);
+    color: var(--text-primary);
+    min-height: 0;
+}
+[data-theme="dark"] .explore-card--secondary {
+    background: linear-gradient(135deg,
+        color-mix(in srgb, var(--surface) 80%, var(--primary-900)) 0%,
+        color-mix(in srgb, #2a1a4a 70%, var(--surface)) 100%);
+}
+
+/* Shine sweep on hover */
+.explore-card-shine {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(115deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.12) 50%,
+        transparent 70%);
+    transform: translateX(-110%);
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.explore-card:hover .explore-card-shine {
+    transform: translateX(110%);
+}
+
+/* Content layer */
+.explore-card-content {
+    position: relative;
+    z-index: 3;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--spacing-lg);
+    padding: clamp(20px, 2.4vw, 36px);
+}
+.explore-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+}
+.explore-card-tag {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+.explore-card--featured .explore-card-tag {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+}
+.explore-card--secondary .explore-card-tag {
+    color: var(--primary-700);
+    background: color-mix(in srgb, var(--primary-200) 55%, transparent);
+    border: 1px solid color-mix(in srgb, var(--primary-300) 50%, transparent);
+}
+[data-theme="dark"] .explore-card--secondary .explore-card-tag {
+    color: #c4b5fd;
+    background: rgba(167, 139, 250, 0.14);
+    border-color: rgba(167, 139, 250, 0.28);
+}
+
+/* Icon */
+.explore-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-lg);
+    transition:
+        transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        background 0.3s ease;
+    flex-shrink: 0;
+}
+.explore-card--featured .explore-card-icon {
+    width: 56px;
+    height: 56px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+.explore-card--secondary .explore-card-icon {
+    background: linear-gradient(135deg,
+        var(--card-color, var(--primary-500)),
+        color-mix(in srgb, var(--card-color, var(--primary-600)) 70%, #000));
+    color: #fff;
+    box-shadow: 0 6px 16px rgba(124, 58, 237, 0.28);
+}
+.explore-card:hover .explore-card-icon {
+    transform: rotate(-6deg) scale(1.08);
+}
+.explore-card--featured:hover .explore-card-icon {
+    background: rgba(255, 255, 255, 0.22);
+}
+
+/* Title and copy */
+.explore-card-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+.explore-card-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0;
+}
+.explore-card--featured .explore-card-title {
+    font-size: clamp(2rem, 3.6vw, 2.8rem);
+    color: #fff;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.3);
+}
+.explore-card--secondary .explore-card-title {
+    font-size: clamp(1.5rem, 2.2vw, 1.8rem);
+    color: var(--text-primary);
+}
+.explore-card-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 48ch;
+}
+.explore-card--featured .explore-card-desc {
+    color: rgba(255, 255, 255, 0.82);
+}
+.explore-card--secondary .explore-card-desc {
+    color: var(--text-secondary);
+}
+
+/* Statistiques sur une carte principale (accueil : MLTC) */
+.explore-card-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xl);
+    margin: 0;
+    padding: var(--spacing-md) 0 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+.explore-card-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.explore-card-stat-number {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+}
+.explore-card-stat-label {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* CTA pill */
+.explore-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-size: 0.92rem;
+    font-weight: 600;
+    margin-top: 4px;
+    align-self: flex-start;
+}
+.explore-card-cta-label {
+    position: relative;
+}
+.explore-card--featured .explore-card-cta {
+    color: #fff;
+}
+.explore-card--secondary .explore-card-cta {
+    color: var(--primary-600);
+}
+[data-theme="dark"] .explore-card--secondary .explore-card-cta {
+    color: #c4b5fd;
+}
+.explore-card-cta-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: currentColor;
+    color: var(--surface);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.explore-card-cta-arrow svg {
+    color: var(--primary-600);
+}
+.explore-card--featured .explore-card-cta-arrow svg {
+    color: #1a0d33;
+}
+.explore-card:hover .explore-card-cta-arrow {
+    transform: translateX(6px);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .explore-grid,
+    .explore-grid--1,
+    .explore-grid--2,
+    .explore-grid--3,
+    .explore-grid--4 {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        min-height: 0;
+    }
+    .explore-card--featured,
+    .explore-grid--4 .explore-card--featured {
+        grid-row: auto;
+        min-height: 320px;
+    }
+    .explore-card--secondary {
+        min-height: 200px;
+    }
+    .explore-grid--2 .explore-card,
+    .explore-grid--3 .explore-card {
+        min-height: 240px;
+    }
+}
+@media (max-width: 600px) {
+    .explore-card-content {
+        padding: 22px 20px;
+    }
+    .explore-card--featured .explore-card-title {
+        font-size: 2rem;
+    }
+    .explore-card-stats {
+        gap: var(--spacing-lg);
+    }
+}
+
+/* On touch devices (no hover), show the hover end-state by default */
+@media (hover: none) {
+    .explore-card-bg { transform: scale(1.1); }
+    .explore-card-icon { transform: rotate(-6deg) scale(1.08); }
+    .explore-card-cta-arrow { transform: translateX(6px); }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .explore-blob,
+    .explore-card,
+    .explore-card-bg,
+    .explore-card-shine,
+    .explore-card-icon,
+    .explore-card-cta-arrow {
+        animation: none !important;
+        transition: none !important;
+    }
+}

@@ -1,0 +1,533 @@
+/* ========================================
+   Hub Design
+   Page d'entree de la rubrique Design : elle emprunte au design ses propres
+   outils (grille de construction, reperes de coupe, decalage des couleurs
+   d'impression, regle graduee). Angles droits partout, aucun arrondi.
+   Charge apres style.css et pages.css, sur design/index.html uniquement.
+   ======================================== */
+
+.design-page {
+    --dz-red: #e5484d;
+    --dz-orange: #f28c3c;
+    --dz-yellow: #f2bf3a;
+    --dz-green: #3fae7a;
+    --dz-blue: #3b82f6;
+    --dz-violet: #a855f7;
+    overflow-x: clip;
+}
+
+/* ── Hero : une planche de construction ── */
+.design-hero {
+    position: relative;
+    isolation: isolate;
+    padding: 150px var(--spacing-lg) 0;
+    background: var(--surface-elevated);
+    overflow: hidden;
+}
+
+/* Grille de construction, estompee vers le bas */
+.design-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 48px 48px;
+    -webkit-mask-image: linear-gradient(180deg, #000 30%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 30%, transparent 100%);
+}
+
+.design-hero-inner {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: var(--spacing-2xl);
+    align-items: center;
+    padding-bottom: var(--spacing-3xl);
+}
+
+.design-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-label);
+    margin-bottom: var(--spacing-lg);
+}
+
+.design-eyebrow::before {
+    content: '';
+    width: 28px;
+    height: 2px;
+    background: currentColor;
+}
+
+/* Le titre est imprime trois fois, avec un leger defaut de repérage :
+   l'effet des couleurs qui ne tombent pas tout a fait au meme endroit. */
+.design-hero h1 {
+    position: relative;
+    isolation: isolate;
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: clamp(4.2rem, 15vw, 10.5rem);
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    color: var(--text-primary);
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    margin-bottom: var(--spacing-lg);
+}
+
+.design-hero h1::before,
+.design-hero h1::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    pointer-events: none;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.design-hero h1::before {
+    -webkit-text-stroke: 2px var(--dz-blue);
+    transform: translate(-0.045em, -0.03em);
+}
+
+.design-hero h1::after {
+    -webkit-text-stroke: 2px var(--dz-red);
+    transform: translate(0.045em, 0.035em);
+}
+
+.design-hero-inner:hover h1::before {
+    transform: translate(-0.09em, -0.06em);
+}
+
+.design-hero-inner:hover h1::after {
+    transform: translate(0.09em, 0.07em);
+}
+
+.design-lede {
+    max-width: 30em;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.design-lede + .design-lede {
+    margin-top: var(--spacing-lg);
+}
+
+.design-lede strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Composition de formes */
+.design-figure {
+    width: 100%;
+    max-width: 460px;
+    justify-self: end;
+    overflow: visible;
+}
+
+.design-figure .dz-shape {
+    mix-blend-mode: multiply;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: dzFloat 9s ease-in-out infinite alternate;
+}
+
+[data-theme="dark"] .design-figure .dz-shape {
+    mix-blend-mode: screen;
+}
+
+.design-figure .dz-shape--b { animation-duration: 11s; animation-delay: -3s; }
+.design-figure .dz-shape--c { animation-duration: 13s; animation-delay: -6s; }
+.design-figure .dz-shape--d { animation-duration: 10s; animation-delay: -2s; }
+
+.design-figure .dz-guide {
+    stroke: var(--text-muted);
+    stroke-width: 1;
+    stroke-dasharray: 4 5;
+    fill: none;
+    opacity: 0.6;
+}
+
+.design-figure .dz-mark {
+    stroke: var(--text-primary);
+    stroke-width: 1.5;
+    fill: none;
+}
+
+@keyframes dzFloat {
+    from { transform: translate(0, 0) rotate(0deg); }
+    to { transform: translate(10px, -14px) rotate(6deg); }
+}
+
+/* Regle graduee au pied du hero */
+.design-ruler {
+    height: 22px;
+    background-image:
+        linear-gradient(90deg, var(--text-muted) 1px, transparent 1px),
+        linear-gradient(90deg, var(--text-muted) 1px, transparent 1px);
+    background-size: 10px 9px, 50px 20px;
+    background-repeat: repeat-x;
+    background-position: left bottom;
+    opacity: 0.55;
+    margin: 0 calc(var(--spacing-lg) * -1);
+}
+
+/* ── Bande de verbes, legerement penchee ── */
+.dz-band-zone {
+    overflow: hidden;
+    padding: var(--spacing-2xl) 0;
+}
+
+.dz-band {
+    width: 108%;
+    margin-left: -4%;
+    overflow: hidden;
+    transform: rotate(-1.3deg);
+    background: var(--text-primary);
+    color: var(--surface);
+    padding: 0.9rem 0;
+}
+
+.dz-band-track {
+    display: flex;
+    width: max-content;
+    animation: dzScroll 38s linear infinite;
+}
+
+.dz-band-track span {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.6rem;
+    padding-right: 1.6rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.dz-band-track span::after {
+    content: '';
+    width: 0.6em;
+    height: 0.6em;
+    background: var(--dz-orange);
+    transform: rotate(45deg);
+}
+
+.dz-band-track span:nth-child(4n+2)::after { background: var(--dz-yellow); }
+.dz-band-track span:nth-child(4n+3)::after { background: var(--dz-green); }
+.dz-band-track span:nth-child(4n)::after { background: var(--dz-blue); }
+
+@keyframes dzScroll {
+    to { transform: translateX(-50%); }
+}
+
+/* ── Projets ── */
+.design-projects {
+    padding: var(--spacing-2xl) var(--spacing-lg) var(--spacing-3xl);
+}
+
+.design-projects-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.design-section-head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-2xl);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid var(--text-primary);
+}
+
+.design-section-head h2 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    letter-spacing: -0.02em;
+}
+
+.design-section-head span {
+    margin-left: auto;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+/* Projet en vedette : visuel et texte cote a cote */
+.dz-project {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Filet spectral en tete de carte */
+.dz-project::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    height: 5px;
+    z-index: 2;
+    background: linear-gradient(90deg, var(--dz-red), var(--dz-orange), var(--dz-yellow), var(--dz-green), var(--dz-blue), var(--dz-violet));
+}
+
+.dz-project:hover {
+    transform: translate(-6px, -6px);
+    box-shadow: 12px 12px 0 var(--dz-blue);
+}
+
+.dz-project-visual {
+    position: relative;
+    overflow: hidden;
+    min-height: 360px;
+    background: var(--surface-elevated);
+}
+
+.dz-project-visual img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dz-project:hover .dz-project-visual img {
+    transform: scale(1.04);
+}
+
+/* Gros numero d'index, en contour */
+.dz-project-num {
+    position: absolute;
+    left: var(--spacing-lg);
+    bottom: var(--spacing-md);
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 9vw, 7rem);
+    font-weight: 800;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 2px #fff;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.35);
+}
+
+.dz-project-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-2xl);
+}
+
+.dz-project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* Etiquette de domaine */
+.dz-tag {
+    display: inline-block;
+    padding: 0.3rem 0.7rem;
+    background: var(--text-primary);
+    color: var(--surface);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.dz-project h3 {
+    font-size: clamp(1.8rem, 3.4vw, 2.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.dz-project p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.dz-project-link {
+    align-self: flex-start;
+    margin-top: var(--spacing-sm);
+    padding-bottom: 2px;
+    font-weight: 700;
+    color: var(--accent-action);
+    border-bottom: 2px solid currentColor;
+    transition: letter-spacing 0.3s ease;
+}
+
+.dz-project:hover .dz-project-link {
+    letter-spacing: 0.04em;
+}
+
+/* Places reservees : un cadre de coupe vide */
+.dz-slots {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-xl);
+}
+
+.dz-slot {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: var(--spacing-sm);
+    min-height: 240px;
+    padding: var(--spacing-xl);
+    border: 2px dashed var(--border);
+    background:
+        linear-gradient(var(--border) 1px, transparent 1px) 0 0 / 100% 32px,
+        transparent;
+}
+
+/* Reperes de coupe aux quatre coins */
+.dz-slot::before,
+.dz-slot::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--text-muted);
+    opacity: 0.6;
+}
+
+.dz-slot::before {
+    top: -2px;
+    left: -2px;
+    border-right: 0;
+    border-bottom: 0;
+}
+
+.dz-slot::after {
+    right: -2px;
+    bottom: -2px;
+    border-left: 0;
+    border-top: 0;
+}
+
+.dz-slot-num {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-lg);
+    font-family: var(--font-display);
+    font-size: 4.5rem;
+    font-weight: 800;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--border);
+}
+
+.dz-slot .dz-tag {
+    align-self: flex-start;
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px dashed var(--text-muted);
+}
+
+.dz-slot h3 {
+    font-size: 1.3rem;
+    color: var(--text-secondary);
+}
+
+.dz-slot p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+    .design-hero {
+        padding-top: 120px;
+    }
+
+    .design-hero-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .design-figure {
+        justify-self: start;
+        max-width: 340px;
+    }
+
+    .dz-project {
+        grid-template-columns: 1fr;
+    }
+
+    .dz-project-visual {
+        min-height: 260px;
+    }
+
+    .dz-project-body {
+        padding: var(--spacing-xl);
+    }
+}
+
+@media (max-width: 640px) {
+    .dz-slots {
+        grid-template-columns: 1fr;
+    }
+
+    .design-section-head span {
+        display: none;
+    }
+}
+
+/* Pas de survol sur ecran tactile : rien qui reste "colle" */
+@media (hover: none) {
+    .dz-project:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+    .dz-project:hover .dz-project-visual img {
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .design-figure .dz-shape,
+    .dz-band-track {
+        animation: none;
+    }
+
+    .design-hero h1::before,
+    .design-hero h1::after,
+    .dz-project,
+    .dz-project-visual img,
+    .dz-project-link {
+        transition: none;
+    }
+}

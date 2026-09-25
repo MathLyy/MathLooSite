@@ -65,9 +65,10 @@ d'édition** — c'est le test d'acceptation du parseur et du sérialiseur.
    empêchent l'écriture.
 2. Le résultat est vérifié : head/footer intacts, HTML valide, re-parse cohérent
    (nombre d'engins et de sections), rendu idempotent.
-3. Une **modale de diff** montre les lignes changées. Au-delà de
-   `max(20, 4 × nœuds modifiés)`, l'écriture est bloquée derrière une case à
-   cocher explicite — c'est ce qui attrape une régression du sérialiseur.
+3. Une **modale de diff** montre toutes les lignes changées avant l'écriture,
+   sans seuil ni case à cocher : une réécriture volontaire et massive (on
+   change beaucoup de choses d'un coup) n'est jamais bloquée, on peut juste
+   relire le diff avant de confirmer.
 4. Si le fichier a changé sur le disque depuis son ouverture (édité dans VS Code),
    l'écriture est refusée.
 5. Après écriture, le fichier est relu et comparé octet pour octet.
@@ -78,6 +79,17 @@ Le bouton **Intégrité** croise les pages avec `mltc/data/circulations.json`,
 `js/services-page.js` et les liens de `mltc/livrees.html`. **Lecture seule** :
 l'outil n'écrit jamais ces fichiers, il se contente d'avertir. Le rayon
 d'explosion d'un bug reste confiné au HTML des livrées.
+
+## Dernières nouveautés
+
+Le bouton **Nouveautés** ouvre un éditeur manuel pour le bloc "Dernières
+nouveautés" en haut de `mltc/livrees.html` (la liste à puces avec vignette,
+nom, page/date, badge Nouveauté/Modification et lien). Chaque champ est
+tapé ou choisi à la main — aucune détection automatique de date ou de
+statut : ce bloc n'est pas modélisé par le parseur (comme le head ou la
+navbar, `lv-changelog` n'existe pas dans `classify()`), il est donc lu et
+réécrit comme un simple remplacement de texte, avec le même aperçu de diff
+avant écriture que le reste de l'outil.
 
 ## Fichiers
 
@@ -91,6 +103,7 @@ d'explosion d'un bug reste confiné au HTML des livrées.
 | `js/diff.js` | diff ligne à ligne (LCS) |
 | `js/validate.js` | contrôles intra-page |
 | `js/integrity.js` | contrôles inter-fichiers (lecture seule) |
+| `js/recent.js` | lecture/écriture manuelle du bloc "Dernières nouveautés" |
 | `js/preview.js` | aperçu iframe à CSS et images inlinés |
 | `js/kit.js` | briques d'interface |
 | `js/ui.js`, `js/ui-extra.js` | interface |

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divers | MathLoo</title>
+    <!-- Rubrique Divers masquee tant qu'elle est vide : on redirige vers
+         l'accueil plutot que de laisser une URL directe atteindre une page
+         sans contenu. Retirer ces deux lignes pour la rouvrir. -->
+    <script>window.location.replace('../index.html');</script>
+    <noscript><meta http-equiv="refresh" content="0; url=../index.html"></noscript>
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/pages.css">
+    <link rel="stylesheet" href="../css/hub-cards.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-text">MathLoo</span>
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../mltc/index.html" class="nav-link">MLTC</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../3D/index.html" class="nav-link">3D</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../design/index.html" class="nav-link">Design</a>
+                </li>
+                <!-- Divers masque temporairement (rubrique encore vide)
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active">Divers</a>
+                </li> -->
+                <li class="nav-item">
+                    <a href="../liens.html" class="nav-link">Liens</a>
+                </li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" aria-label="Changer le thème">
+                    <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2"/>
+                        <path d="M12 20v2"/>
+                        <path d="m4.93 4.93 1.41 1.41"/>
+                        <path d="m17.66 17.66 1.41 1.41"/>
+                        <path d="M2 12h2"/>
+                        <path d="M20 12h2"/>
+                        <path d="m6.34 17.66-1.41 1.41"/>
+                        <path d="m19.07 4.93-1.41 1.41"/>
+                    </svg>
+                    <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                    </svg>
+                </button>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <h1>Divers</h1>
+                <p>Ce qui se fait sans que personne l'ait demandé, par simple envie de le faire.</p>
+            </div>
+        </section>
+
+        <section class="hub-section">
+            <div class="explore-bg" aria-hidden="true">
+                <div class="explore-grid-pattern"></div>
+            </div>
+            <div class="container">
+                <div class="explore-grid explore-grid--2">
+                    <!-- Fangame -->
+                    <a href="fangame.html" class="explore-card explore-card--secondary" style="--card-color:#c2555a">
+                        <div class="explore-card-shine" aria-hidden="true"></div>
+                        <div class="explore-card-content">
+                            <div class="explore-card-top">
+                                <span class="explore-card-tag">Jeu vidéo</span>
+                                <div class="explore-card-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="11" x2="10" y2="11"/><line x1="8" y1="9" x2="8" y2="13"/><line x1="15" y1="12" x2="15.01" y2="12"/><line x1="18" y1="10" x2="18.01" y2="10"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg>
+                                </div>
+                            </div>
+                            <div class="explore-card-bottom">
+                                <h2 class="explore-card-title">Fangame</h2>
+                                <p class="explore-card-desc">Le souvenir d'un jeu qui n'a jamais vu le jour.</p>
+                                <span class="explore-card-cta">
+                                    <span class="explore-card-cta-label">Voir le projet</span>
+                                    <span class="explore-card-cta-arrow" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Dessins divers -->
+                    <a href="dessins.html" class="explore-card explore-card--secondary" style="--card-color:#8a6fc4">
+                        <div class="explore-card-shine" aria-hidden="true"></div>
+                        <div class="explore-card-content">
+                            <div class="explore-card-top">
+                                <span class="explore-card-tag">Galerie</span>
+                                <div class="explore-card-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                </div>
+                            </div>
+                            <div class="explore-card-bottom">
+                                <h2 class="explore-card-title">Dessins divers</h2>
+                                <p class="explore-card-desc">Des images qui existent pour elles-mêmes.</p>
+                                <span class="explore-card-cta">
+                                    <span class="explore-card-cta-label">Voir la galerie</span>
+                                    <span class="explore-card-cta-arrow" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="last-modified">
+            <div class="container">
+                <p>Dernière mise à jour : 20 septembre 2026</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-text">MathLoo</span>
+                    <p>Portfolio créatif</p>
+                    <a href="mailto:mathloo.site@gmail.com" class="footer-email">mathloo.site@gmail.com</a>
+                </div>
+                <div class="footer-links">
+                    <a href="../index.html">Accueil</a>
+                    <a href="../mltc/index.html">MLTC</a>
+                    <a href="../3D/index.html">3D</a>
+                    <a href="../design/index.html">Design</a>
+                    <!-- <a href="index.html">Divers</a> -->
+                    <a href="../liens.html">Liens</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span class="footer-version">v<strong>0.9</strong> (25/09/2026)</span>
+                <p>&copy; 2026 MathLoo. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

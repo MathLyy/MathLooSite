@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gabarit projet | MathLoo</title>
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/pages.css">
+    <link rel="stylesheet" href="../css/story.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-text">MathLoo</span>
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../mltc/index.html" class="nav-link">MLTC</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../3D/index.html" class="nav-link">3D</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active">Design</a>
+                </li>
+                <!-- Divers masque temporairement (rubrique encore vide)
+                <li class="nav-item">
+                    <a href="../divers/index.html" class="nav-link">Divers</a>
+                </li> -->
+                <li class="nav-item">
+                    <a href="../liens.html" class="nav-link">Liens</a>
+                </li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" aria-label="Changer le thème">
+                    <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2"/>
+                        <path d="M12 20v2"/>
+                        <path d="m4.93 4.93 1.41 1.41"/>
+                        <path d="m17.66 17.66 1.41 1.41"/>
+                        <path d="M2 12h2"/>
+                        <path d="M20 12h2"/>
+                        <path d="m6.34 17.66-1.41 1.41"/>
+                        <path d="m19.07 4.93-1.41 1.41"/>
+                    </svg>
+                    <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                    </svg>
+                </button>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ════════════════════════════════════════════════════════════
+         GABARIT DE PAGE PROJET DE DESIGN
+
+         Cette page n'est volontairement pas liée depuis design/index.html :
+         elle sert de modèle. Pour créer un projet :
+
+           1. copier ce fichier sous un nom parlant
+              (par exemple design/affiche-festival.html) ;
+           2. corriger le <title> dans le <head> ;
+           3. remplir les sections ci-dessous et supprimer les blocs
+              .story-todo au fur et à mesure ;
+           4. déposer les images dans design/mon-projet/ ;
+           5. ajouter une carte vers la nouvelle page dans
+              design/index.html, avant les placeholders.
+
+         Composants disponibles (voir css/story.css) :
+           .story-grid / --reverse / --wide-img / --narrow-img  texte + image
+           .fig-story          figure cliquable (lightbox)
+           .fig-pair           deux figures côte à côte
+           .fig-showcase       figure pleine largeur
+           .fig-showcase--bleed  figure extra-large
+           .insight-callout    encart « parti pris »
+           .story-compact      section courte
+         ════════════════════════════════════════════════════════════ -->
+    <main>
+        <section class="page-hero page-hero--story">
+            <div class="container">
+                <span class="project-tag">Type de projet • Année</span>
+                <h1>Titre du projet</h1>
+                <p>Une phrase qui dit ce qu'est le projet et pour qui il a été fait.</p>
+            </div>
+        </section>
+
+        <section class="story-section">
+            <div class="container">
+                <div class="intro-callout reveal">
+                    <div class="intro-callout-icon" aria-hidden="true"></div>
+                    <p>Le projet en deux ou trois phrases : ce qu'il fallait produire, la contrainte principale, et ce qui rend le résultat intéressant. Cet encart est ce que lira quelqu'un de pressé.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 01 · Contexte : la demande, le cadre, les contraintes -->
+        <article id="contexte" class="story-section story-section--alt">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-number">01</span>
+                    <div class="section-header-text">
+                        <h2>Contexte</h2>
+                        <p class="section-subtitle">Le point de départ</p>
+                    </div>
+                </div>
+                <div class="story-prose reveal">
+                    <div class="story-todo">
+                        <span class="story-todo-label">À remplir</span>
+                        <p>D'où vient le projet, pour qui, dans quel délai, avec quelles contraintes : format, support d'impression, charte existante, budget, public visé.</p>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- 02 · Recherches : les pistes explorées, y compris les abandonnées -->
+        <article id="recherches" class="story-section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-number">02</span>
+                    <div class="section-header-text">
+                        <h2>Recherches</h2>
+                        <p class="section-subtitle">Tâtonnements</p>
+                    </div>
+                </div>
+                <div class="story-content reveal">
+                    <div class="story-todo">
+                        <span class="story-todo-label">À remplir</span>
+                        <p>Références rassemblées, premières esquisses, directions testées. Montrer aussi les pistes abandonnées et dire pourquoi : c'est souvent ce qui explique le mieux le résultat.</p>
+                    </div>
+                    <!--
+                    <div class="fig-pair">
+                        <figure class="fig-story" onclick="openLightbox(this)">
+                            <img src="mon-projet/recherche-01.png" alt="Description" loading="lazy">
+                            <figcaption>Première piste.</figcaption>
+                        </figure>
+                        <figure class="fig-story" onclick="openLightbox(this)">
+                            <img src="mon-projet/recherche-02.png" alt="Description" loading="lazy">
+                            <figcaption>Deuxième piste.</figcaption>
+                        </figure>
+                    </div>
+                    -->
+                </div>
+            </div>
+        </article>
+
+        <!-- 03 · Choix graphiques : typo, couleurs, formes -->
+        <article id="choix" class="story-section story-section--alt">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-number">03</span>
+                    <div class="section-header-text">
+                        <h2>Choix graphiques</h2>
+                        <p class="section-subtitle">Ce qui a été décidé, et pourquoi</p>
+                    </div>
+                </div>
+                <div class="story-grid reveal">
+                    <div class="grid-text">
+                        <h3>Sous-titre</h3>
+                        <div class="story-todo">
+                            <span class="story-todo-label">À remplir</span>
+                            <p>Quelle typographie et pourquoi, quelle palette et ce qu'elle évoque, quel traitement des formes. Justifier chaque choix par la contrainte ou l'intention à laquelle il répond.</p>
+                        </div>
+                    </div>
+                    <!--
+                    <figure class="fig-story" onclick="openLightbox(this)">
+                        <img src="mon-projet/palette.png" alt="Description" loading="lazy">
+                        <figcaption>Légende.</figcaption>
+                    </figure>
+                    -->
+                </div>
+
+                <div class="story-prose reveal">
+                    <div class="insight-callout">
+                        <span class="insight-label">Parti pris</span>
+                        <p>Utiliser cet encart pour isoler une décision structurante : un choix contre-intuitif, une contrainte transformée en atout, une règle qu'on s'est donnée et tenue jusqu'au bout.</p>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- 04 · Évolution : les versions successives -->
+        <article id="evolution" class="story-section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-number">04</span>
+                    <div class="section-header-text">
+                        <h2>Évolution</h2>
+                        <p class="section-subtitle">D'une version à l'autre</p>
+                    </div>
+                </div>
+                <div class="story-grid story-grid--reverse reveal">
+                    <div class="grid-text">
+                        <h3>Sous-titre</h3>
+                        <div class="story-todo">
+                            <span class="story-todo-label">À remplir</span>
+                            <p>Ce qui a changé entre les versions, à la suite de quel retour ou de quel constat. Mettre les versions côte à côte aide beaucoup à le montrer.</p>
+                        </div>
+                    </div>
+                    <!--
+                    <figure class="fig-story" onclick="openLightbox(this)">
+                        <img src="mon-projet/version-02.png" alt="Description" loading="lazy">
+                        <figcaption>Légende.</figcaption>
+                    </figure>
+                    -->
+                </div>
+            </div>
+        </article>
+
+        <!-- 05 · Résultat final -->
+        <article id="resultat" class="story-section story-section--alt">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-number">05</span>
+                    <div class="section-header-text">
+                        <h2>Résultat final</h2>
+                        <p class="section-subtitle">Ce que cela donne</p>
+                    </div>
+                </div>
+                <div class="story-prose reveal">
+                    <div class="story-todo">
+                        <span class="story-todo-label">À remplir</span>
+                        <p>Le rendu final, en grand, et quelques lignes sur ce qu'il est devenu : diffusion, impression, usage réel, retours reçus.</p>
+                    </div>
+                </div>
+                <!--
+                <figure class="fig-showcase fig-showcase--bleed reveal" onclick="openLightbox(this)">
+                    <img src="mon-projet/final.png" alt="Description" loading="lazy">
+                    <figcaption>Légende.</figcaption>
+                </figure>
+                -->
+            </div>
+        </article>
+
+        <section class="story-conclusion">
+            <div class="container">
+                <div class="conclusion-inner reveal">
+                    <h2>Ce que j'en retiens</h2>
+                    <p>Une conclusion courte : ce que le projet a appris, ce qu'on referait autrement, ce qu'il a ouvert pour la suite.</p>
+                    <a href="index.html" class="btn btn-secondary">← Retour au design</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="last-modified">
+            <div class="container">
+                <p>Dernière mise à jour : 20 septembre 2026</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img id="lightbox-img" src="" alt="">
+        <p id="lightbox-caption"></p>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-text">MathLoo</span>
+                    <p>Portfolio créatif</p>
+                    <a href="mailto:mathloo.site@gmail.com" class="footer-email">mathloo.site@gmail.com</a>
+                </div>
+                <div class="footer-links">
+                    <a href="../index.html">Accueil</a>
+                    <a href="../mltc/index.html">MLTC</a>
+                    <a href="../3D/index.html">3D</a>
+                    <a href="index.html">Design</a>
+                    <!-- <a href="../divers/index.html">Divers</a> -->
+                    <a href="../liens.html">Liens</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span class="footer-version">v<strong>0.9</strong> (25/09/2026)</span>
+                <p>&copy; 2026 MathLoo. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/story.js"></script>
+</body>
+</html>
