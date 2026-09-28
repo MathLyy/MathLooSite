@@ -3,12 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Services - Histoire MLTC | MathLoo</title>
-    <!-- Chapitre en attente de reecriture : on redirige vers histoire.html
-         plutot que de laisser une URL directe atteindre un contenu qui ne
-         doit plus etre visible pour l'instant. -->
-    <script>window.location.replace('../histoire.html');</script>
-    <noscript><meta http-equiv="refresh" content="0; url=../histoire.html"></noscript>
+    <title>Les services - Histoire MLTC | MathLoo</title>
     <link rel="icon" type="image/png" href="../../favicon.png">
     <script>
         (function() {
@@ -77,35 +72,15 @@
     </nav>
 
     <!-- MLTC Sub-navigation -->
-    <nav class="mltc-subnav">
+    <nav class="mltc-subnav" aria-label="Rubriques MLTC">
         <div class="container">
             <ul class="subnav-menu">
-                <!-- L'Univers -->
-                <li class="subnav-item">
-                    <button class="subnav-toggle" data-category="univers">L'Univers</button>
-                    <div class="subnav-dropdown">
-                        <a href="../index.html" class="subnav-link">Accueil</a>
-                        <a href="../histoire.html" class="subnav-link active">Histoire</a>
-                        <a href="../coulisses.html" class="subnav-link">Les coulisses de la MLTC</a>
-                    </div>
-                </li>
-                <!-- Le Réseau -->
-                <li class="subnav-item">
-                    <button class="subnav-toggle" data-category="reseau">Le Réseau</button>
-                    <div class="subnav-dropdown">
-                        <a href="../circulations.html" class="subnav-link">Circulations</a>
-                        <a href="../livrees.html" class="subnav-link">Livrées</a>
-                        <a href="../services.html" class="subnav-link">Services</a>
-                    </div>
-                </li>
-                <!-- Acteurs -->
-                <li class="subnav-item">
-                    <button class="subnav-toggle" data-category="acteurs">Acteurs</button>
-                    <div class="subnav-dropdown">
-                        <a href="../autres-operateurs.html" class="subnav-link">Autres opérateurs</a>
-                        <a href="../production.html" class="subnav-link">Production</a>
-                    </div>
-                </li>
+                <li class="subnav-item"><a href="../index.html" class="subnav-link">Accueil</a></li>
+                <li class="subnav-item"><a href="../histoire.html" class="subnav-link active" aria-current="page">Histoire</a></li>
+                <li class="subnav-item"><a href="../circulations.html" class="subnav-link">Circulations</a></li>
+                <li class="subnav-item"><a href="../livrees.html" class="subnav-link">Livrées</a></li>
+                <li class="subnav-item"><a href="../autres-operateurs.html" class="subnav-link">Autres opérateurs</a></li>
+                <li class="subnav-item"><a href="../production.html" class="subnav-link">Production</a></li>
             </ul>
         </div>
     </nav>
@@ -118,10 +93,10 @@
             </a>
             <div class="chr-opening-kicker">
                 <span class="chr-part-num">III</span>
-                <span class="chr-opening-period">Après l'expansion</span>
+                <span class="chr-opening-period">2012 &ndash; aujourd'hui</span>
             </div>
             <h1>Les services</h1>
-            <p class="chr-opening-sub">L'offre ferroviaire de la MLTC Railways, des quatre services fondateurs de 2001 à la refonte complète de 2012.</p>
+            <p class="chr-opening-sub">De la refonte de 2012 au réseau d'aujourd'hui.</p>
 
             <aside class="chr-fiction">
                 <span class="chr-fiction-tag">Fiction &middot; Uchronie</span>
@@ -129,156 +104,226 @@
             </aside>
         </section>
 
-        <section id="services-2001" class="chr-reveal">
-            <div class="chr-head">
-                <div class="chr-eyebrow">Rappel</div>
-                <h2>Les quatre services fondateurs</h2>
-            </div>
-            <div class="chr-prose chr-lead">
-                <p>Lors de sa création en 2001, la MLTC structure son offre autour de <a href="origines.html#origines">quatre grands services ferroviaires</a> hérités des trois compagnies fondatrices : l'<strong>InterCity</strong> (grandes lignes), le <strong>TransRegio</strong> (régional), le <strong>HighSpeed</strong> (grande vitesse) et le <strong>NightLine</strong> (trains de nuit). Cette offre reste inchangée pendant plus d'une décennie, jusqu'à la refonte de 2012.</p>
-            </div>
-        </section>
+        <!-- Bandeau anime (js/train-anim.js, comme sur l'accueil MLTC) : des
+             rames de la periode passent une a une, leur nom s'affiche dessous. -->
+        <div class="train-banner chr-trainband">
+            <div id="train-animation-container" data-base="../../" data-caption="chr-train-cap"></div>
+        </div>
+        <p class="chr-train-cap" id="chr-train-cap"></p>
 
-        <section id="refonte-2012" class="chr-reveal">
-            <div class="chr-head">
-                <div class="chr-eyebrow">Refonte 2012</div>
-                <h2>Refonte des services</h2>
-            </div>
-            <div class="chr-prose">
-                <p>Face à l'extension progressive du réseau, à l'évolution des besoins en mobilité et à l'hétérogénéité croissante des territoires desservis, la MLTC engage en 2012 une vaste refonte de ses services. Cette réorganisation vise à clarifier l'offre, à renforcer la lisibilité pour les usagers et à mieux intégrer les réalités urbaines, périurbaines et transnationales du Mathlyens.</p>
-                <p>En pratique, des dessertes périurbaines existaient déjà du temps de la CCFM et de la WME, mais lors de la création de la MLTC en 2001, elles avaient été intégrées au service TransRegio par souci de simplification. Avec le temps, ce regroupement s'est avéré peu lisible pour les usagers, mêlant desserte régionale et desserte de proximité sous une même marque. La refonte de 2012 rétablit donc des services urbains et suburbains distincts, tout en restructurant l'ensemble de l'offre en deux grandes catégories.</p>
-            </div>
+        <div class="chr-body">
+            <nav class="chr-rail" aria-label="Périodes de la partie III">
+                <a href="#s2012" class="chr-rail-link"><span>2012</span>La refonte</a>
+                <a href="#sgl" class="chr-rail-link"><span>Depuis 2012</span>Grandes lignes et régional</a>
+                <a href="#surb" class="chr-rail-link"><span>Depuis 2012</span>Urbain et périurbain</a>
+                <a href="#sauj" class="chr-rail-link"><span>2012 &ndash; aujourd'hui</span>Depuis la refonte</a>
+            </nav>
 
-            <!-- Vue d'ensemble de la filiation des marques : sans elle, les
-                 onze noms introduits sur cette page et la precedente (quatre
-                 fondateurs, huit actuels) ne se recoupent que si le lecteur
-                 les retient un par un en parcourant les onglets plus bas. -->
-            <div class="chr-lineage">
-                <p class="chr-lineage-caption">Quatre marques fondatrices (2001) devenues huit à la refonte de 2012.</p>
-                <div class="chr-lineage-grid">
-                    <div class="chr-lineage-group">
-                        <span class="chr-lineage-then">InterCity</span>
-                        <svg class="chr-lineage-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                        <div class="chr-lineage-now"><span>Xpress</span></div>
+            <div class="chr-body-main">
+                <section id="s2012" class="chr-period chr-reveal">
+                    <div class="chr-head">
+                        <div class="chr-eyebrow">2012</div>
+                        <h2>La refonte</h2>
                     </div>
-                    <div class="chr-lineage-group">
-                        <span class="chr-lineage-then">TransRegio</span>
-                        <svg class="chr-lineage-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                        <div class="chr-lineage-now">
-                            <span>TransRegio</span>
-                            <span>Frail</span>
-                            <span>Urbahn</span>
+                    <div class="chr-prose chr-lead">
+                        <p>En 2012, la MLTC atteint les douze États membres, et l'Espagne rejoint le réseau. C'est l'année que la compagnie choisit pour revoir entièrement ses marques : les cinq de 2001 ont été pensées pour trois compagnies qui fusionnaient, pas pour un réseau qui couvre désormais tout le Mathlyens.</p>
+                        <p>Le TransRegio pose le problème le plus visible. Depuis 2001, il réunit sous un même nom les dessertes régionales et les dessertes périurbaines que la CCFM et la WME exploitaient autour de leurs métropoles. Le périurbain retrouve donc ses propres marques. L'offre est réorganisée en deux familles : les grandes lignes et le régional d'un côté, l'urbain et le périurbain de l'autre.</p>
+                    </div>
+
+                    <div class="chr-lin" role="table" aria-label="Des marques de 2001 à celles de 2012">
+                        <div class="chr-lin-row chr-lin-row--head" role="row">
+                            <span role="columnheader">Jusqu'en 2012</span>
+                            <span role="columnheader">Depuis 2012</span>
+                        </div>
+                        <div class="chr-lin-row" role="row">
+                            <span role="cell">InterCity</span>
+                            <span role="cell"><strong>Xpress</strong></span>
+                        </div>
+                        <div class="chr-lin-row" role="row">
+                            <span role="cell">TransRegio</span>
+                            <span role="cell"><strong>TransRegio</strong>, pour le régional ; <strong>Frail</strong> et <strong>Urbahn</strong>, pour le périurbain</span>
+                        </div>
+                        <div class="chr-lin-row" role="row">
+                            <span role="cell">HighSpeed</span>
+                            <span role="cell"><strong>HighSpeedXpress</strong></span>
+                        </div>
+                        <div class="chr-lin-row" role="row">
+                            <span role="cell">NightLine</span>
+                            <span role="cell"><strong>Nocrail</strong></span>
+                        </div>
+                        <div class="chr-lin-row" role="row">
+                            <span role="cell">Cross-Channel</span>
+                            <span role="cell"><strong>Vivarail</strong>, nouvelle marque qui reprend aussi le transmanche</span>
+                        </div>
+                        <div class="chr-lin-row chr-lin-row--new" role="row">
+                            <span role="cell">Aucune</span>
+                            <span role="cell"><strong>Intracity</strong>, création de 2012</span>
                         </div>
                     </div>
-                    <div class="chr-lineage-group">
-                        <span class="chr-lineage-then">HighSpeed</span>
-                        <svg class="chr-lineage-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                        <div class="chr-lineage-now"><span>HighSpeedXpress</span></div>
+                </section>
+
+                <section id="sgl" class="chr-period chr-reveal">
+                    <div class="chr-head">
+                        <div class="chr-eyebrow">Depuis 2012</div>
+                        <h2>Grandes lignes et régional</h2>
                     </div>
-                    <div class="chr-lineage-group">
-                        <span class="chr-lineage-then">NightLine</span>
-                        <svg class="chr-lineage-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                        <div class="chr-lineage-now"><span>Nocrail</span></div>
+                    <div class="chr-prose">
+                        <p>Cinq marques couvrent les trajets qui vont au-delà d'une agglomération, du train régional au train de nuit.</p>
                     </div>
-                    <div class="chr-lineage-group chr-lineage-group--new">
-                        <span class="chr-lineage-then chr-lineage-then--empty">Sans équivalent en 2001</span>
-                        <svg class="chr-lineage-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                        <div class="chr-lineage-now">
-                            <span>Vivarail</span>
-                            <span>Intracity</span>
+
+                    <div class="chr-co-list chr-co-list--brands">
+                        <article class="chr-co">
+                            <header class="chr-co-plate"><span class="chr-co-acro">TransRegio</span></header>
+                            <div class="chr-co-body">
+                                <p>Le maillage régional : il relie villes secondaires, bourgs et zones rurales aux grands axes, en correspondance avec les Xpress et les HighSpeedXpress. Hors de France et des pays germanophones, il porte aussi les lignes périurbaines que la MLTC exploite ; les autres restent aux compagnies nationales ou privées.</p>
+                                <dl class="chr-co-facts chr-co-facts--rows">
+                                    <div><dt>Avant 2012</dt><dd>TransRegio, sans le périurbain de France et des pays germanophones</dd></div>
+                                    <div><dt>Présence</dt><dd>Tous les États membres</dd></div>
+                                </dl>
+                                <div class="chr-strip"><img src="../icones_lore/ht_tr2.png" alt="Livrée TransRegio" width="1077" height="72"></div>
+                            </div>
+                        </article>
+
+                        <article class="chr-co">
+                            <header class="chr-co-plate"><span class="chr-co-acro">Xpress</span></header>
+                            <div class="chr-co-body">
+                                <p>Les liaisons rapides entre grandes villes à l'échelle nationale, entre 160 et 200 km/h sur voie classique et voie rapide. Certains Xpress franchissent la frontière pour relier des villes voisines, comme Strasbourg et Karlsruhe ou Lille et Bruxelles.</p>
+                                <dl class="chr-co-facts chr-co-facts--rows">
+                                    <div><dt>Avant 2012</dt><dd>InterCity</dd></div>
+                                </dl>
+                                <div class="chr-strip"><img src="../icones_lore/ht_xp.png" alt="Livrée Xpress" width="1077" height="72"></div>
+                            </div>
+                        </article>
+
+                        <article class="chr-co">
+                            <header class="chr-co-plate"><span class="chr-co-acro">HighSpeedXpress</span></header>
+                            <div class="chr-co-body">
+                                <p>La grande vitesse. Ces trains roulent surtout sur lignes à grande vitesse, mais peuvent emprunter des lignes classiques sur une partie du trajet pour desservir des villes qui n'en ont pas. Le nom reprend celui de l'Xpress.</p>
+                                <dl class="chr-co-facts chr-co-facts--rows">
+                                    <div><dt>Avant 2012</dt><dd>HighSpeed</dd></div>
+                                    <div><dt>Exemples</dt><dd>Paris-Lyon, Londres-Birmingham, Bruxelles-Amsterdam</dd></div>
+                                </dl>
+                                <div class="chr-strip"><img src="../icones_lore/ht_hsx.png" alt="Livrée HighSpeedXpress" width="1077" height="72"></div>
+                            </div>
+                        </article>
+
+                        <article class="chr-co">
+                            <header class="chr-co-plate"><span class="chr-co-acro">Vivarail</span></header>
+                            <div class="chr-co-body">
+                                <p>Les grandes lignes internationales, entre l'Xpress et le HighSpeedXpress : des trajets plus longs, sur voie classique et voie rapide, entre capitales et grandes villes de pays différents. À bord, des voitures panoramiques, un service de restauration et des espaces de travail.</p>
+                                <dl class="chr-co-facts chr-co-facts--rows">
+                                    <div><dt>Avant 2012</dt><dd>Nouvelle marque ; reprend les liaisons transmanche de Cross-Channel</dd></div>
+                                </dl>
+                                <div class="chr-strip"><img src="../icones_lore/ht_vr.png" alt="Livrée Vivarail" width="1077" height="72"></div>
+                            </div>
+                        </article>
+
+                        <article class="chr-co">
+                            <header class="chr-co-plate"><span class="chr-co-acro">Nocrail</span></header>
+                            <div class="chr-co-body">
+                                <p>Les trains de nuit sur les grandes relations, dans tout le Mathlyens, avec sièges inclinables, couchettes et cabines privatives.</p>
+                                <dl class="chr-co-facts chr-co-facts--rows">
+                                    <div><dt>Avant 2012</dt><dd>NightLine</dd></div>
+                                </dl>
+                                <div class="chr-strip"><img src="../icones_lore/ht_nr.png" alt="Livrée Nocrail" width="1077" height="72"></div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <section id="surb" class="chr-period chr-reveal">
+                    <div class="chr-head">
+                        <div class="chr-eyebrow">Depuis 2012</div>
+                        <h2>Urbain et périurbain</h2>
+                    </div>
+                    <div class="chr-prose">
+                        <p>Trois marques desservent les agglomérations. Deux reprennent les dessertes périurbaines que la CCFM et la WME exploitaient dès 1958 ; la troisième est entièrement nouvelle.</p>
+                    </div>
+
+                    <div class="chr-co-list chr-co-list--brands">
+                        <article class="chr-co">
+                            <header class="chr-co-plate"><span class="chr-co-acro">Frail</span></header>
+                            <div class="chr-co-body">
+                                <p>Le réseau express des agglomérations françaises, grandes ou moyennes, notamment Toulouse : une desserte cadencée de type RER entre le centre et la couronne. Paris reste en dehors : la RATP y exploite déjà un réseau express dense, et la MLTC n'a jamais cherché à s'y substituer.</p>
+                                <dl class="chr-co-facts chr-co-facts--rows">
+                                    <div><dt>Avant 2012</dt><dd>Périurbain de la CCFM, fondu dans le TransRegio en 2001</dd></div>
+                                    <div><dt>Présence</dt><dd>France</dd></div>
+                                </dl>
+                                <div class="chr-strip"><img src="../icones_lore/ht_fr.png" alt="Livrée Frail" width="1077" height="72"></div>
+                            </div>
+                        </article>
+
+                        <article class="chr-co">
+                            <header class="chr-co-plate"><span class="chr-co-acro">Urbahn</span></header>
+                            <div class="chr-co-body">
+                                <p>L'équivalent germanophone du Frail, sur le modèle d'un S-Bahn renforcé : fréquences élevées et correspondances avec les transports urbains, à Berlin, Munich, Hambourg, Vienne, Zurich et dans d'autres grandes agglomérations.</p>
+                                <dl class="chr-co-facts chr-co-facts--rows">
+                                    <div><dt>Avant 2012</dt><dd>Périurbain de la WME, fondu dans le TransRegio en 2001</dd></div>
+                                    <div><dt>Présence</dt><dd>Allemagne, Autriche, Suisse</dd></div>
+                                </dl>
+                                <div class="chr-strip"><img src="../icones_lore/ht_ub.png" alt="Livrée Urbahn" width="1077" height="72"></div>
+                            </div>
+                        </article>
+
+                        <article class="chr-co">
+                            <header class="chr-co-plate"><span class="chr-co-acro">Intracity</span></header>
+                            <div class="chr-co-body">
+                                <p>Les liaisons à l'intérieur d'une ville ou entre communes voisines, avec du matériel léger : automotrices courtes, tram-trains. Dans les métropoles, l'Intracity complète le Frail ou l'Urbahn ; dans les villes moyennes, il est le principal service urbain.</p>
+                                <dl class="chr-co-facts chr-co-facts--rows">
+                                    <div><dt>Avant 2012</dt><dd>Aucun équivalent</dd></div>
+                                    <div><dt>Présence</dt><dd>Tous les États membres, sauf l'Espagne et le Danemark</dd></div>
+                                </dl>
+                                <div class="chr-strip"><img src="../icones_lore/ht_iac.png" alt="Livrée Intracity" width="1077" height="72"></div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <section id="sauj" class="chr-period chr-reveal">
+                    <div class="chr-head">
+                        <div class="chr-eyebrow">2012 &ndash; aujourd'hui</div>
+                        <h2>Depuis la refonte</h2>
+                    </div>
+
+                    <div class="chr-frise">
+                        <div class="chr-frise-item">
+                            <span class="chr-frise-dot" aria-hidden="true"></span>
+                            <div class="chr-frise-date">2015</div>
+                            <h3>Opération Lignes de Vie</h3>
+                            <p>Le Mathlyens lance le Plan de Revitalisation des Lignes Capillaires (PRLC), exploité par MLTC Railways sous le nom d'Opération Lignes de Vie : des lignes rurales françaises fermées depuis des décennies rouvrent, desservies par des automotrices légères à batteries.</p>
+                        </div>
+                        <div class="chr-frise-item">
+                            <span class="chr-frise-dot" aria-hidden="true"></span>
+                            <div class="chr-frise-date">À partir de 2016</div>
+                            <h3>Le renouveau des trains de nuit</h3>
+                            <p>Après des années de recul, la demande pour les trains de nuit repart, notamment chez les voyageurs qui renoncent à l'avion sur les longs trajets. Nocrail rouvre des relations de nuit à travers le Mathlyens.</p>
+                        </div>
+                        <div class="chr-frise-item">
+                            <span class="chr-frise-dot" aria-hidden="true"></span>
+                            <div class="chr-frise-date">2026</div>
+                            <h3>La HS2</h3>
+                            <p>La ligne à grande vitesse HS2 ouvre entre Londres et Birmingham, et les HighSpeedXpress y circulent dès la mise en service. Elle suit son tracé d'origine : les deux branches du Y, vers Manchester et vers Leeds, sont en chantier pour une ouverture prévue en 2033.</p>
                         </div>
                     </div>
-                </div>
-            </div>
+                </section>
 
-            <h3 class="chr-h3">Services urbains &amp; suburbains</h3>
-            <div class="chr-prose">
-                <p>Frail et Urbahn reprennent et modernisent les anciennes dessertes périurbaines héritées de la CCFM et de la WME, désormais séparées du TransRegio pour retrouver une identité propre. L'Intracity, en revanche, est une création entièrement nouvelle, sans équivalent dans les compagnies fondatrices.</p>
+                <section class="chr-next">
+                    <a href="lignes_territoires/index.html" class="chr-next-main chr-next-main--nonum">
+                        <span>
+                            <span class="chr-next-label">Dossier thématique</span>
+                            <span class="chr-next-title">Lignes &amp; Territoires</span>
+                            <span class="chr-next-period">L'Opération Lignes de Vie, depuis 2015</span>
+                        </span>
+                        <span class="chr-next-go">Consulter le dossier <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                    </a>
+                    <a href="expansion.html" class="chr-next-prev">&larr; II &middot; Réseau et expansion</a>
+                </section>
             </div>
-            <div class="chr-codex">
-                <div class="chr-codex-nav">
-                    <button class="chr-codex-tab active" data-codex-target="0">Frail</button>
-                    <button class="chr-codex-tab" data-codex-target="1">Urbahn</button>
-                    <button class="chr-codex-tab" data-codex-target="2">Intracity</button>
-                </div>
-                <div class="chr-codex-panel active" data-codex-index="0">
-                    <div class="chr-strip"><img src="../icones_lore/ht_fr.png" alt="Frail" width="1077" height="72"></div>
-                    <h4>Frail</h4>
-                    <p>Réseau express régional dédié aux grandes métropoles françaises, le Frail assure une desserte cadencée entre les centres-villes et leurs couronnes périurbaines. Opérant sur des infrastructures ferroviaires lourdes avec un cadencement de type RER, il dessert notamment les agglomérations de Toulouse et de Perpignan. Paris reste hors de son périmètre : la RATP y exploite déjà un réseau express dense, et la MLTC n'a jamais cherché à s'y substituer. Le matériel utilisé est spécifiquement adapté aux flux massifs de voyageurs pendulaires.</p>
-                </div>
-                <div class="chr-codex-panel" data-codex-index="1">
-                    <div class="chr-strip"><img src="../icones_lore/ht_ub.png" alt="Urbahn" width="1077" height="72"></div>
-                    <h4>Urbahn</h4>
-                    <p>Équivalent germanophone du Frail, l'Urbahn assure la desserte express des métropoles allemandes, autrichiennes et suisses dans une logique de S-Bahn renforcé. Il opère sur les nœuds ferroviaires de Berlin, Munich, Hambourg, Vienne, Zurich et d'autres grandes agglomérations, avec des fréquences élevées et une intégration poussée aux réseaux de transport urbain locaux.</p>
-                </div>
-                <div class="chr-codex-panel" data-codex-index="2">
-                    <div class="chr-strip"><img src="../icones_lore/ht_iac.png" alt="Intracity" width="1077" height="72"></div>
-                    <h4>Intracity</h4>
-                    <p>Service ferroviaire intra-urbain présent dans l'ensemble des pays membres, l'Intracity est destiné à renforcer les liaisons internes d'une même ville ou entre communes limitrophes. Il s'appuie sur du matériel léger (automotrices courtes, tram-trains) adapté à une desserte fine et fréquente, venant compléter les réseaux Frail et Urbahn dans les métropoles, ou servant de service urbain principal dans les villes de taille intermédiaire.</p>
-                </div>
-            </div>
-
-            <h3 class="chr-h3">Services nationaux &amp; transfrontaliers</h3>
-            <div class="chr-prose">
-                <p>Les services longue distance et régionaux sont réorganisés pour mieux refléter la diversité des besoins : liaisons rapides nationales, grande vitesse internationale, trains de nuit et desserte régionale. Plusieurs services historiques sont renommés ou fusionnés, et de nouvelles marques apparaissent.</p>
-            </div>
-            <div class="chr-codex">
-                <div class="chr-codex-nav">
-                    <button class="chr-codex-tab active" data-codex-target="0">TransRegio</button>
-                    <button class="chr-codex-tab" data-codex-target="1">Xpress</button>
-                    <button class="chr-codex-tab" data-codex-target="2">HSX</button>
-                    <button class="chr-codex-tab" data-codex-target="3">Vivarail</button>
-                    <button class="chr-codex-tab" data-codex-target="4">Nocrail</button>
-                </div>
-                <div class="chr-codex-panel active" data-codex-index="0">
-                    <div class="chr-strip"><img src="../icones_lore/ht_tr2.png" alt="TransRegio" width="1077" height="72"></div>
-                    <h4>TransRegio <span class="chr-svc-abbr">TR</span></h4>
-                    <p>Seul service conservé sans changement de nom, le TransRegio poursuit sa mission de maillage régional. Il connecte villes secondaires, bourgs et zones rurales aux grands axes, avec des correspondances optimisées vers les services Xpress et HSX. Son parc est progressivement modernisé avec de nouvelles automotrices régionales.</p>
-                </div>
-                <div class="chr-codex-panel" data-codex-index="1">
-                    <div class="chr-strip"><img src="../icones_lore/ht_xp.png" alt="Xpress" width="1077" height="72"></div>
-                    <h4>Xpress <span class="chr-svc-abbr">XP</span></h4>
-                    <p>Successeur de l'InterCity, le service Xpress reprend les liaisons rapides entre grandes villes à l'échelle nationale. Circulant à 160-200 km/h sur voie classique et voie rapide, il constitue le cœur de l'offre grandes lignes de la MLTC. Certains Xpress franchissent les frontières pour relier des villes frontalières (Strasbourg-Karlsruhe, Lille-Bruxelles, etc.).</p>
-                </div>
-                <div class="chr-codex-panel" data-codex-index="2">
-                    <div class="chr-strip"><img src="../icones_lore/ht_hsx.png" alt="HSX" width="1077" height="72"></div>
-                    <h4>HighSpeedXpress <span class="chr-svc-abbr">HSX</span></h4>
-                    <p>Successeur du HighSpeed, le HSX regroupe l'ensemble des trains à grande vitesse de la MLTC, circulant à 300 km/h et plus sur les LGV du réseau. Le service couvre aussi bien les liaisons nationales (Paris-Lyon, Londres-Birmingham) qu'internationales (Paris-Londres, Bruxelles-Amsterdam, Munich-Vienne). Son nom s'inscrit dans la continuité de la marque Xpress.</p>
-                </div>
-                <div class="chr-codex-panel" data-codex-index="3">
-                    <div class="chr-strip"><img src="../icones_lore/ht_vr.png" alt="Vivarail" width="1077" height="72"></div>
-                    <h4>Vivarail <span class="chr-svc-abbr">VR</span></h4>
-                    <p>Création majeure de la refonte 2012, le Vivarail est un service de grandes lignes internationales premium, positionné entre le Xpress et le HSX. Circulant sur voie classique et voie rapide, il relie les capitales et grandes villes de pays différents avec un confort accru : voitures panoramiques, restauration à bord, espaces de travail. Il se distingue par des trajets plus longs et une expérience orientée voyage.</p>
-                </div>
-                <div class="chr-codex-panel" data-codex-index="4">
-                    <div class="chr-strip"><img src="../icones_lore/ht_nr.png" alt="Nocrail" width="1077" height="72"></div>
-                    <h4>Nocrail <span class="chr-svc-abbr">NR</span></h4>
-                    <p>Héritier du NightLine, le Nocrail reprend et modernise l'offre de trains de nuit de la MLTC. Il propose des sièges inclinables, des couchettes et des cabines privatives sur des liaisons nocturnes couvrant l'ensemble du Mathlyens. Le service connaît un regain d'intérêt dans les années 2010 comme alternative écologique au transport aérien sur les trajets moyens et longs.</p>
-                </div>
-            </div>
-
-            <h3 class="chr-h3">Transport de marchandises</h3>
-            <div class="chr-prose">
-                <p>Concernant le transport de marchandises, celui-ci est confié à la Mathly Cargo Company (MLCC), la filiale fret du groupe MLTC.</p>
-            </div>
-        </section>
-
-        <section class="chr-tight">
-            <div class="chr-turn">
-                <a href="expansion.html" class="chr-turn-link">
-                    <span class="chr-turn-label">Partie précédente</span>
-                    <span class="chr-turn-title">&larr; II &middot; Réseau et expansion</span>
-                </a>
-                <a href="lignes_territoires/index.html" class="chr-turn-link chr-turn-next">
-                    <span class="chr-turn-label">Dossier thématique</span>
-                    <span class="chr-turn-title">Lignes &amp; Territoires &rarr;</span>
-                </a>
-            </div>
-        </section>
+        </div>
 
         <!-- Date de dernière modification -->
         <section class="last-modified">
-            <p>Dernière mise à jour : 12 septembre 2026</p>
+            <p>Dernière mise à jour : 28 septembre 2026</p>
         </section>
     </main>
 
@@ -300,12 +345,13 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <span class="footer-version">v<strong>0.9</strong> (25/09/2026)</span>
+                <span class="footer-version">v<strong>0.10</strong> (28/09/2026)</span>
                 <p>&copy; 2026 MathLoo. Tous droits réservés.</p>
             </div>
         </div>
     </footer>
 
+    <script src="../../js/train-anim.js"></script>
     <script src="../../js/main.js"></script>
     <script src="../../js/histoire.js"></script>
 </body>

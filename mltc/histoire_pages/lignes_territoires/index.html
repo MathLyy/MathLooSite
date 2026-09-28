@@ -3,12 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lignes & Territoires - Histoire MLTC | MathLoo</title>
-    <!-- Dossier en attente de reecriture : on redirige vers histoire.html
-         plutot que de laisser une URL directe atteindre un contenu qui ne
-         doit plus etre visible pour l'instant. -->
-    <script>window.location.replace('../../histoire.html');</script>
-    <noscript><meta http-equiv="refresh" content="0; url=../../histoire.html"></noscript>
+    <title>Lignes &amp; Territoires - Histoire MLTC | MathLoo</title>
     <link rel="icon" type="image/png" href="../../../favicon.png">
     <script>
         (function() {
@@ -77,35 +72,15 @@
     </nav>
 
     <!-- MLTC Sub-navigation -->
-    <nav class="mltc-subnav">
+    <nav class="mltc-subnav" aria-label="Rubriques MLTC">
         <div class="container">
             <ul class="subnav-menu">
-                <!-- L'Univers -->
-                <li class="subnav-item">
-                    <button class="subnav-toggle" data-category="univers">L'Univers</button>
-                    <div class="subnav-dropdown">
-                        <a href="../../index.html" class="subnav-link">Accueil</a>
-                        <a href="../../histoire.html" class="subnav-link active">Histoire</a>
-                        <a href="../../coulisses.html" class="subnav-link">Les coulisses de la MLTC</a>
-                    </div>
-                </li>
-                <!-- Le Réseau -->
-                <li class="subnav-item">
-                    <button class="subnav-toggle" data-category="reseau">Le Réseau</button>
-                    <div class="subnav-dropdown">
-                        <a href="../../circulations.html" class="subnav-link">Circulations</a>
-                        <a href="../../livrees.html" class="subnav-link">Livrées</a>
-                        <a href="../../services.html" class="subnav-link">Services</a>
-                    </div>
-                </li>
-                <!-- Acteurs -->
-                <li class="subnav-item">
-                    <button class="subnav-toggle" data-category="acteurs">Acteurs</button>
-                    <div class="subnav-dropdown">
-                        <a href="../../autres-operateurs.html" class="subnav-link">Autres opérateurs</a>
-                        <a href="../../production.html" class="subnav-link">Production</a>
-                    </div>
-                </li>
+                <li class="subnav-item"><a href="../../index.html" class="subnav-link">Accueil</a></li>
+                <li class="subnav-item"><a href="../../histoire.html" class="subnav-link active" aria-current="page">Histoire</a></li>
+                <li class="subnav-item"><a href="../../circulations.html" class="subnav-link">Circulations</a></li>
+                <li class="subnav-item"><a href="../../livrees.html" class="subnav-link">Livrées</a></li>
+                <li class="subnav-item"><a href="../../autres-operateurs.html" class="subnav-link">Autres opérateurs</a></li>
+                <li class="subnav-item"><a href="../../production.html" class="subnav-link">Production</a></li>
             </ul>
         </div>
     </nav>
@@ -118,259 +93,243 @@
             </a>
             <div class="chr-opening-kicker">
                 <span class="chr-part-num chr-part-num--tag">Dossier</span>
-                <span class="chr-opening-period">Hors chronologie</span>
+                <span class="chr-opening-period">Lignes &amp; Territoires</span>
             </div>
-            <h1>Lignes &amp; Territoires</h1>
-            <p class="chr-opening-sub">Projets remarquables, lignes emblématiques et initiatives territoriales de la MLTC à travers le Mathlyens.</p>
+            <h1>Lignes de Vie</h1>
+            <p class="chr-opening-sub">Le Plan de Revitalisation des Lignes Capillaires, depuis 2015.</p>
+
+            <aside class="chr-fiction">
+                <span class="chr-fiction-tag">Fiction &middot; Uchronie</span>
+                <p class="chr-fiction-text"><strong>Ceci est un univers fictif.</strong> La MLTC évolue dans une histoire alternative volontairement éloignée de notre réalité. Les événements, institutions et entreprises présentés ici sont imaginaires.</p>
+            </aside>
         </section>
 
-        <section class="chr-dos-header chr-reveal">
-            <div class="chr-dos-sigles">
-                <span class="chr-dos-prlc">PRLC</span>
-                <span class="chr-dos-divider" aria-hidden="true"></span>
-                <span class="chr-dos-full">Plan de Revitalisation des Lignes Capillaires</span>
-            </div>
-            <h2>Opération Lignes de Vie</h2>
-            <p class="chr-dos-lede">Nom commercial du PRLC, plan porté par le Mathlyens et exploité par la MLTC Railways pour la revitalisation des lignes ferroviaires secondaires françaises abandonnées par le rail.</p>
-            <div class="chr-dos-pills">
-                <span class="chr-dos-pill">Porteur : <strong>Mathlyens</strong></span>
-                <span class="chr-dos-pill">Exploitant : <strong>MLTC Railways</strong></span>
-                <span class="chr-dos-pill">Lancé en <strong>2015</strong></span>
-                <span class="chr-dos-pill">Matériel : <strong>Valado</strong> (Production)</span>
-                <span class="chr-dos-pill">Périmètre initial : <strong>France</strong></span>
-            </div>
-        </section>
+        <!-- Bandeau anime (js/train-anim.js, comme sur l'accueil MLTC) : des
+             rames de la periode passent une a une, leur nom s'affiche dessous. -->
+        <div class="train-banner chr-trainband">
+            <div id="train-animation-container" data-base="../../../" data-source="mltc/data/histoire-convois.json" data-group="lignes-de-vie" data-order="sequence" data-caption="chr-train-cap"></div>
+        </div>
+        <p class="chr-train-cap" id="chr-train-cap"></p>
 
-        <section class="chr-reveal">
-            <div class="chr-head">
-                <div class="chr-eyebrow">Dossier</div>
-                <h2>Les lignes capillaires, artères vitales du territoire</h2>
+        <div class="chr-body">
+            <nav class="chr-rail" aria-label="Sections du dossier">
+                <a href="#plan" class="chr-rail-link"><span>2015</span>Le plan</a>
+                <a href="#lignes" class="chr-rail-link"><span>Depuis 2021</span>Les lignes</a>
+                <a href="#valado" class="chr-rail-link"><span>Depuis 2019</span>La Valado</a>
+                <a href="#frise" class="chr-rail-link"><span>2015 &ndash; aujourd'hui</span>Chronologie</a>
+            </nav>
+
+            <div class="chr-body-main">
+                <section id="plan" class="chr-period chr-reveal">
+                    <div class="chr-head">
+                        <div class="chr-eyebrow">2015</div>
+                        <h2>Le plan</h2>
+                    </div>
+                    <div class="chr-prose chr-lead">
+                        <p>En 2015, le Mathlyens lance le Plan de Revitalisation des Lignes Capillaires (PRLC). Son nom commercial est l'Opération Lignes de Vie. Son but : rendre le train à des territoires ruraux français qui l'ont perdu. Les trains sont exploités par MLTC Railways, sous la marque TransRegio.</p>
+                        <p>Le programme vise deux sortes de lignes. D'abord, un bon nombre de lignes fermées par la SNCF au fil des décennies. Leur sort varie : certaines appartiennent toujours à la SNCF sans qu'aucun train n'y circule, d'autres ont perdu leurs rails. D'autres encore ont été rendues aux collectivités locales, qui les ont laissées en l'état, déferrées ou transformées en voies vertes. Ensuite, des lignes que la MLTC possède elle-même, mais où le service est devenu très faible.</p>
+                        <p>Le principe est de réhabiliter plutôt que de construire : remettre les voies en état, moderniser la signalisation, rebâtir des haltes à faible coût. Les lignes rouvertes ne sont pas électrifiées. Elles sont desservies par des automotrices à batteries, la Valado, conçue pour le programme.</p>
+                    </div>
+
+                    <article class="chr-press">
+                        <div class="chr-press-head">
+                            <div class="chr-press-logo">MATHLYENS</div>
+                            <div class="chr-press-meta">
+                                <span class="chr-press-type">Communiqué de presse</span>
+                                <span class="chr-press-date">Strasbourg, le 6 mai 2015</span>
+                            </div>
+                        </div>
+                        <h3>Le Mathlyens lance le Plan de Revitalisation des Lignes Capillaires</h3>
+                        <div class="chr-press-body">
+                            <p><strong>Exploité par MLTC Railways sous le nom d'« Opération Lignes de Vie », le programme prévoit la réouverture de lignes ferroviaires secondaires en France à partir de 2021.</strong></p>
+                            <p>Le Mathlyens a adopté ce jour le Plan de Revitalisation des Lignes Capillaires (PRLC). Le programme vise à rétablir une desserte ferroviaire sur des lignes secondaires françaises fermées au trafic voyageurs, ainsi que sur des lignes aujourd'hui très peu desservies.</p>
+                            <p>Les lignes seront retenues selon quatre critères : l'enclavement du territoire, le potentiel de fréquentation, l'absence de desserte ferroviaire alternative et l'état de l'emprise. Les études de faisabilité débuteront dès cette année, en lien avec les propriétaires des emprises concernées.</p>
+                            <p>Le programme privilégie la réhabilitation des infrastructures existantes : remise en état des voies, modernisation de la signalisation, reconstruction de haltes. Les lignes rouvertes ne seront pas électrifiées. Elles seront desservies par des automotrices légères à batteries, dont la commande est prévue en 2016. Les trains seront exploités par MLTC Railways sous la marque TransRegio.</p>
+                            <p>Le périmètre initial porte sur la France. Une extension à la Belgique et à l'Allemagne pourra être étudiée au vu des premiers résultats.</p>
+                            <p>« Des territoires entiers ont perdu leur train au fil des décennies. Le PRLC ne construit pas de lignes nouvelles : il rend leur usage à celles qui existent encore, ou qui ont existé », a déclaré le président du Mathlyens.</p>
+                        </div>
+                        <div class="chr-press-foot">
+                            <div>
+                                <strong>Contact presse</strong>
+                                <p>Direction de la Communication, Palais du Mathlyens, Strasbourg</p>
+                            </div>
+                            <span class="chr-press-ref">Réf. CP/2015/MLY-PRLC/001</span>
+                        </div>
+                    </article>
+                </section>
+
+                <section id="lignes" class="chr-period chr-reveal">
+                    <div class="chr-head">
+                        <div class="chr-eyebrow">Depuis 2021</div>
+                        <h2>Les lignes</h2>
+                    </div>
+                    <div class="chr-prose">
+                        <p>Les premières lignes rouvrent en 2021. Quelques exemples parmi les lignes du programme :</p>
+                    </div>
+
+                    <div class="chr-lines">
+                        <div class="chr-line-row">
+                            <div>
+                                <div class="chr-line-name">Les Arcs &ndash; Draguignan</div>
+                                <p>Antenne provençale vers Draguignan, préfecture du Var, coupée du rail depuis des décennies. Première ligne rouverte du programme.</p>
+                            </div>
+                            <span class="chr-line-status">Ouverte en 2021</span>
+                        </div>
+                        <div class="chr-line-row">
+                            <div>
+                                <div class="chr-line-name">Laval &ndash; Mayenne</div>
+                                <p>Premier tronçon d'un axe rural entre Bretagne et Normandie, qui reconnecte la Mayenne au réseau.</p>
+                            </div>
+                            <span class="chr-line-status">Ouverte en 2022</span>
+                        </div>
+                        <div class="chr-line-row">
+                            <div>
+                                <div class="chr-line-name">Salbris &ndash; Argent-sur-Sauldre</div>
+                                <p>Prolongement vers le nord de la ligne du Blanc-Argent, déjà en service au sud de Salbris. Ligne à voie métrique, desservie en Valado M.</p>
+                            </div>
+                            <span class="chr-line-status">Ouverte en 2023</span>
+                        </div>
+                        <div class="chr-line-row">
+                            <div>
+                                <div class="chr-line-name">Morlaix &ndash; Roscoff</div>
+                                <p>Fermée en 2018 après un éboulement. Sa réouverture relie de nouveau au rail le port de Roscoff et ses ferries.</p>
+                            </div>
+                            <span class="chr-line-status">Rouverte en 2023</span>
+                        </div>
+                        <div class="chr-line-row">
+                            <div>
+                                <div class="chr-line-name">Réseau breton</div>
+                                <p>L'ancien réseau à voie métrique du centre de la Bretagne, presque entièrement fermé en 1967. Ses axes principaux sont reconstruits à voie métrique pour desservir la Bretagne intérieure.</p>
+                            </div>
+                            <span class="chr-line-status">Par étapes depuis 2024</span>
+                        </div>
+                        <div class="chr-line-row">
+                            <div>
+                                <div class="chr-line-name">Mayenne &ndash; Alençon</div>
+                                <p>Suite de l'axe depuis Laval, qui reconnecte l'Orne au réseau.</p>
+                            </div>
+                            <span class="chr-line-status">Ouverte en 2024</span>
+                        </div>
+                        <div class="chr-line-row">
+                            <div>
+                                <div class="chr-line-name">Argent-sur-Sauldre &ndash; Gien</div>
+                                <p>Ancienne ligne à voie normale, reconstruite à voie métrique pour prolonger le Blanc-Argent jusqu'à la Loire.</p>
+                            </div>
+                            <span class="chr-line-status">Ouverture prévue en 2027</span>
+                        </div>
+                        <div class="chr-line-row chr-line-tbd">
+                            <div>
+                                <div class="chr-line-name">Autres lignes</div>
+                                <p>De nombreuses autres lignes, désaffectées ou disparues, sont rouvertes ou étudiées selon les mêmes critères.</p>
+                            </div>
+                            <span class="chr-line-status">En cours</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="valado" class="chr-period chr-reveal">
+                    <div class="chr-head">
+                        <div class="chr-eyebrow">Depuis 2019</div>
+                        <h2>La Valado</h2>
+                    </div>
+                    <div class="chr-prose">
+                        <p>La Valado est une gamme d'automotrices à batteries conçue pour le programme par Production, constructeur ferroviaire installé près de Marseille. La MLTC en commande 86 rames en 2016, en trois versions, puis 13 Valado M supplémentaires en 2018 pour le Réseau breton. Les premières sont livrées en 2019.</p>
+                    </div>
+
+                    <div class="chr-spec-wrap">
+                        <table class="chr-spec">
+                            <thead>
+                                <tr><th scope="col"><span class="visually-hidden">Caractéristique</span></th><th scope="col">Valado</th><th scope="col">Valado L</th><th scope="col">Valado M</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><th scope="row">Type</th><td>Automotrice légère</td><td>Automotrice lourde</td><td>Automotrice métrique</td></tr>
+                                <tr><th scope="row">Écartement</th><td>Normal</td><td>Normal</td><td>Métrique</td></tr>
+                                <tr><th scope="row">Roulement</th><td>Essieux</td><td>Bogies</td><td>Essieux</td></tr>
+                                <tr><th scope="row">Traction</th><td>Batteries</td><td>Batteries et électrique</td><td>Batteries</td></tr>
+                                <tr><th scope="row">Alimentation</th><td>Aucune</td><td>Adaptable ; 1,5 kV continu et 25 kV alternatif en France</td><td>Aucune</td></tr>
+                                <tr><th scope="row">Vitesse max.</th><td>100 km/h</td><td>140 km/h</td><td>100 km/h</td></tr>
+                                <tr><th scope="row">Composition</th><td>2 à 3 caisses</td><td>3 à 5 caisses</td><td>2 à 3 caisses</td></tr>
+                                <tr><th scope="row">Unités multiples</th><td>Jusqu'à 3, y compris avec la Valado L</td><td>Jusqu'à 3, y compris avec la Valado</td><td>Jusqu'à 3</td></tr>
+                                <tr><th scope="row">Commandes</th><td>60 rames (2016)</td><td>20 rames (2016)</td><td>6 rames (2016), 13 rames (2018)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="chr-prose chr-mt">
+                        <p><strong>La Valado</strong> est la version de base, pour les lignes régionales non électrifiées et peu fréquentées : deux ou trois caisses sur essieux indépendants. <strong>La Valado L</strong> est la version renforcée, pour les services plus chargés : ses bogies permettent des caisses plus longues et une meilleure stabilité à vitesse élevée, et un pantographe recharge ses batteries sous caténaire. <strong>La Valado M</strong> est la version à voie métrique, avec une caisse un peu plus étroite et des cabines plus courtes.</p>
+                        <p>Les six Valado M de 2016 servent uniquement aux deux nouvelles sections entre Salbris et Gien ; la partie déjà en service du Blanc-Argent garde son matériel d'origine. Les treize rames commandées en 2018 sont destinées au Réseau breton.</p>
+                    </div>
+                </section>
+
+                <section id="frise" class="chr-period chr-reveal">
+                    <div class="chr-head">
+                        <div class="chr-eyebrow">2015 &ndash; aujourd'hui</div>
+                        <h2>Chronologie</h2>
+                    </div>
+
+                    <div class="chr-frise">
+                        <div class="chr-frise-item">
+                            <span class="chr-frise-dot" aria-hidden="true"></span>
+                            <div class="chr-frise-date">2015</div>
+                            <h3>Lancement</h3>
+                            <p>Le Mathlyens adopte le PRLC le 6 mai à Strasbourg. Les études de faisabilité commencent, ainsi que les négociations avec les propriétaires des emprises : la SNCF, les collectivités locales, et la MLTC pour ses propres lignes.</p>
+                        </div>
+                        <div class="chr-frise-item">
+                            <span class="chr-frise-dot" aria-hidden="true"></span>
+                            <div class="chr-frise-date">2016</div>
+                            <h3>Commande de la Valado</h3>
+                            <p>La MLTC commande 86 rames à Production : 60 Valado, 20 Valado L et 6 Valado M. Les premiers chantiers de remise en état commencent.</p>
+                        </div>
+                        <div class="chr-frise-item">
+                            <span class="chr-frise-dot" aria-hidden="true"></span>
+                            <div class="chr-frise-date">2018</div>
+                            <h3>Le Réseau breton</h3>
+                            <p>Le programme décide de rouvrir des lignes du Réseau breton, à voie métrique. En prévision, la MLTC commande 13 Valado M supplémentaires.</p>
+                        </div>
+                        <div class="chr-frise-item">
+                            <span class="chr-frise-dot" aria-hidden="true"></span>
+                            <div class="chr-frise-date">2019</div>
+                            <h3>Premières livraisons</h3>
+                            <p>Production livre les premières rames. Essais en ligne, formation des conducteurs et des équipes de maintenance.</p>
+                        </div>
+                        <div class="chr-frise-item">
+                            <span class="chr-frise-dot" aria-hidden="true"></span>
+                            <div class="chr-frise-date">2020</div>
+                            <h3>Le Covid</h3>
+                            <p>La pandémie ralentit les livraisons et les chantiers. Le calendrier glisse de plusieurs mois.</p>
+                        </div>
+                        <div class="chr-frise-item">
+                            <span class="chr-frise-dot" aria-hidden="true"></span>
+                            <div class="chr-frise-date">2021 &ndash; 2024</div>
+                            <h3>Premières réouvertures</h3>
+                            <p>Les Arcs-Draguignan rouvre en 2021, première ligne du programme. Suivent Laval-Mayenne en 2022, Salbris-Argent-sur-Sauldre et Morlaix-Roscoff en 2023, puis Mayenne-Alençon en 2024, année où commence la reconstruction du Réseau breton.</p>
+                        </div>
+                        <div class="chr-frise-item">
+                            <span class="chr-frise-dot" aria-hidden="true"></span>
+                            <div class="chr-frise-date">2025</div>
+                            <h3>Vers la Belgique et l'Allemagne</h3>
+                            <p>Au vu des premiers résultats, le Mathlyens engage l'extension du programme à la Belgique et à l'Allemagne. Elle est en cours.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="chr-next">
+                    <a href="../../histoire.html" class="chr-next-main chr-next-main--nonum">
+                        <span>
+                            <span class="chr-next-label">Retour</span>
+                            <span class="chr-next-title">Histoire de la MLTC</span>
+                            <span class="chr-next-period">Le sommaire de la chronique</span>
+                        </span>
+                        <span class="chr-next-go">Revenir au sommaire <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                    </a>
+                    <a href="../hisservices.html" class="chr-next-prev">&larr; III &middot; Les services</a>
+                </section>
             </div>
-            <div class="chr-prose chr-lead">
-                <p>L'<strong>Opération Lignes de Vie</strong> est le nom commercial du <strong>Plan de Revitalisation des Lignes Capillaires</strong> (PRLC), lancé en 2015 par le Mathlyens et exploité par la MLTC Railways. Son objectif : recréer un réseau ferroviaire secondaire moderne et décarboné sur les territoires ruraux français abandonnés par le rail depuis des décennies.</p>
-                <p>Les lignes capillaires, comme des vaisseaux sanguins, irriguent les extrémités du territoire que les grandes lignes ne desservent plus. L'Opération Lignes de Vie les rétablit avec un <strong>matériel léger à batteries</strong>, sans besoin de caténaire, adapté à des infrastructures dégradées ou partiellement reconstruites.</p>
-                <p>Pour desservir ces lignes, la MLTC s'est tournée vers la <strong>Valado</strong>, automotrice légère à accumulateurs conçue par Production, constructeur ferroviaire basé près de Marseille. Silencieuse, sobre et capable de circuler sans caténaire, la Valado est devenue le symbole d'un rail qui revient là où on ne l'attendait plus.</p>
-                <p>Le programme repose sur un principe simple : plutôt que de construire de nouvelles infrastructures coûteuses, il s'agit de <strong>réhabiliter l'existant</strong> : remise en état des voies, modernisation de la signalisation, réouverture de haltes à faible coût. La philosophie est celle du « juste suffisant » : offrir un service fiable et régulier sans surdimensionner les investissements.</p>
-                <p>Le PRLC est un <strong>grand chantier progressif</strong>, semé d'obstacles techniques, financiers et politiques, mais porté par une conviction forte : le désenclavement rural est une question vitale. Chaque inauguration est un événement local. Le succès de la phase France doit convaincre le Mathlyens d'étendre le modèle à la <strong>Belgique</strong> et à l'<strong>Allemagne</strong>.</p>
-            </div>
-        </section>
-
-        <section class="chr-reveal">
-            <div class="chr-head">
-                <div class="chr-eyebrow">Chronologie</div>
-                <h2>Frise du programme</h2>
-            </div>
-            <div class="chr-frise">
-                <div class="chr-frise-item">
-                    <span class="chr-frise-dot" aria-hidden="true"></span>
-                    <div class="chr-frise-date">2015</div>
-                    <h3>Lancement officiel du PRLC</h3>
-                    <p>Le Mathlyens annonce depuis Strasbourg le Plan de Revitalisation des Lignes Capillaires, sous le nom commercial « Opération Lignes de Vie ». Le périmètre initial cible la France, avec une extension conditionnelle à la Belgique et l'Allemagne.</p>
-                </div>
-                <div class="chr-frise-item">
-                    <span class="chr-frise-dot" aria-hidden="true"></span>
-                    <div class="chr-frise-date">2015 &ndash; 2016</div>
-                    <h3>Études de faisabilité &amp; sélection des lignes</h3>
-                    <p>Études terrain, identification des tronçons réhabilitables, négociations avec SNCF Réseau, gestionnaire de la plupart des lignes désaffectées, pour le transfert ou la remise à disposition des infrastructures.</p>
-                </div>
-                <div class="chr-frise-item">
-                    <span class="chr-frise-dot" aria-hidden="true"></span>
-                    <div class="chr-frise-date">2016</div>
-                    <h3>Commande du matériel roulant</h3>
-                    <p>La MLTC passe commande auprès de Production : <strong>86 rames</strong> au total : 60 Valado, 20 Valado L et 6 Valado M. Toutes sont des automotrices légères à batteries, aucune caténaire requise.</p>
-                </div>
-                <div class="chr-frise-item">
-                    <span class="chr-frise-dot" aria-hidden="true"></span>
-                    <div class="chr-frise-date">2016 &ndash; 2020</div>
-                    <h3>Chantiers de remise en état</h3>
-                    <p>Remise en état progressive des infrastructures, ligne par ligne : débroussaillage, remplacement de traverses, modernisation de la signalisation, reconstruction de quais et haltes.</p>
-                </div>
-                <div class="chr-frise-item">
-                    <span class="chr-frise-dot" aria-hidden="true"></span>
-                    <div class="chr-frise-date">2019</div>
-                    <h3>Premières livraisons Valado</h3>
-                    <p>Production livre les premières rames Valado. Début des essais en ligne, tests de validation et formation des équipes de conduite et de maintenance.</p>
-                </div>
-                <div class="chr-frise-item">
-                    <span class="chr-frise-dot" aria-hidden="true"></span>
-                    <div class="chr-frise-date">2020</div>
-                    <h3>Perturbations Covid</h3>
-                    <p>La pandémie ralentit les livraisons de matériel et les chantiers d'infrastructure. Le calendrier du programme est décalé de plusieurs mois.</p>
-                </div>
-                <div class="chr-frise-item">
-                    <span class="chr-frise-dot" aria-hidden="true"></span>
-                    <div class="chr-frise-date">2021</div>
-                    <h3>Premières mises en service commerciales, vague 1</h3>
-                    <p>Les premiers tronçons réhabilités sont ouverts au public. Chaque inauguration est un événement local pour les territoires concernés. La Valado, silencieuse et sobre, entre dans le paysage rural français.</p>
-                </div>
-                <div class="chr-frise-item">
-                    <span class="chr-frise-dot" aria-hidden="true"></span>
-                    <div class="chr-frise-date">2022 &ndash; 2025</div>
-                    <h3>Montée en charge &amp; bilan</h3>
-                    <p>Vagues suivantes de réouvertures. La fréquentation dépasse les prévisions sur plusieurs lignes. Bilan dressé en vue d'une éventuelle extension internationale du modèle à la Belgique et l'Allemagne.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="chr-reveal">
-            <div class="chr-head">
-                <div class="chr-eyebrow">Réseau</div>
-                <h2>Lignes OLV : France</h2>
-                <p>Le périmètre initial de l'Opération Lignes de Vie cible exclusivement la France. Les lignes sont sélectionnées selon des critères stricts : enclavement rural fort, infrastructure partiellement conservée, potentiel de fréquentation réel et absence totale de desserte ferroviaire alternative.</p>
-            </div>
-
-            <h3 class="chr-h3">Vague 1 : lignes confirmées</h3>
-            <div class="chr-lines">
-                <div class="chr-line-row">
-                    <div>
-                        <div class="chr-line-name">Laval &ndash; Mayenne &ndash; Alençon</div>
-                        <p>Reconnexion de la Mayenne et de l'Orne au réseau ferré. Axe rural structurant entre Bretagne et Normandie.</p>
-                    </div>
-                    <span class="chr-line-status">Confirmée</span>
-                </div>
-                <div class="chr-line-row">
-                    <div>
-                        <div class="chr-line-name">Les Arcs &ndash; Draguignan</div>
-                        <p>Antenne provençale desservant Draguignan, préfecture du Var, coupée du rail depuis des décennies.</p>
-                    </div>
-                    <span class="chr-line-status">Confirmée</span>
-                </div>
-                <div class="chr-line-row">
-                    <div>
-                        <div class="chr-line-name">Blanc-Argent (Salbris &ndash; Argent-sur-Sauldre)</div>
-                        <p>Réouverture au nord d'une ancienne ligne métrique du Berry, exploitée en Valado M à écartement métrique.</p>
-                    </div>
-                    <span class="chr-line-status">Confirmée</span>
-                </div>
-                <div class="chr-line-row">
-                    <div>
-                        <div class="chr-line-name">Argent-sur-Sauldre &ndash; Gien</div>
-                        <p>Prolongement logique du Blanc-Argent, rétablissant une liaison vers la Loire.</p>
-                    </div>
-                    <span class="chr-line-status">Confirmée</span>
-                </div>
-                <div class="chr-line-row chr-line-tbd">
-                    <div>
-                        <div class="chr-line-name">Autres lignes à définir</div>
-                        <p>D'autres tronçons sont à l'étude selon les mêmes critères de sélection.</p>
-                    </div>
-                    <span class="chr-line-status">À l'étude</span>
-                </div>
-            </div>
-
-            <p class="chr-ext-note"><strong>Extension conditionnelle.</strong> Phase France (2015&ndash;2025) : périmètre initial sur les lignes capillaires rurales françaises. Une extension internationale à la <strong>Belgique</strong> et à l'<strong>Allemagne</strong> est envisagée, sous réserve du succès de la phase France.</p>
-        </section>
-
-        <section class="chr-reveal">
-            <div class="chr-head">
-                <div class="chr-eyebrow">Matériel roulant</div>
-                <h2>La Valado, par Production</h2>
-                <p>La <strong>Valado</strong> est l'automotrice légère à batteries conçue et fabriquée par <strong>Production</strong>, constructeur ferroviaire basé près de Marseille. Pensée dès l'origine pour l'Opération Lignes de Vie, elle est devenue le symbole du programme et du renouveau des lignes capillaires. Au total, <strong>86 rames</strong> ont été commandées en 2016.</p>
-            </div>
-
-            <div class="chr-fleet">
-                <div class="chr-fleet-card">
-                    <div class="chr-fleet-visual" aria-hidden="true">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="22" height="10"/><circle cx="7" cy="18" r="1.5"/><circle cx="17" cy="18" r="1.5"/><path d="M5 6V4a1 1 0 0 1 1-1h4"/><path d="M19 6V4a1 1 0 0 0-1-1h-4"/></svg>
-                    </div>
-                    <span class="chr-fleet-kind">Automotrice batteries légère</span>
-                    <h3>Valado</h3>
-                    <div class="chr-fleet-specs">
-                        <div class="chr-fleet-spec"><span>Constructeur</span><strong>Production</strong></div>
-                        <div class="chr-fleet-spec"><span>Commande PRLC</span><strong>60 rames</strong></div>
-                        <div class="chr-fleet-spec"><span>Premières livraisons</span><strong>2019</strong></div>
-                        <div class="chr-fleet-spec"><span>Traction</span><strong>Batteries (accumulateurs)</strong></div>
-                        <div class="chr-fleet-spec"><span>V<sub>max</sub></span><strong>100 km/h</strong></div>
-                        <div class="chr-fleet-spec"><span>Composition</span><strong>2 à 3 caisses (apte UM&times;3)</strong></div>
-                        <div class="chr-fleet-spec"><span>Roulement</span><strong>Sur essieux</strong></div>
-                        <div class="chr-fleet-spec"><span>Usage</span><strong>Lignes standard, réseau métrique converti voie normale</strong></div>
-                    </div>
-                </div>
-                <div class="chr-fleet-card">
-                    <div class="chr-fleet-visual" aria-hidden="true">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="22" height="10"/><circle cx="7" cy="18" r="1.5"/><circle cx="17" cy="18" r="1.5"/><path d="M5 6V4a1 1 0 0 1 1-1h4"/><path d="M19 6V4a1 1 0 0 0-1-1h-4"/></svg>
-                    </div>
-                    <span class="chr-fleet-kind">Automotrice batteries lourde</span>
-                    <h3>Valado L</h3>
-                    <div class="chr-fleet-specs">
-                        <div class="chr-fleet-spec"><span>Constructeur</span><strong>Production</strong></div>
-                        <div class="chr-fleet-spec"><span>Commande PRLC</span><strong>20 rames</strong></div>
-                        <div class="chr-fleet-spec"><span>Premières livraisons</span><strong>2019</strong></div>
-                        <div class="chr-fleet-spec"><span>Traction</span><strong>Batteries + pantographe (recharge sous caténaire)</strong></div>
-                        <div class="chr-fleet-spec"><span>V<sub>max</sub></span><strong>140 km/h</strong></div>
-                        <div class="chr-fleet-spec"><span>Composition</span><strong>3 à 5 caisses (apte UM&times;3)</strong></div>
-                        <div class="chr-fleet-spec"><span>Roulement</span><strong>Sur bogies</strong></div>
-                        <div class="chr-fleet-spec"><span>Usage</span><strong>Lignes longues / plus fréquentées</strong></div>
-                    </div>
-                </div>
-                <div class="chr-fleet-card">
-                    <div class="chr-fleet-visual" aria-hidden="true">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="22" height="10"/><circle cx="7" cy="18" r="1.5"/><circle cx="17" cy="18" r="1.5"/><path d="M5 6V4a1 1 0 0 1 1-1h4"/><path d="M19 6V4a1 1 0 0 0-1-1h-4"/></svg>
-                    </div>
-                    <span class="chr-fleet-kind">Automotrice batteries métrique</span>
-                    <h3>Valado M</h3>
-                    <div class="chr-fleet-specs">
-                        <div class="chr-fleet-spec"><span>Constructeur</span><strong>Production</strong></div>
-                        <div class="chr-fleet-spec"><span>Commande PRLC</span><strong>6 rames</strong></div>
-                        <div class="chr-fleet-spec"><span>Premières livraisons</span><strong>2019</strong></div>
-                        <div class="chr-fleet-spec"><span>Traction</span><strong>Batteries (accumulateurs)</strong></div>
-                        <div class="chr-fleet-spec"><span>V<sub>max</sub></span><strong>100 km/h</strong></div>
-                        <div class="chr-fleet-spec"><span>Composition</span><strong>2 à 3 caisses</strong></div>
-                        <div class="chr-fleet-spec"><span>Écartement</span><strong>Métrique</strong></div>
-                        <div class="chr-fleet-spec"><span>Usage</span><strong>Lignes métriques (dont Blanc-Argent, rouverte au nord)</strong></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="chr-reveal">
-            <div class="chr-head">
-                <div class="chr-eyebrow">Document</div>
-                <h2>Communiqué de presse</h2>
-            </div>
-
-            <div class="chr-press">
-                <div class="chr-press-head">
-                    <div class="chr-press-logo">MATHLYENS</div>
-                    <div class="chr-press-meta">
-                        <span class="chr-press-type">Communiqué de presse</span>
-                        <span class="chr-press-date">Strasbourg, le 6 mai 2015</span>
-                    </div>
-                </div>
-
-                <h3>Le Mathlyens lance le Plan de Revitalisation des Lignes Capillaires : Opération Lignes de Vie</h3>
-
-                <div class="chr-press-body">
-                    <p><strong>Strasbourg</strong>. Le Mathlyens annonce le lancement officiel du <strong>Plan de Revitalisation des Lignes Capillaires</strong> (PRLC), placé sous le nom commercial « <strong>Opération Lignes de Vie</strong> ». Ce programme ambitieux, porté par le Mathlyens et exploité par la MLTC Railways, vise à rétablir des dessertes ferroviaires sur les lignes secondaires françaises abandonnées par le rail depuis des décennies.</p>
-                    <p>Le périmètre initial du PRLC cible la <strong>France</strong>, où de nombreux territoires ruraux et périurbains ne disposent plus d'aucune desserte ferroviaire. L'objectif est de réhabiliter ces lignes capillaires, véritables artères vitales du quotidien, avec des investissements sobres et ciblés : remise en état des voies existantes, modernisation de la signalisation, reconstruction de haltes à faible coût.</p>
-                    <p>« Le désenclavement rural est une question vitale. Ces lignes capillaires irriguent les extrémités du territoire comme des vaisseaux sanguins irriguent les extrémités du corps », a déclaré le président du Mathlyens. « L'Opération Lignes de Vie rétablit ce lien rompu avec un matériel moderne, silencieux et décarboné. »</p>
-                    <p>Le matériel roulant retenu est la <strong>Valado</strong>, automotrice légère à batteries développée et fabriquée par Production, constructeur ferroviaire basé près de Marseille. Capable de circuler sans caténaire, la Valado est parfaitement adaptée aux antennes non électrifiées et aux infrastructures parfois partiellement reconstruites. Une commande de <strong>86 rames</strong> est prévue (60 Valado, 20 Valado L, 6 Valado M).</p>
-                    <p>Les premières études de faisabilité sont en cours. La sélection des lignes prioritaires s'effectue en concertation avec SNCF Réseau, gestionnaire de la plupart des emprises désaffectées. Les premières mises en service commerciales sont attendues à l'horizon <strong>2021</strong>.</p>
-                    <p>En cas de succès, le Mathlyens envisage une <strong>extension conditionnelle du programme à la Belgique et à l'Allemagne</strong>, où des situations similaires d'abandon ferroviaire rural existent.</p>
-                </div>
-
-                <div class="chr-press-foot">
-                    <div>
-                        <strong>Contact presse</strong>
-                        <p>Direction de la Communication, Mathlyens<br>Palais du Mathlyens, Strasbourg</p>
-                    </div>
-                    <span class="chr-press-ref">Réf. CP/2015/MLY-PRLC/001</span>
-                </div>
-            </div>
-        </section>
-
-        <section class="chr-tight">
-            <div class="chr-turn">
-                <a href="../../histoire.html" class="chr-turn-link">
-                    <span class="chr-turn-label">Retour</span>
-                    <span class="chr-turn-title">&larr; Histoire de la MLTC</span>
-                </a>
-            </div>
-        </section>
+        </div>
 
         <!-- Date de dernière modification -->
         <section class="last-modified">
-            <p>Dernière mise à jour : 23 avril 2026</p>
+            <p>Dernière mise à jour : 28 septembre 2026</p>
         </section>
     </main>
 
@@ -392,12 +351,13 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <span class="footer-version">v<strong>0.9</strong> (25/09/2026)</span>
+                <span class="footer-version">v<strong>0.10</strong> (28/09/2026)</span>
                 <p>&copy; 2026 MathLoo. Tous droits réservés.</p>
             </div>
         </div>
     </footer>
 
+    <script src="../../../js/train-anim.js"></script>
     <script src="../../../js/main.js"></script>
     <script src="../../../js/histoire.js"></script>
 </body>

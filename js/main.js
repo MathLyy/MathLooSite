@@ -106,90 +106,40 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // MLTC Sub-navigation Dropdowns
-    const subnavToggles = document.querySelectorAll('.subnav-toggle');
-    const subnavItems = document.querySelectorAll('.subnav-item');
-    let hoverCloseTimer = null;
-
-    // Inject mobile menu toggle button into the MLTC subnav (visible on mobile only via CSS).
+    // MLTC Sub-navigation : barre de liens à plat. Sur mobile, un bouton
+    // « Menu MLTC » (injecté ici, visible via le CSS) replie la liste.
     const mltcSubnav = document.querySelector('.mltc-subnav');
-    if (mltcSubnav && !mltcSubnav.querySelector('.subnav-mobile-toggle')) {
-        const mobileBtn = document.createElement('button');
-        mobileBtn.type = 'button';
-        mobileBtn.className = 'subnav-mobile-toggle';
-        mobileBtn.setAttribute('aria-expanded', 'false');
-        mobileBtn.setAttribute('aria-label', 'Ouvrir le menu MLTC');
-        mobileBtn.innerHTML = '<span class="subnav-mobile-label">Menu MLTC</span><span class="subnav-mobile-caret" aria-hidden="true"></span>';
-        const container = mltcSubnav.querySelector('.container') || mltcSubnav;
-        container.insertBefore(mobileBtn, container.firstChild);
+    if (mltcSubnav) {
+        let mobileBtn = mltcSubnav.querySelector('.subnav-mobile-toggle');
+        if (!mobileBtn) {
+            mobileBtn = document.createElement('button');
+            mobileBtn.type = 'button';
+            mobileBtn.className = 'subnav-mobile-toggle';
+            mobileBtn.setAttribute('aria-expanded', 'false');
+            mobileBtn.setAttribute('aria-label', 'Ouvrir le menu MLTC');
+            mobileBtn.innerHTML = '<span class="subnav-mobile-label">Menu MLTC</span><span class="subnav-mobile-caret" aria-hidden="true"></span>';
+            const container = mltcSubnav.querySelector('.container') || mltcSubnav;
+            container.insertBefore(mobileBtn, container.firstChild);
+        }
+
+        const closeMobile = () => {
+            mltcSubnav.classList.remove('mobile-open');
+            mobileBtn.setAttribute('aria-expanded', 'false');
+        };
 
         mobileBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             const isOpen = mltcSubnav.classList.toggle('mobile-open');
             mobileBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-            if (!isOpen) {
-                subnavItems.forEach(item => item.classList.remove('open'));
-            }
+        });
+
+        // Refermer le panneau mobile au clic en dehors, ou sur un lien
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.mltc-subnav')) closeMobile();
+        });
+        mltcSubnav.querySelectorAll('.subnav-link').forEach(link => {
+            link.addEventListener('click', closeMobile);
         });
     }
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.subnav-item')) {
-            subnavItems.forEach(item => item.classList.remove('open'));
-        }
-        // Close mobile subnav panel when clicking outside the subnav entirely
-        if (mltcSubnav && !e.target.closest('.mltc-subnav')) {
-            mltcSubnav.classList.remove('mobile-open');
-            const mobileBtn = mltcSubnav.querySelector('.subnav-mobile-toggle');
-            if (mobileBtn) mobileBtn.setAttribute('aria-expanded', 'false');
-        }
-    });
-
-    // Handle toggle click and hover
-    subnavToggles.forEach(toggle => {
-        const item = toggle.closest('.subnav-item');
-
-        // Click to toggle
-        toggle.addEventListener('click', (e) => {
-            e.preventDefault();
-            subnavItems.forEach(i => {
-                if (i !== item) i.classList.remove('open');
-            });
-            item.classList.toggle('open');
-        });
-
-        // Hover to open on desktop
-        item.addEventListener('mouseenter', () => {
-            if (window.innerWidth >= 768) {
-                clearTimeout(hoverCloseTimer);
-                subnavItems.forEach(i => {
-                    if (i !== item) i.classList.remove('open');
-                });
-                item.classList.add('open');
-            }
-        });
-
-        item.addEventListener('mouseleave', () => {
-            if (window.innerWidth >= 768) {
-                clearTimeout(hoverCloseTimer);
-                hoverCloseTimer = setTimeout(() => {
-                    item.classList.remove('open');
-                }, 150);
-            }
-        });
-    });
-
-    // Handle link clicks in dropdown
-    document.querySelectorAll('.subnav-dropdown .subnav-link').forEach(link => {
-        link.addEventListener('click', () => {
-            subnavItems.forEach(item => item.classList.remove('open'));
-            if (mltcSubnav) {
-                mltcSubnav.classList.remove('mobile-open');
-                const mobileBtn = mltcSubnav.querySelector('.subnav-mobile-toggle');
-                if (mobileBtn) mobileBtn.setAttribute('aria-expanded', 'false');
-            }
-        });
-    });
 
 });

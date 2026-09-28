@@ -57,6 +57,25 @@ document.addEventListener('DOMContentLoaded', () => {
     assessStrips();
     window.addEventListener('resize', () => assessStrips());
 
+    // ── Sommaire des périodes : surligner celle qu'on est en train de lire ──
+    const railLinks = Array.from(document.querySelectorAll('.chr-rail-link'));
+    if (railLinks.length) {
+        const periods = railLinks
+            .map(link => document.querySelector(link.getAttribute('href')))
+            .filter(Boolean);
+        function updateRail() {
+            // Période active : la dernière dont le haut a passé le tiers de l'écran.
+            const limit = window.innerHeight / 3;
+            let current = periods[0];
+            periods.forEach(p => { if (p.getBoundingClientRect().top <= limit) current = p; });
+            railLinks.forEach(link => {
+                link.classList.toggle('is-active', link.getAttribute('href') === '#' + current.id);
+            });
+        }
+        updateRail();
+        window.addEventListener('scroll', updateRail, { passive: true });
+    }
+
     // ── Codex des marques : tablist accessible partagée (Origines, Services) ──
     document.querySelectorAll('.chr-codex').forEach((codex, ci) => {
         const tabs = Array.from(codex.querySelectorAll('.chr-codex-tab'));

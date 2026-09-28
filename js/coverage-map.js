@@ -12,60 +12,56 @@
 
     /* ---- Country data (ISO numeric → info) ---- */
     const COUNTRIES = new Map([
-        [250, { name: 'France',        coverage: 0.85, group: 'fondateur', flag: '\u{1F1EB}\u{1F1F7}',
-                desc: 'Coeur historique du réseau. La quasi-totalité du territoire est desservie par la MLTC, permise par un maillage dense avec des services à toute échelle.',
+        [250, { name: 'France',      coverage: 0.85, group: 'fondateur',
+                desc: "Cœur historique du réseau, hérité de la CCFM. La MLTC y assure la quasi-totalité des services ; la SNCF garde quelques lignes secondaires et une part du fret que la MLCC ne couvre pas.",
                 services: ['HSX','Xpress','TransRegio','Vivarail','Nocrail','Intracity'] }],
-        [276, { name: 'Allemagne',     coverage: 0.75, group: 'fondateur', flag: '\u{1F1E9}\u{1F1EA}',
-                desc: "Forte implantation, concentrée dans les régions de l'Ouest (ancien périmètre WME). L'Est, intégré plus tardivement, est moins densément couvert à l'échelle plus locale.",
+        [276, { name: 'Allemagne',   coverage: 0.75, group: 'fondateur',
+                desc: "Implantation dense à l'Ouest, ancien périmètre de la WME. L'Est, intégré à partir de 2001, reste moins couvert à l'échelle locale.",
                 services: ['HSX','Xpress','TransRegio','Vivarail','Nocrail','Urbahn','Intracity'] }],
-        [56,  { name: 'Belgique',      coverage: 0.75, group: 'fondateur', flag: '\u{1F1E7}\u{1F1EA}',
-                desc: "Couverture dense héritée de la CCFM, sur l'ensemble du territoire belge. Les services grandes lignes et régionaux sont largement assurés par la MLTC, tandis que les dessertes périurbaines restent majoritairement aux opérateurs locaux.",
+        [56,  { name: 'Belgique',    coverage: 0.75, group: 'fondateur',
+                desc: "Héritage de la CCFM, présente depuis 1962. La SNCB conserve quelques dessertes locales et périurbaines.",
                 services: ['HSX','Xpress','TransRegio','Vivarail','Nocrail','Intracity'] }],
-        [528, { name: 'Pays-Bas',      coverage: 0.70, group: 'fondateur', flag: '\u{1F1F3}\u{1F1F1}',
-                desc: 'Couverture héritée de la CCFM (connue localement sous le nom MSVM, Maatschappij der Spoorwegen van het Mathlyens) sur les grandes lignes et le régional. La plupart des services périurbains restent gérés par les opérateurs locaux.',
+        [528, { name: 'Pays-Bas',    coverage: 0.70, group: 'fondateur',
+                desc: "Héritage de la CCFM, connue ici sous le nom de MSVM jusqu'en 2001. Les NS conservent une partie des dessertes périurbaines.",
                 services: ['HSX','Xpress','TransRegio','Vivarail','Nocrail','Intracity'] }],
-        [442, { name: 'Luxembourg',    coverage: 0.90, group: 'fondateur', flag: '\u{1F1F1}\u{1F1FA}',
-                desc: 'Le réseau ferré du Luxembourg est celui le plus intégré à la MLTC, qui y opère tous les services principaux.',
+        [442, { name: 'Luxembourg',  coverage: 0.90, group: 'fondateur',
+                desc: "Le réseau le plus intégré à la MLTC, qui y assure tous les services principaux. Héritage de la CCFM, connue ici sous le nom de GEVM jusqu'en 2001.",
                 services: ['HSX','Xpress','TransRegio','Vivarail','Nocrail','Intracity'] }],
-        [826, { name: 'Royaume-Uni',   coverage: 0.60, group: 'fondateur', flag: '\u{1F1EC}\u{1F1E7}',
-                desc: "Présence concentrée dans l'Angleterre (héritage MSER). Une grande partie des services urbains restent opérés sous franchises locales, idem pour les services régionaux dans le nord.",
+        [826, { name: 'Royaume-Uni', coverage: 0.60, group: 'fondateur',
+                desc: "Héritage de la MSER dans le sud de l'Angleterre, étendu en 2007 jusqu'aux grandes villes écossaises. Les compagnies privées issues de la privatisation de British Rail subsistent, avec un rôle bien moindre.",
                 services: ['HSX','Xpress','TransRegio','Vivarail','Nocrail','Intracity'] }],
-        [380, { name: 'Italie',        coverage: 0.55, group: 'fondateur', flag: '\u{1F1EE}\u{1F1F9}',
-                desc: "Seul pays fondateur où la compagnie nationale est restée dominante. La MLTC y est implantée principalement sur les grandes lignes et quelques services régionaux, tandis que les lignes secondaires restent sous opérateurs locaux.",
+        [380, { name: 'Italie',      coverage: 0.55, group: 'fondateur',
+                desc: "Seul pays fondateur où la compagnie nationale reste dominante. La MLTC est implantée dans le nord (Lombardie, Piémont, Vénétie), sur les liaisons rapides et régionales ; Trenitalia garde le centre et le sud.",
                 services: ['HSX','Xpress','TransRegio','Nocrail','Intracity'] }],
-        [40,  { name: 'Autriche',      coverage: 0.65, group: 'expansion', flag: '\u{1F1E6}\u{1F1F9}',
-                desc: 'Couverture étendue, sur les corridors internationaux comme sur les lignes intérieures.',
+        [40,  { name: 'Autriche',    coverage: 0.65, group: 'expansion',
+                desc: "Présence sur les corridors internationaux comme sur de nombreuses lignes intérieures, depuis 2005.",
                 services: ['HSX','Xpress','TransRegio','Vivarail','Nocrail','Urbahn','Intracity'] }],
-        [756, { name: 'Suisse',        coverage: 0.65, group: 'expansion', flag: '\u{1F1E8}\u{1F1ED}',
-                desc: "Bonne couverture des lignes à écartement standard. Les lignes métriques (réseaux alpins) restent confiées aux opérateurs spécialisés.",
+        [756, { name: 'Suisse',      coverage: 0.65, group: 'expansion',
+                desc: "Présence sur les lignes à écartement standard depuis 2005. Les réseaux métriques des Alpes restent aux opérateurs spécialisés.",
                 services: ['HSX','Xpress','TransRegio','Vivarail','Nocrail','Urbahn','Intracity'] }],
-        [208, { name: 'Danemark',      coverage: 0.45, group: 'expansion', flag: '\u{1F1E9}\u{1F1F0}',
-                desc: "Desserte de la partie sud du pays, du Schleswig jusqu'à Copenhague. Les lignes au nord restent sous l'opérateur national.",
+        [208, { name: 'Danemark',    coverage: 0.45, group: 'expansion',
+                desc: "Présence surtout dans le sud du pays et sur les grands axes jusqu'à Copenhague, prolongés vers la Suède par le pont de l'Øresund. Le reste du réseau reste à la DSB.",
                 services: ['HSX','Xpress','Vivarail','Nocrail'] }],
-        [203, { name: 'Tchéquie',      coverage: 0.40, group: 'expansion', flag: '\u{1F1E8}\u{1F1FF}',
-                desc: "Implantation concentrée dans les régions de l'Ouest, principalement en Bohême. L'est du pays reste sous opérateurs locaux.",
+        [203, { name: 'Tchéquie',    coverage: 0.40, group: 'expansion',
+                desc: "Implantation concentrée à l'ouest du pays, principalement en Bohême. L'est reste aux České dráhy.",
                 services: ['HSX','Xpress','TransRegio','Vivarail','Nocrail','Intracity'] }],
-        [724, { name: 'Espagne',       coverage: 0.40, group: 'expansion', flag: '\u{1F1EA}\u{1F1F8}',
-                desc: "Desserte concentrée au nord du pays, de la frontière française jusqu'à Madrid. Hormis un axe allant jusqu'à Séville, le sud reste majoritairement sous l'opérateur national.",
+        [724, { name: 'Espagne',     coverage: 0.40, group: 'expansion',
+                desc: "Présence concentrée dans le nord, de la frontière française à Barcelone et Madrid, avec un axe jusqu'à Séville. Le reste du réseau reste à la Renfe.",
                 services: ['HSX','Xpress','Vivarail','Nocrail'] }],
     ]);
 
     /* ---- Échelle de couverture ------------------------------------------
-       Cinq paliers discrets plutôt qu'un dégradé d'opacité continu : sur fond
-       sombre, les faibles opacités devenaient indiscernables du fond et la
-       légende « Faible / Forte » n'était rattachable à aucune forme précise.
-       Chaque palier est une couleur pleine, nommée, reprise telle quelle dans
-       la légende, qui est construite depuis ce tableau pour ne pas dériver.
-
-       Le plus sombre tient 3,45:1 contre le fond de page (l'ancien dégradé
-       tombait à 1,51:1 pour l'Espagne et la Tchéquie, quasi invisibles), et
-       deux paliers voisins restent nettement séparés à l'oeil. */
+       Quatre paliers d'une seule teinte, du plus clair (couverture ciblée)
+       au plus foncé (quasi totale) ; le sens s'inverse en thème sombre. Les
+       couleurs vivent dans css/histoire.css (--cov-l1 à --cov-l4), pour
+       suivre le thème : ici, seulement le seuil, le nom et la variable.
+       Paliers vérifiés : luminosité monotone, palier le plus faible au-dessus
+       de 2:1 contre le fond de page dans les deux thèmes. */
     const LEVELS = [
-        { max: 0.50, label: 'Ciblée',    fill: '#6a6096' },
-        { max: 0.62, label: 'Partielle', fill: '#7a63c4' },
-        { max: 0.72, label: 'Étendue',   fill: '#8f74e6' },
-        { max: 0.82, label: 'Dense',     fill: '#a98ef8' },
-        { max: 1.01, label: 'Intégrale', fill: '#c9bcfd' }
+        { max: 0.50, label: 'Ciblée',      fill: 'var(--cov-l1)' },
+        { max: 0.68, label: 'Partielle',   fill: 'var(--cov-l2)' },
+        { max: 0.82, label: 'Étendue',     fill: 'var(--cov-l3)' },
+        { max: 1.01, label: 'Quasi totale', fill: 'var(--cov-l4)' }
     ];
     const levelOf = r => LEVELS.find(l => r < l.max) || LEVELS[LEVELS.length - 1];
 

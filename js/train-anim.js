@@ -1,6 +1,17 @@
 /* ═══════════════════════════════════════════════════
    Train Animation – cycles through circulations.json
    compositions right-to-left on a rail track.
+
+   Options (attributs data-* du conteneur) :
+     data-base     préfixe vers la racine du site
+     data-source   fichier JSON, relatif à la racine
+                   (défaut : mltc/data/circulations.json)
+     data-group    clé d'un groupe de compositions dans ce
+                   fichier ({ "groupe": [compositions] })
+     data-order    "sequence" pour garder l'ordre du fichier
+                   (défaut : ordre aléatoire)
+     data-caption  id d'un élément qui affiche le nom de la
+                   composition en cours
    ═══════════════════════════════════════════════════ */
 
 (function () {
@@ -14,7 +25,11 @@
   const FRAME_H       = 68;          // frame height (matches circulations)
   const TRACK_H       = 8;           // track strip height
 
-  const base = container.dataset.base || '';
+  const base    = container.dataset.base || '';
+  const source  = container.dataset.source || 'mltc/data/circulations.json';
+  const group   = container.dataset.group || '';
+  const inOrder = container.dataset.order === 'sequence';
+  const caption = container.dataset.caption ? document.getElementById(container.dataset.caption) : null;
 
   /* ── state ── */
   let compositions = [];
@@ -52,20 +67,24 @@
   /* ── load compositions ── */
   async function loadCompositions() {
     try {
-      const res  = await fetch(base + 'mltc/data/circulations.json');
+      const res  = await fetch(base + source);
       const data = await res.json();
-      for (const country of Object.values(data)) {
-        if (country.compositions) {
-          for (const comp of country.compositions) compositions.push(comp);
+      if (group) {
+        compositions = (data[group] || []).slice();
+      } else {
+        for (const country of Object.values(data)) {
+          if (country.compositions) {
+            for (const comp of country.compositions) compositions.push(comp);
+          }
         }
       }
       /* shuffle */
-      for (let i = compositions.length - 1; i > 0; i--) {
+      for (let i = inOrder ? 0 : compositions.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [compositions[i], compositions[j]] = [compositions[j], compositions[i]];
       }
     } catch (e) {
-      console.warn('train-anim: could not load circulations.json', e);
+      console.warn('train-anim: could not load ' + source, e);
     }
   }
 
@@ -113,6 +132,7 @@
     compIndex = (compIndex + 1) % compositions.length;
 
     buildTrain(comp);
+    if (caption) caption.textContent = comp.detail ? comp.name + ' · ' + comp.detail : comp.name;
 
     /* wait for all images to load */
     const imgs  = trainWrap.querySelectorAll('img');

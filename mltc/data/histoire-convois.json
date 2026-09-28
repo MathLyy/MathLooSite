@@ -1,0 +1,237 @@
+{
+  "_note": "Compositions des convois des pages Histoire (js/train-anim.js, data-group). Chemins relatifs a mltc/. Ordre du fichier = ordre de passage.",
+  "fondations": [
+    {
+      "name": "CCFM · livrée 1958",
+      "detail": "BB 16000 et voitures UIC",
+      "vehicles": [
+        "livrees_pages/livrees_img/ccfm/CCFM1958-A-BB16000.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1958-C-UICA9.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1958-C-UICB10.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1958-C-UICB10.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1958-C-UICB10.png"
+      ]
+    },
+    {
+      "name": "WME · livrée 1958",
+      "detail": "BR 110 et voitures à portes centrales",
+      "vehicles": [
+        "livrees_pages/livrees_img/wme/WME1958-A-BR110.png",
+        "livrees_pages/livrees_img/wme/WME1958-C-AByg503-504.png",
+        "livrees_pages/livrees_img/wme/WME1958-C-Byg515-516.png",
+        "livrees_pages/livrees_img/wme/WME1958-C-Byg515-516.png",
+        "livrees_pages/livrees_img/wme/WME1958-C-BDyg531-532-533.png"
+      ]
+    },
+    {
+      "name": "MSER · livrée 1958",
+      "detail": "Class 45 et voitures Mk1",
+      "vehicles": [
+        "livrees_pages/livrees_img/mser/MSER1958-A-Class45.png",
+        "livrees_pages/livrees_img/mser/MSER1958-C-Mk1_BSK.png",
+        "livrees_pages/livrees_img/mser/MSER1958-C-Mk1_FK.png",
+        "livrees_pages/livrees_img/mser/MSER1958-C-Mk1_RMB.png",
+        "livrees_pages/livrees_img/mser/MSER1958-C-Mk1_SK.png",
+        "livrees_pages/livrees_img/mser/MSER1958-C-Mk1_SK.png"
+      ]
+    },
+    {
+      "name": "CCFM · livrée 1958",
+      "detail": "BB 9200 et voitures USI",
+      "vehicles": [
+        "livrees_pages/livrees_img/ccfm/CCFM1958-A-BB9200.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1958-C-USI62-65A4t4.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1958-C-USI62-65B10t.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1958-C-USI62-65B10t.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1958-C-USI62-65B10t.png"
+      ]
+    },
+    {
+      "name": "MSER · livrée 1970",
+      "detail": "Class 33 et voitures Mk1",
+      "vehicles": [
+        "livrees_pages/livrees_img/mser/MSER1970-A-Class33.png",
+        "livrees_pages/livrees_img/mser/MSER1970-C-Mk1_BSK.png",
+        "livrees_pages/livrees_img/mser/MSER1970-C-Mk1_FK.png",
+        "livrees_pages/livrees_img/mser/MSER1970-C-Mk1_SK.png",
+        "livrees_pages/livrees_img/mser/MSER1970-C-Mk1_SK.png"
+      ]
+    },
+    {
+      "name": "WME · livrée 1971",
+      "detail": "InterCity : BR 110 et voitures Avmz et Bm",
+      "vehicles": [
+        "livrees_pages/livrees_img/wme/WME1971-A-BR110.png",
+        "livrees_pages/livrees_img/wme/WME1971-C-Avmz111.png",
+        "livrees_pages/livrees_img/wme/WME1971-C-Bm234.png",
+        "livrees_pages/livrees_img/wme/WME1971-C-Bm234.png",
+        "livrees_pages/livrees_img/wme/WME1971-C-Bm234.png"
+      ]
+    },
+    {
+      "name": "WME · livrée 1971",
+      "detail": "N-Zug : BR 110 et voitures-lits",
+      "vehicles": [
+        "livrees_pages/livrees_img/wme/WME1971-A-BR110.png",
+        "livrees_pages/livrees_img/wme/WME1971-C-SLBDn742.png",
+        "livrees_pages/livrees_img/wme/WME1971-C-SLABn703-704.png",
+        "livrees_pages/livrees_img/wme/WME1971-C-SLBn719-720-723-725.png"
+      ]
+    },
+    {
+      "name": "CCFM · livrée 1976",
+      "detail": "Grandes Lignes : BB 25200 et voitures Corail",
+      "vehicles": [
+        "livrees_pages/livrees_img/ccfm/CCFM1976-A-BB25200.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1976-C-CorailVTUA10.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1976-C-CorailVTUB11.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1976-C-CorailVTUB11.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1976-C-CorailVTUB11.png"
+      ]
+    },
+    {
+      "name": "CCFM · livrée 1976",
+      "detail": "Régional : BB 16000 et voitures V2N",
+      "vehicles": [
+        "livrees_pages/livrees_img/ccfm/CCFM1976-A-BB16000.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1976-C-V2NA.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1976-C-V2NB.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1976-C-V2NB.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1976-C-V2NBx_R.png"
+      ]
+    },
+    {
+      "name": "WME · livrée 1982",
+      "detail": "InterCity : BR 103 et voitures Avmz et Bm",
+      "vehicles": [
+        "livrees_pages/livrees_img/wme/WME1982-A-BR103.png",
+        "livrees_pages/livrees_img/wme/WME1982-C-Avmz111.png",
+        "livrees_pages/livrees_img/wme/WME1982-C-Bm235.png",
+        "livrees_pages/livrees_img/wme/WME1982-C-Bm235.png",
+        "livrees_pages/livrees_img/wme/WME1982-C-Bomz236.png"
+      ]
+    },
+    {
+      "name": "CCFM · livrée 1984",
+      "detail": "Grandes Lignes : BB 7200 et voitures Corail",
+      "vehicles": [
+        "livrees_pages/livrees_img/ccfm/CCFM1984-A-BB7200.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1984-C-CorailVTUA10.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1984-C-CorailVTUB11.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1984-C-CorailVTUB11.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1984-C-CorailVUB6Dux_R.png"
+      ]
+    },
+    {
+      "name": "CCFM · livrée 1984",
+      "detail": "Régional : Z 23000",
+      "vehicles": [
+        "livrees_pages/livrees_img/ccfm/CCFM1984-B-Z23000RANF.png"
+      ]
+    },
+    {
+      "name": "CCFM · livrée 1995",
+      "detail": "Grandes Lignes : BB 26000 et voitures Corail",
+      "vehicles": [
+        "livrees_pages/livrees_img/ccfm/CCFM1995-A-BB26000.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1995-C-CorailVTUA10.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1995-C-CorailVTUB11.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1995-C-CorailVTUB11.png",
+        "livrees_pages/livrees_img/ccfm/CCFM1995-C-CorailVTUB11.png"
+      ]
+    },
+    {
+      "name": "WME · livrée 1998",
+      "detail": "InterCity : BR 101 et voitures Avmz et Bm",
+      "vehicles": [
+        "livrees_pages/livrees_img/wme/WME1998-A-BR101.png",
+        "livrees_pages/livrees_img/wme/WME1998-C-Avmz111.png",
+        "livrees_pages/livrees_img/wme/WME1998-C-Bm235.png",
+        "livrees_pages/livrees_img/wme/WME1998-C-Bm235.png",
+        "livrees_pages/livrees_img/wme/WME1998-C-Bm235.png"
+      ]
+    },
+    {
+      "name": "MSER · livrée 1998",
+      "detail": "InterCity : HST (Class 43 et voitures Mk3)",
+      "vehicles": [
+        "livrees_pages/livrees_img/mser/MSER1998-A-Class43.png",
+        "livrees_pages/livrees_img/mser/MSER1998-CMk3FO.png",
+        "livrees_pages/livrees_img/mser/MSER1998-CMk3RFM.png",
+        "livrees_pages/livrees_img/mser/MSER1998-CMk3TSO.png",
+        "livrees_pages/livrees_img/mser/MSER1998-CMk3TSO.png",
+        "livrees_pages/livrees_img/mser/MSER1998-CMk3TSO.png",
+        "livrees_pages/livrees_img/mser/MSER1998-A-Class43_R.png"
+      ]
+    },
+    {
+      "name": "MSER · livrée 1998",
+      "detail": "Night Lines : Class 57 et voitures Mk3",
+      "vehicles": [
+        "livrees_pages/livrees_img/mser/MSER1998-A-Class57.png",
+        "livrees_pages/livrees_img/mser/MSER1998-CMk3FO.png",
+        "livrees_pages/livrees_img/mser/MSER1998-CMk3RFM.png",
+        "livrees_pages/livrees_img/mser/MSER1998-CMk3SLEP.png",
+        "livrees_pages/livrees_img/mser/MSER1998-CMk3SLEP.png"
+      ]
+    },
+    {
+      "name": "MSER · livrée 1998",
+      "detail": "Regional Railways : Class 153",
+      "vehicles": [
+        "livrees_pages/livrees_img/mser/MSER1998-B-Class153.png"
+      ]
+    }
+  ],
+  "lignes-de-vie": [
+    {
+      "name": "Valado",
+      "detail": "2 caisses",
+      "vehicles": [
+        "livrees_pages/livrees_img/production/Valado/Valado_2C.png"
+      ]
+    },
+    {
+      "name": "Valado L",
+      "detail": "4 caisses",
+      "vehicles": [
+        "livrees_pages/livrees_img/production/Valado/ValadoL_4C.png"
+      ]
+    },
+    {
+      "name": "Valado M",
+      "detail": "voie métrique, 2 caisses",
+      "vehicles": [
+        "livrees_pages/livrees_img/production/Valado/ValadoM_2C.png"
+      ]
+    },
+    {
+      "name": "Valado",
+      "detail": "3 caisses",
+      "vehicles": [
+        "livrees_pages/livrees_img/production/Valado/Valado.png"
+      ]
+    },
+    {
+      "name": "Valado L",
+      "detail": "5 caisses",
+      "vehicles": [
+        "livrees_pages/livrees_img/production/Valado/ValadoL_5C.png"
+      ]
+    },
+    {
+      "name": "Valado M",
+      "detail": "voie métrique, 3 caisses",
+      "vehicles": [
+        "livrees_pages/livrees_img/production/Valado/ValadoM.png"
+      ]
+    },
+    {
+      "name": "Valado L",
+      "detail": "3 caisses",
+      "vehicles": [
+        "livrees_pages/livrees_img/production/Valado/ValadoL.png"
+      ]
+    }
+  ]
+}

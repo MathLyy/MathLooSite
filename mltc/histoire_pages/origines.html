@@ -4,11 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Les fondations - Histoire MLTC | MathLoo</title>
-    <!-- Chapitre en attente de reecriture : on redirige vers histoire.html
-         plutot que de laisser une URL directe atteindre un contenu qui ne
-         doit plus etre visible pour l'instant. -->
-    <script>window.location.replace('../histoire.html');</script>
-    <noscript><meta http-equiv="refresh" content="0; url=../histoire.html"></noscript>
     <link rel="icon" type="image/png" href="../../favicon.png">
     <script>
         (function() {
@@ -77,35 +72,15 @@
     </nav>
 
     <!-- MLTC Sub-navigation -->
-    <nav class="mltc-subnav">
+    <nav class="mltc-subnav" aria-label="Rubriques MLTC">
         <div class="container">
             <ul class="subnav-menu">
-                <!-- L'Univers -->
-                <li class="subnav-item">
-                    <button class="subnav-toggle" data-category="univers">L'Univers</button>
-                    <div class="subnav-dropdown">
-                        <a href="../index.html" class="subnav-link">Accueil</a>
-                        <a href="../histoire.html" class="subnav-link active">Histoire</a>
-                        <a href="../coulisses.html" class="subnav-link">Les coulisses de la MLTC</a>
-                    </div>
-                </li>
-                <!-- Le Réseau -->
-                <li class="subnav-item">
-                    <button class="subnav-toggle" data-category="reseau">Le Réseau</button>
-                    <div class="subnav-dropdown">
-                        <a href="../circulations.html" class="subnav-link">Circulations</a>
-                        <a href="../livrees.html" class="subnav-link">Livrées</a>
-                        <a href="../services.html" class="subnav-link">Services</a>
-                    </div>
-                </li>
-                <!-- Acteurs -->
-                <li class="subnav-item">
-                    <button class="subnav-toggle" data-category="acteurs">Acteurs</button>
-                    <div class="subnav-dropdown">
-                        <a href="../autres-operateurs.html" class="subnav-link">Autres opérateurs</a>
-                        <a href="../production.html" class="subnav-link">Production</a>
-                    </div>
-                </li>
+                <li class="subnav-item"><a href="../index.html" class="subnav-link">Accueil</a></li>
+                <li class="subnav-item"><a href="../histoire.html" class="subnav-link active" aria-current="page">Histoire</a></li>
+                <li class="subnav-item"><a href="../circulations.html" class="subnav-link">Circulations</a></li>
+                <li class="subnav-item"><a href="../livrees.html" class="subnav-link">Livrées</a></li>
+                <li class="subnav-item"><a href="../autres-operateurs.html" class="subnav-link">Autres opérateurs</a></li>
+                <li class="subnav-item"><a href="../production.html" class="subnav-link">Production</a></li>
             </ul>
         </div>
     </nav>
@@ -121,224 +96,218 @@
                 <span class="chr-opening-period">1955 &ndash; 2001</span>
             </div>
             <h1>Les fondations</h1>
-            <p class="chr-opening-sub">Des premiers projets d'unification ferroviaire à la fondation de la MLTC Railways en 2001.</p>
+            <p class="chr-opening-sub">Des premiers projets de l'Alliance à la naissance de MLTC Railways.</p>
 
             <!-- La page cite des dates, des institutions et des evenements
                  reels : sans cette mention, rien ne distingue l'uchronie
-                 d'une notice d'entreprise authentique. Repris tel quel du
-                 bloc equivalent sur histoire.html. -->
+                 d'une notice d'entreprise authentique. -->
             <aside class="chr-fiction">
                 <span class="chr-fiction-tag">Fiction &middot; Uchronie</span>
                 <p class="chr-fiction-text"><strong>Ceci est un univers fictif.</strong> La MLTC évolue dans une histoire alternative volontairement éloignée de notre réalité. Les événements, institutions et entreprises présentés ici sont imaginaires.</p>
             </aside>
         </section>
 
-        <section id="origines" class="chr-reveal">
-            <div class="chr-head">
-                <div class="chr-eyebrow">1955</div>
-                <h2>Les prémices de la MLTC</h2>
-            </div>
-            <div class="chr-prose chr-lead">
-                <p>Dès la fondation de l'Alliance du Mathlyens en 1955, l'ambition d'un réseau ferroviaire intégré à l'échelle du continent s'impose comme une évidence. Mais la réalité politique et logistique est plus complexe que prévu : le projet d'une infrastructure commune se heurte rapidement à des coûts trop élevés et à des intérêts divergents entre États membres, et le projet d'unification complète est abandonné.</p>
-                <p>L'ambition d'unifier les réseaux ferroviaires des pays membres demeure toutefois. Trois projets sont étudiés pour lui donner corps.</p>
-            </div>
+        <!-- Bandeau anime (js/train-anim.js, comme sur l'accueil MLTC) : des
+             rames de la periode passent une a une, leur nom s'affiche dessous. -->
+        <div class="train-banner chr-trainband">
+            <div id="train-animation-container" data-base="../../" data-source="mltc/data/histoire-convois.json" data-group="fondations" data-order="sequence" data-caption="chr-train-cap"></div>
+        </div>
+        <p class="chr-train-cap" id="chr-train-cap"></p>
 
-            <div class="chr-trial">
-                <div class="chr-trial-row chr-trial-row--out">
-                    <span class="chr-trial-num">1</span>
-                    <div class="chr-trial-body">
-                        <h3>Compagnie unique</h3>
-                        <p>Le premier projet, le plus ambitieux, propose la création d'une compagnie ferroviaire unique pour l'ensemble du Mathlyens. Il est rapidement abandonné : la mise en œuvre exigerait d'harmoniser d'un coup l'ensemble des réglementations, des matériels et des personnels des douze futurs États membres, pour un coût jugé hors de portée des jeunes institutions de l'Alliance.</p>
+        <!-- Gabarit des parties de la chronique : un sommaire fixe a gauche,
+             des periodes de poids comparable a droite. Chaque periode suit le
+             meme squelette (date, titre, texte, un seul element visuel au
+             plus) pour que la page reste equilibree. -->
+        <div class="chr-body">
+            <nav class="chr-rail" aria-label="Périodes de la partie I">
+                <a href="#p1955" class="chr-rail-link"><span>1955 &ndash; 1957</span>Un réseau pour l'Alliance</a>
+                <a href="#p1958" class="chr-rail-link"><span>1958</span>Trois compagnies</a>
+                <a href="#p1962" class="chr-rail-link"><span>1958 &ndash; 1989</span>Trois réseaux côte à côte</a>
+                <a href="#p1990" class="chr-rail-link"><span>1990 &ndash; 2001</span>Vers la fusion</a>
+            </nav>
+
+            <div class="chr-body-main">
+                <section id="p1955" class="chr-period chr-reveal">
+                    <div class="chr-head">
+                        <div class="chr-eyebrow">1955 &ndash; 1957</div>
+                        <h2>Un réseau pour l'Alliance</h2>
                     </div>
-                    <span class="chr-trial-verdict">Abandonné</span>
-                </div>
-                <div class="chr-trial-row chr-trial-row--out">
-                    <span class="chr-trial-num">2</span>
-                    <div class="chr-trial-body">
-                        <h3>Coentreprise nationale</h3>
-                        <p>Le deuxième projet propose la création d'une entité distincte des compagnies ferroviaires nationales, mais gérée par celles-ci : les compagnies nationales auraient exploité des trains pour le compte de l'Alliance. C'est précisément ce point qui ne convainc pas : l'Alliance veut être propriétaire de la compagnie, pas seulement commanditaire d'un service qu'elle ne contrôle pas. Le projet est donc écarté par l'Alliance, mais les compagnies nationales le portent tout de même à leur propre compte : il devient le Trans Europ Express.</p>
+                    <div class="chr-prose chr-lead">
+                        <p>En 1955, le traité de Londres fonde l'Alliance du Mathlyens. Sept pays la composent à l'origine : la France, le Royaume-Uni, l'Allemagne de l'Ouest, la Belgique, les Pays-Bas, le Luxembourg et l'Italie. Parmi ses premiers chantiers figure un réseau ferroviaire commun, qui relierait les États membres sans s'arrêter aux frontières.</p>
+                        <p>Trois projets sont étudiés dans les années qui suivent.</p>
+                        <p><strong>Le premier</strong> prévoit une compagnie unique pour tout le Mathlyens. Il faudrait harmoniser d'un seul coup les règlements, le matériel et le personnel de sept réseaux nationaux, pour un coût hors de portée d'une Alliance qui vient de naître. Le projet est abandonné.</p>
+                        <p><strong>Le deuxième</strong> propose une entité commune gérée par les compagnies nationales, qui feraient circuler des trains pour le compte de l'Alliance. L'Alliance le rejette : elle veut posséder sa compagnie, pas seulement commander un service qu'elle ne contrôlerait pas. Les compagnies nationales reprennent pourtant l'idée à leur compte, sans elle : elle devient le Trans Europ Express, lancé en 1957.</p>
+                        <p><strong>Le troisième</strong>, plus modeste, est retenu : créer des compagnies nouvelles, chacune ancrée dans une région, qui circulent à côté des réseaux nationaux et non à leur place. Dès le départ, elles sont conçues pour se raccorder les unes aux autres.</p>
                     </div>
-                    <span class="chr-trial-verdict">Rejeté</span>
-                </div>
-                <div class="chr-trial-row chr-trial-row--won">
-                    <span class="chr-trial-num">3</span>
-                    <div class="chr-trial-body">
-                        <h3>Compagnies interrégionales</h3>
-                        <p>Un troisième projet voit alors le jour, plus modeste dans son ambition mais plus réaliste : fonder des compagnies ferroviaires nouvelles, aux côtés des réseaux nationaux existants plutôt qu'à leur place, chacune ancrée sur une zone géographique forte mais conçue pour s'interconnecter avec les autres.</p>
+                </section>
+
+                <section id="p1958" class="chr-period chr-reveal">
+                    <div class="chr-head">
+                        <div class="chr-eyebrow">1958</div>
+                        <h2>Trois compagnies</h2>
                     </div>
-                    <span class="chr-trial-verdict">Retenu</span>
-                </div>
-            </div>
+                    <div class="chr-prose">
+                        <p>En 1958, l'Alliance fonde trois compagnies. Leur gouvernance est semi-publique et leur financement mixte : il vient des États où elles circulent et du Mathlyens. En plus des grandes lignes, chacune assure dès ses débuts des dessertes périurbaines autour de ses principales métropoles.</p>
+                    </div>
 
-            <div class="chr-prose chr-mt">
-                <p>C'est finalement ce dernier modèle hybride, qui concilie intégration et ancrage territorial, qui apparaît ainsi comme le plus viable et le mieux adapté aux contraintes politiques, économiques et opérationnelles de l'époque. Ainsi, trois compagnies sont créées en 1958 :</p>
-            </div>
-        </section>
+                    <div class="chr-co-list">
+                        <article class="chr-co">
+                            <header class="chr-co-plate">
+                                <span class="chr-co-acro">CCFM</span>
+                                <span class="chr-co-full">Compagnie des Chemins de fer du Mathlyens</span>
+                            </header>
+                            <div class="chr-co-body">
+                                <dl class="chr-co-facts">
+                                    <div><dt>Territoire</dt><dd>France</dd></div>
+                                    <div><dt>Matériel</dt><dd>Hérité de la SNCF</dd></div>
+                                </dl>
+                                <p>La seule des trois à franchir une frontière dès sa première décennie, avec son extension au Benelux en 1962.</p>
+                                <div class="chr-strip"><img src="../icones_lore/ht_ccfm_1958.png" alt="Livrée CCFM de 1958" width="1077" height="72"></div>
+                            </div>
+                        </article>
 
-        <section class="chr-reveal">
-            <div class="chr-head">
-                <div class="chr-eyebrow">1958</div>
-                <h2>Trois compagnies fondatrices</h2>
-            </div>
-            <div class="chr-prose chr-lead">
-                <p>Trois compagnies sont fondées en 1958 par l'autorité du Mathlyens, chacune ancrée sur une zone géographique forte.</p>
-            </div>
+                        <article class="chr-co">
+                            <header class="chr-co-plate">
+                                <span class="chr-co-acro">WME</span>
+                                <span class="chr-co-full">Westdeutsche Mathly Eisenbahn</span>
+                            </header>
+                            <div class="chr-co-body">
+                                <dl class="chr-co-facts">
+                                    <div><dt>Territoire</dt><dd>Allemagne de l'Ouest</dd></div>
+                                    <div><dt>Matériel</dt><dd>Issu de la Deutsche Bundesbahn</dd></div>
+                                </dl>
+                                <p>Elle relie les grandes villes ouest-allemandes entre elles, et vers la France et le Benelux en coordination avec la CCFM.</p>
+                                <div class="chr-strip"><img src="../icones_lore/ht_wme_1958.png" alt="Livrée WME de 1958" width="1077" height="72"></div>
+                            </div>
+                        </article>
 
-            <div class="chr-specimen">
-                <div class="chr-specimen-plate">
-                    <span class="chr-specimen-year">1958</span>
-                    <span class="chr-specimen-acronym">CCFM</span>
-                </div>
-                <div class="chr-specimen-body">
-                    <div class="chr-triple">
-                        <div class="chr-triple-item">
-                            <span class="chr-triple-acro">CCFM</span>
-                            <span class="chr-triple-lang">Compagnie des Chemins de fer du Mathlyens</span>
+                        <article class="chr-co">
+                            <header class="chr-co-plate">
+                                <span class="chr-co-acro">MSER</span>
+                                <span class="chr-co-full">Mathly Southern England Railways</span>
+                            </header>
+                            <div class="chr-co-body">
+                                <dl class="chr-co-facts">
+                                    <div><dt>Territoire</dt><dd>Sud de l'Angleterre</dd></div>
+                                    <div><dt>Matériel</dt><dd>Repris à British Railways</dd></div>
+                                </dl>
+                                <p>L'exception des trois : au lieu de s'installer à côté de l'opérateur national, elle le remplace. British Railways lui cède la quasi-totalité du réseau régional du Sud et une large part de son matériel. Elle exploite aussi les trains-ferrys entre la France et l'Angleterre, seul lien ferroviaire entre le continent et la Grande-Bretagne.</p>
+                                <div class="chr-strip"><img src="../icones_lore/ht_mser_1958.png" alt="Livrée MSER de 1958" width="1077" height="72"></div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="chr-prose chr-mt">
+                        <p>L'Italie, pourtant membre fondateur, reste en dehors. Le plan initial prévoyait une quatrième compagnie, les <em>Ferrovie Italiane di Mathlyan</em> (FIM), qui aurait repris une partie des activités des chemins de fer italiens. Mais trois compagnies représentent déjà un effort considérable pour l'Alliance, et le réseau italien fonctionne correctement : la FIM est abandonnée. L'Italie s'en tient à des accords ponctuels avec la CCFM et la WME, limités à quelques trains internationaux.</p>
+                    </div>
+                </section>
+
+                <section id="p1962" class="chr-period chr-reveal">
+                    <div class="chr-head">
+                        <div class="chr-eyebrow">1958 &ndash; 1989</div>
+                        <h2>Trois réseaux côte à côte</h2>
+                    </div>
+                    <div class="chr-prose">
+                        <p>Pendant trente ans, les trois compagnies se développent chacune de son côté.</p>
+                    </div>
+
+                    <div class="chr-paths">
+                        <article class="chr-path">
+                            <h3 class="chr-path-head"><span>CCFM</span>Vers le nord, puis la grande vitesse</h3>
+                            <div class="chr-path-step">
+                                <span class="chr-path-year">1962</span>
+                                <p>La CCFM s'étend à la Belgique, aux Pays-Bas et au Luxembourg. Elle y circule sous trois noms selon la langue : CCFM en Wallonie, MSVM (<em>Maatschappij der Spoorwegen van het Mathlyens</em>) aux Pays-Bas et en Flandre, GEVM (<em>Gesellschaft vun den Eisebunne vum Mathlyens</em>) au Luxembourg. Du matériel ex-SNCB et ex-NS rejoint son parc.</p>
+                            </div>
+                            <div class="chr-path-step">
+                                <span class="chr-path-year">1981</span>
+                                <p>La SNCF ouvre la ligne à grande vitesse Paris-Lyon, construite avec l'aide financière du Mathlyens. La CCFM y fait circuler ses trains aux côtés de ceux de la SNCF.</p>
+                            </div>
+                        </article>
+
+                        <article class="chr-path">
+                            <h3 class="chr-path-head"><span>WME</span>Vers les Alpes</h3>
+                            <div class="chr-path-step">
+                                <span class="chr-path-year">Années 1960</span>
+                                <p>La Suisse et l'Autriche ne sont pas membres de l'Alliance. La WME y dessert d'abord quelques grandes villes frontalières, comme Bâle et Salzbourg, puis ses trains vont peu à peu plus loin.</p>
+                            </div>
+                            <div class="chr-path-step">
+                                <span class="chr-path-year">1974</span>
+                                <p>Des trains de la WME relient les villes allemandes à Milan par le Gothard. C'est l'essentiel des trains internationaux prévus par les accords avec l'Italie.</p>
+                            </div>
+                        </article>
+
+                        <article class="chr-path">
+                            <h3 class="chr-path-head"><span>MSER</span>Un réseau préservé</h3>
+                            <div class="chr-path-step">
+                                <span class="chr-path-year">1963</span>
+                                <p>Le rapport Beeching entraîne la fermeture d'une large part du réseau de British Railways. Le sud de l'Angleterre n'en fait plus partie : grâce au financement de l'Alliance, la MSER ne ferme que quelques lignes très peu fréquentées.</p>
+                            </div>
+                            <div class="chr-path-step">
+                                <span class="chr-path-year">1990</span>
+                                <p>Les trains-ferrys entre la France et l'Angleterre, déjà en déclin, cessent de circuler. Jusqu'à l'ouverture du tunnel, plus aucun train ne franchit la Manche.</p>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="chr-prose chr-mt">
+                        <p>Les tentatives de rapprochement tournent court. Dans les années 1970, la CCFM et la WME étudient la mise en commun de leur matériel roulant, sans dépasser les discussions préliminaires. En 1984, les trois compagnies signent un accord-cadre sur la coordination des horaires et des tarifs. Il reste lettre morte, faute de volonté politique, et l'unification recule dans l'agenda de l'Alliance.</p>
+                    </div>
+                </section>
+
+                <section id="p1990" class="chr-period chr-reveal">
+                    <div class="chr-head">
+                        <div class="chr-eyebrow">1990 &ndash; 2001</div>
+                        <h2>Vers la fusion</h2>
+                    </div>
+                    <div class="chr-prose">
+                        <p>Au début des années 1990, deux événements bousculent les trois compagnies et relancent le débat de l'unification, qui aboutit dix ans plus tard.</p>
+                    </div>
+
+                    <div class="chr-frise">
+                        <div class="chr-frise-item">
+                            <span class="chr-frise-dot" aria-hidden="true"></span>
+                            <div class="chr-frise-date">1990</div>
+                            <h3>La réunification allemande</h3>
+                            <p>L'ancienne RDA entre dans le Mathlyens, et la WME ouvre des liaisons vers les villes est-allemandes. Il faudrait étendre son rôle à tout l'Est, mais l'unification des compagnies se profile : l'extension est mise en attente. Jusqu'en 2001, seules quelques liaisons grandes lignes sont mises en place.</p>
                         </div>
-                        <div class="chr-triple-item">
-                            <span class="chr-triple-acro">MSVM</span>
-                            <span class="chr-triple-lang">Maatschappij der Spoorwegen van het Mathlyens</span>
+                        <div class="chr-frise-item">
+                            <span class="chr-frise-dot" aria-hidden="true"></span>
+                            <div class="chr-frise-date">1994</div>
+                            <h3>Le tunnel sous la Manche</h3>
+                            <p>Quatre ans après la fin des trains-ferrys, le tunnel rétablit un lien ferroviaire entre le continent et la Grande-Bretagne. La MSER et la CCFM exploitent ensemble les liaisons transmanche, chacune avec ses propres rames.</p>
                         </div>
-                        <div class="chr-triple-item">
-                            <span class="chr-triple-acro">GEVM</span>
-                            <span class="chr-triple-lang">Gesellschaft vun den Eisebunne vum Mathlyens</span>
+                        <div class="chr-frise-item">
+                            <span class="chr-frise-dot" aria-hidden="true"></span>
+                            <div class="chr-frise-date">1999</div>
+                            <h3>Le groupe MLTC</h3>
+                            <p>L'Alliance crée le groupe MLTC, chargé d'unifier à terme l'ensemble des transports du Mathlyens. Le rail en est un axe majeur, mais pas la raison d'être. Le groupe commence par l'aérien, avec la fondation de Mathly Alliance Airlines, et par le fret, avec la MLCC (Mathly Cargo Company).</p>
+                        </div>
+                        <div class="chr-frise-item">
+                            <span class="chr-frise-dot" aria-hidden="true"></span>
+                            <div class="chr-frise-date">2001</div>
+                            <h3>MLTC Railways</h3>
+                            <p>La CCFM, la WME et la MSER fusionnent pour devenir MLTC Railways, la branche ferroviaire du groupe. MLTC Railways Infrastructures, dite MLTC Infrastructures, naît en même temps et reprend l'entretien des voies et l'attribution des sillons. La MLCC ouvre sa branche ferroviaire, qui reprend le fret des trois anciennes compagnies. La MLUP (Mathly Union Post) reçoit une branche ferroviaire, exploitée par MLTC Railways.</p>
                         </div>
                     </div>
-                    <div class="chr-strip">
-                        <img src="../icones_lore/ht_ccfm_1958.png" alt="CCFM 1958" width="1077" height="72">
-                    </div>
-                    <p>Son périmètre s'étend d'abord à la France, puis, dans un second temps, à l'ensemble du Benelux : elle opère alors sous le nom CCFM en France et en Wallonie, MSVM aux Pays-Bas et en Flandre, et GEVM au Luxembourg. Elle hérite de matériel ex-SNCF, et dans une moindre mesure ex-SNCB et ex-NS.</p>
-                </div>
-            </div>
+                </section>
 
-            <div class="chr-specimen">
-                <div class="chr-specimen-plate">
-                    <span class="chr-specimen-year">1958</span>
-                    <span class="chr-specimen-acronym">WME</span>
-                    <span class="chr-specimen-full">Westdeutsche Mathly Eisenbahn</span>
-                </div>
-                <div class="chr-specimen-body">
-                    <div class="chr-strip">
-                        <img src="../icones_lore/ht_wme_1958.png" alt="WME 1958" width="1077" height="72">
-                    </div>
-                    <p>La WME dessert l'Allemagne de l'Ouest et les zones frontalières germanophones. Son parc matériel est largement issu de celui de la Deutsche Bundesbahn, et elle assure notamment les liaisons entre les grandes villes ouest-allemandes et les connexions vers le Benelux et la France, en coordination avec la CCFM.</p>
-                </div>
+                <section class="chr-next">
+                    <a href="expansion.html" class="chr-next-main">
+                        <span class="chr-next-num">II</span>
+                        <span>
+                            <span class="chr-next-label">Partie suivante</span>
+                            <span class="chr-next-title">Réseau et expansion</span>
+                            <span class="chr-next-period">2001 &ndash; 2012</span>
+                        </span>
+                        <span class="chr-next-go">Lire la suite <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                    </a>
+                </section>
             </div>
-
-            <div class="chr-specimen">
-                <div class="chr-specimen-plate">
-                    <span class="chr-specimen-year">1958</span>
-                    <span class="chr-specimen-acronym">MSER</span>
-                    <span class="chr-specimen-full">Mathly Southern England Railways</span>
-                </div>
-                <div class="chr-specimen-body">
-                    <div class="chr-strip">
-                        <img src="../icones_lore/ht_mser_1958.png" alt="MSER 1958" width="1077" height="72">
-                    </div>
-                    <p>La MSER se substitue à la British Rail dans le sud de l'Angleterre, où elle reprend d'emblée la quasi-totalité du réseau régional ainsi qu'une large part de son parc roulant. Elle assure également l'exploitation des liaisons par ferrys-ferroviaires entre la France et l'Angleterre, seul lien physique entre le continent et les îles britanniques avant la construction du tunnel sous la Manche.</p>
-                </div>
-            </div>
-
-            <div class="chr-prose chr-mt">
-                <p>Chacune de ces compagnies adopte une gouvernance semi-publique, reposant sur un financement mixte États-Mathlyens, et opère aux côtés des opérateurs nationaux plutôt qu'à leur place. Dès leurs débuts, elles assurent aussi, en marge de leurs grandes lignes, des dessertes périurbaines autour de leurs principales métropoles.</p>
-                <p>L'Italie, pourtant membre fondateur du Mathlyens, reste en marge de ce dispositif. Le plan de transport initial prévoyait la création d'une quatrième compagnie, les <em>Ferrovie Italiane di Mathlyan</em> (FIM), qui aurait repris une partie des activités des chemins de fer italiens. Mais la création des trois premières compagnies représente déjà un investissement considérable pour l'Alliance, et l'Italie, dont le réseau national fonctionne alors de façon satisfaisante, n'est pas jugée prioritaire dans l'immédiat. Le projet FIM est donc abandonné, et l'Italie se contente d'accords ponctuels avec la CCFM et la WME, limités à quelques trains internationaux.</p>
-                <p>Bien que limitées dans leur rayonnement initial, les trois compagnies fondatrices posent les bases d'une future intégration ferroviaire du continent et constituent les précurseurs directs de la MLTC Railways, fondée plusieurs décennies plus tard.</p>
-            </div>
-        </section>
-
-        <section class="chr-reveal">
-            <div class="chr-head">
-                <div class="chr-eyebrow">1958 &ndash; 2001</div>
-                <h2>Une unification tardive</h2>
-            </div>
-
-            <h3 class="chr-h3">Des décennies d'immobilisme</h3>
-            <div class="chr-prose">
-                <p>Durant les décennies qui suivent la création des trois compagnies, plusieurs initiatives pour les rapprocher voient le jour de manière fragmentaire, mais aucune n'aboutit véritablement.</p>
-                <p>Dans les années 1970, un projet de mutualisation du matériel roulant entre la CCFM et la WME est étudié, mais il ne dépasse pas le stade des discussions préliminaires. En 1984, un accord-cadre prévoyant une coordination renforcée des horaires et des tarifs est signé par les trois compagnies, mais il reste largement lettre morte, faute de volonté politique suffisante. Le projet d'unification est peu à peu relégué au second plan dans l'agenda des institutions du Mathlyens.</p>
-            </div>
-
-            <h3 class="chr-h3">Le tournant des années 1990</h3>
-            <div class="chr-prose">
-                <p>Au début des années 1990, deux évolutions donnent à l'Alliance du Mathlyens l'occasion de mesurer les limites d'une coordination entre trois compagnies distinctes.</p>
-            </div>
-
-            <div class="chr-milestone-row">
-                <div class="chr-milestone-card">
-                    <span class="chr-milestone-year">1990</span>
-                    <h4>Réunification allemande</h4>
-                    <p>La réunification de l'Allemagne conduit l'Alliance à décider que la WME étendra son réseau aux anciens Länder de l'Est. Le processus s'étale sur plus de cinq ans et mobilise directement l'Alliance, qui doit arbitrer en continu entre les moyens de la WME et ceux des deux autres compagnies.</p>
-                </div>
-                <div class="chr-milestone-card">
-                    <span class="chr-milestone-year">1994</span>
-                    <h4>Tunnel sous la Manche</h4>
-                    <p>Avec l'ouverture du tunnel sonne la fin des trains ferrys, déjà en déclin. Les liaisons transmanche sont désormais assurées par une collaboration étroite entre la MSER et la CCFM, les deux compagnies disposant chacune de rames transmanche.</p>
-                </div>
-            </div>
-
-            <div class="chr-prose">
-                <p>Ces deux épisodes, qui ont transformé le réseau ferroviaire du Mathlyens, relancent vivement le débat de l'unification. En <strong>1999</strong>, le groupe MLTC est créé, conglomérat multimodal appelé à réunir à terme l'ensemble des transports du Mathlyens, en commençant par le transport aérien avec la fondation de Mathly Alliance Airlines.</p>
-                <p>Deux ans plus tard, en <strong>2001</strong>, la fusion de la CCFM, de la WME et de la MSER est actée : les trois compagnies deviennent <strong>MLTC Railways</strong>, la branche ferroviaire du groupe.</p>
-                <p>La <strong>MLCC</strong> (Mathly Cargo Company) est créée dans la foulée et reprend l'ensemble des activités de fret ferroviaire précédemment assurées par les anciennes compagnies. Il est décidé en même temps de créer une branche ferroviaire pour la <strong>MLUP</strong> (MathLy Union Post), qui sera exploitée par la MLTC.</p>
-                <p>La gestion du réseau physique est également confiée à une structure séparée, <strong>MLTC Infrastructures</strong>, chargée de l'entretien des voies et de l'attribution des sillons pour l'ensemble des circulations, y compris celles de la MLCC.</p>
-            </div>
-
-            <div class="chr-pull">
-                <p>Trois compagnies, trois histoires, un seul réseau : la fusion de 2001 solde près d'un demi-siècle d'immobilisme.</p>
-            </div>
-
-            <h3 class="chr-h3">Harmonisation</h3>
-            <div class="chr-prose">
-                <p>La fusion s'accompagne d'un vaste chantier d'harmonisation : livrées, billetterie commune, grilles tarifaires. Côté voyageurs, l'offre est ramenée à <strong>quatre marques</strong>, chacune condensant ce que les trois compagnies proposaient déjà sous des noms divers.</p>
-            </div>
-
-            <div class="chr-codex">
-                <div class="chr-codex-nav">
-                    <button class="chr-codex-tab active" data-codex-target="0">InterCity</button>
-                    <button class="chr-codex-tab" data-codex-target="1">TransRegio</button>
-                    <button class="chr-codex-tab" data-codex-target="2">HighSpeed</button>
-                    <button class="chr-codex-tab" data-codex-target="3">NightLine</button>
-                </div>
-                <div class="chr-codex-panel active" data-codex-index="0">
-                    <div class="chr-strip"><img src="../icones_lore/ht_ic.png" alt="InterCity" width="1077" height="72"></div>
-                    <h4>InterCity <span class="chr-svc-abbr">IC</span></h4>
-                    <p>Grandes lignes nationales et transfrontalières sur voie classique : synthèse des principales liaisons rapides héritées des trois réseaux, avec un parc progressivement unifié sous livrée MLTC.</p>
-                </div>
-                <div class="chr-codex-panel" data-codex-index="1">
-                    <div class="chr-strip"><img src="../icones_lore/ht_tr.png" alt="TransRegio" width="1077" height="72"></div>
-                    <h4>TransRegio <span class="chr-svc-abbr">TR</span></h4>
-                    <p>Maillage régional et, à cette date, aussi les couronnes périurbaines rattachées au régional : vue d'ensemble de la desserte « proche » avant qu'elle ne soit redécoupée plus tard.</p>
-                </div>
-                <div class="chr-codex-panel" data-codex-index="2">
-                    <div class="chr-strip"><img src="../icones_lore/ht_hs.png" alt="HighSpeed" width="1077" height="72"></div>
-                    <h4>HighSpeed <span class="chr-svc-abbr">HS</span></h4>
-                    <p>Grande vitesse sur lignes à infrastructure dédiée, issue des offres rapides des trois compagnies : positionnement premium sur les métropoles et longs corridors internationaux.</p>
-                </div>
-                <div class="chr-codex-panel" data-codex-index="3">
-                    <div class="chr-strip"><img src="../icones_lore/ht_nl.png" alt="NightLine" width="1077" height="72"></div>
-                    <h4>NightLine <span class="chr-svc-abbr">NL</span></h4>
-                    <p>Trains de nuit sur longue distance : couchettes et conforts variés, pour une offre nocturne transversale au Mathlyens.</p>
-                </div>
-            </div>
-
-            <div class="chr-prose chr-mt">
-                <p>Ce socle de quatre marques voyageurs reste en place pendant plus de dix ans, pendant que le réseau physique et la carte des États membres évoluent déjà fortement.</p>
-            </div>
-        </section>
-
-        <section class="chr-tight">
-            <div class="chr-turn">
-                <div></div>
-                <a href="expansion.html" class="chr-turn-link chr-turn-next">
-                    <span class="chr-turn-label">Partie suivante</span>
-                    <span class="chr-turn-title">II &middot; Réseau et expansion &rarr;</span>
-                </a>
-            </div>
-        </section>
+        </div>
 
         <!-- Date de dernière modification -->
         <section class="last-modified">
-            <p>Dernière mise à jour : 12 septembre 2026</p>
+            <p>Dernière mise à jour : 28 septembre 2026</p>
         </section>
     </main>
 
@@ -360,12 +329,13 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <span class="footer-version">v<strong>0.9</strong> (25/09/2026)</span>
+                <span class="footer-version">v<strong>0.10</strong> (28/09/2026)</span>
                 <p>&copy; 2026 MathLoo. Tous droits réservés.</p>
             </div>
         </div>
     </footer>
 
+    <script src="../../js/train-anim.js"></script>
     <script src="../../js/main.js"></script>
     <script src="../../js/histoire.js"></script>
 </body>
