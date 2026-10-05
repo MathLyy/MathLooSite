@@ -38,10 +38,13 @@ pour créer de nouvelles pages de livrées.
 │   └── mltc.css, ...        #   feuilles propres à la section MLTC
 ├── js/                      # Scripts
 │   ├── main.js              #   thème, menu mobile, sous-menu MLTC, apparitions
+│   ├── compositions.js      #   lecture de mltc/data/circulations.js (carte, page Trafic, bandeaux animés)
+│   ├── scene-iso.js         #   vue isométrique du hub 3D, construite cube par cube
 │   └── story.js             #   lightbox et révélation au défilement (pages story)
 ├── mltc/                    # Section MLTC (histoire, livrées, circulations, opérateurs)
 ├── 3D/                      # Hub 3D
 │   ├── index.html           #   hub
+│   ├── scene-modele.js      #   modèle et réglages de la vue isométrique du hub (à modifier à la main)
 │   ├── voxel.html           #   modélisations voxel
 │   ├── voxel/               #   images de la page voxel
 │   └── projets-3d.html      #   autres projets 3D (masquée : aucun lien, en attente de contenu)
@@ -56,7 +59,7 @@ pour créer de nouvelles pages de livrées.
 │   ├── dessins.html         #   galerie de dessins divers
 │   ├── fangame/             #   images et audio du fangame
 │   └── dessins_img/         #   images de la galerie
-└── _admin/                  # Back-office local des livrées MLTC (Chrome / Edge)
+└── _admin/                  # Back-office local (Chrome / Edge) : livrées, compositions
 ```
 
 ### Ajouter un projet

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Compositions — MLTC</title>
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<div class="topbar">
+    <div class="brand">Admin <span>Compositions</span></div>
+    <a class="btn sm" href="index.html" title="Éditeur des pages Livrées">Livrées</a>
+    <div class="dot" id="dot" title="Dossier non connecté"></div>
+    <div class="rootname" id="rootname">non connecté</div>
+    <button class="btn" id="btn-connect">Connecter le dossier</button>
+    <div class="spacer"></div>
+    <button class="btn" id="btn-check" disabled title="Relit le fichier, vérifie la mise en forme et cherche les images manquantes">Contrôle</button>
+    <button class="btn" id="btn-assets" disabled title="Décors (caténaires), voies, attelages et premiers plans de mltc/assets">Assets</button>
+    <button class="btn" id="btn-services" disabled title="Services, vitesses et voies par défaut, période historique">Services</button>
+    <button class="btn danger" id="btn-revert" disabled>Annuler les modifications</button>
+    <button class="btn primary" id="btn-save" disabled title="Ctrl+S">Enregistrer</button>
+</div>
+
+<div class="warnbar">
+    Écrit <code>mltc/data/circulations.js</code> (carte Circulations, page Trafic, bandeaux). Committez avant d'éditer et relisez <code>git diff</code> après chaque enregistrement.
+</div>
+
+<div class="layout no-preview cp-layout" id="layout">
+    <div class="rail cp-rail" id="rail"></div>
+    <div class="editor" id="editor">
+        <div class="empty" id="welcome">
+            <p><strong>Connectez le dossier du site</strong> pour commencer.</p>
+            <p class="dim">Si vous l'avez déjà connecté dans l'admin Livrées, il est repris automatiquement.</p>
+        </div>
+    </div>
+</div>
+
+<script src="js/kit.js"></script>
+<script src="js/fs.js"></script>
+<script src="js/diff.js"></script>
+<script src="../js/compositions.js"></script>
+<script src="js/circ-data.js"></script>
+<script src="js/ui-compos.js"></script>
+</body>
+</html>

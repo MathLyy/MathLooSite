@@ -1,0 +1,2978 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>MathLooTraffic</title>
+<style>
+  :root {
+    --panel-bg: #0c0c0c;
+    --panel-bg-alt: #111;
+    --surface: #161616;
+    --surface-2: #1a1a1a;
+    --surface-3: #222;
+    --border: #333;
+    --border-soft: #2a2a2a;
+    --border-input: #444;
+    --text: #fff;
+    --text-dim: #ccc;
+    --text-faint: #888;
+    --accent-blue: #2e5d8a;
+    --accent-blue-soft: #2a4a5d;
+    --accent-cyan: #2e9dd9;
+    --accent-green: #2e7d32;
+    --accent-green-soft: #8fd98f;
+    --accent-red: #5d2e2e;
+    --accent-red-soft: #7d2e2e;
+    --accent-orange: #d98f2e;
+    --accent-orange-soft: #5d4a2a;
+    --accent-yellow: #f2c94c;
+    --radius: 8px;
+    --radius-sm: 6px;
+  }
+  html, body {
+    margin: 0; padding: 0; width: 100%; height: 100%;
+    background: #000; overflow: hidden;
+    touch-action: manipulation;
+  }
+  canvas { display: block; background: #000; }
+  #loading {
+    position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+    color: var(--text-faint); font-family: -apple-system, sans-serif; font-size: 14px; z-index: 10;
+    text-align: center; padding: 20px; box-sizing: border-box;
+  }
+  #topBar {
+    position: fixed; top: 12px; right: 12px; z-index: 20;
+    display: flex; gap: 8px;
+  }
+  .topBtn {
+    background: rgba(40,40,40,0.85); color: #fff; border: 1px solid #555;
+    border-radius: 8px; padding: 8px 14px; font-size: 14px;
+    font-family: -apple-system, sans-serif;
+  }
+  .topBtn:disabled { opacity: 0.5; }
+  #editorPanel {
+    position: fixed; inset: 0; z-index: 30; background: rgba(10,10,10,0.97);
+    display: none; flex-direction: column; padding: env(safe-area-inset-top,12px) 12px 12px 12px;
+    box-sizing: border-box;
+  }
+  #editorPanel.open { display: flex; }
+  #editorPanel textarea {
+    flex: 1; width: 100%; background: var(--panel-bg-alt); color: #d8d8d8; border: 1px solid var(--border-input);
+    border-radius: 6px; padding: 10px; font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 13px; box-sizing: border-box; resize: none;
+    -webkit-appearance: none; white-space: pre; overflow-wrap: normal; overflow-x: auto;
+  }
+  #editorToolbar {
+    display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;
+  }
+  #editorToolbar button {
+    flex: 1; min-width: 100px; padding: 12px; border-radius: 8px; border: none;
+    font-size: 15px; font-family: -apple-system, sans-serif; font-weight: 600;
+  }
+  #applyBtn { background: var(--accent-green); color: #fff; }
+  #closeBtn { background: var(--border-input); color: #fff; }
+  #resetBtn { background: var(--accent-red-soft); color: #fff; }
+  #editorMsg {
+    color: var(--accent-yellow); font-family: -apple-system, sans-serif; font-size: 13px; margin-top: 6px; min-height: 16px;
+  }
+  #vehiclePanel {
+    position: fixed; inset: 0; z-index: 40; background: rgba(8,8,8,0.98);
+    display: none; flex-direction: column; padding: env(safe-area-inset-top,12px) 10px 10px 10px;
+    box-sizing: border-box;
+  }
+  #vehiclePanel.open { display: flex; }
+  #vehicleHeader {
+    display: flex; gap: 8px; align-items: center; margin-bottom: 8px; flex-wrap: wrap;
+  }
+  #vehicleSearch {
+    flex: 1; min-width: 120px; background: var(--surface-2); color: #fff; border: 1px solid var(--border-input);
+    border-radius: 8px; padding: 10px 12px; font-size: 15px; font-family: -apple-system, sans-serif;
+    -webkit-appearance: none;
+  }
+  #vehicleModeLabel {
+    color: #9fd39f; font-family: -apple-system, sans-serif; font-size: 12px; flex-basis: 100%;
+  }
+  #vehicleImportBtn {
+    background: var(--accent-blue); color: #fff; border: none; border-radius: 8px; padding: 10px 16px;
+    font-size: 14px; font-family: -apple-system, sans-serif; font-weight: 600;
+  }
+  #vehicleCloseBtn {
+    background: var(--border-input); color: #fff; border: none; border-radius: 8px; padding: 10px 16px;
+    font-size: 14px; font-family: -apple-system, sans-serif; font-weight: 600;
+  }
+  #vehicleCount {
+    color: var(--text-faint); font-family: -apple-system, sans-serif; font-size: 12px; margin-bottom: 6px;
+  }
+  #vehicleGrid {
+    flex: 1; overflow-y: auto; display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 8px; -webkit-overflow-scrolling: touch; align-content: start;
+  }
+  .vitem {
+    background: var(--surface); border: 1px solid var(--border-soft); border-radius: 8px;
+    display: flex; flex-direction: column; align-items: center; padding: 6px;
+    cursor: pointer; position: relative;
+  }
+  .vitem:active { background: #263826; border-color: #4a7a4a; }
+  .vitem-custom { border-color: #d9a92e; }
+  .vitem-del {
+    position: absolute; top: 2px; right: 2px; width: 20px; height: 20px;
+    background: var(--accent-red); color: #fff; border: none; border-radius: 50%;
+    font-size: 11px; line-height: 20px; padding: 0;
+  }
+  .vitem .vimgwrap {
+    width: 100%; height: 54px; display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .vitem img { max-width: 100%; max-height: 54px; image-rendering: pixelated; }
+  .vitem .vname {
+    color: var(--text-dim); font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 9px;
+    text-align: center; margin-top: 4px; word-break: break-all; line-height: 1.15;
+  }
+  #vtoast {
+    position: fixed; left: 50%; bottom: 30px; transform: translateX(-50%);
+    background: rgba(40,120,40,0.95); color: #fff; padding: 10px 18px; border-radius: 20px;
+    font-family: -apple-system, sans-serif; font-size: 14px; z-index: 50;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  }
+  #vtoast.show { opacity: 1; }
+
+  #builderPanel {
+    position: fixed; inset: 0; z-index: 35; background: rgba(8,8,8,0.98);
+    display: none; flex-direction: column; padding: env(safe-area-inset-top,12px) 10px 10px 10px;
+    box-sizing: border-box; font-family: -apple-system, sans-serif;
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
+  }
+  #builderPanel.open { display: flex; }
+  #builderTitle { color: #fff; font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+
+  #builderPreviewWrap {
+    background: var(--panel-bg); border: 1px solid var(--border); border-radius: 8px;
+    height: 90px; overflow-x: auto; overflow-y: hidden; white-space: nowrap;
+    display: flex; align-items: flex-end; padding: 4px 8px; margin-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  #builderPreviewWrap img { image-rendering: pixelated; display: inline-block; vertical-align: bottom; }
+  #builderPreviewEmpty { color: #555; font-size: 13px; margin: auto; }
+
+  #builderDirRow { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+  #builderDirRow label { color: #999; font-size: 13px; }
+  #builderDirRow button {
+    background: #222; color: var(--text-dim); border: 1px solid var(--border-input); border-radius: 6px;
+    padding: 6px 12px; font-size: 13px;
+  }
+  #builderDirRow button.active { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); }
+
+  #builderMeta { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+  #builderMeta input, #builderMeta select {
+    background: var(--surface-2); color: #fff; border: 1px solid var(--border-input); border-radius: 6px;
+    padding: 8px 10px; font-size: 14px; -webkit-appearance: none;
+  }
+  #builderSpeed { width: 70px; }
+  #builderTitleInput { flex: 1; min-width: 100px; }
+  #builderDirection { min-width: 150px; }
+
+  #builderAddBtn {
+    background: var(--accent-blue); color: #fff; border: none; border-radius: 8px;
+    padding: 12px; font-size: 15px; font-weight: 600; margin-bottom: 8px;
+  }
+
+  #builderAdvToggle {
+    background: #222; color: var(--text-dim); border: 1px solid var(--border-input); border-radius: 8px;
+    padding: 10px; font-size: 14px; margin-bottom: 8px; width: 100%; text-align: left;
+  }
+  #builderAdvPanel {
+    display: none; background: var(--panel-bg-alt); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px; margin-bottom: 8px;
+  }
+  #builderAdvPanel.open { display: block; }
+  .advRow {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;
+  }
+  .advRow label {
+    color: var(--text-dim); font-size: 13px; display: flex; align-items: center; gap: 6px; flex: 1; min-width: 160px;
+  }
+  .advRow input[type="checkbox"] { width: 18px; height: 18px; }
+  .advRow input[type="number"], .advRow input[type="text"], .advRow select {
+    background: var(--surface-2); color: #fff; border: 1px solid var(--border-input); border-radius: 6px;
+    padding: 7px 8px; font-size: 13px; -webkit-appearance: none; width: 90px;
+  }
+  .advRow select { width: auto; min-width: 130px; }
+  .advSub {
+    margin-left: 24px; padding-left: 8px; border-left: 2px solid var(--border-soft); display: none;
+  }
+  .advSub.open { display: block; }
+  .advPickBtn {
+    background: var(--accent-blue); color: #fff; border: none; border-radius: 6px;
+    padding: 8px 10px; font-size: 12px; font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .advClearBtn {
+    background: var(--border); color: var(--text-dim); border: none; border-radius: 6px; padding: 8px 10px; font-size: 12px;
+  }
+  .advLabel { color: var(--text-faint); font-size: 12px; margin-bottom: 4px; }
+
+  #builderList { -webkit-overflow-scrolling: touch; }
+  .blitem {
+    display: flex; align-items: center; gap: 8px; background: var(--surface);
+    border: 1px solid var(--border-soft); border-radius: 8px; padding: 6px 8px; margin-bottom: 6px;
+  }
+  .blitem img { image-rendering: pixelated; flex-shrink: 0; }
+  .blitem .blname {
+    flex: 1; color: var(--text-dim); font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 11px; word-break: break-all;
+  }
+  .blitem .blmulti {
+    width: 40px; background: var(--surface-2); color: #fff; border: 1px solid var(--border-input);
+    border-radius: 5px; padding: 4px; font-size: 13px; text-align: center;
+  }
+  .blitem button {
+    background: var(--border-soft); color: var(--text-dim); border: 1px solid var(--border-input); border-radius: 6px;
+    width: 32px; height: 32px; font-size: 15px; flex-shrink: 0;
+  }
+  .blitem .blremove { background: var(--accent-red); color: #fff; border-color: var(--accent-red); }
+
+  .blitem-shuffle { flex-direction: column; align-items: stretch; }
+  .blshuffle-thumbs {
+    display: flex; gap: 2px; flex-wrap: wrap; border-bottom: 2px solid var(--accent-orange); padding-bottom: 6px;
+  }
+  .blshuffle-controls { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+
+  #builderToolbar { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  #builderToolbar button {
+    flex: 1; min-width: 100px; padding: 12px; border-radius: 8px; border: none;
+    font-size: 15px; font-family: -apple-system, sans-serif; font-weight: 600;
+  }
+  #builderOutputBtn { background: var(--accent-green); color: #fff; }
+  #builderClearBtn { background: var(--accent-red-soft); color: #fff; }
+  #builderCloseBtn { background: var(--border-input); color: #fff; }
+  #builderMsg { color: var(--accent-yellow); font-size: 13px; margin-top: 6px; min-height: 16px; }
+</style>
+</head>
+<body>
+<div id="loading">
+  <div>
+    <div id="loadingStatus">Chargement des trains depuis assets/ et data/...</div>
+    <div id="loadingError" style="margin-top:14px; color:#e07a7a; font-size:13px; max-width:360px; display:none;"></div>
+  </div>
+</div>
+<canvas id="c"></canvas>
+
+<div id="topBar">
+  <button id="builderBtn" class="topBtn">🛠️ Constructeur</button>
+  <button id="editorBtn" class="topBtn">✏️ Yaml</button>
+  <button id="loadYamlBtn" class="topBtn">📂 Charger yaml</button>
+  <button id="exportBtn" class="topBtn">💾 Télécharger yaml</button>
+</div>
+<input id="loadYamlInput" type="file" accept=".yaml,.yml,text/yaml" style="display:none;">
+<input id="folderPickInput" type="file" webkitdirectory directory multiple style="display:none;">
+<div id="editorPanel">
+  <textarea id="yamlTextarea" spellcheck="false" autocapitalize="off" autocorrect="off"></textarea>
+  <div id="editorMsg"></div>
+  <div id="editorToolbar">
+    <button id="applyBtn">Appliquer &amp; relancer</button>
+    <button id="resetBtn">Réinitialiser</button>
+    <button id="closeBtn">Fermer</button>
+  </div>
+</div>
+
+<div id="vehiclePanel">
+  <div id="vehicleHeader">
+    <input id="vehicleSearch" type="text" placeholder="Rechercher (ex: MLTCI, BR245, S58...)" autocapitalize="off" autocorrect="off" spellcheck="false">
+    <button id="vehicleImportBtn" title="Importer rapidement une image PNG pour tester (préfère plutôt l'ajouter dans assets/vehicles/)">➕ Importer</button>
+    <button id="vehicleCloseBtn">Fermer</button>
+    <div id="vehicleModeLabel"></div>
+  </div>
+  <input id="vehicleImportInput" type="file" accept="image/png" multiple style="display:none;">
+  <div id="vehicleShuffleBar" style="display:none; flex-direction:column; gap:8px; margin-bottom:8px;">
+    <div style="display:flex; align-items:center; gap:8px;">
+      <button id="vehicleShuffleModePool" class="topBtn" style="background:#5d4a2a; border-color:#d98f2e;">🔀 Pool (SHUFFLE)</button>
+      <button id="vehicleShuffleModeChoice" class="topBtn">🎯 Un seul, au hasard (|)</button>
+    </div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <div id="vehicleShuffleCount" style="color:#9fd39f; font-size:13px; flex:1;"></div>
+      <button id="vehicleShuffleUndo" style="background:#333; color:#ccc; border:none; border-radius:6px; padding:8px 12px; font-size:13px;">Annuler dernier</button>
+      <button id="vehicleShuffleDone" style="background:#2e7d32; color:#fff; border:none; border-radius:6px; padding:8px 14px; font-size:13px; font-weight:600;">Terminé ✓</button>
+    </div>
+  </div>
+  <div id="vehicleCount"></div>
+  <div id="vehicleGrid"></div>
+</div>
+
+<div id="builderPanel">
+  <div id="builderTitle">🛠️ Constructeur de rame</div>
+  <div id="builderPreviewWrap"><div id="builderPreviewEmpty">Aperçu — ajoute des véhicules ci-dessous</div></div>
+  <div id="builderDirRow">
+    <label>Aperçu direction :</label>
+    <button id="builderDirL" data-dir="L">◀ L</button>
+    <button id="builderDirR" data-dir="R" class="active">R ▶</button>
+  </div>
+  <div id="builderMeta">
+    <input id="builderTitleInput" type="text" placeholder="Titre (optionnel)" autocapitalize="off" autocorrect="off">
+    <input id="builderSpeed" type="number" placeholder="Vitesse" value="120">
+    <select id="builderDirection">
+      <option value="any" selected>Direction : aléatoire (any)</option>
+      <option value="L">Direction : gauche (L)</option>
+      <option value="R">Direction : droite (R)</option>
+    </select>
+  </div>
+
+  <button id="builderAdvToggle">⚙️ Options avancées (arrêt, changement de loco, voie, premier plan, inversions...)</button>
+  <div id="builderAdvPanel">
+    <div class="advRow">
+      <label><input type="checkbox" id="advStartingSpeedEnabled"> Entre en accélération (vitesse de départ plus basse)</label>
+    </div>
+    <div class="advSub" id="advStartingSpeedSub">
+      <div class="advRow">
+        <label>Vitesse de départ</label>
+        <input type="number" id="advStartingSpeed" value="80" min="0">
+      </div>
+      <div class="advLabel">
+        Le train entre déjà en mouvement mais à cette vitesse (inférieure à la vitesse de
+        croisière définie plus haut), puis accélère progressivement jusqu'à l'atteindre —
+        utile pour un train qui vient de démarrer d'une gare hors-champ, par exemple.
+      </div>
+    </div>
+
+    <div class="advRow">
+      <label><input type="checkbox" id="advStopEnabled"> Arrêt en gare</label>
+    </div>
+    <div class="advSub" id="advStopSub">
+      <div class="advRow" style="flex-direction: column; align-items: stretch;">
+        <label style="margin-bottom: 4px;">Position de l'arrêt : <span id="advStopAtLabel">50%</span> de la largeur de l'écran</label>
+        <input type="range" id="advStopAt" min="0" max="100" value="50" step="1" style="width: 100%;">
+        <div class="advLabel" style="margin-top: 4px;">
+          0% = bord gauche, 100% = bord droit. Le <strong>centre</strong> du train s'arrête
+          à cette position, quelle que soit sa direction ou sa longueur — donc plus de train
+          qui déborde d'un côté selon le sens de circulation.
+        </div>
+      </div>
+      <div class="advRow">
+        <label>Durée (s)</label>
+        <input type="number" id="advStopDuration" value="3">
+      </div>
+
+      <div class="advRow">
+        <label><input type="checkbox" id="advDetachEnabled"> Détacher des véhicules</label>
+      </div>
+      <div class="advSub" id="advDetachSub">
+        <div class="advRow">
+          <label>Nombre</label>
+          <input type="number" id="advDetachCount" value="1" min="1">
+        </div>
+        <div class="advRow">
+          <label>Côté</label>
+          <select id="advDetachPosition">
+            <option value="front" selected>Avant (tête)</option>
+            <option value="back">Arrière (queue)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="advRow">
+        <label><input type="checkbox" id="advAttachEnabled"> Atteler des véhicules</label>
+      </div>
+      <div class="advSub" id="advAttachSub">
+        <div class="advLabel">Véhicules à atteler, dans l'ordre (tête en premier) :</div>
+        <div id="advAttachThumbs" class="blshuffle-thumbs" style="margin-bottom:8px; min-height:24px;"></div>
+        <div class="advRow">
+          <button class="advPickBtn" id="advAttachPick">Choisir les véhicules…</button>
+          <button class="advClearBtn" id="advAttachClear">✕</button>
+        </div>
+        <div class="advRow">
+          <label>Côté</label>
+          <select id="advAttachPosition">
+            <option value="front" selected>Avant (tête)</option>
+            <option value="back">Arrière (queue)</option>
+          </select>
+        </div>
+
+        <div class="advRow">
+          <label><input type="checkbox" id="advAttachSelfDetachEnabled"> Une partie repart ensuite (ex: locotracteur qui livre puis s'en va)</label>
+        </div>
+        <div class="advSub" id="advAttachSelfDetachSub">
+          <div class="advRow">
+            <label>Nombre de véhicules qui repartent</label>
+            <input type="number" id="advAttachSelfDetachCount" value="1" min="1">
+          </div>
+          <div class="advLabel">
+            Ces véhicules doivent être en TÊTE de la liste ci-dessus si le côté est "Avant",
+            ou en QUEUE de la liste si le côté est "Arrière" — c'est-à-dire du côté par lequel
+            l'attelage est arrivé (le locotracteur mène généralement la manœuvre).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="advRow">
+      <label>Voie</label>
+      <select id="advTrack">
+        <option value="">Par défaut</option>
+      </select>
+    </div>
+
+    <div class="advRow">
+      <label><input type="checkbox" id="advFgEnabled"> Élément de premier plan</label>
+    </div>
+    <div class="advSub" id="advFgSub">
+      <div class="advRow">
+        <label><input type="checkbox" id="advFgIsVehicle"> Utiliser une image véhicule</label>
+      </div>
+      <div class="advRow" id="advFgImageRow">
+        <select id="advFgImageSelect"></select>
+      </div>
+      <div class="advRow" id="advFgVehiclePickRow" style="display:none;">
+        <button class="advPickBtn" id="advFgVehiclePick">Choisir une image…</button>
+        <button class="advClearBtn" id="advFgVehicleClear">✕</button>
+      </div>
+      <div class="advRow">
+        <label>Position X (px)</label>
+        <input type="number" id="advFgAt" value="0">
+      </div>
+      <div class="advRow">
+        <label>Décalage vertical Y</label>
+        <input type="number" id="advFgY" value="0">
+      </div>
+    </div>
+
+    <div class="advRow">
+      <label><input type="checkbox" id="advReverseComposition"> Composition inversée au hasard (50/50)</label>
+    </div>
+    <div class="advRow">
+      <label><input type="checkbox" id="advReverseDeparture"> Repart en sens inverse après l'arrêt</label>
+    </div>
+    <div class="advRow">
+      <label>Décalage vertical (y_offset)</label>
+      <input type="number" id="advYOffset" value="0">
+    </div>
+
+    <div class="advRow">
+      <label><input type="checkbox" id="advStartStationaryEnabled"> Démarre déjà à l'arrêt (manœuvre, gare...)</label>
+    </div>
+    <div class="advSub" id="advStartStationarySub">
+      <div class="advRow" style="flex-direction: column; align-items: stretch;">
+        <label style="margin-bottom: 4px;">Position : <span id="advStartStationaryAtLabel">50%</span> de la largeur de l'écran</label>
+        <input type="range" id="advStartStationaryAt" min="0" max="100" value="50" step="1" style="width: 100%;">
+      </div>
+      <div class="advRow">
+        <label><input type="checkbox" id="advStartStationaryInfinite"> Reste indéfiniment (décor fixe, ne repart jamais)</label>
+      </div>
+      <div class="advRow" id="advStartStationaryDurationRow">
+        <label>Durée avant départ (s)</label>
+        <input type="number" id="advStartStationaryDuration" value="5" min="0">
+      </div>
+    </div>
+
+    <div class="advRow">
+      <label><input type="checkbox" id="advBgEnabled"> Train d'arrière-plan (même voie, assombri)</label>
+    </div>
+    <div class="advSub" id="advBgSub">
+      <div class="advLabel">Deuxième train sur la même voie, en retrait visuel (opacité réduite).</div>
+      <div class="advRow" style="flex-direction: column; align-items: stretch;">
+        <label style="margin-bottom: 4px;">Probabilité d'apparition : <span id="advBgChanceLabel">100%</span></label>
+        <input type="range" id="advBgChance" min="0" max="100" value="100" step="5" style="width: 100%;">
+      </div>
+      <div class="advRow">
+        <input type="text" id="advBgTitleInput" placeholder="Titre (optionnel)" style="flex:1; min-width:100px;">
+        <input type="number" id="advBgSpeed" placeholder="Vitesse" value="80" style="width:70px;">
+        <select id="advBgDirection">
+          <option value="any" selected>Direction : aléatoire</option>
+          <option value="L">Direction : gauche (L)</option>
+          <option value="R">Direction : droite (R)</option>
+        </select>
+      </div>
+
+      <div class="advLabel" style="margin-top:8px;">Composition du train d'arrière-plan :</div>
+      <div id="advBgPreviewWrap" style="background:var(--panel-bg); border:1px solid var(--border); border-radius:var(--radius); height:70px; overflow-x:auto; overflow-y:hidden; white-space:nowrap; display:flex; align-items:flex-end; padding:4px 8px; margin-bottom:8px;">
+        <div id="advBgPreviewEmpty" style="color:var(--text-faint); font-size:12px; margin:auto;">Aperçu — ajoute des véhicules</div>
+      </div>
+      <div class="advRow">
+        <button id="advBgAddBtn" style="flex:1;">➕ Ajouter un véhicule</button>
+      </div>
+      <div id="advBgList"></div>
+
+      <div class="advRow">
+        <label><input type="checkbox" id="advBgStopEnabled"> Arrêt en gare</label>
+      </div>
+      <div class="advSub" id="advBgStopSub">
+        <div class="advRow" style="flex-direction: column; align-items: stretch;">
+          <label style="margin-bottom: 4px;">Position : <span id="advBgStopAtLabel">50%</span></label>
+          <input type="range" id="advBgStopAt" min="0" max="100" value="50" step="1" style="width: 100%;">
+        </div>
+        <div class="advRow">
+          <label>Durée (s)</label>
+          <input type="number" id="advBgStopDuration" value="3">
+        </div>
+      </div>
+
+      <div class="advRow">
+        <label><input type="checkbox" id="advBgStartStationaryEnabled"> Démarre déjà à l'arrêt</label>
+      </div>
+      <div class="advSub" id="advBgStartStationarySub">
+        <div class="advRow" style="flex-direction: column; align-items: stretch;">
+          <label style="margin-bottom: 4px;">Position : <span id="advBgStartStationaryAtLabel">50%</span></label>
+          <input type="range" id="advBgStartStationaryAt" min="0" max="100" value="50" step="1" style="width: 100%;">
+        </div>
+        <div class="advRow">
+          <label><input type="checkbox" id="advBgStartStationaryInfinite"> Reste indéfiniment</label>
+        </div>
+        <div class="advRow" id="advBgStartStationaryDurationRow">
+          <label>Durée avant départ (s)</label>
+          <input type="number" id="advBgStartStationaryDuration" value="5" min="0">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="advRow">
+    <button id="builderAddBtn" style="flex:1;">➕ Véhicule simple</button>
+    <button id="builderAddShuffleBtn" style="flex:1;">🔀 Groupe aléatoire (SHUFFLE)</button>
+  </div>
+  <div id="builderList"></div>
+  <div id="builderMsg"></div>
+  <div id="builderToolbar">
+    <button id="builderOutputBtn">✅ Générer &amp; insérer dans l'éditeur</button>
+    <button id="builderClearBtn">Vider la liste</button>
+    <button id="builderCloseBtn">Fermer</button>
+  </div>
+</div>
+
+<div id="vtoast"></div>
+
+<script>(function(e,t){typeof exports==`object`&&typeof module<`u`?t(exports):typeof define==`function`&&define.amd?define([`exports`],t):(e=typeof globalThis<`u`?globalThis:e||self,t(e.jsyaml={}))})(this,function(e){Object.defineProperty(e,Symbol.toStringTag,{value:`Module`});var t=Symbol(`NOT_RESOLVED`),n=Symbol(`MERGE_KEY`);function r(e,t){var n,r,i,a,o,s;return{tagName:e,nodeKind:`scalar`,implicit:(n=t.implicit)==null?!1:n,matchByTagPrefix:(r=t.matchByTagPrefix)==null?!1:r,implicitFirstChars:(i=t.implicitFirstChars)==null?null:i,resolve:t.resolve,identify:(a=t.identify)==null?null:a,represent:(o=t.represent)==null?(e=>String(e)):o,representTagName:(s=t.representTagName)==null?null:s}}function i(e,t){var n,r,i,a,o;let s=t.finalize===void 0;return{tagName:e,nodeKind:`sequence`,implicit:!1,matchByTagPrefix:(n=t.matchByTagPrefix)==null?!1:n,create:t.create,addItem:t.addItem,finalize:(r=t.finalize)==null?(e=>e):r,carrierIsResult:s,identify:(i=t.identify)==null?null:i,represent:(a=t.represent)==null?(e=>e):a,representTagName:(o=t.representTagName)==null?null:o}}function a(e,t){var n,r,i,a,o;let s=t.finalize===void 0;return{tagName:e,nodeKind:`mapping`,implicit:!1,matchByTagPrefix:(n=t.matchByTagPrefix)==null?!1:n,create:t.create,addPair:t.addPair,has:t.has,keys:t.keys,get:t.get,finalize:(r=t.finalize)==null?(e=>e):r,carrierIsResult:s,identify:(i=t.identify)==null?null:i,represent:(a=t.represent)==null?(e=>e):a,representTagName:(o=t.representTagName)==null?null:o}}var o=r(`tag:yaml.org,2002:str`,{resolve:e=>e,identify:e=>typeof e==`string`}),s=[``,`~`,`null`,`Null`,`NULL`],c=r(`tag:yaml.org,2002:null`,{implicit:!0,implicitFirstChars:[``,`~`,`n`,`N`],resolve:e=>s.indexOf(e)===-1?t:null,identify:e=>e===null,represent:()=>`null`}),l=r(`tag:yaml.org,2002:null`,{implicit:!0,implicitFirstChars:[`n`],resolve:(e,n)=>e===`null`||n&&e===``?null:t,identify:e=>e===null,represent:()=>`null`}),u=[``,`~`,`null`,`Null`,`NULL`],d=r(`tag:yaml.org,2002:null`,{implicit:!0,implicitFirstChars:[``,`~`,`n`,`N`],resolve:e=>u.indexOf(e)===-1?t:null,identify:e=>e===null,represent:()=>`null`}),f=[`true`,`True`,`TRUE`],p=[`false`,`False`,`FALSE`],m=r(`tag:yaml.org,2002:bool`,{implicit:!0,implicitFirstChars:[`t`,`T`,`f`,`F`],resolve:e=>f.indexOf(e)===-1?p.indexOf(e)===-1?t:!1:!0,identify:e=>Object.prototype.toString.call(e)===`[object Boolean]`,represent:e=>e?`true`:`false`}),h=[`true`],ee=[`false`],te=r(`tag:yaml.org,2002:bool`,{implicit:!0,implicitFirstChars:[`t`,`f`],resolve:e=>h.indexOf(e)===-1?ee.indexOf(e)===-1?t:!1:!0,identify:e=>Object.prototype.toString.call(e)===`[object Boolean]`,represent:e=>e?`true`:`false`}),ne=[`true`,`True`,`TRUE`,`y`,`Y`,`yes`,`Yes`,`YES`,`on`,`On`,`ON`],re=[`false`,`False`,`FALSE`,`n`,`N`,`no`,`No`,`NO`,`off`,`Off`,`OFF`],ie=r(`tag:yaml.org,2002:bool`,{implicit:!0,implicitFirstChars:[`y`,`Y`,`n`,`N`,`t`,`T`,`f`,`F`,`o`,`O`],resolve:e=>ne.indexOf(e)===-1?re.indexOf(e)===-1?t:!1:!0,identify:e=>Object.prototype.toString.call(e)===`[object Boolean]`,represent:e=>e?`true`:`false`}),ae=RegExp(`^(?:0o[0-7]+|0x[0-9a-fA-F]+|[-+]?[0-9]+)$`),oe=RegExp(`^(?:[-+]?0b[0-1]+|[-+]?0o[0-7]+|[-+]?0x[0-9a-fA-F]+|[-+]?[0-9]+)$`);function se(e){let t=e,n=1;return(t[0]===`-`||t[0]===`+`)&&(t[0]===`-`&&(n=-1),t=t.slice(1)),t.startsWith(`0b`)?n*parseInt(t.slice(2),2):t.startsWith(`0o`)?n*parseInt(t.slice(2),8):t.startsWith(`0x`)?n*parseInt(t.slice(2),16):n*parseInt(t,10)}function ce(e,n){if(n){if(!oe.test(e))return t}else if(!ae.test(e))return t;let r=se(e);return Number.isFinite(r)?r:t}var le=r(`tag:yaml.org,2002:int`,{implicit:!0,implicitFirstChars:[`-`,`+`,...`0123456789`],resolve:ce,identify:e=>Number.isInteger(e)&&!Object.is(e,-0)&&e.toString(10).indexOf(`e`)<0,represent:e=>e.toString(10)}),ue=RegExp(`^-?(?:0|[1-9][0-9]*)$`),de=RegExp(`^(?:[-+]?0b[0-1]+|[-+]?0o[0-7]+|[-+]?0x[0-9a-fA-F]+|[-+]?[0-9]+)$`);function fe(e){let t=e,n=1;return(t[0]===`-`||t[0]===`+`)&&(t[0]===`-`&&(n=-1),t=t.slice(1)),t.startsWith(`0b`)?n*parseInt(t.slice(2),2):t.startsWith(`0o`)?n*parseInt(t.slice(2),8):t.startsWith(`0x`)?n*parseInt(t.slice(2),16):n*parseInt(t,10)}function pe(e,n){if(n){if(!de.test(e))return t}else if(!ue.test(e))return t;let r=fe(e);return Number.isFinite(r)?r:t}var me=r(`tag:yaml.org,2002:int`,{implicit:!0,implicitFirstChars:[`-`,...`0123456789`],resolve:pe,identify:e=>Number.isInteger(e)&&!Object.is(e,-0)&&e.toString(10).indexOf(`e`)<0,represent:e=>e.toString(10)}),he=RegExp(`^(?:[-+]?0b[0-1_]+|[-+]?0[0-7_]+|[-+]?0x[0-9a-fA-F_]+|[-+]?[0-9][0-9_]*(?::[0-5]?[0-9])+|[-+]?(?:0|[1-9][0-9_]*))$`);function ge(e){let t=e.replace(/_/g,``),n=1;if((t[0]===`-`||t[0]===`+`)&&(t[0]===`-`&&(n=-1),t=t.slice(1)),t.startsWith(`0b`))return n*parseInt(t.slice(2),2);if(t.startsWith(`0x`))return n*parseInt(t.slice(2),16);if(t.includes(`:`)){let e=0;for(let n of t.split(`:`))e=e*60+Number(n);return n*e}return t!==`0`&&t[0]===`0`?n*parseInt(t,8):n*parseInt(t,10)}function _e(e){if(!he.test(e))return t;let n=ge(e);return Number.isFinite(n)?n:t}var ve=r(`tag:yaml.org,2002:int`,{implicit:!0,implicitFirstChars:[`-`,`+`,...`0123456789`],resolve:_e,identify:e=>Number.isInteger(e)&&!Object.is(e,-0)&&e.toString(10).indexOf(`e`)<0,represent:e=>e.toString(10)}),ye=RegExp(`^(?:[-+]?[0-9]+(?:\\.[0-9]*)?(?:[eE][-+]?[0-9]+)?|[-+]?\\.[0-9]+(?:[eE][-+]?[0-9]+)?|[-+]?\\.(?:inf|Inf|INF)|\\.(?:nan|NaN|NAN))$`),be=RegExp(`^(?:[-+]?\\.(?:inf|Inf|INF)|\\.(?:nan|NaN|NAN))$`);function xe(e){if(!ye.test(e))return t;let n=e.toLowerCase(),r=n[0]===`-`?-1:1;if(`+-`.includes(n[0])&&(n=n.slice(1)),n===`.inf`)return r===1?1/0:-1/0;if(n===`.nan`)return NaN;let i=r*parseFloat(n);return Number.isFinite(i)||be.test(e)?i:t}function Se(e){if(isNaN(e))return`.nan`;if(e===1/0)return`.inf`;if(e===-1/0)return`-.inf`;if(Object.is(e,-0))return`-0.0`;let t=e.toString(10);return/^[-+]?[0-9]+e/.test(t)?t.replace(`e`,`.e`):t}var Ce=r(`tag:yaml.org,2002:float`,{implicit:!0,implicitFirstChars:[`-`,`+`,`.`,...`0123456789`],resolve:xe,identify:e=>typeof e==`number`&&(!Number.isInteger(e)||Object.is(e,-0)||e.toString(10).indexOf(`e`)>=0),represent:Se}),we=RegExp(`^-?(?:0|[1-9][0-9]*)(?:\\.[0-9]*)?(?:[eE][-+]?[0-9]+)?$`),Te=RegExp(`^(?:[-+]?[0-9]+(?:\\.[0-9]*)?(?:[eE][-+]?[0-9]+)?|[-+]?\\.[0-9]+(?:[eE][-+]?[0-9]+)?|[-+]?\\.(?:inf|Inf|INF)|\\.(?:nan|NaN|NAN))$`);function Ee(e,n){if(n){if(!Te.test(e))return t;let n=e.toLowerCase(),r=n[0]===`-`?-1:1;if(`+-`.includes(n[0])&&(n=n.slice(1)),n===`.inf`)return r===1?1/0:-1/0;if(n===`.nan`)return NaN;let i=r*parseFloat(n);return Number.isFinite(i)?i:t}if(!we.test(e))return t;let r=Number(e);return Number.isFinite(r)?r:t}function De(e){if(isNaN(e))return`.nan`;if(e===1/0)return`.inf`;if(e===-1/0)return`-.inf`;if(Object.is(e,-0))return`-0.0`;let t=e.toString(10);return/^[-+]?[0-9]+e/.test(t)?t.replace(`e`,`.e`):t}var Oe=r(`tag:yaml.org,2002:float`,{implicit:!0,implicitFirstChars:[`-`,...`0123456789`],resolve:Ee,identify:e=>typeof e==`number`&&(!Number.isInteger(e)||Object.is(e,-0)||e.toString(10).indexOf(`e`)>=0),represent:De}),ke=RegExp(`^(?:[-+]?(?:(?:[0-9][0-9_]*)?\\.[0-9_]*)(?:[eE][-+][0-9]+)?|[-+]?[0-9][0-9_]*(?::[0-5]?[0-9])+\\.[0-9_]*|[-+]?\\.(?:inf|Inf|INF)|\\.(?:nan|NaN|NAN))$`),Ae=RegExp(`^(?:[-+]?\\.(?:inf|Inf|INF)|\\.(?:nan|NaN|NAN))$`);function je(e){if(!ke.test(e))return t;let n=e.toLowerCase().replace(/_/g,``),r=n[0]===`-`?-1:1;if(`+-`.includes(n[0])&&(n=n.slice(1)),n===`.inf`)return r===1?1/0:-1/0;if(n===`.nan`)return NaN;let i=0;if(n.includes(`:`)){for(let e of n.split(`:`))i=i*60+Number(e);i*=r}else i=r*parseFloat(n);return Number.isFinite(i)||Ae.test(e)?i:t}function Me(e){if(isNaN(e))return`.nan`;if(e===1/0)return`.inf`;if(e===-1/0)return`-.inf`;if(Object.is(e,-0))return`-0.0`;let t=e.toString(10);return/^[-+]?[0-9]+e/.test(t)?t.replace(`e`,`.e`):t}var Ne=r(`tag:yaml.org,2002:float`,{implicit:!0,implicitFirstChars:[`-`,`+`,`.`,...`0123456789`],resolve:je,identify:e=>typeof e==`number`&&(!Number.isInteger(e)||Object.is(e,-0)||e.toString(10).indexOf(`e`)>=0),represent:Me}),Pe=r(`tag:yaml.org,2002:merge`,{implicit:!0,implicitFirstChars:[`<`],resolve:(e,r)=>e===`<<`||r&&e===``?n:t}),Fe=/^[A-Za-z0-9+/]*={0,2}$/;function Ie(e){let n=e.replace(/\s/g,``);if(n.length%4!=0||!Fe.test(n))return t;let r=atob(n),i=new Uint8Array(r.length);for(let e=0;e<r.length;e++)i[e]=r.charCodeAt(e);return i}function Le(e){let t=``;for(let n=0;n<e.length;n++)t+=String.fromCharCode(e[n]);return btoa(t)}var Re=r(`tag:yaml.org,2002:binary`,{resolve:Ie,identify:e=>Object.prototype.toString.call(e)===`[object Uint8Array]`,represent:Le}),ze=RegExp(`^([0-9][0-9][0-9][0-9])-([0-9][0-9])-([0-9][0-9])$`),Be=RegExp(`^([0-9][0-9][0-9][0-9])-([0-9][0-9]?)-([0-9][0-9]?)(?:[Tt]|[ \\t]+)([0-9][0-9]?):([0-9][0-9]):([0-9][0-9])(?:\\.([0-9]*))?(?:[ \\t]*(Z|([-+])([0-9][0-9]?)(?::([0-9][0-9]))?))?$`);function Ve(e){let n=ze.exec(e);if(n===null&&(n=Be.exec(e)),n===null)return t;let r=+n[1],i=n[2]-1,a=+n[3];if(!n[4]){let e=new Date(Date.UTC(r,i,a));return e.getUTCFullYear()!==r||e.getUTCMonth()!==i||e.getUTCDate()!==a?t:e}let o=+n[4],s=+n[5],c=+n[6],l=0;if(o>23||s>59||c>59)return t;if(n[7]){let e=n[7].slice(0,3);for(;e.length<3;)e+=`0`;l=+e}let u=new Date(Date.UTC(r,i,a,o,s,c,l));if(u.getUTCFullYear()!==r||u.getUTCMonth()!==i||u.getUTCDate()!==a)return t;if(n[9]){let e=+n[10],r=+(n[11]||0);if(e>23||r>59)return t;let i=(e*60+r)*6e4;u.setTime(u.getTime()-(n[9]===`-`?-i:i))}return u}var He=r(`tag:yaml.org,2002:timestamp`,{implicit:!0,implicitFirstChars:[...`0123456789`],resolve:Ve,identify:e=>e instanceof Date,represent:e=>e.toISOString()}),Ue=i(`tag:yaml.org,2002:seq`,{create:()=>[],addItem:(e,t)=>{e.push(t)},identify:Array.isArray});function We(e){if(typeof e!=`object`||!e||Array.isArray(e))return!1;let t=Object.getPrototypeOf(e);return t===null||t===Object.prototype}function Ge(e,t){let n={};for(let r of t)e[r]!==void 0&&(n[r]=e[r]);return n}var Ke=i(`tag:yaml.org,2002:omap`,{create:()=>({list:[],seen:new Set}),addItem:(e,t)=>{let n;if(t instanceof Map){if(t.size!==1)return`cannot resolve an ordered map item`;n=t.keys().next().value}else if(We(t)){let e=Object.keys(t);if(e.length!==1)return`cannot resolve an ordered map item`;n=e[0]}else return`cannot resolve an ordered map item`;return e.seen.has(n)?`duplicate key in ordered map`:(e.seen.add(n),e.list.push(t),``)},finalize:e=>e.list}),qe=i(`tag:yaml.org,2002:pairs`,{create:()=>[],addItem:(e,t)=>{if(t instanceof Map)return t.size===1?(e.push(t.entries().next().value),``):`cannot resolve a pairs item`;if(Object.prototype.toString.call(t)!==`[object Object]`)return`cannot resolve a pairs item`;let n=t,r=Object.keys(n);return r.length===1?(e.push([r[0],n[r[0]]]),``):`cannot resolve a pairs item`}}),Je=a(`tag:yaml.org,2002:map`,{create:()=>({}),identify:We,represent:e=>{let t=new Map;for(let n of Object.keys(e))t.set(n,e[n]);return t},addPair:(e,t,n)=>{if(typeof t==`object`&&t)return`object-based map does not support complex keys`;let r=String(t);return r===`__proto__`?Object.defineProperty(e,r,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[r]=n,``},has:(e,t)=>typeof t==`object`&&t?!1:Object.prototype.hasOwnProperty.call(e,String(t)),keys:e=>Object.keys(e),get:(e,t)=>e[String(t)]}),Ye=a(`tag:yaml.org,2002:set`,{create:()=>new Set,identify:e=>e instanceof Set,represent:e=>{let t=new Map;for(let n of e)t.set(n,null);return t},addPair:(e,t,n)=>n===null?(e.add(t),``):`cannot resolve a set item`,has:(e,t)=>e.has(t),keys:e=>e.keys(),get:()=>null});function g(e){"@babel/helpers - typeof";return g=typeof Symbol==`function`&&typeof Symbol.iterator==`symbol`?function(e){return typeof e}:function(e){return e&&typeof Symbol==`function`&&e.constructor===Symbol&&e!==Symbol.prototype?`symbol`:typeof e},g(e)}function Xe(e,t){if(g(e)!=`object`||!e)return e;var n=e[Symbol.toPrimitive];if(n!==void 0){var r=n.call(e,t||`default`);if(g(r)!=`object`)return r;throw TypeError(`@@toPrimitive must return a primitive value.`)}return(t===`string`?String:Number)(e)}function Ze(e){var t=Xe(e,`string`);return g(t)==`symbol`?t:t+``}function _(e,t,n){return(t=Ze(t))in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function Qe(){return{scalar:{},sequence:{},mapping:{}}}function $e(){return{scalar:[],sequence:[],mapping:[]}}function et(e){let t=[];for(let n of e){let e=t.length;for(let r=0;r<t.length;r++){let i=t[r];if(i.nodeKind===n.nodeKind&&i.tagName===n.tagName&&i.matchByTagPrefix===n.matchByTagPrefix){e=r;break}}t[e]=n}return t}var v=class e{constructor(e){_(this,`tags`,void 0),_(this,`implicitScalarTags`,void 0),_(this,`implicitScalarByFirstChar`,void 0),_(this,`implicitScalarAnyFirstChar`,void 0),_(this,`defaultScalarTag`,void 0),_(this,`defaultSequenceTag`,void 0),_(this,`defaultMappingTag`,void 0),_(this,`exact`,void 0),_(this,`prefix`,void 0);let t=et(e),n=[],r=Qe(),i=$e();for(let e of t){if(e.nodeKind===`scalar`&&e.implicit){if(e.matchByTagPrefix)throw Error(`Implicit scalar tags cannot match by tag prefix`);n.push(e)}switch(e.nodeKind){case`scalar`:e.matchByTagPrefix?i.scalar.push(e):r.scalar[e.tagName]=e;break;case`sequence`:e.matchByTagPrefix?i.sequence.push(e):r.sequence[e.tagName]=e;break;case`mapping`:e.matchByTagPrefix?i.mapping.push(e):r.mapping[e.tagName]=e;break}}let a=n.filter(e=>e.implicitFirstChars===null),o=new Set;for(let e of n)if(e.implicitFirstChars!==null)for(let t of e.implicitFirstChars)o.add(t);let s=new Map;for(let e of o)s.set(e,n.filter(t=>t.implicitFirstChars===null||t.implicitFirstChars.indexOf(e)!==-1));let c=r.scalar[`tag:yaml.org,2002:str`];if(!c)throw Error(`schema does not define the default scalar tag (tag:yaml.org,2002:str)`);this.tags=t,this.implicitScalarTags=n,this.implicitScalarByFirstChar=s,this.implicitScalarAnyFirstChar=a,this.defaultScalarTag=c,this.defaultSequenceTag=r.sequence[`tag:yaml.org,2002:seq`],this.defaultMappingTag=r.mapping[`tag:yaml.org,2002:map`],this.exact=r,this.prefix=i}withTags(...t){let n=[];for(let e of t)n=n.concat(e);return new e([...this.tags,...n])}},tt=new v([o,Ue,Je]),nt=new v([...tt.tags,l,te,me,Oe]),rt=new v([...tt.tags,c,m,le,Ce]),it=new v([...tt.tags,d,ie,ve,Ne,He,Pe,Re,Ke,qe,Ye]),at=a(`tag:yaml.org,2002:map`,{create:()=>new Map,addPair:(e,t,n)=>(e.set(t,n),``),has:(e,t)=>e.has(t),keys:e=>e.keys(),get:(e,t)=>e.get(t),identify:e=>e instanceof Map||We(e),represent:e=>{if(e instanceof Map)return e;let t=new Map,n=e;for(let e of Object.keys(n))t.set(e,n[e]);return t}});function ot(e){if(Array.isArray(e)){let t=Array.prototype.slice.call(e);for(let e=0;e<t.length;e++){if(Array.isArray(t[e]))return null;typeof t[e]==`object`&&Object.prototype.toString.call(t[e])===`[object Object]`&&(t[e]=`[object Object]`)}return String(t)}return typeof e==`object`&&Object.prototype.toString.call(e)===`[object Object]`?`[object Object]`:String(e)}var st=a(`tag:yaml.org,2002:map`,{create:()=>({}),identify:We,represent:e=>{let t=new Map;for(let n of Object.keys(e))t.set(n,e[n]);return t},addPair:(e,t,n)=>{let r=ot(t);return r===null?`nested arrays are not supported inside keys`:(r===`__proto__`?Object.defineProperty(e,r,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[r]=n,``)},has:(e,t)=>{let n=ot(t);return n!==null&&Object.prototype.hasOwnProperty.call(e,n)},keys:e=>Object.keys(e),get:(e,t)=>e[String(t)]});function ct(e,t){var n=Object.keys(e);if(Object.getOwnPropertySymbols){var r=Object.getOwnPropertySymbols(e);t&&(r=r.filter(function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable})),n.push.apply(n,r)}return n}function y(e){for(var t=1;t<arguments.length;t++){var n=arguments[t]==null?{}:arguments[t];t%2?ct(Object(n),!0).forEach(function(t){_(e,t,n[t])}):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(n)):ct(Object(n)).forEach(function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(n,t))})}return e}var lt={maxLength:79,indent:1,linesBefore:3,linesAfter:2};function ut(e,t,n,r,i){let a=``,o=``,s=Math.floor(i/2)-1;return r-t>s&&(a=` ... `,t=r-s+a.length),n-r>s&&(o=` ...`,n=r+s-o.length),{str:a+e.slice(t,n).replace(/\t/g,`→`)+o,pos:r-t+a.length}}function dt(e,t){return` `.repeat(Math.max(t-e.length,0))+e}function ft(e,t){if(!e.buffer)return null;let n=y(y({},lt),t),r=/\r?\n|\r|\0/g,i=[0],a=[],o,s=-1;for(;o=r.exec(e.buffer);)a.push(o.index),i.push(o.index+o[0].length),e.position<=o.index&&s<0&&(s=i.length-2);s<0&&(s=i.length-1);let c=``,l=Math.min(e.line+n.linesAfter,a.length).toString().length,u=n.maxLength-(n.indent+l+3);for(let t=1;t<=n.linesBefore&&!(s-t<0);t++){let r=ut(e.buffer,i[s-t],a[s-t],e.position-(i[s]-i[s-t]),u);c=`${` `.repeat(n.indent)}${dt((e.line-t+1).toString(),l)} | ${r.str}\n${c}`}let d=ut(e.buffer,i[s],a[s],e.position,u);c+=`${` `.repeat(n.indent)}${dt((e.line+1).toString(),l)} | ${d.str}\n`,c+=`${`-`.repeat(n.indent+l+3+d.pos)}^\n`;for(let t=1;t<=n.linesAfter&&!(s+t>=a.length);t++){let r=ut(e.buffer,i[s+t],a[s+t],e.position-(i[s]-i[s+t]),u);c+=`${` `.repeat(n.indent)}${dt((e.line+t+1).toString(),l)} | ${r.str}\n`}return c.replace(/\n$/,``)}function pt(e,t){let n=``;return e.mark?(e.mark.name&&(n+=`in "${e.mark.name}" `),n+=`(${e.mark.line+1}:${e.mark.column+1})`,!t&&e.mark.snippet&&(n+=`\n\n${e.mark.snippet}`),`${e.reason} ${n}`):e.reason}var b=class extends Error{constructor(e,t){super(),_(this,`reason`,void 0),_(this,`mark`,void 0),this.name=`YAMLException`,this.reason=e,this.mark=t,this.message=pt(this,!1),Error.captureStackTrace&&Error.captureStackTrace(this,this.constructor)}toString(e){return`${this.name}: ${pt(this,e)}`}};function mt(e,t,n,r=``){let i=0,a=0;for(let n=0;n<t;n++){let t=e.charCodeAt(n);t===10?(i++,a=n+1):t===13&&(i++,e.charCodeAt(n+1)===10&&n++,a=n+1)}let o={name:r,buffer:e,position:t,line:i,column:t-a};throw o.snippet=ft(o),new b(n,o)}var ht=1,gt=2,_t=3,vt=4,yt=5,bt=6,xt=1,St=2,Ct=3,wt=4,Tt=5,Et=1,Dt=2,Ot=1,kt=2,At=3,jt=-1;function Mt(e){switch(e){case 48:return`\0`;case 97:return`\x07`;case 98:return`\b`;case 116:return`	`;case 9:return`	`;case 110:return`
+`;case 118:return`\v`;case 102:return`\f`;case 114:return`\r`;case 101:return`\x1B`;case 32:return` `;case 34:return`"`;case 47:return`/`;case 92:return`\\`;case 78:return``;case 95:return`\xA0`;case 76:return`\u2028`;case 80:return`\u2029`;default:return``}}var Nt=Array(256),Pt=Array(256);for(let e=0;e<256;e++)Nt[e]=+!!Mt(e),Pt[e]=Mt(e);function Ft(e){return e<=65535?String.fromCharCode(e):String.fromCharCode((e-65536>>10)+55296,(e-65536&1023)+56320)}function It(e){return e>=48&&e<=57?e-48:(e|32)-97+10}function Lt(e){return e===120?2:e===117?4:8}function Rt(e,t,n){let r=0;for(;t<n;){let n=e.charCodeAt(t);if(n===10)r++,t++;else if(n===13)r++,t++,e.charCodeAt(t)===10&&t++;else if(n===32||n===9)t++;else break}return{position:t,breaks:r}}function zt(e){return e===1?` `:`
+`.repeat(e-1)}function Bt(e,t,n){let r=``,i=t,a=t,o=t;for(;i<n;){let t=e.charCodeAt(i);if(t===10||t===13){r+=e.slice(a,o);let t=Rt(e,i,n);r+=zt(t.breaks),i=a=o=t.position}else i++,t!==32&&t!==9&&(o=i)}return r+e.slice(a,o)}function Vt(e,t,n){let r=``,i=t,a=t,o=t;for(;i<n;){let t=e.charCodeAt(i);if(t===39)r+=e.slice(a,i)+`'`,i+=2,a=o=i;else if(t===10||t===13){r+=e.slice(a,o);let t=Rt(e,i,n);r+=zt(t.breaks),i=a=o=t.position}else i++,t!==32&&t!==9&&(o=i)}return r+e.slice(a,n)}function Ht(e,t,n){let r=``,i=t,a=t,o=t;for(;i<n;){let t=e.charCodeAt(i);if(t===92){r+=e.slice(a,i),i++;let t=e.charCodeAt(i);if(t===10||t===13)i=Rt(e,i,n).position;else if(t<256&&Nt[t])r+=Pt[t],i++;else{let n=Lt(t),a=0;for(;n>0;n--){i++;let t=It(e.charCodeAt(i));a=(a<<4)+t}r+=Ft(a),i++}a=o=i}else if(t===10||t===13){r+=e.slice(a,o);let t=Rt(e,i,n);r+=zt(t.breaks),i=a=o=t.position}else i++,t!==32&&t!==9&&(o=i)}return r+e.slice(a,n)}function Ut(e,t,n,r,i,a){let o=r<0?0:r,s=e.slice(t,n).replace(/\r\n?/g,`
+`),c=s===``?[]:(s.endsWith(`
+`)?s.slice(0,-1):s).split(`
+`),l=``,u=!1,d=0,f=!1;for(let e of c){let t=0;for(;t<o&&e.charCodeAt(t)===32;)t++;if(r<0||t>=e.length){d++;continue}let n=e.slice(o),i=n.charCodeAt(0);a?i===32||i===9?(f=!0,l+=`
+`.repeat(u?1+d:d)):f?(f=!1,l+=`
+`.repeat(d+1)):d===0?u&&(l+=` `):l+=`
+`.repeat(d):l+=`
+`.repeat(u?1+d:d),l+=n,u=!0,d=0}return i===3?l+=`
+`.repeat(u?1+d:d):i!==2&&u&&(l+=`
+`),l}function Wt(e,t){if(t.valueStart===jt)return``;let{valueStart:n,valueEnd:r}=t;if(t.fast)return e.slice(n,r);switch(t.style){case 2:return Vt(e,n,r);case 3:return Ht(e,n,r);case 4:return Ut(e,n,r,t.indent,t.chomping,!1);case 5:return Ut(e,n,r,t.indent,t.chomping,!0);default:return Bt(e,n,r)}}var Gt={"!":`!`,"!!":`tag:yaml.org,2002:`};function Kt(e){return encodeURI(e).replace(/!/g,`%21`)}function qt(e,t){var n,r;if(e.startsWith(`!<`)&&e.endsWith(`>`))return decodeURIComponent(e.slice(2,-1));let i=e.indexOf(`!`,1),a=i===-1?`!`:e.slice(0,i+1),o=(n=(r=t==null?void 0:t[a])==null?Gt[a]:r)==null?a:n;return decodeURIComponent(o)+decodeURIComponent(e.slice(a.length))}function Jt(e){let t=e;return t.charCodeAt(0)===33?(t=t.slice(1),`!${Kt(t)}`):t.slice(0,18)===`tag:yaml.org,2002:`?`!!${Kt(t.slice(18))}`:`!<${Kt(t)}>`}var x=-1,Yt={filename:``,schema:rt,json:!1,maxTotalMergeKeys:1e4,maxAliases:-1};function Xt(e){return`tagStart`in e&&e.tagStart!==x?e.tagStart:`anchorStart`in e&&e.anchorStart!==x?e.anchorStart:`valueStart`in e&&e.valueStart!==x?e.valueStart:`start`in e?e.start:0}function S(e,t){mt(e.source,e.position,t,e.filename)}function Zt(e,t,n,r){try{return n.finalize(r)}catch(n){if(n instanceof b)throw n;mt(e.source,t,n instanceof Error?n.message:String(n),e.filename)}}function Qt(e,t,n){let r=e[n];if(r)return r;for(let e of t)if(n.startsWith(e.tagName))return e}function $t(e,t,n,r,i){let a=Qt(t,n,r);if(a)return a;S(e,`unknown ${i} tag !<${r}>`)}function en(e,n){let r=Wt(e.source,n),i=n.tagStart===x?``:e.source.slice(n.tagStart,n.tagEnd),a=e.schema.defaultScalarTag;if(i!==``){var o;if(i===`!`)return{value:r,tag:a};let n=qt(i,e.tagHandlers),s=Qt(e.schema.exact.scalar,e.schema.prefix.scalar,n);if(s){let i=s.resolve(r,!0,n);return i===t&&S(e,`cannot resolve a node with !<${n}> explicit tag`),{value:i,tag:s}}let c=(o=Qt(e.schema.exact.mapping,e.schema.prefix.mapping,n))==null?Qt(e.schema.exact.sequence,e.schema.prefix.sequence,n):o;if(c){r!==``&&S(e,`cannot resolve a node with !<${n}> explicit tag`);let t=c.create(n);return{value:c.carrierIsResult?t:Zt(e,e.position,c,t),tag:c}}S(e,`unknown scalar tag !<${n}>`)}if(n.style===1){var s;let n=(s=e.schema.implicitScalarByFirstChar.get(r.charAt(0)))==null?e.schema.implicitScalarAnyFirstChar:s;for(let e of n){let n=e.resolve(r,!1,e.tagName);if(n!==t)return{value:n,tag:e}}}return{value:a.resolve(r,!1,a.tagName),tag:a}}function tn(e,t,n,r,i,a){let o=t.tagStart===x?``:e.source.slice(t.tagStart,t.tagEnd),s=o===``||o===`!`?i:qt(o,e.tagHandlers);return{tagName:s,tag:$t(e,n,r,s,a)}}function nn(e){return e.nodeKind===`mapping`}function rn(e,t,n,r){for(let a of r.keys(n)){var i;if(e.maxTotalMergeKeys!==-1&&++e.totalMergeKeys>e.maxTotalMergeKeys&&S(e,`merge keys exceeded maxTotalMergeKeys (${e.maxTotalMergeKeys})`),t.tag.has(t.value,a))continue;let o=t.tag.addPair(t.value,a,r.get(n,a));o&&S(e,o),((i=t.overridable)==null?t.overridable=new Set:i).add(a)}}function an(e,t,n,r){if(e.position=t.keyPosition,nn(r))rn(e,t,n,r);else if(r.nodeKind===`sequence`&&Array.isArray(n))for(let r of n)rn(e,t,r,t.tag);else S(e,`cannot merge mappings; the provided source object is unacceptable`)}function on(e,t,r,i,a){var o,s;if(e.position=t.keyPosition,r===n){an(e,t,i,a);return}!e.json&&t.tag.has(t.value,r)&&!((o=t.overridable)!=null&&o.has(r))&&S(e,`duplicated mapping key`);let c=t.tag.addPair(t.value,r,i);c&&S(e,c),(s=t.overridable)==null||s.delete(r)}function sn(e,t,n){let r=e.frames[e.frames.length-1];if(r.kind===`document`)r.value=t,r.hasValue=!0;else if(r.kind===`sequence`){r.merge&&(nn(n)||S(e,`cannot merge mappings; the provided source object is unacceptable`));let i=r.tag.addItem(r.value,t,r.index++);i&&S(e,i)}else if(r.hasKey){let i=r.key;r.key=void 0,r.hasKey=!1,on(e,r,i,t,n)}else r.key=t,r.keyPosition=e.position,r.hasKey=!0}function cn(e,t,n,r,i){if(t.anchorStart!==x){let a={value:n,tag:r,isValueFinal:i};return e.anchors.set(e.source.slice(t.anchorStart,t.anchorEnd),a),a}return null}function ln(e,t){let r=y(y(y({},Yt),t),{},{events:e,documents:[],eventIndex:0,position:0,frames:[],anchors:new Map,tagHandlers:Object.create(null),totalMergeKeys:0,aliasCount:0});for(;r.eventIndex<r.events.length;){let e=r.events[r.eventIndex++];switch(r.position=Xt(e),e.type){case 1:r.anchors=new Map,r.aliasCount=0,r.tagHandlers=Object.create(null);for(let t of e.directives)t.kind===`tag`&&(r.tagHandlers[t.handle]=t.prefix);r.frames.push({kind:`document`,position:r.position,value:void 0,hasValue:!1});break;case 4:{let{value:t,tag:n}=en(r,e);cn(r,e,t,n,!0),sn(r,t,n);break}case 2:{let t=tn(r,e,r.schema.exact.sequence,r.schema.prefix.sequence,`tag:yaml.org,2002:seq`,`sequence`),i=t.tag.create(t.tagName),a=cn(r,e,i,t.tag,t.tag.carrierIsResult),o=r.frames[r.frames.length-1],s=o!==void 0&&o.kind===`mapping`&&o.hasKey&&o.key===n;r.frames.push({kind:`sequence`,position:r.position,value:i,tag:t.tag,anchor:a,index:0,merge:s});break}case 3:{let t=tn(r,e,r.schema.exact.mapping,r.schema.prefix.mapping,`tag:yaml.org,2002:map`,`mapping`),n=t.tag.create(t.tagName),i=cn(r,e,n,t.tag,t.tag.carrierIsResult);r.frames.push({kind:`mapping`,position:r.position,value:n,tag:t.tag,anchor:i,key:void 0,keyPosition:r.position,hasKey:!1,overridable:null});break}case 5:{r.maxAliases!==-1&&++r.aliasCount>r.maxAliases&&S(r,`aliases exceeded maxAliases (${r.maxAliases})`);let t=r.source.slice(e.anchorStart,e.anchorEnd),n=r.anchors.get(t);n||S(r,`unidentified alias "${t}"`),n.isValueFinal||S(r,`recursive alias "${t}" is not supported for tag ${n.tag.tagName} because it uses finalize()`),sn(r,n.value,n.tag);break}case 6:{let e=r.frames.pop();if(e.kind===`document`)r.documents.push(e.value);else{let t=e.tag.carrierIsResult?e.value:Zt(r,e.position,e.tag,e.value);e.anchor&&(e.anchor.value=t,e.anchor.isValueFinal=!0),sn(r,t,e.tag)}break}}}return r.documents}var C=-1,un=Object.prototype.hasOwnProperty,w=1,dn=2,fn=3,pn=4,mn=/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x84\x86-\x9F\uFFFE\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/,hn=/[,\[\]{}]/,gn=/^(?:!|!!|![0-9A-Za-z-]+!)$/,_n=String.raw`(?:%[0-9A-Fa-f]{2}|[0-9A-Za-z\-#;/?:@&=+$,_.!~*'()\[\]])`,vn=String.raw`(?:%[0-9A-Fa-f]{2}|[0-9A-Za-z\-#;/?:@&=+$.~*'()_])`,yn=RegExp(`^(?:${_n})*$`),bn=RegExp(`^(?:${vn})+$`),xn=RegExp(`^(?:!(?:${_n})*|${vn}(?:${_n})*)$`),Sn={filename:``,maxDepth:100};function Cn(e,t,n){e.events.push({type:1,explicitStart:t,explicitEnd:n,directives:e.directives})}function wn(e,t,n,r,i,a,o){e.events.push({type:2,start:t,anchorStart:n,anchorEnd:r,tagStart:i,tagEnd:a,style:o})}function T(e,t,n,r,i,a,o){e.events.push({type:3,start:t,anchorStart:n,anchorEnd:r,tagStart:i,tagEnd:a,style:o})}function E(e,t,n,r,i,a,o,s,c=1,l=-1,u=!1){e.events.push({type:4,valueStart:t,valueEnd:n,anchorStart:r,anchorEnd:i,tagStart:a,tagEnd:o,style:s,chomping:c,indent:l,fast:u})}function Tn(e,t,n){e.events.push({type:5,anchorStart:t,anchorEnd:n})}function D(e){e.events.push({type:6})}function O(e){E(e,C,C,C,C,C,C,1)}function En(){return{anchorStart:C,anchorEnd:C,tagStart:C,tagEnd:C}}function k(e){return{position:e.position,line:e.line,lineStart:e.lineStart,lineIndent:e.lineIndent,firstTabInLine:e.firstTabInLine,eventsLength:e.events.length}}function A(e,t){e.position=t.position,e.line=t.line,e.lineStart=t.lineStart,e.lineIndent=t.lineIndent,e.firstTabInLine=t.firstTabInLine,e.events.length=t.eventsLength}function j(e,t){mt(e.input.slice(0,e.length),e.position,t,e.filename)}function M(e){return e===10||e===13}function N(e){return e===9||e===32}function P(e){return N(e)||M(e)}function F(e){return e===0||P(e)}function I(e){return e===44||e===91||e===93||e===123||e===125}function Dn(e){return e>=48&&e<=57?e-48:-1}function On(e){if(e>=48&&e<=57)return e-48;let t=e|32;return t>=97&&t<=102?t-97+10:-1}function kn(e){return e===120?2:e===117?4:e===85?8:0}function An(e){return e===48||e===97||e===98||e===116||e===9||e===110||e===118||e===102||e===114||e===101||e===32||e===34||e===47||e===92||e===78||e===95||e===76||e===80}function jn(e){e.input.charCodeAt(e.position)===10?e.position++:(e.position++,e.input.charCodeAt(e.position)===10&&e.position++),e.line++,e.lineStart=e.position,e.lineIndent=0,e.firstTabInLine=-1}function L(e,t){let n=0,r=e.input.charCodeAt(e.position),i=e.position===e.lineStart||P(e.input.charCodeAt(e.position-1));for(;r!==0;){for(;N(r);)i=!0,r===9&&e.firstTabInLine===-1&&(e.firstTabInLine=e.position),r=e.input.charCodeAt(++e.position);if(t&&i&&r===35)do r=e.input.charCodeAt(++e.position);while(!M(r)&&r!==0);if(!M(r))break;for(jn(e),n++,i=!0,r=e.input.charCodeAt(e.position);r===32;)e.lineIndent++,r=e.input.charCodeAt(++e.position)}return n}function R(e,t=e.position){let n=e.input.charCodeAt(t);if((n===45||n===46)&&n===e.input.charCodeAt(t+1)&&n===e.input.charCodeAt(t+2)){let n=e.input.charCodeAt(t+3);return n===0||P(n)}return!1}function Mn(e){let t=e.input.charCodeAt(e.position);for(;t!==0&&!M(t);)t=e.input.charCodeAt(++e.position)}function Nn(e,t,n){mn.test(e.input.slice(t,n))&&j(e,`the stream contains non-printable characters`)}function Pn(e,t,n){if(e.input.charCodeAt(e.position)!==33)return!1;t.tagStart!==C&&j(e,`duplication of a tag property`);let r=e.position,i=!1,a=!1,o=`!`,s=e.input.charCodeAt(++e.position);s===60?(i=!0,s=e.input.charCodeAt(++e.position)):s===33&&(a=!0,o=`!!`,s=e.input.charCodeAt(++e.position));let c=e.position,l;if(i){for(;s!==0&&s!==62;)s=e.input.charCodeAt(++e.position);s!==62&&j(e,`unexpected end of the stream within a verbatim tag`),l=e.input.slice(c,e.position),e.position++}else{for(;s!==0&&!P(s)&&!(n&&I(s));)s===33&&(a?j(e,`tag suffix cannot contain exclamation marks`):(o=e.input.slice(c-1,e.position+1),gn.test(o)||j(e,`named tag handle cannot contain such characters`),a=!0,c=e.position+1)),s=e.input.charCodeAt(++e.position);l=e.input.slice(c,e.position),hn.test(l)&&j(e,`tag suffix cannot contain flow indicator characters`)}return l&&!(i?yn.test(l):bn.test(l))&&j(e,`tag name cannot contain such characters: ${l}`),!i&&o!==`!`&&o!==`!!`&&!un.call(e.tagHandlers,o)&&j(e,`undeclared tag handle "${o}"`),t.tagStart=r,t.tagEnd=e.position,!0}function Fn(e,t){if(e.input.charCodeAt(e.position)!==38)return!1;t.anchorStart!==C&&j(e,`duplication of an anchor property`),e.position++;let n=e.position;for(;e.input.charCodeAt(e.position)!==0&&!P(e.input.charCodeAt(e.position))&&!I(e.input.charCodeAt(e.position));)e.position++;return e.position===n&&j(e,`name of an anchor node must contain at least one character`),t.anchorStart=n,t.anchorEnd=e.position,!0}function In(e,t){if(e.input.charCodeAt(e.position)!==42)return!1;(t.anchorStart!==C||t.tagStart!==C)&&j(e,`alias node should not have any properties`),e.position++;let n=e.position;for(;e.input.charCodeAt(e.position)!==0&&!P(e.input.charCodeAt(e.position))&&!I(e.input.charCodeAt(e.position));)e.position++;return e.position===n&&j(e,`name of an alias node must contain at least one character`),Tn(e,n,e.position),!0}function Ln(e,t){L(e,!1),e.lineIndent<t&&j(e,`deficient indentation`)}function Rn(e,t,n){if(e.input.charCodeAt(e.position)!==39)return!1;e.position++;let r=e.position,i=!0;for(;e.input.charCodeAt(e.position)!==0;){let a=e.input.charCodeAt(e.position);if(a===39){if(e.input.charCodeAt(e.position+1)===39){i=!1,e.position+=2;continue}let t=e.position;return e.position++,E(e,r,t,n.anchorStart,n.anchorEnd,n.tagStart,n.tagEnd,2,1,-1,i),!0}M(a)?(i=!1,Ln(e,t)):e.position===e.lineStart&&R(e)?j(e,`unexpected end of the document within a single quoted scalar`):a!==9&&a<32?j(e,`expected valid JSON character`):e.position++}j(e,`unexpected end of the stream within a single quoted scalar`)}function zn(e,t,n){if(e.input.charCodeAt(e.position)!==34)return!1;e.position++;let r=e.position,i=!0;for(;e.input.charCodeAt(e.position)!==0;){let a=e.input.charCodeAt(e.position);if(a===34){let t=e.position;return e.position++,E(e,r,t,n.anchorStart,n.anchorEnd,n.tagStart,n.tagEnd,3,1,-1,i),!0}if(a===92){i=!1;let n=e.input.charCodeAt(++e.position);if(M(n))Ln(e,t);else if(An(n))e.position++;else{let t=kn(n);for(t===0&&j(e,`unknown escape sequence`);t-->0;)e.position++,On(e.input.charCodeAt(e.position))<0&&j(e,`expected hexadecimal character`);e.position++}}else M(a)?(i=!1,Ln(e,t)):e.position===e.lineStart&&R(e)?j(e,`unexpected end of the document within a double quoted scalar`):a!==9&&a<32?j(e,`expected valid JSON character`):e.position++}j(e,`unexpected end of the stream within a double quoted scalar`)}function Bn(e,t,n){let r=e.input.charCodeAt(e.position),i=1,a=-1,o=!1;if(r!==124&&r!==62)return!1;let s=r===124?4:5;for(e.position++;e.input.charCodeAt(e.position)!==0;){let n=e.input.charCodeAt(e.position),r=Dn(n);if(n===43||n===45)i!==1&&j(e,`repeat of a chomping mode identifier`),i=n===43?3:2,e.position++;else if(r>=0)r===0&&j(e,`bad explicit indentation width of a block scalar; it cannot be less than one`),o&&j(e,`repeat of an indentation width identifier`),a=t+r-1,o=!0,e.position++;else break}let c=!1;for(;N(e.input.charCodeAt(e.position));)c=!0,e.position++;c&&e.input.charCodeAt(e.position)===35&&Mn(e),M(e.input.charCodeAt(e.position))?jn(e):e.input.charCodeAt(e.position)!==0&&j(e,`a line break is expected`);let l=o?a:-1,u=0,d=e.position,f=e.position;for(;e.input.charCodeAt(e.position)!==0;){let n=e.position,r=0;for(;e.input.charCodeAt(n+r)===32;)r++;let i=e.input.charCodeAt(n+r);if(i===0){l>=0?r>l&&(f=n+r):r>0&&(f=n+r);break}if(n===e.lineStart&&R(e,n))break;if(!o&&l===-1&&M(i)&&(u=Math.max(u,r)),!o&&l===-1&&!M(i)&&(i===9&&r<t&&(e.position=n+r,j(e,`tab characters must not be used in indentation`)),r<u&&(e.position=n+r,j(e,`bad indentation of a mapping entry`))),l===-1&&i!==0&&!M(i)&&r<t){e.lineIndent=r,e.position=n+r;break}!o&&i!==0&&!M(i)&&l===-1&&(l=r);let a=l===-1?t+1:l;if(i!==0&&!M(i)&&r<a){e.lineIndent=r,e.position=n+r;break}Mn(e),f=e.position,M(e.input.charCodeAt(e.position))&&(jn(e),f=e.position)}return Nn(e,d,f),E(e,d,f,n.anchorStart,n.anchorEnd,n.tagStart,n.tagEnd,s,i,l),!0}function Vn(e,t){let n=e.input.charCodeAt(e.position),r=t===w;if(n===0||P(n)||n===35||n===38||n===42||n===33||n===124||n===62||n===39||n===34||n===37||n===64||n===96||r&&I(n))return!1;if(n===63||n===45){let t=e.input.charCodeAt(e.position+1);if(F(t)||r&&I(t))return!1}return!0}function Hn(e,t,n,r){if(!Vn(e,n))return!1;let i=e.position,a=e.position,o=e.input.charCodeAt(e.position),s=n===w,c=!1;for(;o!==0&&!(e.position===e.lineStart&&R(e));){if(o===58){let t=e.input.charCodeAt(e.position+1);if(F(t)||s&&I(t))break}else if(o===35){if(P(e.input.charCodeAt(e.position-1)))break}else if(s&&I(o))break;else if(M(o)){let n=e.position,r=e.line,i=e.lineStart,a=e.lineIndent;if(L(e,!1),e.lineIndent>=t){c=!0,o=e.input.charCodeAt(e.position);continue}e.position=n,e.line=r,e.lineStart=i,e.lineIndent=a;break}N(o)||(a=e.position+1),o=e.input.charCodeAt(++e.position)}return a===i?!1:(Nn(e,i,a),E(e,i,a,r.anchorStart,r.anchorEnd,r.tagStart,r.tagEnd,1,1,-1,!c),!0)}function z(e,t){let n=e.line;L(e,!0),(e.line>n&&e.lineIndent<t||e.firstTabInLine!==-1&&e.lineIndent<t)&&j(e,`deficient indentation`)}function Un(e,t,n){let r=e.input.charCodeAt(e.position),i=r===123,a=e.position,o=!0;if(r!==91&&r!==123)return!1;let s=i?125:93;for(i?T(e,a,n.anchorStart,n.anchorEnd,n.tagStart,n.tagEnd,2):wn(e,a,n.anchorStart,n.anchorEnd,n.tagStart,n.tagEnd,2),e.position++;e.input.charCodeAt(e.position)!==0;){z(e,t);let n=e.input.charCodeAt(e.position);if(n===s)return e.position++,D(e),!0;o?n===44&&j(e,`expected the node content, but found ','`):j(e,`missed comma between flow collection entries`);let r=!1,a=!1;n===63&&P(e.input.charCodeAt(e.position+1))&&(r=a=!0,e.position+=1,z(e,t));let c=e.line,l=k(e),u=B(e,t,w,!1,!0);z(e,t),n=e.input.charCodeAt(e.position),(i||a||e.line===c)&&n===58?(r=!0,e.position++,z(e,t),i?u||O(e):(A(e,l),T(e,l.position,C,C,C,C,2),B(e,t,w,!1,!0)||O(e),z(e,t),e.position++,z(e,t)),B(e,t,w,!1,!0)||O(e),z(e,t),i||D(e)):i&&r?(u||O(e),O(e)):i?O(e):r&&(A(e,l),T(e,l.position,C,C,C,C,2),B(e,t,w,!1,!0),O(e),D(e)),n=e.input.charCodeAt(e.position),n===44?(o=!0,e.position++):o=!1}j(e,`unexpected end of the stream within a flow collection`)}function Wn(e,t,n){if(e.firstTabInLine!==-1||e.input.charCodeAt(e.position)!==45||!F(e.input.charCodeAt(e.position+1)))return!1;for(wn(e,e.position,n.anchorStart,n.anchorEnd,n.tagStart,n.tagEnd,1);e.input.charCodeAt(e.position)===45&&F(e.input.charCodeAt(e.position+1));){e.firstTabInLine!==-1&&(e.position=e.firstTabInLine,j(e,`tab characters must not be used in indentation`));let n=e.line;e.position++;let r=L(e,!0)>0;if(e.firstTabInLine!==-1&&e.input.charCodeAt(e.position)===45&&F(e.input.charCodeAt(e.position+1))&&j(e,`bad indentation of a sequence entry`),r&&e.lineIndent<=t?O(e):B(e,t,fn,!1,!0),L(e,!0),e.lineIndent<t||e.position>=e.length)break;e.lineIndent>t&&j(e,`bad indentation of a sequence entry`),e.line===n&&e.input.charCodeAt(e.position)===45&&F(e.input.charCodeAt(e.position+1))&&j(e,`bad indentation of a sequence entry`)}return D(e),!0}function Gn(e,t,n,r){let i=!1,a=!1,o=!1,s=!1;if(e.firstTabInLine!==-1)return!1;let c=e.input.charCodeAt(e.position);for(;c!==0;){!i&&e.firstTabInLine!==-1&&(e.position=e.firstTabInLine,j(e,`tab characters must not be used in indentation`));let l=e.input.charCodeAt(e.position+1),u=e.line;if((c===63||c===58)&&F(l))o||(T(e,e.position,r.anchorStart,r.anchorEnd,r.tagStart,r.tagEnd,1),o=!0),c===63?(i&&O(e),a=!0,i=!0):i?i=!1:(O(e),a=!0,i=!1),e.position+=1,s=!0;else{i&&(O(e),i=!1);let t=k(e);if(!B(e,n,dn,!1,!0))break;if(e.line===u){for(c=e.input.charCodeAt(e.position);N(c);)c=e.input.charCodeAt(++e.position);if(c===58){if(c=e.input.charCodeAt(++e.position),F(c)||j(e,`a whitespace character is expected after the key-value separator within a block mapping`),!o){for(A(e,t),T(e,t.position,r.anchorStart,r.anchorEnd,r.tagStart,r.tagEnd,1),o=!0,B(e,n,dn,!1,!0),c=e.input.charCodeAt(e.position);N(c);)c=e.input.charCodeAt(++e.position);e.position++}a=!0,i=!1,s=!1}else if(a)j(e,`expected ':' after a mapping key`);else return r.anchorStart!==C||r.tagStart!==C?(A(e,t),!1):!0}else if(a)j(e,`can not read a block mapping entry; a multiline key may not be an implicit key`);else return r.anchorStart!==C||r.tagStart!==C?(A(e,t),!1):!0}if(B(e,t,pn,!0,s)&&(s=!1),i||s&&(O(e),s=!1),L(e,!0),c=e.input.charCodeAt(e.position),(e.line===u||e.lineIndent>t)&&c!==0)j(e,`bad indentation of a mapping entry`);else if(e.lineIndent<t)break}return a?(i&&O(e),o&&D(e),!0):!1}function B(e,t,n,r,i,a=!0){e.depth>=e.maxDepth&&j(e,`nesting exceeded maxDepth (${e.maxDepth})`),e.depth++;let o=1,s=!1,c=!1,l=null,u=En(),d=n===pn||n===fn,f=d,p=d;if(r&&L(e,!0)&&(s=!0,o=e.lineIndent>t?1:e.lineIndent===t?0:-1),e.position===e.lineStart&&R(e))return e.depth--,!1;if(o===1)for(;;){let r=e.input.charCodeAt(e.position),i=k(e);if(s&&o!==1&&(r===33||r===38))break;if(s&&p&&(u.tagStart!==C||u.anchorStart!==C)&&(r===33||r===38)){var m;let n=k(e),r=t+1;if(Gn(e,e.position-e.lineStart,r,u)&&((m=e.events[n.eventsLength])==null?void 0:m.type)===3)return e.depth--,!0;A(e,n)}if(s&&(r===33&&u.tagStart!==C||r===38&&u.anchorStart!==C)||!Pn(e,u,n===w)&&!Fn(e,u))break;l===null&&(l=i),L(e,!0)?(s=!0,f=p,o=e.lineIndent>t?1:e.lineIndent===t?0:-1):f=!1}if(f&&(f=s||i),o===1||n===pn){let r=n===w||n===dn?t:t+1,i=e.position-e.lineStart;if(o===1)if(f&&(Wn(e,i,u)||Gn(e,i,r,u))||Un(e,r,u))c=!0;else{let t=e.input.charCodeAt(e.position);if(l!==null&&a&&p&&!f&&t!==124&&t!==62){var h;let t=k(e),n=l.position-l.lineStart;A(e,l),Gn(e,n,r,En())&&((h=e.events[t.eventsLength])==null?void 0:h.type)===3?c=!0:A(e,t)}!c&&(d&&Bn(e,r,u)||Rn(e,r,u)||zn(e,r,u)||In(e,u)||Hn(e,r,n,u))&&(c=!0)}else o===0&&(c=f&&Wn(e,i,u))}return d=d&&!c,!c&&(u.anchorStart!==C||u.tagStart!==C||d)&&(E(e,C,C,u.anchorStart,u.anchorEnd,u.tagStart,u.tagEnd,1),c=!0),e.depth--,c||u.anchorStart!==C||u.tagStart!==C}function Kn(e){if(e.lineIndent>0||e.input.charCodeAt(e.position)!==37)return!1;e.position++;let t=e.position;for(;e.input.charCodeAt(e.position)!==0&&!P(e.input.charCodeAt(e.position));)e.position++;let n=e.input.slice(t,e.position),r=[];for(n.length===0&&j(e,`directive name must not be less than one character in length`);e.input.charCodeAt(e.position)!==0&&!M(e.input.charCodeAt(e.position));){for(;N(e.input.charCodeAt(e.position));)e.position++;if(e.input.charCodeAt(e.position)===35||M(e.input.charCodeAt(e.position))||e.input.charCodeAt(e.position)===0)break;let t=e.position;for(;e.input.charCodeAt(e.position)!==0&&!P(e.input.charCodeAt(e.position));)e.position++;r.push(e.input.slice(t,e.position))}if(M(e.input.charCodeAt(e.position))&&jn(e),n===`YAML`){e.directives.some(e=>e.kind===`yaml`)&&j(e,`duplication of %YAML directive`),r.length!==1&&j(e,`YAML directive accepts exactly one argument`);let t=/^([0-9]+)\.([0-9]+)$/.exec(r[0]);t===null&&j(e,`ill-formed argument of the YAML directive`),parseInt(t[1],10)!==1&&j(e,`unacceptable YAML version of the document`),e.directives.push({kind:`yaml`,version:r[0]})}else if(n===`TAG`){r.length!==2&&j(e,`TAG directive accepts exactly two arguments`);let[t,n]=r;gn.test(t)||j(e,`ill-formed tag handle (first argument) of the TAG directive`),un.call(e.tagHandlers,t)&&j(e,`there is a previously declared suffix for "${t}" tag handle`),xn.test(n)||j(e,`ill-formed tag prefix (second argument) of the TAG directive`),e.tagHandlers[t]=n,e.directives.push({kind:`tag`,handle:t,prefix:n})}return!0}function qn(e){e.directives=[],e.tagHandlers=Object.create(null);let t=!1;for(L(e,!0);Kn(e);)t=!0,L(e,!0);let n=!1,r=!1,i=!0;if(e.lineIndent===0&&e.input.charCodeAt(e.position)===45&&e.input.charCodeAt(e.position+1)===45&&e.input.charCodeAt(e.position+2)===45&&F(e.input.charCodeAt(e.position+3))){n=!0;let t=e.line;e.position+=3,L(e,!0),i=e.line>t}else t&&j(e,`directives end mark is expected`);let a=e.events.length;if(!n&&e.position===e.lineStart&&e.input.charCodeAt(e.position)===46&&R(e)){e.position+=3,L(e,!0);return}if(Cn(e,n,!1),B(e,e.lineIndent-1,pn,!1,i,i)||O(e),L(e,!0),e.position===e.lineStart&&R(e)&&(r=e.input.charCodeAt(e.position)===46,r)){let t=e.line;e.position+=3,L(e,!0),e.line===t&&e.position<e.length&&j(e,`end of the stream or a document separator is expected`)}let o=e.events[a];(o==null?void 0:o.type)===1&&(o.explicitEnd=r),D(e),!r&&e.position<e.length&&!(e.position===e.lineStart&&R(e))&&j(e,`end of the stream or a document separator is expected`)}function Jn(e,t){let n=e.length,r=y(y(y({},Sn),t),{},{input:`${e}\0`,length:n,position:0,line:0,lineStart:0,lineIndent:0,firstTabInLine:-1,depth:0,directives:[],tagHandlers:Object.create(null),events:[]}),i=e.indexOf(`\0`);for(i!==-1&&mt(e,i,`null byte is not allowed in input`,r.filename),r.input.charCodeAt(r.position)===65279&&r.position++;r.position<r.length&&(L(r,!0),!(r.position>=r.length));){let e=r.position;qn(r),r.position===e&&j(r,`can not read a document`)}return r.events}var Yn=y(y({},Sn),Yt);function Xn(e,t={}){let n=y(y({},Yn),t),r=String(e),i=Object.keys(Sn),a=Object.keys(Yt);return ln(Jn(r,Ge(n,i)),y(y({},Ge(n,a)),{},{source:r}))}function Zn(e,t,n){let r=null;typeof t==`function`?r=t:typeof t==`object`&&t&&(n=t);let i=Xn(e,n);if(r===null)return i;for(let e of i)r(e)}function Qn(e,t){let n=Xn(e,t);if(n.length===0)throw new b(`expected a document, but the input is empty`);if(n.length===1)return n[0];throw new b(`expected a single document in the stream, but found more`)}var V=class{constructor(){_(this,`tagged`,!1),_(this,`flow`,!1),_(this,`singleQuoted`,!1),_(this,`doubleQuoted`,!1),_(this,`literal`,!1),_(this,`folded`,!1)}},H=Symbol(`INVALID`);function $n(e){let t=new Set([e.defaultScalarTag,e.defaultSequenceTag,e.defaultMappingTag].filter(e=>e!==void 0)),n=e.implicitScalarTags,r=e.tags.filter(e=>!(e.nodeKind===`scalar`&&e.implicit)&&!t.has(e)),i=e.tags.filter(e=>t.has(e));return[...n.map(e=>({tag:e,implicitTag:!0})),...r.map(e=>({tag:e,implicitTag:!1})),...i.map(e=>({tag:e,implicitTag:!0}))]}function er(e,t){for(let n=0,r=e.representTypes.length;n<r;n+=1){let{tag:r,implicitTag:i}=e.representTypes[n];if(r.identify&&r.identify(t)){let e;return e=r.matchByTagPrefix&&r.representTagName?r.representTagName(t):r.tagName,{tag:r,tagName:e,implicitTag:i}}}return null}function U(e,t){if(!e.noRefs&&typeof t==`object`&&t){let n=e.refs.get(t);if(n)return n.anchor===void 0&&(n.anchor=`ref_${e.refCounter++}`),{kind:`alias`,tag:``,style:new V,anchor:n.anchor}}let n=er(e,t);if(!n){if(t===void 0||e.skipInvalid)return H;throw new b(`unacceptable kind of an object to dump ${Object.prototype.toString.call(t)}`)}let{tag:r,tagName:i,implicitTag:a}=n,o=a?i:Jt(i);if(r.nodeKind===`scalar`){let e=new V;return e.tagged=!a,{kind:`scalar`,tag:o,style:e,value:r.represent(t)}}if(r.nodeKind===`sequence`){let n=r.represent(t),i=new V;i.tagged=!a;let s={kind:`sequence`,tag:o,style:i,items:[]};e.noRefs||e.refs.set(t,s);for(let t=0,r=n.length;t<r;t+=1){let r=U(e,n[t]);r===H&&n[t]===void 0&&(r=U(e,null)),r!==H&&s.items.push(r)}return s}let s=r.represent(t),c=new V;c.tagged=!a;let l={kind:`mapping`,tag:o,style:c,items:[]};e.noRefs||e.refs.set(t,l);for(let[t,n]of s){let r=U(e,t);if(r===H)continue;let i=U(e,n);i!==H&&l.items.push({key:r,value:i})}return l}function tr(e,t,n={}){var r,i;let a=U({representTypes:$n(t),noRefs:(r=n.noRefs)==null?!1:r,skipInvalid:(i=n.skipInvalid)==null?!1:i,refs:new Map,refCounter:0},e);return[{contents:a===H?null:a,directives:[]}]}var nr=Symbol(`visit:break`),rr=Symbol(`visit:skip`);function ir(e,t,n){let r=t(e,n);if(r===nr)return!0;if(r===rr)return!1;let i=n.depth+1;switch(e.kind){case`sequence`:for(let n of e.items)if(ir(n,t,{depth:i,parent:e,isKey:!1}))return!0;break;case`mapping`:for(let{key:n,value:r}of e.items)if(ir(n,t,{depth:i,parent:e,isKey:!0})||ir(r,t,{depth:i,parent:e,isKey:!1}))return!0;break}return!1}function ar(e,t){for(let n of e)if(n.contents&&ir(n.contents,t,{depth:0,parent:null,isKey:!1}))return}var or=65279,sr=9,W=10,cr=13,lr=32,ur=33,dr=34,fr=35,pr=37,mr=38,hr=39,gr=42,_r=44,vr=45,G=58,yr=61,br=62,xr=63,Sr=64,Cr=91,wr=93,Tr=96,Er=123,Dr=124,Or=125,K={};K[0]=`\\0`,K[7]=`\\a`,K[8]=`\\b`,K[9]=`\\t`,K[10]=`\\n`,K[11]=`\\v`,K[12]=`\\f`,K[13]=`\\r`,K[27]=`\\e`,K[34]=`\\"`,K[92]=`\\\\`,K[133]=`\\N`,K[160]=`\\_`,K[8232]=`\\L`,K[8233]=`\\P`;var kr={indent:2,seqNoIndent:!1,seqInlineFirst:!0,sortKeys:!1,lineWidth:80,flowBracketPadding:!1,flowSkipCommaSpace:!1,flowSkipColonSpace:!1,quoteFlowKeys:!1,quoteStyle:`single`,forceQuotes:!1,tagBeforeAnchor:!1};function Ar(e){return e.style.tagged?e.tag:Jt(e.tag)}function jr(e){let t=y(y({},kr),e);return y(y({},t),{},{defaultScalarTagName:t.schema.defaultScalarTag.tagName,implicitResolvers:t.schema.implicitScalarTags})}function Mr(e){let t=e.toString(16).toUpperCase(),n=e<=255?`x`:`u`,r=e<=255?2:4;return`\\${n}${`0`.repeat(r-t.length)}${t}`}function Nr(e,t){let n=` `.repeat(t),r=0,i=``,a=e.length;for(;r<a;){let t,o=e.indexOf(`
+`,r);o===-1?(t=e.slice(r),r=a):(t=e.slice(r,o+1),r=o+1),t.length&&t!==`
+`&&(i+=n),i+=t}return i}function Pr(e,t){return`\n${` `.repeat(e.indent*t)}`}function Fr(e,t){let n=e.indent*Math.max(1,t);return{indent:n,blockIndent:t===0?e.indent+1:e.indent,lineWidth:e.lineWidth===-1?-1:Math.max(Math.min(e.lineWidth,40),e.lineWidth-n)}}function Ir(e,n){for(let r=0,i=e.implicitResolvers.length;r<i;r+=1){let i=e.implicitResolvers[r];if(i.resolve(n,!1,i.tagName)!==t)return i.tagName}return e.defaultScalarTagName}function q(e){return e===lr||e===sr}function Lr(e){let t=e.charCodeAt(0);if(t!==vr&&t!==46||e.charCodeAt(1)!==t||e.charCodeAt(2)!==t)return!1;if(e.length===3)return!0;let n=e.charCodeAt(3);return q(n)||n===cr||n===W}function J(e){return e>=32&&e<=126||e>=161&&e<=55295&&e!==8232&&e!==8233||e>=57344&&e<=65533&&e!==or||e>=65536&&e<=1114111}function Rr(e){return J(e)&&e!==or&&e!==cr&&e!==W}function zr(e,t,n){let r=Rr(e),i=r&&!q(e);return(n?r:r&&e!==_r&&e!==Cr&&e!==wr&&e!==Er&&e!==Or)&&e!==fr&&!(t===G&&!i)||Rr(t)&&!q(t)&&e===fr||t===G&&i}function Br(e){return J(e)&&e!==or&&!q(e)&&e!==vr&&e!==xr&&e!==G&&e!==_r&&e!==Cr&&e!==wr&&e!==Er&&e!==Or&&e!==fr&&e!==mr&&e!==gr&&e!==ur&&e!==Dr&&e!==yr&&e!==br&&e!==hr&&e!==dr&&e!==pr&&e!==Sr&&e!==Tr}function Vr(e,t){let n=Y(e,0);if(Br(n))return!0;if(e.length>1&&(n===vr||n===xr||n===G)){let r=Y(e,1);return!q(r)&&zr(r,n,t)}return!1}function Hr(e){return!q(e)&&e!==G}function Y(e,t){let n=e.charCodeAt(t),r;return n>=55296&&n<=56319&&t+1<e.length&&(r=e.charCodeAt(t+1),r>=56320&&r<=57343)?(n-55296)*1024+r-56320+65536:n}function Ur(e){return/^\n* /.test(e)}var X=1,Wr=2,Gr=3,Kr=4,Z=5;function qr(e,t,n,r,i,a){let{blockIndent:o,lineWidth:s}=n,c,l=0,u=-1,d=!1,f=!1,p=s!==-1,m=-1,h=!Lr(t)&&Vr(t,a)&&Hr(Y(t,t.length-1));if(r||i)for(c=0;c<t.length;l>=65536?c+=2:c++){if(l=Y(t,c),!J(l))return Z;h=h&&zr(l,u,a),u=l}else{for(c=0;c<t.length;l>=65536?c+=2:c++){if(l=Y(t,c),l===W)d=!0,p&&(f=f||c-m-1>s&&t[m+1]!==` `,m=c);else if(!J(l))return Z;h=h&&zr(l,u,a),u=l}f=f||p&&c-m-1>s&&t[m+1]!==` `}return!d&&!f?h&&!i?X:e.quoteStyle===`double`?Z:Wr:o>9&&Ur(t)?Z:f?Kr:Gr}function Jr(e,t,n){let{indent:r,blockIndent:i,lineWidth:a}=n;switch(t){case X:return Zr(e,r);case Wr:return`'${Zr(e,r).replace(/'/g,`''`)}'`;case Gr:return`|`+Xr(e,i)+Qr(Nr(e,r));case Kr:return`>`+Xr(e,i)+Qr(Nr($r(e,a),r));case Z:return`"${ti(e)}"`}}function Yr(e,t,n,r,i){let a=r||!i;if(t.style.singleQuoted)return Wr;if(t.style.doubleQuoted)return Z;if(!a){if(t.style.literal)return Gr;if(t.style.folded)return Kr}let o=t.value;if(o.length===0)return t.style.tagged||Ir(e,o)===t.tag?X:e.quoteStyle===`double`?Z:Wr;let s=qr(e,o,n,a,e.forceQuotes&&!r,i);return s===X&&!t.style.tagged&&Ir(e,o)!==t.tag?e.quoteStyle===`double`?Z:Wr:s}function Xr(e,t){let n=Ur(e)?String(t):``,r=e[e.length-1]===`
+`;return`${n}${r&&(e[e.length-2]===`
+`||e===`
+`)?`+`:r?``:`-`}\n`}function Zr(e,t){let n=e.indexOf(`
+`);if(n===-1)return e;let r=` `.repeat(t),i=e.slice(0,n),a=/(\n+)([^\n]*)/g;a.lastIndex=n;let o;for(;o=a.exec(e);){let e=o[1].length,t=o[2];i+=`
+`.repeat(e+1)+r+t}return i}function Qr(e){return e[e.length-1]===`
+`?e.slice(0,-1):e}function $r(e,t){let n=/(\n+)([^\n]*)/g,r=e.indexOf(`
+`);r===-1&&(r=e.length),n.lastIndex=r;let i=ei(e.slice(0,r),t),a=e[0]===`
+`||e[0]===` `,o,s;for(;s=n.exec(e);){let e=s[1],n=s[2];o=n[0]===` `,i+=e+(!a&&!o&&n!==``?`
+`:``)+ei(n,t),a=o}return i}function ei(e,t){if(e===``||e[0]===` `)return e;let n=/ [^ ]/g,r,i=0,a,o=0,s=0,c=``;for(;r=n.exec(e);)s=r.index,s-i>t&&(a=o>i?o:s,c+=`\n${e.slice(i,a)}`,i=a+1),o=s;return c+=`
+`,e.length-i>t&&o>i?c+=`${e.slice(i,o)}\n${e.slice(o+1)}`:c+=e.slice(i),c.slice(1)}function ti(e){let t=``,n=0;for(let r=0;r<e.length;n>=65536?r+=2:r++){n=Y(e,r);let i=K[n];if(i){t+=i;continue}if(J(n)){t+=e[r],n>=65536&&(t+=e[r+1]);continue}t+=Mr(n)}return t}function ni(e,t,n){let r=``;for(let i=0,a=n.items.length;i<a;i+=1){let a=Q(e,t,n.items[i],{});r!==``&&(r+=`,${e.flowSkipCommaSpace?``:` `}`),r+=a}let i=e.flowBracketPadding&&r!==``?` `:``;return`[${i}${r}${i}]`}function ri(e,t,n,r){let i=``;for(let a=0,o=n.items.length;a<o;a+=1){let o=Q(e,t+1,n.items[a],{block:!0,compact:e.seqInlineFirst,isblockseq:!0});(!r||i!==``)&&(i+=Pr(e,t)),o===``||W===o.charCodeAt(0)?i+=`-`:i+=`- `,i+=o}return i}function ii(e,t,n){let r=``,i=oi(e,n.items);for(let{key:n,value:a}of i){let i=``;r!==``&&(i+=`,${e.flowSkipCommaSpace?``:` `}`);let o=Q(e,t,n,{iskey:!0}),s=o.length>1024;s?i+=`? `:e.quoteFlowKeys&&(i+=`"`);let c=Q(e,t,a,{}),l=e.flowSkipColonSpace||c===``?``:` `;i+=`${o}${e.quoteFlowKeys&&!s?`"`:``}:${l}${c}`,r+=i}let a=e.flowBracketPadding&&r!==``?` `:``;return`{${a}${r}${a}}`}function ai(e){return e.kind===`scalar`?e.value:e}function oi(e,t){if(!e.sortKeys)return t;let n=t.slice();if(e.sortKeys===!0)n.sort((e,t)=>{let n=ai(e.key),r=ai(t.key);return n<r?-1:+(n>r)});else{let t=e.sortKeys;n.sort((e,n)=>t(ai(e.key),ai(n.key)))}return n}function si(e,t,n,r){let i=``,a=oi(e,n.items);for(let n=0,o=a.length;n<o;n+=1){let o=``;(!r||i!==``)&&(o+=Pr(e,t));let{key:s,value:c}=a[n],l=(s.kind===`mapping`||s.kind===`sequence`)&&!s.style.flow&&s.items.length!==0||s.kind===`scalar`&&(s.style.literal||s.style.folded),u=l?Q(e,t+1,s,{block:!0,compact:!0,isblockseq:!ci(e,s,t+1)}):Q(e,t+1,s,{block:!0,compact:!0,iskey:!0}),d=s.kind===`scalar`&&s.value.indexOf(`
+`)!==-1,f=l||d||u.length>1024;f&&(u&&W===u.charCodeAt(0)?o+=`?`:o+=`? `),o+=u,f&&(o+=Pr(e,t));let p=Q(e,t+1,c,{block:!0,compact:f,isblockseq:f&&!ci(e,c,t+1)}),m=s.kind===`scalar`&&s.value===``&&u!==``&&u.charCodeAt(u.length-1)!==hr&&u.charCodeAt(u.length-1)!==dr,h=!f&&(s.kind===`alias`||m)?` `:``;p===``||W===p.charCodeAt(0)?o+=`${h}:`:o+=`${h}: `,o+=p,i+=o}return i}function ci(e,t,n){return t.style.tagged||t.anchor!==void 0||e.indent<2&&n>0}function Q(e,t,n,r){var i;if(n.kind===`alias`)return`*${n.anchor}`;let{block:a=!1,iskey:o=!1,isblockseq:s=!1}=r,c=(i=r.compact)==null?!1:i,l=n.anchor!==void 0;ci(e,n,t)&&(c=!1);let u,d=n.style.tagged,f=a&&(n.kind===`mapping`||n.kind===`sequence`)&&!n.style.flow&&n.items.length!==0;if(n.kind===`mapping`)u=f?si(e,t,n,c):ii(e,t,n);else if(n.kind===`sequence`)u=f?e.seqNoIndent&&!s&&t>0?ri(e,t-1,n,c):ri(e,t,n,c):ni(e,t,n);else{let r=Fr(e,t),i=Yr(e,n,r,o,a);u=Jr(n.value,i,r),d=n.style.tagged||i!==X&&n.tag!==e.defaultScalarTagName}if(f&&c&&t>0&&e.indent>2&&(u=`${` `.repeat(e.indent-2)}${u}`),d||l){let t=[],r=d?Ar(n):null,i=l?`&${n.anchor}`:null;e.tagBeforeAnchor?(r!==null&&t.push(r),i!==null&&t.push(i)):(i!==null&&t.push(i),r!==null&&t.push(r));let a=u===``||u.charCodeAt(0)===W?``:` `;u=`${t.join(` `)}${a}${u}`}return u}function li(e){return(e.kind===`sequence`||e.kind===`mapping`)&&!e.style.flow&&e.items.length!==0&&!e.style.tagged&&e.anchor===void 0}function ui(e){let t=e;for(;(t.kind===`sequence`||t.kind===`mapping`)&&!t.style.flow&&t.items.length!==0;)t=t.kind===`sequence`?t.items[t.items.length-1]:t.items[t.items.length-1].value;if(t.kind!==`scalar`||!(t.style.literal||t.style.folded))return!1;let{value:n}=t;return n.endsWith(`
+
+`)||n===`
+`}function di(e){let t=``;for(let n of e.directives){if(n.kind===`yaml`){t+=`%YAML ${n.version}\n`;continue}let{handle:e,prefix:r}=n;t+=`%TAG ${e} ${r}\n`}return t}function fi(e,t){let n=jr(t),r=``,i=!1;for(let t=0;t<e.length;t+=1){let a=e[t],o=di(a),s=o!==``,c=a.explicitStart||s||t>0&&!i;if(r+=o,a.contents===null)c&&(r+=`---
+`);else if(c){let e=Q(n,0,a.contents,{block:!0,compact:!0}),t=e===``?``:s||li(a.contents)?`
+`:` `;r+=`---${t}${e}\n`}else r+=Q(n,0,a.contents,{block:!0,compact:!0})+`
+`;i=a.explicitEnd||a.contents!==null&&ui(a.contents),i&&(r+=`...
+`)}return r}var pi=it.withTags(y(y({},ve),{},{resolve:(e,n,r)=>{let i=ve.resolve(e,n,r);return i===t?le.resolve(e,n,r):i}}),y(y({},Ne),{},{resolve:(e,n,r)=>{let i=Ne.resolve(e,n,r);return i===t?Ce.resolve(e,n,r):i}})),mi=y(y({},kr),{},{schema:pi,skipInvalid:!1,noRefs:!1,flowLevel:-1,transform:()=>{}});function hi(e,t={}){let n=y(y({},mi),t),r=tr(e,n.schema,{noRefs:n.noRefs,skipInvalid:n.skipInvalid});return n.flowLevel>=0&&ar(r,(e,t)=>{if(!(t.depth<n.flowLevel))return e.style.flow=!0,rr}),n.transform(r),fi(r,y(y({},Ge(n,Object.keys(kr))),{},{schema:n.schema}))}var $=-1;function gi(e){return`tagStart`in e&&e.tagStart!==$?e.tagStart:`anchorStart`in e&&e.anchorStart!==$?e.anchorStart:`valueStart`in e&&e.valueStart!==$?e.valueStart:`start`in e?e.start:0}function _i(e,t){return t.tagStart===$?``:e.source.slice(t.tagStart,t.tagEnd)}function vi(e,t){return t.anchorStart===$?void 0:e.source.slice(t.anchorStart,t.anchorEnd)}function yi(e,n){var r;let{schema:i}=e,a=(r=i.implicitScalarByFirstChar.get(n.charAt(0)))==null?i.implicitScalarAnyFirstChar:r;for(let e of a)if(e.resolve(n,!1,e.tagName)!==t)return e.tagName;return i.defaultScalarTag.tagName}function bi(e,t){let n=Wt(e.source,t),r=_i(e,t),i=new V;switch(t.style){case 2:i.singleQuoted=!0;break;case 3:i.doubleQuoted=!0;break;case 4:i.literal=!0;break;case 5:i.folded=!0;break}let a;return r===``?a=t.style===1?yi(e,n):e.schema.defaultScalarTag.tagName:(i.tagged=!0,a=r),{kind:`scalar`,tag:a,style:i,anchor:vi(e,t),value:n}}function xi(e,t,n){let r=_i(e,t),i=new V;t.style===2&&(i.flow=!0);let a;return r===``?a=n:(a=r,i.tagged=!0),{tag:a,style:i,anchor:vi(e,t)}}function Si(e,t){let n=e.frames[e.frames.length-1];n.kind===`document`?n.doc.contents=t:n.kind===`sequence`?n.node.items.push(t):n.key?(n.node.items.push({key:n.key,value:t}),n.key=null):n.key=t}function Ci(e,t){let n={source:t.source,schema:t.schema,eventIndex:0,position:0,frames:[],documents:[]};for(;n.eventIndex<e.length;){let t=e[n.eventIndex++];switch(n.position=gi(t),t.type){case 1:{let e={contents:null,explicitStart:t.explicitStart,explicitEnd:t.explicitEnd,directives:t.directives};n.frames.push({kind:`document`,doc:e});break}case 4:Si(n,bi(n,t));break;case 2:{let{tag:e,style:r,anchor:i}=xi(n,t,`tag:yaml.org,2002:seq`),a={kind:`sequence`,tag:e,style:r,anchor:i,items:[]};n.frames.push({kind:`sequence`,node:a});break}case 3:{let{tag:e,style:r,anchor:i}=xi(n,t,`tag:yaml.org,2002:map`),a={kind:`mapping`,tag:e,style:r,anchor:i,items:[]};n.frames.push({kind:`mapping`,node:a,key:null});break}case 5:{let e=n.source.slice(t.anchorStart,t.anchorEnd);Si(n,{kind:`alias`,tag:``,style:new V,anchor:e});break}case 6:{let e=n.frames.pop();e.kind===`document`?n.documents.push(e.doc):Si(n,e.node);break}}}return n.documents}e.CHOMPING_CLIP=Ot,e.CHOMPING_KEEP=At,e.CHOMPING_STRIP=kt,e.COLLECTION_STYLE_BLOCK=Et,e.COLLECTION_STYLE_FLOW=Dt,e.CORE_SCHEMA=rt,e.EVENT_ALIAS=yt,e.EVENT_DOCUMENT=ht,e.EVENT_MAPPING=_t,e.EVENT_POP=bt,e.EVENT_SCALAR=vt,e.EVENT_SEQUENCE=gt,e.FAILSAFE_SCHEMA=tt,e.JSON_SCHEMA=nt,e.MERGE_KEY=n,e.NOT_RESOLVED=t,e.SCALAR_STYLE_DOUBLE_QUOTED=Ct,e.SCALAR_STYLE_FOLDED_BLOCK=Tt,e.SCALAR_STYLE_LITERAL_BLOCK=wt,e.SCALAR_STYLE_PLAIN=xt,e.SCALAR_STYLE_SINGLE_QUOTED=St,e.Schema=v,e.Style=V,e.VISIT_BREAK=nr,e.VISIT_SKIP=rr,e.YAML11_SCHEMA=it,e.YAMLException=b,e.binaryTag=Re,e.boolCoreTag=m,e.boolJsonTag=te,e.boolYaml11Tag=ie,e.constructFromEvents=ln,e.defineMappingTag=a,e.defineScalarTag=r,e.defineSequenceTag=i,e.dump=hi,e.eventsToAst=Ci,e.floatCoreTag=Ce,e.floatJsonTag=Oe,e.floatYaml11Tag=Ne,e.getScalarValue=Wt,e.intCoreTag=le,e.intJsonTag=me,e.intYaml11Tag=ve,e.jsToAst=tr,e.legacyMapTag=st,e.load=Qn,e.loadAll=Zn,e.mapTag=Je,e.mergeTag=Pe,e.nullCoreTag=c,e.nullJsonTag=l,e.nullYaml11Tag=d,e.omapTag=Ke,e.pairsTag=qe,e.parseEvents=Jn,e.present=fi,e.realMapTag=at,e.seqTag=Ue,e.setTag=Ye,e.strTag=o,e.timestampTag=He,e.visit=ar});
+//# sourceMappingURL=js-yaml.umd.min.js.map</script>
+<script>
+
+(function() {
+  "use strict";
+
+  // ---------- Config (miroir de src/config.py) ----------
+  const FPS = 60;
+  const BACKGROUND_COLOR = "#000000";
+  const PIXELS_PER_METER = 10;
+  const KMH_TO_PX_S = 0.27778 * PIXELS_PER_METER;
+  const TRACK_OFFSET_Y = 8;
+  const BG_TRAIN_ALPHA = 0.5; // opacité du train d'arrière-plan (donne l'impression de profondeur)
+  const WHITE = "#ffffff";
+  const GRAY = "#646464";
+
+  // ---------- Canvas setup ----------
+  const canvas = document.getElementById("c");
+  const ctx = canvas.getContext("2d");
+  const loadingEl = document.getElementById("loading");
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener("resize", resizeCanvas);
+  resizeCanvas();
+
+  // ---------- Chargement automatique depuis le dossier où se trouve ce fichier ----------
+  // index.html doit être placé à la racine du projet (à côté de main.py, assets/, data/).
+  // Les images se chargent directement en relatif (fonctionne même en double-clic).
+  // Le manifeste et le yaml, eux, nécessitent un serveur local (ou Firefox, plus permissif
+  // avec fetch() sur file://) — sinon le message d'erreur ci-dessous l'explique clairement.
+  const ASSETS_BASE = "assets";
+  const YAML_PATH = "data/timetables/MLTC.yaml";
+
+  function loadImageFromUrl(url) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => resolve(null);
+      img.src = url;
+    });
+  }
+
+  // Conservé pour l'import d'images personnalisées (stockées en base64 dans le navigateur,
+  // pratique pour tester vite fait sans toucher aux fichiers du projet).
+  function loadImageFromB64(b64) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => resolve(null);
+      img.src = "data:image/png;base64," + b64;
+    });
+  }
+
+  async function fetchManifest() {
+    try {
+      const res = await fetch(ASSETS_BASE + "/manifest.json", { cache: "no-store" });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      return await res.json();
+    } catch (e) {
+      throw new Error(
+        "Impossible de charger assets/manifest.json (" + e.message + "). " +
+        "Vérifie que ce fichier index.html est bien placé à la racine du projet " +
+        "(à côté de main.py, assets/ et data/), que generate_manifest.py a été lancé " +
+        "au moins une fois, et ouvre la page via un serveur local " +
+        "(ex: 'python -m http.server' depuis la racine du projet) ou avec Firefox — " +
+        "Chrome bloque le chargement de fichiers texte en double-clic direct."
+      );
+    }
+  }
+
+  async function fetchYamlFile() {
+    try {
+      const res = await fetch(YAML_PATH, { cache: "no-store" });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      return await res.text();
+    } catch (e) {
+      throw new Error("Impossible de charger " + YAML_PATH + " (" + e.message + ").");
+    }
+  }
+
+  async function loadAllImages(manifest) {
+    const vehicleImages = {};
+    const trackImages = {};
+    const fgImages = {};
+
+    const vNames = manifest.vehicles || [];
+    await Promise.all(vNames.map(async (name) => {
+      vehicleImages[name] = await loadImageFromUrl(ASSETS_BASE + "/vehicles/" + name);
+    }));
+
+    const tNames = manifest.tracks || [];
+    await Promise.all(tNames.map(async (name) => {
+      trackImages[name] = await loadImageFromUrl(ASSETS_BASE + "/tracks/" + name);
+    }));
+
+    const fNames = manifest.foregrounds || [];
+    await Promise.all(fNames.map(async (name) => {
+      fgImages[name] = await loadImageFromUrl(ASSETS_BASE + "/foregrounds/" + name);
+    }));
+
+    return { vehicleImages, trackImages, fgImages };
+  }
+
+  async function loadProjectFromCurrentFolder() {
+    const manifest = await fetchManifest();
+    const [{ vehicleImages, trackImages, fgImages }, yamlText] = await Promise.all([
+      loadAllImages(manifest),
+      fetchYamlFile()
+    ]);
+    return { vehicleImages, trackImages, fgImages, yamlText };
+  }
+
+  // ---------- Repli : sélection manuelle du dossier (si le chargement automatique échoue) ----------
+  // Chrome bloque fetch() sur file://, donc le chargement automatique ci-dessus échoue si la
+  // page est ouverte en double-clic sans serveur local. Ce mécanisme de secours n'a besoin
+  // d'aucun serveur ni d'aucun outil externe : le navigateur lit directement les fichiers du
+  // dossier choisi par l'utilisateur.
+  function categorizeFiles(fileList) {
+    const buckets = { vehicles: [], tracks: [], foregrounds: [], yaml: null };
+    for (const file of fileList) {
+      const path = file.webkitRelativePath || file.name;
+      const norm = path.replace(/\\/g, "/");
+      if (/\/assets\/vehicles\/[^/]+\.png$/i.test(norm)) buckets.vehicles.push(file);
+      else if (/\/assets\/tracks\/[^/]+\.png$/i.test(norm)) buckets.tracks.push(file);
+      else if (/\/assets\/foregrounds\/[^/]+\.png$/i.test(norm)) buckets.foregrounds.push(file);
+      else if (/\/data\/timetables\/MLTC\.ya?ml$/i.test(norm)) buckets.yaml = file;
+    }
+    return buckets;
+  }
+
+  async function loadImagesFromFiles(files) {
+    const images = {};
+    await Promise.all(files.map(async (file) => {
+      const url = URL.createObjectURL(file);
+      images[file.name] = await loadImageFromUrl(url);
+    }));
+    return images;
+  }
+
+  async function loadProjectFromFiles(fileList) {
+    const buckets = categorizeFiles(fileList);
+    if (buckets.vehicles.length === 0) {
+      throw new Error(
+        "Aucune image trouvée dans assets/vehicles/ — vérifie que tu as bien choisi " +
+        "le dossier racine du projet (celui qui contient main.py, assets/ et data/)."
+      );
+    }
+    if (!buckets.yaml) {
+      throw new Error("data/timetables/MLTC.yaml introuvable dans le dossier choisi.");
+    }
+    const [vehicleImages, trackImages, fgImages, yamlText] = await Promise.all([
+      loadImagesFromFiles(buckets.vehicles),
+      loadImagesFromFiles(buckets.tracks),
+      loadImagesFromFiles(buckets.foregrounds),
+      readFileAsText(buckets.yaml)
+    ]);
+    return { vehicleImages, trackImages, fgImages, yamlText };
+  }
+
+  function readFileAsText(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsText(file);
+    });
+  }
+
+  // ---------- Utils ----------
+  function randInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+  function randFloat(min, max) { return Math.random() * (max - min) + min; }
+  function choice(arr) { return arr[randInt(0, arr.length - 1)]; }
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = randInt(0, i);
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  // Résout une position ancrée par pourcentage (ex: "50%") en pixel absolu du bord AVANT
+  // du train (même convention que stop.at) — le CENTRE du train tombe à ce pourcentage de
+  // la largeur d'écran, quels que soient sa direction et sa longueur. Un nombre brut est
+  // renvoyé tel quel (comportement historique, bord avant en pixels).
+  function resolveAnchoredPosition(raw, screenWidth, trainWidth, direction) {
+    if (typeof raw === "string" && raw.trim().endsWith("%")) {
+      const pct = parseFloat(raw) / 100;
+      const centerX = pct * screenWidth;
+      return direction === "R" ? centerX + trainWidth / 2 : centerX - trainWidth / 2;
+    }
+    return raw;
+  }
+
+  // ---------- Track (miroir de src/track.py) ----------
+  class Track {
+    constructor(image, screenHeight) {
+      this.image = image;
+      this.width = image ? image.width : 0;
+      this.height = image ? image.height : 0;
+      this.yPosition = screenHeight - 200;
+    }
+    draw(ctx, screenWidth) {
+      if (!this.image || this.width === 0) return;
+      let x = 0;
+      while (x < screenWidth) {
+        ctx.drawImage(this.image, x, this.yPosition);
+        x += this.width;
+      }
+    }
+    getGroundY() {
+      return this.yPosition + this.height - TRACK_OFFSET_Y;
+    }
+  }
+
+  // ---------- Train (miroir de src/train.py) ----------
+  class Train {
+    constructor(config, vehicleImages, trackGroundY, screenWidth, fgImages) {
+      this.config = config;
+      this.vehicleImagesRef = vehicleImages;
+      this.fgImagesRef = fgImages;
+
+      this.yOffset = config.y_offset || 0;
+      this.groundY = trackGroundY + this.yOffset;
+
+      this.title = config.title || "";
+      this.direction = config.direction || "L";
+      this.speedKmh = config.speed !== undefined ? config.speed : 100;
+      this.speedPx = this.speedKmh * KMH_TO_PX_S;
+      this.startingSpeedKmh = config.starting_speed !== undefined ? config.starting_speed : null;
+
+      if (this.direction === "any") this.direction = choice(["L", "R"]);
+
+      this.vehicles = []; // array of {img, name}
+
+      this.isReversed = false;
+      if (config.reverse_composition) this.isReversed = Math.random() < 0.5;
+
+      this.loadComposition(config.composition || []);
+
+      if (this.isReversed) this.vehicles.reverse();
+
+      this.width = this.vehicles.reduce((s, v) => s + (v.img ? v.img.width : 0), 0);
+      this.height = this.vehicles.length ? Math.max(...this.vehicles.map(v => v.img ? v.img.height : 0)) : 0;
+
+      const spawnOffset = 300;
+      this.startStationaryConfig = config.start_stationary || null;
+      if (this.startStationaryConfig) {
+        // Apparaît déjà à l'arrêt, quelque part sur la voie (manœuvre, train déjà en gare...),
+        // au lieu d'entrer en roulant depuis hors-écran.
+        const posRaw = this.startStationaryConfig.at !== undefined ? this.startStationaryConfig.at : "50%";
+        const frontX = resolveAnchoredPosition(posRaw, screenWidth, this.width, this.direction);
+        if (this.direction === "R") { this.velocity = this.speedPx; this.x = frontX - this.width; }
+        else { this.velocity = -this.speedPx; this.x = frontX; }
+      } else if (this.direction === "R") {
+        this.velocity = this.speedPx;
+        this.x = -this.width - spawnOffset;
+      } else {
+        this.velocity = -this.speedPx;
+        this.x = screenWidth + spawnOffset;
+      }
+      this.targetSpeed = Math.abs(this.velocity);
+      this.cleanupTimer = 0;
+
+      this.stopConfig = config.stop || null;
+      this.hasStopped = false;
+      this.brakingStartSpeed = 0;
+      this.brakingStartDist = 0;
+
+      // Résout la position d'arrêt une fois pour toutes, à la construction du train.
+      // Deux formats acceptés pour stop.at :
+      //  - un nombre : position en pixels du bord AVANT du train (comportement historique,
+      //    donc pas symétrique selon la direction : à largeur de train égale, le train
+      //    "dépasse" plus ou moins l'écran selon qu'il roule vers L ou vers R).
+      //  - une chaîne du type "50%" : pourcentage de la largeur d'écran où doit s'arrêter
+      //    le CENTRE du train — ce format est lui symétrique, le train s'arrête visuellement
+      //    au même endroit quelle que soit sa direction et sa longueur.
+      this.resolvedStopAt = null;
+      if (this.stopConfig && this.stopConfig.at !== undefined) {
+        this.resolvedStopAt = resolveAnchoredPosition(this.stopConfig.at, screenWidth, this.width, this.direction);
+      }
+
+      // Généralise loco_change (rétrocompatible) en deux opérations indépendantes :
+      // détachement (sans forcément de remplacement) et attelage (sans forcément de détachement),
+      // chacune pouvant se faire à l'avant (tête) ou à l'arrière (queue) du train.
+      this.stopEvent = null;
+      if (this.stopConfig) {
+        const hasLocoChange = !!this.stopConfig.loco_change;
+        const detachCount = this.stopConfig.detach_count || (hasLocoChange ? 1 : 0);
+        const attachRaw = hasLocoChange
+          ? [this.stopConfig.loco_change]
+          : (this.stopConfig.attach || []);
+        const needsDetach = detachCount > 0;
+        const needsAttach = attachRaw.length > 0;
+
+        if (needsDetach || needsAttach) {
+          this.stopEvent = {
+            needsDetach, needsAttach,
+            detachCount,
+            detachPosition: this.stopConfig.detach_position === "back" ? "back" : "front",
+            attachRaw,
+            attachPosition: this.stopConfig.attach_position === "back" ? "back" : "front",
+            selfDetachCount: this.stopConfig.attach_self_detach_count || 0,
+            phase: "idle",
+            timer: 0,
+            detachGroup: null,
+            attachGroup: null
+          };
+        }
+      }
+
+      this.stopTimer = 0;
+      if (this.startStationaryConfig) {
+        this.currentSpeed = 0;
+        this.hasEntered = true;
+        if (this.stopEvent) {
+          // Un arrêt avec détachement/attelage est configuré : comme le train ne passera
+          // jamais par l'état "en marche" avant ce point (il y est déjà dès le début), on
+          // déclenche direct la chorégraphie plutôt que d'attendre un passage qui n'arrivera
+          // jamais.
+          this.enterStoppedState();
+        } else {
+          this.state = "stopped";
+          const dur = this.startStationaryConfig.duration;
+          this.stopTimer = (dur === undefined || dur === null || dur === "infinite") ? Infinity : dur;
+        }
+      } else {
+        if (this.startingSpeedKmh !== null && this.startingSpeedKmh < this.speedKmh) {
+          // Entre déjà en mouvement mais en dessous de la vitesse de croisière, et accélère
+          // progressivement jusqu'à l'atteindre (même mécanique que l'accélération après un arrêt).
+          this.currentSpeed = Math.abs(this.startingSpeedKmh * KMH_TO_PX_S);
+          this.state = "accelerating";
+        } else {
+          this.currentSpeed = Math.abs(this.velocity);
+          this.state = "moving";
+        }
+        this.hasEntered = false;
+      }
+
+      this.foregroundData = null;
+      let fgConfig = config.foreground;
+      if (fgConfig) {
+        if (typeof fgConfig === "string") fgConfig = { image: fgConfig, at: 0 };
+        if (typeof fgConfig === "object") {
+          const fgName = fgConfig.image;
+          if (fgName) {
+            const isVehicle = !!fgConfig.is_vehicle;
+            const img = isVehicle ? (vehicleImages[fgName] || null) : (fgImages[fgName] || null);
+            if (img) {
+              this.foregroundData = {
+                image: img,
+                at: fgConfig.at || 0,
+                yOffset: fgConfig.y || 0
+              };
+            }
+          }
+        }
+      }
+
+      this.ACCEL_FACTOR = 1.2;
+      this.MAX_ACCEL = 25.0;
+      this.accelTimer = 0.0;
+      this.NOMINAL_DECELERATION = 20.0;
+    }
+
+    // Résout un identifiant brut de véhicule (gère "A|B" choix aléatoire et "A>B" directionnel)
+    // en un objet {img, name} ou null si l'image est introuvable.
+    resolveVehicleRef(rawFilename) {
+      let targetFile = rawFilename;
+
+      if (targetFile.includes("|")) {
+        const options = targetFile.split("|").map(s => s.trim());
+        targetFile = choice(options);
+      }
+
+      if (targetFile.includes(">")) {
+        const parts = targetFile.split(">");
+        if (parts.length === 2) {
+          let [leftImg, rightImg] = parts;
+          if (this.isReversed) [leftImg, rightImg] = [rightImg, leftImg];
+          targetFile = (this.direction === "R" ? rightImg : leftImg).trim();
+        }
+      }
+
+      const img = this.vehicleImagesRef[targetFile];
+      return img ? { img, name: targetFile } : null;
+    }
+
+    // Résout une liste façon "composition" (avec N*, N-M*, SHUFFLE{}) en tableau de {img, name}.
+    // Utilisé à la fois pour la composition principale et pour stop.attach.
+    resolveCompositionList(items) {
+      const result = [];
+      for (const item of items) {
+        let count = 1;
+        let content = item;
+
+        if (content.includes("*")) {
+          const idx = content.indexOf("*");
+          const countPart = content.substring(0, idx).trim();
+          content = content.substring(idx + 1).trim();
+          if (countPart.includes("-")) {
+            const [minStr, maxStr] = countPart.split("-");
+            const minC = parseInt(minStr, 10);
+            const maxC = parseInt(maxStr, 10);
+            count = isNaN(minC) || isNaN(maxC) ? 1 : randInt(minC, maxC);
+          } else {
+            const c = parseInt(countPart, 10);
+            count = isNaN(c) ? 1 : c;
+          }
+        }
+
+        let batchItems = [];
+        let isShuffle = false;
+        if (content.startsWith("SHUFFLE{") && content.endsWith("}")) {
+          isShuffle = true;
+          const inner = content.substring(8, content.length - 1);
+          batchItems = inner.split(",").map(s => s.trim());
+        } else {
+          batchItems = [content];
+        }
+
+        let pool = [];
+        for (let i = 0; i < count; i++) {
+          if (pool.length === 0) {
+            pool = batchItems.slice();
+            if (isShuffle) pool = shuffle(pool);
+            if (pool.length === 0) break;
+          }
+          const filename = pool.shift();
+          const resolved = this.resolveVehicleRef(filename);
+          if (resolved) result.push(resolved);
+          // sinon: image manquante, on l'ignore silencieusement (comme le print() côté Python)
+        }
+      }
+      return result;
+    }
+
+    loadComposition(composition) {
+      this.vehicles = this.resolveCompositionList(composition);
+    }
+
+    update(dt, screenWidth) {
+      // 1. Déclenchement de l'arrêt
+      if (this.stopConfig && !this.hasStopped && this.state === "moving") {
+        const stopX = this.resolvedStopAt;
+        let distToStop;
+        if (this.direction === "R") distToStop = stopX - (this.x + this.width);
+        else distToStop = this.x - stopX;
+
+        const triggerDecel = this.NOMINAL_DECELERATION * 0.95;
+        const nominalBrakingDist = (this.currentSpeed ** 2) / (2 * triggerDecel);
+
+        if (distToStop > 0 && distToStop <= nominalBrakingDist) {
+          this.state = "stopping";
+          this.brakingStartSpeed = this.currentSpeed;
+          this.brakingStartDist = distToStop > 0 ? distToStop : 1.0;
+        }
+      }
+
+      if (this.state === "stopping") {
+        let distToStop;
+        if (this.direction === "R") distToStop = this.resolvedStopAt - (this.x + this.width);
+        else distToStop = this.x - this.resolvedStopAt;
+
+        if (distToStop <= 0) {
+          this.currentSpeed = 0;
+        } else {
+          let progress = distToStop / this.brakingStartDist;
+          progress = Math.max(0, Math.min(1, progress));
+          this.currentSpeed = this.brakingStartSpeed * Math.pow(progress, 0.45);
+        }
+
+        if (this.currentSpeed <= 0.5) {
+          this.currentSpeed = 0;
+          this.enterStoppedState();
+        }
+      } else if (this.state === "stopped") {
+        if (this.stopEvent) {
+          this.updateStopEvent(dt, screenWidth);
+        } else {
+          this.stopTimer -= dt;
+          if (this.stopTimer <= 0) {
+            this.state = "accelerating";
+            this.accelTimer = 0;
+            this.hasStopped = true;
+
+            if (this.config.reverse_departure) {
+              if (this.direction === "R") { this.direction = "L"; this.velocity = -this.speedPx; }
+              else { this.direction = "R"; this.velocity = this.speedPx; }
+              this.vehicles.reverse();
+            }
+          }
+        }
+      } else if (this.state === "accelerating") {
+        this.accelTimer += dt;
+        const speedDiff = this.targetSpeed - this.currentSpeed;
+        let accel = Math.min(speedDiff * this.ACCEL_FACTOR, this.MAX_ACCEL);
+        const rampFactor = Math.min(1, this.accelTimer / 0.3);
+        accel *= rampFactor;
+        if (this.accelTimer > 0.1) accel = Math.max(accel, 1.0);
+        this.currentSpeed += accel * dt;
+        if (this.currentSpeed >= this.targetSpeed - 1.0) {
+          this.currentSpeed = this.targetSpeed;
+          this.state = "moving";
+        }
+      }
+
+      const moveAmount = this.currentSpeed * dt;
+      if (this.direction === "R") this.x += moveAmount;
+      else this.x -= moveAmount;
+
+      if (!this.hasEntered) {
+        if (this.direction === "R" && this.x + this.width > 0) this.hasEntered = true;
+        else if (this.direction === "L" && this.x < screenWidth) this.hasEntered = true;
+      }
+
+      if (this.hasEntered) {
+        let isOff = false;
+        if (this.direction === "R" && this.x > screenWidth) isOff = true;
+        else if (this.direction === "L" && this.x + this.width < 0) isOff = true;
+
+        if (isOff) this.cleanupTimer += dt;
+        else this.cleanupTimer = 0;
+      }
+    }
+
+    // Version simplifiée mais fidèle du ballet de changement de loco :
+    // Un détachement/attelage "avant" (front) agit sur la tête logique du train (vehicles[0]),
+    // "arrière" (back) sur la queue (fin du tableau) — quel que soit le sens de circulation.
+    // isFrontOnRightSide indique si la tête du train est physiquement à droite à l'écran
+    // (c'est le cas quand le train roule vers la droite).
+    isRightSide(position) {
+      return (position === "front") === (this.direction === "R");
+    }
+
+    // Bascule en état "arrêté" et amorce la chorégraphie associée (détachement/attelage) si
+    // configurée. Utilisé aussi bien pour un arrêt atteint en roulant que pour un train qui
+    // démarre déjà sur place (start_stationary combiné à un stop avec attach/detach).
+    enterStoppedState() {
+      this.state = "stopped";
+      this.stopTimer = (this.stopConfig && this.stopConfig.duration) || 3;
+      if (this.stopEvent) {
+        this.stopEvent.phase = this.stopEvent.needsDetach ? "waiting_to_detach" : "waiting_to_attach";
+        this.stopEvent.timer = 1.5;
+      }
+    }
+
+    performDetach(count, position) {
+      const n = Math.min(count, this.vehicles.length);
+      if (n <= 0) return null;
+      const detached = [];
+      if (position === "back") {
+        for (let i = 0; i < n; i++) {
+          const v = this.vehicles.pop();
+          if (v) detached.unshift(v);
+        }
+      } else {
+        for (let i = 0; i < n; i++) {
+          const v = this.vehicles.shift();
+          if (v) detached.push(v);
+        }
+      }
+      if (detached.length === 0) return null;
+
+      const detachedWidth = detached.reduce((s, v) => s + v.img.width, 0);
+      const rightSide = this.isRightSide(position);
+      let startX;
+      if (rightSide) {
+        startX = this.x + this.width - detachedWidth;
+        this.width -= detachedWidth;
+      } else {
+        startX = this.x;
+        this.x += detachedWidth;
+        this.width -= detachedWidth;
+      }
+      return { vehicles: detached, x: startX, rightSide };
+    }
+
+    spawnAttachGroup(ev, screenWidth) {
+      const resolved = this.resolveCompositionList(ev.attachRaw);
+      if (resolved.length === 0) { ev.attachGroup = null; return; }
+      const groupWidth = resolved.reduce((s, v) => s + v.img.width, 0);
+      const approachSpeed = this.speedPx / 1.2;
+      const rightDock = this.isRightSide(ev.attachPosition);
+      let spawnX, velocity;
+      if (rightDock) { spawnX = screenWidth + 300; velocity = -approachSpeed; }
+      else { spawnX = -300 - groupWidth; velocity = approachSpeed; }
+      ev.attachGroup = { vehicles: resolved, x: spawnX, velocity, brakingStartDist: 0, rightDock };
+    }
+
+    // Anime un groupe qui s'éloigne (accélération progressive), utilisé aussi bien pour un
+    // détachement classique que pour l'auto-détachement d'un locotracteur après attelage.
+    // Renvoie true une fois le groupe suffisamment loin pour être nettoyé.
+    animateDepartingGroup(grp, dt, screenWidth) {
+      grp.accelTimer += dt;
+      const speedDiff = grp.targetSpeed - grp.currentSpeed;
+      let accel = Math.min(speedDiff * this.ACCEL_FACTOR, this.MAX_ACCEL);
+      const ramp = Math.min(1, grp.accelTimer / 0.3);
+      accel *= ramp;
+      if (grp.accelTimer > 0.1) accel = Math.max(accel, 1.0);
+      grp.currentSpeed += accel * dt;
+      if (grp.currentSpeed > grp.targetSpeed) grp.currentSpeed = grp.targetSpeed;
+      grp.x += grp.currentSpeed * grp.dir * dt;
+
+      const groupWidth = grp.vehicles.reduce((s, v) => s + v.img.width, 0);
+      if (grp.dir > 0 && grp.x > screenWidth + 100) return true;
+      if (grp.dir < 0 && grp.x + groupWidth < -100) return true;
+      return false;
+    }
+
+    // Choréographie générale à l'arrêt : détachement (optionnel) puis attelage (optionnel),
+    // chacun pouvant se faire à l'avant ou à l'arrière du train. loco_change reste supporté
+    // en rétrocompatibilité (équivaut à detach_count:1 + attach:[image], tous deux "front").
+    updateStopEvent(dt, screenWidth) {
+      const ev = this.stopEvent;
+
+      if (ev.phase === "waiting_to_detach") {
+        ev.timer -= dt;
+        if (ev.timer <= 0) {
+          const group = this.performDetach(ev.detachCount, ev.detachPosition);
+          if (group) {
+            // Le groupe s'éloigne toujours du côté où il se trouve physiquement (pas
+            // forcément le sens de marche du train) : ça évite qu'il ne "traverse" la
+            // partie restante et ne passe visuellement derrière elle.
+            ev.detachGroup = {
+              vehicles: group.vehicles, x: group.x,
+              currentSpeed: 0, targetSpeed: this.speedPx,
+              dir: group.rightSide ? 1 : -1, accelTimer: 0
+            };
+            ev.phase = "detaching";
+          } else {
+            ev.detachGroup = null;
+            if (ev.needsAttach) {
+              ev.phase = "waiting_to_attach";
+              ev.timer = 1.0;
+            } else {
+              this.stopTimer = 0;
+              this.stopEvent = null;
+            }
+          }
+        }
+      } else if (ev.phase === "detaching") {
+        if (this.animateDepartingGroup(ev.detachGroup, dt, screenWidth)) {
+          ev.detachGroup = null;
+          if (ev.needsAttach) {
+            ev.phase = "waiting_to_attach";
+            ev.timer = 1.0;
+          } else {
+            this.stopTimer = 0;
+            this.stopEvent = null;
+          }
+        }
+      } else if (ev.phase === "waiting_to_attach") {
+        ev.timer -= dt;
+        if (ev.timer <= 0) {
+          this.spawnAttachGroup(ev, screenWidth);
+          if (!ev.attachGroup) { this.stopTimer = 0; this.stopEvent = null; }
+          else ev.phase = "approaching";
+        }
+      } else if (ev.phase === "approaching") {
+        const grp = ev.attachGroup;
+        const groupWidth = grp.vehicles.reduce((s, v) => s + v.img.width, 0);
+
+        let targetX, dist;
+        if (grp.rightDock) { targetX = this.x + this.width + 3; dist = grp.x - targetX; }
+        else { targetX = this.x - 5 - groupWidth; dist = targetX - grp.x; }
+
+        if (grp.brakingStartDist === 0) grp.brakingStartDist = dist;
+
+        const startSpeed = Math.abs(grp.velocity);
+        const startDist = grp.brakingStartDist <= 0 ? 1.0 : grp.brakingStartDist;
+        let progress = dist / startDist;
+        progress = Math.max(0, Math.min(1, progress));
+        let currentSpeed = startSpeed * Math.pow(progress, 0.5);
+        currentSpeed = Math.max(currentSpeed, 5.0);
+
+        if (dist <= 1) {
+          grp.x = targetX;
+          this.stopEvent.phase = "docking";
+          this.stopEvent.timer = 1.5;
+        } else {
+          const step = currentSpeed * dt;
+          if (grp.rightDock) grp.x -= step;
+          else grp.x += step;
+        }
+      } else if (ev.phase === "docking") {
+        if (ev.timer > 0) {
+          ev.timer -= dt;
+        } else {
+          const grp = ev.attachGroup;
+          const groupWidth = grp.vehicles.reduce((s, v) => s + v.img.width, 0);
+          let targetX, dist;
+          if (grp.rightDock) { targetX = this.x + this.width; dist = grp.x - targetX; }
+          else { targetX = this.x - groupWidth; dist = targetX - grp.x; }
+
+          const creepSpeed = 6;
+          const step = creepSpeed * dt;
+
+          if (dist <= step) {
+            grp.x = targetX;
+            ev.phase = "attached";
+            ev.timer = 4.0;
+
+            if (ev.attachPosition === "front") {
+              this.vehicles = grp.vehicles.concat(this.vehicles);
+            } else {
+              this.vehicles = this.vehicles.concat(grp.vehicles);
+            }
+            if (!grp.rightDock) this.x -= groupWidth;
+            this.width += groupWidth;
+            ev.attachGroup = null;
+          } else {
+            if (grp.rightDock) grp.x -= step;
+            else grp.x += step;
+          }
+        }
+      } else if (ev.phase === "attached") {
+        ev.timer -= dt;
+        if (ev.timer <= 0) {
+          if (ev.selfDetachCount > 0) {
+            // Une partie de ce qui vient d'être attelé (typiquement le locotracteur en tête
+            // ou en queue du groupe) se détache aussitôt et repart, laissant le reste attelé.
+            const group = this.performDetach(ev.selfDetachCount, ev.attachPosition);
+            if (group) {
+              ev.detachGroup = {
+                vehicles: group.vehicles, x: group.x,
+                currentSpeed: 0, targetSpeed: this.speedPx,
+                dir: group.rightSide ? 1 : -1, accelTimer: 0
+              };
+              ev.phase = "self_detaching";
+            } else {
+              this.stopTimer = 0;
+              this.stopEvent = null;
+            }
+          } else {
+            this.stopTimer = 0;
+            this.stopEvent = null;
+          }
+        }
+      } else if (ev.phase === "self_detaching") {
+        if (this.animateDepartingGroup(ev.detachGroup, dt, screenWidth)) {
+          ev.detachGroup = null;
+          this.stopTimer = 0;
+          this.stopEvent = null;
+        }
+      }
+    }
+
+    draw(ctx, screenWidth) {
+      if (this.height === 58) {
+        const wireY = this.groundY - this.height - 1;
+        ctx.strokeStyle = GRAY;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(0, wireY);
+        ctx.lineTo(screenWidth, wireY);
+        ctx.stroke();
+      }
+
+      // Groupe détaché (véhicules qui s'éloignent après la séparation, du côté où ils se trouvaient)
+      if (this.stopEvent && this.stopEvent.detachGroup) {
+        const grp = this.stopEvent.detachGroup;
+        const groupWidth = grp.vehicles.reduce((s, v) => s + v.img.width, 0);
+        if (grp.dir > 0) {
+          let drawX = grp.x + groupWidth;
+          for (const v of grp.vehicles) {
+            drawX -= v.img.width;
+            ctx.drawImage(v.img, drawX, this.groundY - v.img.height);
+          }
+        } else {
+          let drawX = grp.x;
+          for (const v of grp.vehicles) {
+            ctx.drawImage(v.img, drawX, this.groundY - v.img.height);
+            drawX += v.img.width;
+          }
+        }
+      }
+
+      // Groupe qui s'apprête à s'atteler (loco seule, ou plusieurs véhicules déjà couplés)
+      if (this.stopEvent && this.stopEvent.attachGroup) {
+        const grp = this.stopEvent.attachGroup;
+        const groupWidth = grp.vehicles.reduce((s, v) => s + v.img.width, 0);
+        if (this.direction === "R") {
+          let drawX = grp.x + groupWidth;
+          for (const v of grp.vehicles) {
+            drawX -= v.img.width;
+            ctx.drawImage(v.img, drawX, this.groundY - v.img.height);
+          }
+        } else {
+          let drawX = grp.x;
+          for (const v of grp.vehicles) {
+            ctx.drawImage(v.img, drawX, this.groundY - v.img.height);
+            drawX += v.img.width;
+          }
+        }
+      }
+
+      if (this.direction === "R") {
+        let drawX = this.x + this.width;
+        for (const v of this.vehicles) {
+          drawX -= v.img.width;
+          ctx.drawImage(v.img, drawX, this.groundY - v.img.height);
+        }
+      } else {
+        let drawX = this.x;
+        for (const v of this.vehicles) {
+          ctx.drawImage(v.img, drawX, this.groundY - v.img.height);
+          drawX += v.img.width;
+        }
+      }
+
+      if (this.foregroundData) {
+        const fg = this.foregroundData;
+        const drawX = fg.at;
+        const drawY = this.groundY - fg.image.height - fg.yOffset;
+        ctx.drawImage(fg.image, drawX, drawY);
+      }
+
+      if (this.title) {
+        const lines = this.title.split("\n");
+        const titleX = 10;
+        let titleY = this.groundY + TRACK_OFFSET_Y + 5;
+        ctx.fillStyle = WHITE;
+        ctx.font = "16px -apple-system, Helvetica, Arial, sans-serif";
+        ctx.textBaseline = "top";
+        for (const line of lines) {
+          ctx.fillText(line, titleX, titleY);
+          titleY += 20;
+        }
+      }
+    }
+
+    shouldRemove() {
+      return this.cleanupTimer >= 0.5;
+    }
+  }
+
+  // ---------- Gestion du YAML (chargement, édition, persistance) ----------
+  const STORAGE_KEY = "mltc_yaml_v1";
+  let YAML_FILE_DEFAULT = null; // rempli au démarrage (fetch automatique ou chargement manuel)
+
+  function getStoredYaml() {
+    try {
+      const v = window.localStorage.getItem(STORAGE_KEY);
+      return v || YAML_FILE_DEFAULT;
+    } catch (e) {
+      return YAML_FILE_DEFAULT;
+    }
+  }
+
+  function storeYaml(text) {
+    try { window.localStorage.setItem(STORAGE_KEY, text); } catch (e) { /* ignore */ }
+  }
+
+  function parseYamlToTrains(text) {
+    if (typeof jsyaml === "undefined") {
+      throw new Error("Le parseur YAML n'a pas pu être chargé (pas de connexion internet ?)");
+    }
+    const data = jsyaml.load(text);
+    if (!data || !Array.isArray(data.trains)) {
+      throw new Error("Le YAML doit contenir une clé 'trains:' listant les compositions.");
+    }
+    return data.trains;
+  }
+
+  // ---------- Images importées par l'utilisateur (persistées localement) ----------
+  const CUSTOM_IMAGES_KEY = "mltc_custom_images_v1";
+
+  function getStoredCustomImages() {
+    try {
+      const v = window.localStorage.getItem(CUSTOM_IMAGES_KEY);
+      return v ? JSON.parse(v) : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function storeCustomImages(obj) {
+    try { window.localStorage.setItem(CUSTOM_IMAGES_KEY, JSON.stringify(obj)); } catch (e) { /* ignore */ }
+  }
+
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = reader.result; // "data:image/png;base64,XXXX"
+        const idx = result.indexOf(",");
+        resolve(idx >= 0 ? result.substring(idx + 1) : result);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ---------- Simulation principale ----------
+  async function run(projectData) {
+    const { vehicleImages, trackImages, fgImages, yamlText } = projectData;
+    YAML_FILE_DEFAULT = yamlText;
+    loadingEl.style.display = "none";
+
+    // Charge les images importées par l'utilisateur (stockées dans le navigateur) en plus
+    // de celles du dossier assets/ — pratique pour tester vite fait sans toucher aux fichiers.
+    const customImages = getStoredCustomImages();
+    const customToLoad = Object.entries(customImages).filter(([name]) => !vehicleImages[name]);
+    await Promise.all(customToLoad.map(async ([name, b64]) => {
+      const img = await loadImageFromB64(b64);
+      if (img) vehicleImages[name] = img;
+    }));
+
+    const defaultTrackImg = trackImages["voie_bois.png"] || trackImages[Object.keys(trackImages)[0]];
+    const trackKeys = Object.keys(trackImages);
+
+    let currentYamlText = getStoredYaml();
+    let trainsConfig;
+    try {
+      trainsConfig = parseYamlToTrains(currentYamlText);
+    } catch (e) {
+      console.error(e);
+      trainsConfig = parseYamlToTrains(YAML_FILE_DEFAULT);
+      currentYamlText = YAML_FILE_DEFAULT;
+    }
+
+    let activeTrains = []; // {train, track}
+    let trainBag = [];
+    let spawnTimer = 0;
+
+    let paused = false;
+    let showMenu = false;
+    let speedMultiplier = 1.0;
+    let maxTracks = 7;
+    const limitMin = 1, limitMax = 10;
+
+    let lastTime = performance.now();
+
+    function currentSize() {
+      return { w: canvas.width, h: canvas.height };
+    }
+
+    function trySpawn(currentW, currentH) {
+      if (spawnTimer > 0 || activeTrains.length >= maxTracks) return;
+
+      if (trainBag.length === 0 && trainsConfig.length) {
+        trainBag = shuffle(trainsConfig);
+      }
+      if (trainBag.length === 0) return;
+
+      const tConfig = trainBag.pop();
+
+      const newTrain = new Train(tConfig, vehicleImages, 0, currentW, fgImages);
+      const trainHeight = newTrain.height;
+
+      let currentTrackImg = null;
+      const trackImgName = tConfig.track;
+      if (trackImgName && trackImages[trackImgName]) currentTrackImg = trackImages[trackImgName];
+      if (!currentTrackImg) currentTrackImg = defaultTrackImg;
+
+      const currentTrack = new Track(currentTrackImg, currentH);
+      const trackHeight = currentTrack.height;
+
+      let spawned = false;
+      for (let attempt = 0; attempt < 15; attempt++) {
+        const minY = 70;
+        let maxY = currentH - trackHeight - 20;
+        if (maxY < minY) maxY = minY;
+        const randY = randInt(minY, maxY);
+
+        const visualTop = randY + trackHeight - TRACK_OFFSET_Y - trainHeight;
+        const visualBottom = randY + trackHeight;
+        const zoneTop = visualTop - 10;
+        const zoneBottom = visualBottom + 10;
+
+        let overlap = false;
+        for (const item of activeTrains) {
+          const exTrack = item.track, exTrain = item.train;
+          const exY = exTrack.yPosition, exH = exTrack.height, exTrainH = exTrain.height;
+          const exVisualTop = exY + exH - TRACK_OFFSET_Y - exTrainH;
+          const exVisualBottom = exY + exH;
+          const exZoneTop = exVisualTop - 10;
+          const exZoneBottom = exVisualBottom + 10;
+          if (zoneTop < exZoneBottom && zoneBottom > exZoneTop) { overlap = true; break; }
+        }
+
+        if (!overlap) {
+          currentTrack.yPosition = randY;
+          const realGroundY = currentTrack.getGroundY();
+          newTrain.groundY = realGroundY + newTrain.yOffset;
+
+          // Train d'arrière-plan optionnel, sur la même voie (assombri au rendu pour donner
+          // une impression de profondeur — manœuvre, trafic en fond, etc.)
+          let bgTrain = null;
+          if (tConfig.background) {
+            const chancePct = tConfig.background.chance !== undefined ? tConfig.background.chance : 100;
+            if (Math.random() * 100 < chancePct) {
+              bgTrain = new Train(tConfig.background, vehicleImages, 0, currentW, fgImages);
+              bgTrain.groundY = realGroundY + bgTrain.yOffset;
+              bgTrain.isBackground = true;
+            }
+          }
+
+          activeTrains.push({ train: newTrain, track: currentTrack, bgTrain });
+          spawned = true;
+          break;
+        }
+      }
+
+      if (!spawned) {
+        trainBag.push(tConfig);
+        spawnTimer = 0.5;
+      } else {
+        spawnTimer = randFloat(0.5, 2.5);
+      }
+    }
+
+    function reload() {
+      activeTrains = [];
+      trainBag = [];
+      spawnTimer = 0;
+    }
+
+    // ---------- Éditeur YAML intégré ----------
+    const editorBtn = document.getElementById("editorBtn");
+    const editorPanel = document.getElementById("editorPanel");
+    const yamlTextarea = document.getElementById("yamlTextarea");
+    const editorMsg = document.getElementById("editorMsg");
+    const applyBtn = document.getElementById("applyBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const closeBtn = document.getElementById("closeBtn");
+
+    let wasPausedBeforeEdit = false;
+
+    editorBtn.addEventListener("click", () => {
+      yamlTextarea.value = currentYamlText;
+      editorMsg.textContent = "";
+      wasPausedBeforeEdit = paused;
+      paused = true;
+      editorPanel.classList.add("open");
+    });
+
+    closeBtn.addEventListener("click", () => {
+      editorPanel.classList.remove("open");
+      paused = wasPausedBeforeEdit;
+    });
+
+    applyBtn.addEventListener("click", () => {
+      const text = yamlTextarea.value;
+      try {
+        const parsed = parseYamlToTrains(text);
+        trainsConfig = parsed;
+        currentYamlText = text;
+        storeYaml(text);
+        reload();
+        editorMsg.style.color = "#8fd98f";
+        editorMsg.textContent = `OK — ${parsed.length} train(s) chargé(s).`;
+        paused = false;
+        setTimeout(() => { editorPanel.classList.remove("open"); }, 500);
+      } catch (e) {
+        editorMsg.style.color = "#f2c94c";
+        editorMsg.textContent = "Erreur : " + e.message;
+      }
+    });
+
+    resetBtn.addEventListener("click", () => {
+      yamlTextarea.value = YAML_FILE_DEFAULT;
+      editorMsg.style.color = "#8fd98f";
+      editorMsg.textContent = "Contenu de " + YAML_PATH + " restauré dans l'éditeur (clique sur Appliquer pour l'activer).";
+    });
+
+    // ---------- Catalogue visuel des véhicules ----------
+    const vehiclePanel = document.getElementById("vehiclePanel");
+    const vehicleSearch = document.getElementById("vehicleSearch");
+    const vehicleGrid = document.getElementById("vehicleGrid");
+    const vehicleCount = document.getElementById("vehicleCount");
+    const vehicleCloseBtn = document.getElementById("vehicleCloseBtn");
+    const vehicleModeLabel = document.getElementById("vehicleModeLabel");
+    const vtoast = document.getElementById("vtoast");
+
+    let allVehicleNames = Object.keys(vehicleImages).sort((a, b) => a.localeCompare(b));
+    let vehicleBrowserMode = "builder"; // "builder" | "advfg" | "shuffleCollect" | "advAttachCollect"
+    let wasBuilderOpenBeforeBrowser = false;
+    let vehicleGridBuilt = false;
+
+    function showToast(text) {
+      vtoast.textContent = text;
+      vtoast.classList.add("show");
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => vtoast.classList.remove("show"), 1400);
+    }
+
+    function insertAtCursor(textarea, text) {
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const before = textarea.value.substring(0, start);
+      const after = textarea.value.substring(end);
+      textarea.value = before + text + after;
+      const newPos = start + text.length;
+      textarea.selectionStart = textarea.selectionEnd = newPos;
+      textarea.focus();
+    }
+
+    function buildVehicleGrid(filterText) {
+      const filter = (filterText || "").trim().toLowerCase();
+      vehicleGrid.innerHTML = "";
+      const frag = document.createDocumentFragment();
+      let shown = 0;
+      for (const name of allVehicleNames) {
+        if (filter && !name.toLowerCase().includes(filter)) continue;
+        shown++;
+        const isCustom = customImageNames.has(name);
+        const item = document.createElement("div");
+        item.className = "vitem" + (isCustom ? " vitem-custom" : "");
+
+        const wrap = document.createElement("div");
+        wrap.className = "vimgwrap";
+        const img = document.createElement("img");
+        img.src = vehicleImages[name].src;
+        wrap.appendChild(img);
+
+        const label = document.createElement("div");
+        label.className = "vname";
+        label.textContent = (isCustom ? "★ " : "") + name;
+
+        item.appendChild(wrap);
+        item.appendChild(label);
+
+        if (isCustom) {
+          const delBtn = document.createElement("button");
+          delBtn.className = "vitem-del";
+          delBtn.textContent = "✕";
+          delBtn.title = "Supprimer cette image importée";
+          delBtn.addEventListener("click", (ev) => {
+            ev.stopPropagation();
+            removeCustomImage(name);
+          });
+          item.appendChild(delBtn);
+        }
+
+        item.addEventListener("click", () => onVehiclePicked(name));
+
+        frag.appendChild(item);
+      }
+      vehicleGrid.appendChild(frag);
+      vehicleCount.textContent = `${shown} / ${allVehicleNames.length} véhicules`;
+    }
+
+    // ---------- Import d'images personnalisées ----------
+    const vehicleImportBtn = document.getElementById("vehicleImportBtn");
+    const vehicleImportInput = document.getElementById("vehicleImportInput");
+    let customImageNames = new Set(Object.keys(customImages));
+
+    function refreshAllVehicleNames() {
+      allVehicleNames = Object.keys(vehicleImages).sort((a, b) => a.localeCompare(b));
+    }
+
+    function removeCustomImage(name) {
+      delete vehicleImages[name];
+      customImageNames.delete(name);
+      const stored = getStoredCustomImages();
+      delete stored[name];
+      storeCustomImages(stored);
+      refreshAllVehicleNames();
+      buildVehicleGrid(vehicleSearch.value);
+      showToast("Image supprimée : " + name);
+    }
+
+    function sanitizeImageName(raw) {
+      let n = (raw || "").trim();
+      n = n.replace(/[^A-Za-z0-9_.\-]/g, "");
+      if (!n) n = "custom" + Date.now();
+      if (!/\.png$/i.test(n)) n += ".png";
+      return n;
+    }
+
+    vehicleImportBtn.addEventListener("click", () => {
+      vehicleImportInput.click();
+    });
+
+    vehicleImportInput.addEventListener("change", async () => {
+      const files = Array.from(vehicleImportInput.files || []);
+      if (files.length === 0) return;
+      const stored = getStoredCustomImages();
+
+      for (const file of files) {
+        const defaultName = file.name.replace(/\.[^.]+$/, "");
+        const proposed = window.prompt(
+          "Nom du fichier pour \"" + file.name + "\" (utilisé dans le yaml, ex: A-MonTrain.png) :",
+          defaultName
+        );
+        if (proposed === null) continue; // annulé
+        const finalName = sanitizeImageName(proposed);
+
+        try {
+          const b64 = await fileToBase64(file);
+          const img = await loadImageFromB64(b64);
+          if (!img) {
+            showToast("Échec du chargement : " + file.name);
+            continue;
+          }
+          vehicleImages[finalName] = img;
+          customImageNames.add(finalName);
+          stored[finalName] = b64;
+          showToast("Image importée : " + finalName);
+        } catch (e) {
+          showToast("Erreur d'import : " + file.name);
+        }
+      }
+
+      storeCustomImages(stored);
+      refreshAllVehicleNames();
+      buildVehicleGrid(vehicleSearch.value);
+      vehicleImportInput.value = "";
+    });
+
+    const vehicleShuffleBar = document.getElementById("vehicleShuffleBar");
+    const vehicleShuffleCount = document.getElementById("vehicleShuffleCount");
+    const vehicleShuffleUndo = document.getElementById("vehicleShuffleUndo");
+    const vehicleShuffleDone = document.getElementById("vehicleShuffleDone");
+    const vehicleShuffleModePool = document.getElementById("vehicleShuffleModePool");
+    const vehicleShuffleModeChoice = document.getElementById("vehicleShuffleModeChoice");
+    let shuffleCollectItems = []; // [{base, rVariant}]
+    let shuffleCollectKind = "shuffle"; // "shuffle" | "choice"
+
+    function updateShuffleBar() {
+      let label;
+      if (vehicleBrowserMode === "advAttachCollect") label = "pour l'attelage";
+      else label = shuffleCollectKind === "shuffle" ? "pour le pool" : "pour l'alternative";
+      vehicleShuffleCount.textContent = shuffleCollectItems.length + " image(s) sélectionnée(s) " + label;
+    }
+
+    function setShuffleCollectKind(kind) {
+      shuffleCollectKind = kind;
+      vehicleShuffleModePool.style.background = kind === "shuffle" ? "#5d4a2a" : "";
+      vehicleShuffleModePool.style.borderColor = kind === "shuffle" ? "#d98f2e" : "#555";
+      vehicleShuffleModeChoice.style.background = kind === "choice" ? "#2a4a5d" : "";
+      vehicleShuffleModeChoice.style.borderColor = kind === "choice" ? "#2e9dd9" : "#555";
+      updateShuffleBar();
+    }
+    vehicleShuffleModePool.addEventListener("click", () => setShuffleCollectKind("shuffle"));
+    vehicleShuffleModeChoice.addEventListener("click", () => setShuffleCollectKind("choice"));
+
+    function onVehiclePicked(name) {
+      if (vehicleBrowserMode === "builder") {
+        builderAddVehicle(name);
+        showToast("Ajouté : " + name);
+        closeVehiclePanel();
+      } else if (vehicleBrowserMode === "bgAdd") {
+        bgBuilderItems.push(canonicalizeVehicleRef(name));
+        bgRender();
+        showToast("Ajouté au train d'arrière-plan : " + name);
+        closeVehiclePanel();
+      } else if (vehicleBrowserMode === "advfg") {
+        advFgVehicleValue = name;
+        updateAdvFgVehicleBtn();
+        showToast("Image premier plan : " + name);
+        closeVehiclePanel();
+      } else if (vehicleBrowserMode === "shuffleCollect" || vehicleBrowserMode === "advAttachCollect") {
+        shuffleCollectItems.push(canonicalizeVehicleRef(name));
+        updateShuffleBar();
+        showToast((vehicleBrowserMode === "advAttachCollect" ? "Ajouté à l'attelage (" : "Ajouté au groupe (") + shuffleCollectItems.length + ")");
+        // le panneau reste ouvert pour continuer à sélectionner
+      }
+    }
+
+    function openVehiclePanel(mode) {
+      vehicleBrowserMode = mode;
+      const labels = {
+        builder: "Tape une image pour l'ajouter à la rame en construction.",
+        bgAdd: "Tape une image pour l'ajouter au train d'arrière-plan.",
+        advfg: "Tape l'image à utiliser en premier plan.",
+        shuffleCollect: "Tape toutes les images du groupe, une par une.",
+        advAttachCollect: "Tape les véhicules à atteler, dans l'ordre (tête en premier)."
+      };
+      vehicleModeLabel.textContent = labels[mode] || labels.builder;
+      if (!vehicleGridBuilt) {
+        buildVehicleGrid("");
+        vehicleGridBuilt = true;
+      }
+      if (mode === "shuffleCollect") {
+        shuffleCollectItems = [];
+        setShuffleCollectKind("shuffle");
+        vehicleShuffleModePool.style.display = "";
+        vehicleShuffleModeChoice.style.display = "";
+        vehicleShuffleBar.style.display = "flex";
+      } else if (mode === "advAttachCollect") {
+        shuffleCollectItems = [];
+        vehicleShuffleModePool.style.display = "none";
+        vehicleShuffleModeChoice.style.display = "none";
+        updateShuffleBar();
+        vehicleShuffleBar.style.display = "flex";
+      } else {
+        vehicleShuffleBar.style.display = "none";
+      }
+      vehiclePanel.classList.add("open");
+      wasPausedBeforeEdit = paused;
+      paused = true;
+    }
+
+    vehicleShuffleUndo.addEventListener("click", () => {
+      shuffleCollectItems.pop();
+      updateShuffleBar();
+    });
+
+    vehicleShuffleDone.addEventListener("click", () => {
+      if (vehicleBrowserMode === "advAttachCollect") {
+        if (shuffleCollectItems.length < 1) {
+          showToast("Ajoute au moins 1 véhicule");
+          return;
+        }
+        advAttachValue = shuffleCollectItems.slice();
+        updateAdvAttachUI();
+        showToast("Attelage défini (" + advAttachValue.length + " véhicule(s))");
+      } else {
+        if (shuffleCollectItems.length < 2) {
+          showToast("Ajoute au moins 2 images");
+          return;
+        }
+        builderAddShuffleGroup(shuffleCollectItems, shuffleCollectKind);
+        showToast("Groupe ajouté (" + shuffleCollectItems.length + " images)");
+      }
+      shuffleCollectItems = [];
+      closeVehiclePanel();
+    });
+
+    function closeVehiclePanel() {
+      vehiclePanel.classList.remove("open");
+      vehicleShuffleBar.style.display = "none";
+      if (wasBuilderOpenBeforeBrowser) {
+        wasBuilderOpenBeforeBrowser = false;
+        builderPanel.classList.add("open");
+        return;
+      }
+      paused = wasPausedBeforeEdit;
+    }
+
+    vehicleCloseBtn.addEventListener("click", closeVehiclePanel);
+
+    vehicleSearch.addEventListener("input", () => {
+      buildVehicleGrid(vehicleSearch.value);
+    });
+
+    // ---------- Mode Constructeur ----------
+    const builderBtn = document.getElementById("builderBtn");
+    const builderPanel = document.getElementById("builderPanel");
+    const builderPreviewWrap = document.getElementById("builderPreviewWrap");
+    const builderDirL = document.getElementById("builderDirL");
+    const builderDirR = document.getElementById("builderDirR");
+    const builderTitleInput = document.getElementById("builderTitleInput");
+    const builderSpeedInput = document.getElementById("builderSpeed");
+    const builderDirectionSelect = document.getElementById("builderDirection");
+    const builderAddBtn = document.getElementById("builderAddBtn");
+    const builderAddShuffleBtn = document.getElementById("builderAddShuffleBtn");
+    const builderListEl = document.getElementById("builderList");
+    const builderMsg = document.getElementById("builderMsg");
+    const builderOutputBtn = document.getElementById("builderOutputBtn");
+    const builderClearBtn = document.getElementById("builderClearBtn");
+    const builderCloseBtn = document.getElementById("builderCloseBtn");
+
+    // Chaque item : { kind: "single"|"shuffle", base, rVariant, members, countMode: "fixed"|"range", count, countMin, countMax }
+    let builderItems = [];
+    let builderPreviewDir = "R";
+    let wasPausedBeforeBuilder = false;
+
+    // Échelle unique appliquée à TOUTES les images pour préserver leurs proportions
+    // réelles entre elles (le moteur de jeu les dessine lui-même en taille native, sans
+    // redimensionnement individuel — on reproduit donc la même logique ici).
+    const PREVIEW_SCALE = 1.3;
+    const LIST_SCALE = 0.6;
+    const LIST_MAX_WIDTH = 220; // clamp seulement pour les sprites exceptionnellement longs (ex: rames complètes en un seul fichier)
+
+    function scaledSize(name, scale, maxWidth) {
+      const img = vehicleImages[name];
+      const nw = img.naturalWidth || img.width;
+      const nh = img.naturalHeight || img.height;
+      let w = nw * scale;
+      let h = nh * scale;
+      if (maxWidth && w > maxWidth) {
+        const factor = maxWidth / w;
+        w *= factor;
+        h *= factor;
+      }
+      return { w, h };
+    }
+
+    // Résout le nom choisi (que ce soit la variante gauche OU directement la variante _R) en
+    // {base, rVariant} canonique : base = toujours la variante gauche, rVariant = la _R si elle
+    // existe. Comme ça, peu importe laquelle des deux images l'utilisateur a cliquée dans le
+    // catalogue, le résultat encode toujours correctement le sens automatique gauche/droite.
+    function canonicalizeVehicleRef(name) {
+      if (name.endsWith("_R.png")) {
+        const leftName = name.replace(/_R\.png$/i, ".png");
+        if (vehicleImages[leftName]) return { base: leftName, rVariant: name };
+        return { base: name, rVariant: null };
+      }
+      const rName = name.replace(/\.png$/i, "_R.png");
+      return { base: name, rVariant: vehicleImages[rName] ? rName : null };
+    }
+
+    function builderAddVehicle(name) {
+      const ref = canonicalizeVehicleRef(name);
+      // fusionne avec le dernier élément s'il s'agit exactement du même véhicule simple (compte fixe)
+      const last = builderItems[builderItems.length - 1];
+      if (last && last.kind === "single" && last.base === ref.base && last.countMode === "fixed") {
+        last.count += 1;
+      } else {
+        builderItems.push({
+          kind: "single", base: ref.base, rVariant: ref.rVariant,
+          countMode: "fixed", count: 1, countMin: 1, countMax: 1
+        });
+      }
+      renderBuilder();
+    }
+
+    function builderAddShuffleGroup(members, kind) {
+      if (!members || members.length === 0) return;
+      builderItems.push({
+        kind: kind === "choice" ? "choice" : "shuffle", members: members.slice(),
+        countMode: "fixed", count: 1, countMin: 1, countMax: 1
+      });
+      renderBuilder();
+    }
+
+    function displayCountFor(it) {
+      // Nombre d'exemplaires à afficher dans l'aperçu : le compte fixe, ou le max de la plage
+      // (illustration "cas le plus rempli" — le nombre réel variera à chaque génération de train).
+      return it.countMode === "range" ? Math.max(1, it.countMax) : Math.max(1, it.count);
+    }
+
+    function memberFileForPreview(member, dir) {
+      return (dir === "R" && member.rVariant) ? member.rVariant : member.base;
+    }
+
+    function renderBuilderPreview() {
+      builderPreviewWrap.innerHTML = "";
+      if (builderItems.length === 0) {
+        const empty = document.createElement("div");
+        empty.id = "builderPreviewEmpty";
+        empty.textContent = "Aperçu — ajoute des véhicules ci-dessous";
+        builderPreviewWrap.appendChild(empty);
+        return;
+      }
+      // Le premier élément de la liste = tête du train.
+      // En aperçu direction R, la tête est affichée à droite (comme dans le moteur réel) ;
+      // en direction L, la tête est affichée à gauche.
+      const frag = document.createDocumentFragment();
+      const seq = builderPreviewDir === "R" ? builderItems.slice().reverse() : builderItems;
+      for (const it of seq) {
+        const n = displayCountFor(it);
+        if (it.kind === "shuffle" || it.kind === "choice") {
+          // Illustre le pool (ou l'alternative) : une vignette de chaque membre, avec un cadre
+          // distinctif, répété selon le nombre estimé d'emplacements du groupe.
+          const borderColor = it.kind === "shuffle" ? "#d98f2e" : "#2e9dd9";
+          const titleLabel = it.kind === "shuffle"
+            ? "Groupe aléatoire (" + it.members.length + " choix possibles)"
+            : "Alternative unique (" + it.members.length + " choix possibles)";
+          for (let slot = 0; slot < n; slot++) {
+            const member = it.members[slot % it.members.length];
+            const fileToShow = memberFileForPreview(member, builderPreviewDir);
+            const { w, h } = scaledSize(fileToShow, PREVIEW_SCALE, null);
+            const img = document.createElement("img");
+            img.src = vehicleImages[fileToShow].src;
+            img.style.width = w + "px";
+            img.style.height = h + "px";
+            // box-shadow plutôt que border : ne modifie pas la boîte de l'image, donc ne
+            // décale pas son alignement avec le reste de la rame (qui doit rester "au sol").
+            img.style.boxShadow = "0 3px 0 0 " + borderColor;
+            img.title = titleLabel;
+            frag.appendChild(img);
+          }
+        } else {
+          const fileToShow = (builderPreviewDir === "R" && it.rVariant) ? it.rVariant : it.base;
+          const { w, h } = scaledSize(fileToShow, PREVIEW_SCALE, null);
+          for (let i = 0; i < n; i++) {
+            const img = document.createElement("img");
+            img.src = vehicleImages[fileToShow].src;
+            img.style.width = w + "px";
+            img.style.height = h + "px";
+            frag.appendChild(img);
+          }
+        }
+      }
+      builderPreviewWrap.appendChild(frag);
+      // scrolle vers le bord "tête de train"
+      builderPreviewWrap.scrollLeft = builderPreviewDir === "R" ? builderPreviewWrap.scrollWidth : 0;
+    }
+
+    function buildCountControl(it) {
+      const wrap = document.createElement("div");
+      wrap.style.cssText = "display:flex; align-items:center; gap:4px;";
+
+      const toggleBtn = document.createElement("button");
+      toggleBtn.textContent = "🎲";
+      toggleBtn.title = "Basculer entre quantité fixe et plage aléatoire";
+      toggleBtn.style.cssText = "background:#2a2a2a; color:#ccc; border:1px solid #444; border-radius:6px; width:32px; height:32px; font-size:14px; flex-shrink:0;";
+      if (it.countMode === "range") toggleBtn.style.background = "#5d4a2a";
+      toggleBtn.addEventListener("click", () => {
+        if (it.countMode === "fixed") {
+          it.countMode = "range";
+          it.countMin = it.count;
+          it.countMax = it.count + 2;
+        } else {
+          it.countMode = "fixed";
+          it.count = it.countMin || 1;
+        }
+        renderBuilder();
+      });
+      wrap.appendChild(toggleBtn);
+
+      if (it.countMode === "range") {
+        const minInput = document.createElement("input");
+        minInput.className = "blmulti";
+        minInput.type = "number"; minInput.min = "1"; minInput.style.width = "34px";
+        minInput.value = it.countMin;
+        minInput.addEventListener("change", () => {
+          const v = parseInt(minInput.value, 10);
+          it.countMin = (isNaN(v) || v < 1) ? 1 : v;
+          if (it.countMax < it.countMin) it.countMax = it.countMin;
+          renderBuilderPreview();
+        });
+        wrap.appendChild(minInput);
+
+        const dash = document.createElement("span");
+        dash.textContent = "–";
+        dash.style.color = "#888";
+        wrap.appendChild(dash);
+
+        const maxInput = document.createElement("input");
+        maxInput.className = "blmulti";
+        maxInput.type = "number"; maxInput.min = "1"; maxInput.style.width = "34px";
+        maxInput.value = it.countMax;
+        maxInput.addEventListener("change", () => {
+          const v = parseInt(maxInput.value, 10);
+          it.countMax = (isNaN(v) || v < 1) ? 1 : v;
+          if (it.countMin > it.countMax) it.countMin = it.countMax;
+          renderBuilderPreview();
+        });
+        wrap.appendChild(maxInput);
+      } else {
+        const countInput = document.createElement("input");
+        countInput.className = "blmulti";
+        countInput.type = "number"; countInput.min = "1";
+        countInput.value = it.count;
+        countInput.addEventListener("change", () => {
+          const v = parseInt(countInput.value, 10);
+          it.count = (isNaN(v) || v < 1) ? 1 : v;
+          renderBuilderPreview();
+        });
+        wrap.appendChild(countInput);
+      }
+      return wrap;
+    }
+
+    function renderBuilderList() {
+      builderListEl.innerHTML = "";
+      const frag = document.createDocumentFragment();
+      builderItems.forEach((it, idx) => {
+        const row = document.createElement("div");
+        row.className = "blitem";
+
+        const upBtn = document.createElement("button");
+        upBtn.textContent = "↑";
+        upBtn.disabled = idx === 0;
+        upBtn.addEventListener("click", () => {
+          if (idx === 0) return;
+          [builderItems[idx - 1], builderItems[idx]] = [builderItems[idx], builderItems[idx - 1]];
+          renderBuilder();
+        });
+
+        const downBtn = document.createElement("button");
+        downBtn.textContent = "↓";
+        downBtn.disabled = idx === builderItems.length - 1;
+        downBtn.addEventListener("click", () => {
+          if (idx === builderItems.length - 1) return;
+          [builderItems[idx + 1], builderItems[idx]] = [builderItems[idx], builderItems[idx + 1]];
+          renderBuilder();
+        });
+
+        const removeBtn = document.createElement("button");
+        removeBtn.className = "blremove";
+        removeBtn.textContent = "✕";
+        removeBtn.addEventListener("click", () => {
+          builderItems.splice(idx, 1);
+          renderBuilder();
+        });
+
+        if (it.kind === "shuffle" || it.kind === "choice") {
+          row.classList.add("blitem-shuffle");
+          const borderColor = it.kind === "shuffle" ? "#d98f2e" : "#2e9dd9";
+
+          const thumbsWrap = document.createElement("div");
+          thumbsWrap.className = "blshuffle-thumbs";
+          thumbsWrap.style.borderBottomColor = borderColor;
+          for (const member of it.members) {
+            const { w, h } = scaledSize(member.base, LIST_SCALE * 0.7, 60);
+            const img = document.createElement("img");
+            img.src = vehicleImages[member.base].src;
+            img.style.width = w + "px";
+            img.style.height = h + "px";
+            img.style.imageRendering = "pixelated";
+            thumbsWrap.appendChild(img);
+          }
+          row.appendChild(thumbsWrap);
+
+          const controlsRow = document.createElement("div");
+          controlsRow.className = "blshuffle-controls";
+
+          const nameDiv = document.createElement("div");
+          nameDiv.className = "blname";
+          nameDiv.textContent = it.kind === "shuffle"
+            ? "🔀 SHUFFLE — " + it.members.length + " image(s) au choix"
+            : "🎯 ALTERNATIVE (|) — " + it.members.length + " image(s) au choix";
+          controlsRow.appendChild(nameDiv);
+
+          controlsRow.appendChild(buildCountControl(it));
+          controlsRow.appendChild(upBtn);
+          controlsRow.appendChild(downBtn);
+          controlsRow.appendChild(removeBtn);
+          row.appendChild(controlsRow);
+        } else {
+          const img = document.createElement("img");
+          img.src = vehicleImages[it.base].src;
+          const { w, h } = scaledSize(it.base, LIST_SCALE, LIST_MAX_WIDTH);
+          img.style.width = w + "px";
+          img.style.height = h + "px";
+          row.appendChild(img);
+
+          const nameDiv = document.createElement("div");
+          nameDiv.className = "blname";
+          nameDiv.textContent = it.base + (it.rVariant ? "  (dir. auto)" : "");
+          row.appendChild(nameDiv);
+
+          row.appendChild(buildCountControl(it));
+          row.appendChild(upBtn);
+          row.appendChild(downBtn);
+          row.appendChild(removeBtn);
+        }
+
+        frag.appendChild(row);
+      });
+      builderListEl.appendChild(frag);
+    }
+
+    function renderBuilder() {
+      renderBuilderPreview();
+      renderBuilderList();
+    }
+
+    builderDirL.addEventListener("click", () => {
+      builderPreviewDir = "L";
+      builderDirL.classList.add("active");
+      builderDirR.classList.remove("active");
+      renderBuilderPreview();
+    });
+    builderDirR.addEventListener("click", () => {
+      builderPreviewDir = "R";
+      builderDirR.classList.add("active");
+      builderDirL.classList.remove("active");
+      renderBuilderPreview();
+    });
+
+    builderAddBtn.addEventListener("click", () => {
+      wasBuilderOpenBeforeBrowser = true;
+      builderPanel.classList.remove("open");
+      openVehiclePanel("builder");
+    });
+
+    builderAddShuffleBtn.addEventListener("click", () => {
+      wasBuilderOpenBeforeBrowser = true;
+      builderPanel.classList.remove("open");
+      openVehiclePanel("shuffleCollect");
+    });
+
+    builderClearBtn.addEventListener("click", () => {
+      builderItems = [];
+      renderBuilder();
+      builderMsg.textContent = "";
+      bgBuilderItems = [];
+      bgRender();
+    });
+
+    // ---------- Options avancées ----------
+    const builderAdvToggle = document.getElementById("builderAdvToggle");
+    const builderAdvPanel = document.getElementById("builderAdvPanel");
+    const advStartingSpeedEnabled = document.getElementById("advStartingSpeedEnabled");
+    const advStartingSpeedSub = document.getElementById("advStartingSpeedSub");
+    const advStartingSpeed = document.getElementById("advStartingSpeed");
+    advStartingSpeedEnabled.addEventListener("change", () => {
+      advStartingSpeedSub.classList.toggle("open", advStartingSpeedEnabled.checked);
+    });
+
+    const advStopEnabled = document.getElementById("advStopEnabled");
+    const advStopSub = document.getElementById("advStopSub");
+    const advStopAt = document.getElementById("advStopAt");
+    const advStopAtLabel = document.getElementById("advStopAtLabel");
+    const advStopDuration = document.getElementById("advStopDuration");
+    advStopAt.addEventListener("input", () => {
+      advStopAtLabel.textContent = advStopAt.value + "%";
+    });
+    const advDetachEnabled = document.getElementById("advDetachEnabled");
+    const advDetachSub = document.getElementById("advDetachSub");
+    const advDetachCount = document.getElementById("advDetachCount");
+    const advDetachPosition = document.getElementById("advDetachPosition");
+    const advAttachEnabled = document.getElementById("advAttachEnabled");
+    const advAttachSub = document.getElementById("advAttachSub");
+    const advAttachThumbs = document.getElementById("advAttachThumbs");
+    const advAttachPick = document.getElementById("advAttachPick");
+    const advAttachClear = document.getElementById("advAttachClear");
+    const advAttachPosition = document.getElementById("advAttachPosition");
+    const advAttachSelfDetachEnabled = document.getElementById("advAttachSelfDetachEnabled");
+    const advAttachSelfDetachSub = document.getElementById("advAttachSelfDetachSub");
+    const advAttachSelfDetachCount = document.getElementById("advAttachSelfDetachCount");
+    advAttachSelfDetachEnabled.addEventListener("change", () => {
+      advAttachSelfDetachSub.classList.toggle("open", advAttachSelfDetachEnabled.checked);
+    });
+    const advTrack = document.getElementById("advTrack");
+    const advFgEnabled = document.getElementById("advFgEnabled");
+    const advFgSub = document.getElementById("advFgSub");
+    const advFgIsVehicle = document.getElementById("advFgIsVehicle");
+    const advFgImageRow = document.getElementById("advFgImageRow");
+    const advFgImageSelect = document.getElementById("advFgImageSelect");
+    const advFgVehiclePickRow = document.getElementById("advFgVehiclePickRow");
+    const advFgVehiclePick = document.getElementById("advFgVehiclePick");
+    const advFgVehicleClear = document.getElementById("advFgVehicleClear");
+    const advFgAt = document.getElementById("advFgAt");
+    const advFgY = document.getElementById("advFgY");
+    const advReverseComposition = document.getElementById("advReverseComposition");
+    const advReverseDeparture = document.getElementById("advReverseDeparture");
+    const advYOffset = document.getElementById("advYOffset");
+
+    const advStartStationaryEnabled = document.getElementById("advStartStationaryEnabled");
+    const advStartStationarySub = document.getElementById("advStartStationarySub");
+    const advStartStationaryAt = document.getElementById("advStartStationaryAt");
+    const advStartStationaryAtLabel = document.getElementById("advStartStationaryAtLabel");
+    const advStartStationaryInfinite = document.getElementById("advStartStationaryInfinite");
+    const advStartStationaryDuration = document.getElementById("advStartStationaryDuration");
+    const advStartStationaryDurationRow = document.getElementById("advStartStationaryDurationRow");
+
+    const advBgEnabled = document.getElementById("advBgEnabled");
+    const advBgSub = document.getElementById("advBgSub");
+    const advBgChance = document.getElementById("advBgChance");
+    const advBgChanceLabel = document.getElementById("advBgChanceLabel");
+    const advBgTitleInput = document.getElementById("advBgTitleInput");
+    const advBgSpeed = document.getElementById("advBgSpeed");
+    const advBgDirection = document.getElementById("advBgDirection");
+    const advBgPreviewWrap = document.getElementById("advBgPreviewWrap");
+    const advBgAddBtn = document.getElementById("advBgAddBtn");
+    const advBgList = document.getElementById("advBgList");
+    const advBgStopEnabled = document.getElementById("advBgStopEnabled");
+    const advBgStopSub = document.getElementById("advBgStopSub");
+    const advBgStopAt = document.getElementById("advBgStopAt");
+    const advBgStopAtLabel = document.getElementById("advBgStopAtLabel");
+    const advBgStopDuration = document.getElementById("advBgStopDuration");
+    const advBgStartStationaryEnabled = document.getElementById("advBgStartStationaryEnabled");
+    const advBgStartStationarySub = document.getElementById("advBgStartStationarySub");
+    const advBgStartStationaryAt = document.getElementById("advBgStartStationaryAt");
+    const advBgStartStationaryAtLabel = document.getElementById("advBgStartStationaryAtLabel");
+    const advBgStartStationaryInfinite = document.getElementById("advBgStartStationaryInfinite");
+    const advBgStartStationaryDuration = document.getElementById("advBgStartStationaryDuration");
+    const advBgStartStationaryDurationRow = document.getElementById("advBgStartStationaryDurationRow");
+
+    let bgBuilderItems = []; // [{base, rVariant}] — composition simplifiée du train d'arrière-plan
+
+    // Petits utilitaires pour éviter de répéter le câblage des curseurs % et des bascules "infini"
+    function wirePercentSlider(inputEl, labelEl) {
+      inputEl.addEventListener("input", () => { labelEl.textContent = inputEl.value + "%"; });
+    }
+    function wireInfiniteToggle(checkboxEl, durationRowEl) {
+      checkboxEl.addEventListener("change", () => {
+        durationRowEl.style.display = checkboxEl.checked ? "none" : "flex";
+      });
+    }
+    wirePercentSlider(advStartStationaryAt, advStartStationaryAtLabel);
+    wireInfiniteToggle(advStartStationaryInfinite, advStartStationaryDurationRow);
+    wirePercentSlider(advBgStopAt, advBgStopAtLabel);
+    wirePercentSlider(advBgStartStationaryAt, advBgStartStationaryAtLabel);
+    wireInfiniteToggle(advBgStartStationaryInfinite, advBgStartStationaryDurationRow);
+
+    advStartStationaryEnabled.addEventListener("change", () => {
+      advStartStationarySub.classList.toggle("open", advStartStationaryEnabled.checked);
+    });
+    advBgEnabled.addEventListener("change", () => {
+      advBgSub.classList.toggle("open", advBgEnabled.checked);
+    });
+    advBgStopEnabled.addEventListener("change", () => {
+      advBgStopSub.classList.toggle("open", advBgStopEnabled.checked);
+    });
+    advBgStartStationaryEnabled.addEventListener("change", () => {
+      advBgStartStationarySub.classList.toggle("open", advBgStartStationaryEnabled.checked);
+    });
+
+    // ---------- Composition simplifiée du train d'arrière-plan ----------
+    function bgRenderPreview() {
+      advBgPreviewWrap.innerHTML = "";
+      if (bgBuilderItems.length === 0) {
+        const empty = document.createElement("div");
+        empty.id = "advBgPreviewEmpty";
+        empty.style.cssText = "color:var(--text-faint); font-size:12px; margin:auto;";
+        empty.textContent = "Aperçu — ajoute des véhicules";
+        advBgPreviewWrap.appendChild(empty);
+        return;
+      }
+      const frag = document.createDocumentFragment();
+      for (const it of bgBuilderItems) {
+        const { w, h } = scaledSize(it.base, PREVIEW_SCALE, null);
+        const img = document.createElement("img");
+        img.src = vehicleImages[it.base].src;
+        img.style.width = w + "px";
+        img.style.height = h + "px";
+        img.style.imageRendering = "pixelated";
+        img.style.display = "inline-block";
+        img.style.verticalAlign = "bottom";
+        frag.appendChild(img);
+      }
+      advBgPreviewWrap.appendChild(frag);
+    }
+
+    function bgRenderList() {
+      advBgList.innerHTML = "";
+      const frag = document.createDocumentFragment();
+      bgBuilderItems.forEach((it, idx) => {
+        const row = document.createElement("div");
+        row.className = "blitem";
+
+        const img = document.createElement("img");
+        img.src = vehicleImages[it.base].src;
+        const { w, h } = scaledSize(it.base, LIST_SCALE, LIST_MAX_WIDTH);
+        img.style.width = w + "px";
+        img.style.height = h + "px";
+        row.appendChild(img);
+
+        const nameDiv = document.createElement("div");
+        nameDiv.className = "blname";
+        nameDiv.textContent = it.base + (it.rVariant ? "  (dir. auto)" : "");
+        row.appendChild(nameDiv);
+
+        const removeBtn = document.createElement("button");
+        removeBtn.className = "blremove";
+        removeBtn.textContent = "✕";
+        removeBtn.addEventListener("click", () => {
+          bgBuilderItems.splice(idx, 1);
+          bgRender();
+        });
+        row.appendChild(removeBtn);
+
+        frag.appendChild(row);
+      });
+      advBgList.appendChild(frag);
+    }
+
+    function bgRender() {
+      bgRenderPreview();
+      bgRenderList();
+    }
+
+    advBgAddBtn.addEventListener("click", () => {
+      wasBuilderOpenBeforeBrowser = true;
+      builderPanel.classList.remove("open");
+      openVehiclePanel("bgAdd");
+    });
+
+    let advAttachValue = null;   // [{base, rVariant}, ...] dans l'ordre (tête en premier)
+    let advFgVehicleValue = null;  // nom de fichier
+
+    // Peuple le sélecteur de voies avec les images réellement disponibles
+    for (const trackName of Object.keys(trackImages)) {
+      const opt = document.createElement("option");
+      opt.value = trackName;
+      opt.textContent = trackName;
+      advTrack.appendChild(opt);
+    }
+
+    // Peuple le sélecteur d'images de premier plan (dossier assets/foregrounds)
+    for (const fgName of Object.keys(fgImages)) {
+      const opt = document.createElement("option");
+      opt.value = fgName;
+      opt.textContent = fgName;
+      advFgImageSelect.appendChild(opt);
+    }
+
+    builderAdvToggle.addEventListener("click", () => {
+      builderAdvPanel.classList.toggle("open");
+    });
+
+    advStopEnabled.addEventListener("change", () => {
+      advStopSub.classList.toggle("open", advStopEnabled.checked);
+    });
+
+    advDetachEnabled.addEventListener("change", () => {
+      advDetachSub.classList.toggle("open", advDetachEnabled.checked);
+    });
+
+    advAttachEnabled.addEventListener("change", () => {
+      advAttachSub.classList.toggle("open", advAttachEnabled.checked);
+    });
+
+    function updateAdvAttachUI() {
+      advAttachThumbs.innerHTML = "";
+      if (advAttachValue && advAttachValue.length) {
+        for (const m of advAttachValue) {
+          const { w, h } = scaledSize(m.base, LIST_SCALE * 0.7, 60);
+          const img = document.createElement("img");
+          img.src = vehicleImages[m.base].src;
+          img.style.width = w + "px";
+          img.style.height = h + "px";
+          img.style.imageRendering = "pixelated";
+          advAttachThumbs.appendChild(img);
+        }
+        advAttachPick.textContent = "Modifier (" + advAttachValue.length + " véhicule(s))";
+      } else {
+        advAttachPick.textContent = "Choisir les véhicules…";
+      }
+    }
+
+    advAttachPick.addEventListener("click", () => {
+      wasBuilderOpenBeforeBrowser = true;
+      builderPanel.classList.remove("open");
+      openVehiclePanel("advAttachCollect");
+    });
+    advAttachClear.addEventListener("click", () => {
+      advAttachValue = null;
+      updateAdvAttachUI();
+    });
+
+    advFgEnabled.addEventListener("change", () => {
+      advFgSub.classList.toggle("open", advFgEnabled.checked);
+    });
+
+    function updateFgRowVisibility() {
+      const isVehicle = advFgIsVehicle.checked;
+      advFgImageRow.style.display = isVehicle ? "none" : "flex";
+      advFgVehiclePickRow.style.display = isVehicle ? "flex" : "none";
+    }
+    advFgIsVehicle.addEventListener("change", updateFgRowVisibility);
+    updateFgRowVisibility();
+
+    function updateAdvFgVehicleBtn() {
+      advFgVehiclePick.textContent = advFgVehicleValue || "Choisir une image…";
+    }
+
+    advFgVehiclePick.addEventListener("click", () => {
+      wasBuilderOpenBeforeBrowser = true;
+      builderPanel.classList.remove("open");
+      openVehiclePanel("advfg");
+    });
+    advFgVehicleClear.addEventListener("click", () => {
+      advFgVehicleValue = null;
+      updateAdvFgVehicleBtn();
+    });
+
+    function composeYamlLine(it) {
+      let content;
+      if (it.kind === "shuffle") {
+        const parts = it.members.map(m => m.rVariant ? `${m.base}>${m.rVariant}` : m.base);
+        content = `SHUFFLE{${parts.join(", ")}}`;
+      } else if (it.kind === "choice") {
+        const parts = it.members.map(m => m.rVariant ? `${m.base}>${m.rVariant}` : m.base);
+        content = parts.join("|");
+      } else {
+        content = it.rVariant ? `${it.base}>${it.rVariant}` : it.base;
+      }
+      let prefix = "";
+      if (it.countMode === "range") {
+        prefix = `${it.countMin}-${it.countMax}*`;
+      } else if (it.count > 1) {
+        prefix = `${it.count}*`;
+      }
+      return prefix + content;
+    }
+
+    function generateTrainYaml() {
+      const titleVal = builderTitleInput.value.trim();
+      const speedVal = parseInt(builderSpeedInput.value, 10) || 120;
+      const dirVal = builderDirectionSelect.value || "any";
+      let out = `  - direction: "${dirVal}"\n`;
+      if (titleVal) out += `    title: "${titleVal}"\n`;
+      out += `    speed: ${speedVal}\n`;
+      if (advStartingSpeedEnabled.checked) {
+        const startSpeedVal = parseInt(advStartingSpeed.value, 10);
+        if (!isNaN(startSpeedVal) && startSpeedVal < speedVal) {
+          out += `    starting_speed: ${startSpeedVal}\n`;
+        }
+      }
+
+      if (advStopEnabled.checked) {
+        const atVal = parseInt(advStopAt.value, 10) || 0;
+        const durVal = parseInt(advStopDuration.value, 10) || 3;
+        out += `    stop:\n`;
+        out += `      at: "${atVal}%"\n`;
+        out += `      duration: ${durVal}\n`;
+
+        if (advDetachEnabled.checked) {
+          const detachVal = parseInt(advDetachCount.value, 10) || 1;
+          out += `      detach_count: ${detachVal}\n`;
+          if (advDetachPosition.value === "back") {
+            out += `      detach_position: "back"\n`;
+          }
+        }
+
+        if (advAttachEnabled.checked && advAttachValue && advAttachValue.length) {
+          out += `      attach:\n`;
+          for (const m of advAttachValue) {
+            const ref = m.rVariant ? `${m.base}>${m.rVariant}` : m.base;
+            out += `        - "${ref}"\n`;
+          }
+          if (advAttachPosition.value === "back") {
+            out += `      attach_position: "back"\n`;
+          }
+          if (advAttachSelfDetachEnabled.checked) {
+            const selfDetachVal = parseInt(advAttachSelfDetachCount.value, 10) || 1;
+            out += `      attach_self_detach_count: ${selfDetachVal}\n`;
+          }
+        }
+      }
+
+      if (advTrack.value) {
+        out += `    track: "${advTrack.value}"\n`;
+      }
+
+      if (advStartStationaryEnabled.checked) {
+        const ssAtVal = parseInt(advStartStationaryAt.value, 10) || 0;
+        out += `    start_stationary:\n`;
+        out += `      at: "${ssAtVal}%"\n`;
+        if (!advStartStationaryInfinite.checked) {
+          const ssDurVal = parseInt(advStartStationaryDuration.value, 10) || 0;
+          out += `      duration: ${ssDurVal}\n`;
+        }
+      }
+
+      if (advFgEnabled.checked) {
+        const fgAtVal = parseInt(advFgAt.value, 10) || 0;
+        const fgYVal = parseInt(advFgY.value, 10) || 0;
+        if (advFgIsVehicle.checked && advFgVehicleValue) {
+          out += `    foreground:\n`;
+          out += `      image: "${advFgVehicleValue}"\n`;
+          out += `      is_vehicle: true\n`;
+          out += `      at: ${fgAtVal}\n`;
+          out += `      y: ${fgYVal}\n`;
+        } else if (!advFgIsVehicle.checked && advFgImageSelect.value) {
+          out += `    foreground:\n`;
+          out += `      image: "${advFgImageSelect.value}"\n`;
+          out += `      at: ${fgAtVal}\n`;
+          out += `      y: ${fgYVal}\n`;
+        }
+      }
+
+      if (advReverseComposition.checked) out += `    reverse_composition: true\n`;
+      if (advReverseDeparture.checked) out += `    reverse_departure: true\n`;
+      const yOffsetVal = parseInt(advYOffset.value, 10) || 0;
+      if (yOffsetVal !== 0) out += `    y_offset: ${yOffsetVal}\n`;
+
+      out += `    composition:\n`;
+      for (const it of builderItems) {
+        out += `      - "${composeYamlLine(it)}"\n`;
+      }
+
+      if (advBgEnabled.checked && bgBuilderItems.length > 0) {
+        const bgTitleVal = advBgTitleInput.value.trim();
+        const bgSpeedVal = parseInt(advBgSpeed.value, 10) || 80;
+        const bgDirVal = advBgDirection.value || "any";
+        const bgChanceVal = parseInt(advBgChance.value, 10);
+
+        out += `    background:\n`;
+        out += `      direction: "${bgDirVal}"\n`;
+        if (bgTitleVal) out += `      title: "${bgTitleVal}"\n`;
+        out += `      speed: ${bgSpeedVal}\n`;
+        if (bgChanceVal !== 100) out += `      chance: ${bgChanceVal}\n`;
+
+        if (advBgStopEnabled.checked) {
+          const bgAtVal = parseInt(advBgStopAt.value, 10) || 0;
+          const bgDurVal = parseInt(advBgStopDuration.value, 10) || 3;
+          out += `      stop:\n`;
+          out += `        at: "${bgAtVal}%"\n`;
+          out += `        duration: ${bgDurVal}\n`;
+        }
+
+        if (advBgStartStationaryEnabled.checked) {
+          const bgSsAtVal = parseInt(advBgStartStationaryAt.value, 10) || 0;
+          out += `      start_stationary:\n`;
+          out += `        at: "${bgSsAtVal}%"\n`;
+          if (!advBgStartStationaryInfinite.checked) {
+            const bgSsDurVal = parseInt(advBgStartStationaryDuration.value, 10) || 0;
+            out += `        duration: ${bgSsDurVal}\n`;
+          }
+        }
+
+        out += `      composition:\n`;
+        for (const it of bgBuilderItems) {
+          const ref = it.rVariant ? `${it.base}>${it.rVariant}` : it.base;
+          out += `        - "${ref}"\n`;
+        }
+      }
+
+      return out;
+    }
+
+    builderOutputBtn.addEventListener("click", () => {
+      if (builderItems.length === 0) {
+        builderMsg.style.color = "#f2c94c";
+        builderMsg.textContent = "Ajoute au moins un véhicule avant de générer.";
+        return;
+      }
+      const block = generateTrainYaml();
+      builderPanel.classList.remove("open");
+      editorPanel.classList.add("open");
+      // insère en fin de la liste "trains:" — le plus simple et le plus sûr : à la position du curseur
+      insertAtCursor(yamlTextarea, "\n" + block);
+      editorMsg.style.color = "#8fd98f";
+      editorMsg.textContent = "Bloc train inséré depuis le constructeur — vérifie l'emplacement puis Applique.";
+    });
+
+    builderCloseBtn.addEventListener("click", () => {
+      builderPanel.classList.remove("open");
+      paused = wasPausedBeforeBuilder;
+    });
+
+    builderBtn.addEventListener("click", () => {
+      wasPausedBeforeBuilder = paused;
+      paused = true;
+      renderBuilder();
+      builderPanel.classList.add("open");
+    });
+
+    // ---------- Contrôles tactiles / souris ----------
+    let menuButtonRects = {};
+
+    function getMenuLayout(currentW, currentH) {
+      const centerX = currentW / 2, centerY = currentH / 2;
+      const row1Y = centerY - 50;
+      const row2Y = centerY + 10;
+      return {
+        centerX, centerY,
+        minus: { x: centerX - 140, y: row1Y - 20, w: 40, h: 40 },
+        plus: { x: centerX + 100, y: row1Y - 20, w: 40, h: 40 },
+        speedMinus: { x: centerX - 140, y: row2Y - 20, w: 40, h: 40 },
+        speedPlus: { x: centerX + 100, y: row2Y - 20, w: 40, h: 40 },
+        clear: { x: centerX - 100, y: centerY + 80, w: 200, h: 40 },
+        row1Y, row2Y
+      };
+    }
+
+    function pointInRect(px, py, r) {
+      return px >= r.x && px <= r.x + r.w && py >= r.y && py <= r.y + r.h;
+    }
+
+    function handleTap(clientX, clientY) {
+      const rect = canvas.getBoundingClientRect();
+      const mx = clientX - rect.left;
+      const my = clientY - rect.top;
+      const { w, h } = currentSize();
+
+      if (showMenu) {
+        const layout = getMenuLayout(w, h);
+        if (pointInRect(mx, my, layout.minus)) maxTracks = Math.max(limitMin, maxTracks - 1);
+        else if (pointInRect(mx, my, layout.plus)) maxTracks = Math.min(limitMax, maxTracks + 1);
+        else if (pointInRect(mx, my, layout.speedMinus)) speedMultiplier = Math.max(0.5, Math.round((speedMultiplier - 0.1) * 10) / 10);
+        else if (pointInRect(mx, my, layout.speedPlus)) speedMultiplier = Math.min(1.0, Math.round((speedMultiplier + 0.1) * 10) / 10);
+        else if (pointInRect(mx, my, layout.clear)) activeTrains = [];
+      } else {
+        paused = !paused;
+      }
+    }
+
+    canvas.addEventListener("click", (e) => handleTap(e.clientX, e.clientY));
+    canvas.addEventListener("touchend", (e) => {
+      if (e.changedTouches && e.changedTouches.length) {
+        const t = e.changedTouches[0];
+        handleTap(t.clientX, t.clientY);
+      }
+      e.preventDefault();
+    }, { passive: false });
+
+    // Menu: appui long (simule le clic droit) + double-tap comme alternative
+    let pressTimer = null;
+    canvas.addEventListener("touchstart", (e) => {
+      pressTimer = setTimeout(() => {
+        showMenu = !showMenu;
+        pressTimer = null;
+      }, 500);
+    }, { passive: true });
+    canvas.addEventListener("touchmove", () => {
+      if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+    }, { passive: true });
+    canvas.addEventListener("touchend", () => {
+      if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+    });
+    canvas.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      showMenu = !showMenu;
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        if (paused) paused = false; else paused = !paused;
+      } else if (e.key === "r" || e.key === "R") {
+        reload();
+      } else if (e.key === "m" || e.key === "M") {
+        showMenu = !showMenu;
+      }
+    });
+
+    function drawMenu(currentW, currentH) {
+      const layout = getMenuLayout(currentW, currentH);
+      ctx.fillStyle = "rgba(0,0,0,0.7)";
+      ctx.fillRect(0, 0, currentW, currentH);
+
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.font = "28px -apple-system, Helvetica, Arial, sans-serif";
+
+      ctx.fillStyle = "#ffffff";
+      ctx.fillText(`Max Trains: ${maxTracks}`, layout.centerX, layout.row1Y);
+
+      function button(r, label, bg) {
+        ctx.fillStyle = bg;
+        ctx.fillRect(r.x, r.y, r.w, r.h);
+        ctx.fillStyle = "#000000";
+        ctx.font = "24px -apple-system, Helvetica, Arial, sans-serif";
+        ctx.fillText(label, r.x + r.w / 2, r.y + r.h / 2);
+        ctx.font = "28px -apple-system, Helvetica, Arial, sans-serif";
+      }
+
+      button(layout.minus, "-", "#c8c8c8");
+      button(layout.plus, "+", "#c8c8c8");
+
+      ctx.fillStyle = "#ffffff";
+      ctx.fillText(`Vitesse: x${speedMultiplier.toFixed(1)}`, layout.centerX, layout.row2Y);
+      button(layout.speedMinus, "-", "#c8c8c8");
+      button(layout.speedPlus, "+", "#c8c8c8");
+
+      ctx.fillStyle = "#b43232";
+      ctx.fillRect(layout.clear.x, layout.clear.y, layout.clear.w, layout.clear.h);
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "22px -apple-system, Helvetica, Arial, sans-serif";
+      ctx.fillText("Effacer les trains", layout.clear.x + layout.clear.w / 2, layout.clear.y + layout.clear.h / 2);
+
+      ctx.fillStyle = "#969696";
+      ctx.font = "16px -apple-system, Helvetica, Arial, sans-serif";
+      ctx.fillText("Appui long pour fermer le menu", layout.centerX, layout.centerY + 140);
+
+      ctx.textAlign = "left";
+      ctx.textBaseline = "alphabetic";
+    }
+
+    function drawPaused(currentW, currentH) {
+      ctx.font = "28px -apple-system, Helvetica, Arial, sans-serif";
+      ctx.textBaseline = "top";
+      const text = "PAUSE";
+      const metrics = ctx.measureText(text);
+      const textW = metrics.width;
+      const textH = 28;
+
+      const textX = currentW - textW - 20;
+      const textY = currentH - 50;
+      const padding = 10;
+
+      ctx.fillStyle = "rgba(0,0,0,0.7)";
+      ctx.fillRect(textX - padding, textY - padding, textW + 2 * padding, textH + 2 * padding);
+
+      ctx.fillStyle = "#e63c3c";
+      ctx.fillText(text, textX, textY);
+      ctx.textBaseline = "alphabetic";
+    }
+
+    function loop(now) {
+      const rawDt = Math.min((now - lastTime) / 1000, 0.05); // clamp pour éviter les sauts (ex: onglet en arrière-plan)
+      lastTime = now;
+      const dt = rawDt * speedMultiplier;
+
+      const { w: currentW, h: currentH } = currentSize();
+
+      if (!paused) {
+        spawnTimer -= dt;
+        trySpawn(currentW, currentH);
+
+        for (const item of activeTrains) {
+          item.train.update(dt, currentW);
+          if (item.bgTrain) item.bgTrain.update(dt, currentW);
+        }
+
+        for (let i = activeTrains.length - 1; i >= 0; i--) {
+          if (activeTrains[i].train.shouldRemove()) activeTrains.splice(i, 1);
+        }
+      }
+
+      ctx.fillStyle = BACKGROUND_COLOR;
+      ctx.fillRect(0, 0, currentW, currentH);
+
+      activeTrains.sort((a, b) => a.track.yPosition - b.track.yPosition);
+      for (const item of activeTrains) {
+        item.track.draw(ctx, currentW);
+        if (item.bgTrain) {
+          ctx.save();
+          ctx.globalAlpha = BG_TRAIN_ALPHA;
+          item.bgTrain.draw(ctx, currentW);
+          ctx.restore();
+        }
+        item.train.draw(ctx, currentW);
+      }
+
+      if (showMenu) drawMenu(currentW, currentH);
+      if (paused) drawPaused(currentW, currentH);
+
+      requestAnimationFrame(loop);
+    }
+
+    // ---------- Téléchargement du yaml édité (à enregistrer sur data/timetables/MLTC.yaml) ----------
+    const exportBtn = document.getElementById("exportBtn");
+
+    exportBtn.addEventListener("click", () => {
+      const blob = new Blob([currentYamlText], { type: "text/yaml" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "MLTC.yaml";
+      a.target = "_blank";
+      a.rel = "noopener";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 15000);
+      showToast("MLTC.yaml téléchargé — remplace le fichier dans data/timetables/");
+    });
+
+    // ---------- Chargement manuel d'un fichier yaml (remplace la composition en cours) ----------
+    const loadYamlBtn = document.getElementById("loadYamlBtn");
+    const loadYamlInput = document.getElementById("loadYamlInput");
+
+    loadYamlBtn.addEventListener("click", () => loadYamlInput.click());
+
+    loadYamlInput.addEventListener("change", async () => {
+      const file = loadYamlInput.files && loadYamlInput.files[0];
+      loadYamlInput.value = "";
+      if (!file) return;
+
+      try {
+        const text = await readFileAsText(file);
+        const parsed = parseYamlToTrains(text);
+        trainsConfig = parsed;
+        currentYamlText = text;
+        storeYaml(text);
+        reload();
+        showToast("Yaml chargé : " + file.name + " (" + parsed.length + " train(s))");
+      } catch (e) {
+        showToast("Erreur de chargement : " + e.message);
+      }
+    });
+
+    requestAnimationFrame(loop);
+  }
+
+  // ---------- Démarrage automatique, avec repli manuel si ça échoue ----------
+  const loadingError = document.getElementById("loadingError");
+  const loadingStatus = document.getElementById("loadingStatus");
+  const folderPickInput = document.getElementById("folderPickInput");
+
+  async function bootstrap() {
+    loadingError.style.display = "none";
+    loadingStatus.style.display = "block";
+    loadingStatus.textContent = "Chargement des trains depuis assets/ et data/...";
+    try {
+      const projectData = await loadProjectFromCurrentFolder();
+      await run(projectData);
+    } catch (e) {
+      loadingStatus.style.display = "none";
+      loadingError.style.display = "block";
+      loadingError.innerHTML =
+        "Chargement automatique impossible (ton navigateur bloque la lecture directe de " +
+        "fichiers locaux). Choisis le dossier du projet à la main — ça ne prend qu'un clic, " +
+        "aucune installation requise :<br><br>" +
+        '<button id="fallbackFolderBtn" style="background:#2e5d8a; color:#fff; border:none; ' +
+        'border-radius:8px; padding:12px 18px; font-size:15px; font-family:-apple-system,sans-serif; ' +
+        'font-weight:600;">📁 Choisir le dossier du projet</button><br><br>' +
+        '<span style="font-size:12px; color:#666;">Ou lance un serveur local ' +
+        '(ex: python -m http.server) pour que ce message n\'apparaisse plus.</span>';
+      document.getElementById("fallbackFolderBtn").addEventListener("click", () => folderPickInput.click());
+    }
+  }
+
+  folderPickInput.addEventListener("change", async () => {
+    const files = Array.from(folderPickInput.files || []);
+    if (files.length === 0) return;
+    loadingError.style.display = "none";
+    loadingStatus.style.display = "block";
+    loadingStatus.textContent = "Lecture du dossier (" + files.length + " fichiers)...";
+    try {
+      const projectData = await loadProjectFromFiles(files);
+      await run(projectData);
+    } catch (e) {
+      loadingStatus.style.display = "none";
+      loadingError.style.display = "block";
+      loadingError.innerHTML = e.message + "<br><br>" +
+        '<button id="fallbackFolderBtn2" style="background:#2e5d8a; color:#fff; border:none; ' +
+        'border-radius:8px; padding:12px 18px; font-size:15px; font-family:-apple-system,sans-serif; ' +
+        'font-weight:600;">Réessayer — choisir le dossier</button>';
+      document.getElementById("fallbackFolderBtn2").addEventListener("click", () => folderPickInput.click());
+    }
+  });
+
+  bootstrap();
+})();
+</script>
+</body>
+</html>

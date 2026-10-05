@@ -345,9 +345,11 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
 .lv-page h2 + .lv-btns { margin-top: var(--spacing-sm); }
 
 /* Figures and illustrations */
-.lv-figure { margin: var(--spacing-md) 0 var(--spacing-lg); color: #d1d5db; font-size: 0.9em; }
-.lv-figure img { border-radius: var(--radius-sm); }
-.lv-figure p { margin-bottom: var(--spacing-xs); font-family: var(--font-body); }
+.lv-figure { margin: var(--spacing-lg) 0 var(--spacing-lg); text-align: left; color: #d1d5db; font-size: 0.9em; }
+.lv-figure img { display: block; margin-top: var(--spacing-sm); max-width: 100%; height: auto; border-radius: var(--radius-sm); }
+.lv-figure p { margin-bottom: var(--spacing-xs); font-family: var(--font-body); font-size: 1em; font-style: italic; }
+.lv-figure p + p { margin-top: var(--spacing-sm); }
+.lv-figure .lv-legend { font-style: normal; }
 
 /* No paragraph indent */
 .lv-page p { text-indent: 0 !important; }

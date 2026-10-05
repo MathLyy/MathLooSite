@@ -188,49 +188,49 @@
       "name": "Valado",
       "detail": "2 caisses",
       "vehicles": [
-        "livrees_pages/livrees_img/production/Valado/Valado_2C.png"
+        "livrees_pages/livrees_img/tr/B-TRValado_2C.png"
       ]
     },
     {
       "name": "Valado L",
       "detail": "4 caisses",
       "vehicles": [
-        "livrees_pages/livrees_img/production/Valado/ValadoL_4C.png"
+        "livrees_pages/livrees_img/tr/B-TRValadoL_4C.png"
       ]
     },
     {
       "name": "Valado M",
       "detail": "voie métrique, 2 caisses",
       "vehicles": [
-        "livrees_pages/livrees_img/production/Valado/ValadoM_2C.png"
+        "livrees_pages/livrees_img/tr/B-TRValadoM_2C.png"
       ]
     },
     {
       "name": "Valado",
       "detail": "3 caisses",
       "vehicles": [
-        "livrees_pages/livrees_img/production/Valado/Valado.png"
+        "livrees_pages/livrees_img/tr/B-TRValado_3C.png"
       ]
     },
     {
       "name": "Valado L",
       "detail": "5 caisses",
       "vehicles": [
-        "livrees_pages/livrees_img/production/Valado/ValadoL_5C.png"
+        "livrees_pages/livrees_img/tr/B-TRValadoL_5C.png"
       ]
     },
     {
       "name": "Valado M",
       "detail": "voie métrique, 3 caisses",
       "vehicles": [
-        "livrees_pages/livrees_img/production/Valado/ValadoM.png"
+        "livrees_pages/livrees_img/tr/B-TRValadoM_3C.png"
       ]
     },
     {
       "name": "Valado L",
       "detail": "3 caisses",
       "vehicles": [
-        "livrees_pages/livrees_img/production/Valado/ValadoL.png"
+        "livrees_pages/livrees_img/tr/B-TRValadoL_3C.png"
       ]
     }
   ]

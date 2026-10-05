@@ -75,10 +75,11 @@ d'édition** — c'est le test d'acceptation du parseur et du sérialiseur.
 
 ## Intégrité inter-fichiers
 
-Le bouton **Intégrité** croise les pages avec `mltc/data/circulations.json`,
+Le bouton **Intégrité** croise les pages avec `mltc/data/circulations.js`,
 `js/services-page.js` et les liens de `mltc/livrees.html`. **Lecture seule** :
-l'outil n'écrit jamais ces fichiers, il se contente d'avertir. Le rayon
-d'explosion d'un bug reste confiné au HTML des livrées.
+l'éditeur Livrées n'écrit jamais ces fichiers, il se contente d'avertir. Le
+rayon d'explosion d'un bug reste confiné au HTML des livrées.
+`circulations.js` s'édite à part, dans l'éditeur Compositions (voir plus bas).
 
 ## Dernières nouveautés
 
@@ -90,6 +91,53 @@ statut : ce bloc n'est pas modélisé par le parseur (comme le head ou la
 navbar, `lv-changelog` n'existe pas dans `classify()`), il est donc lu et
 réécrit comme un simple remplacement de texte, avec le même aperçu de diff
 avant écriture que le reste de l'outil.
+
+## Compositions
+
+`compositions.html` (bouton **Compositions** de la barre du haut) édite
+`mltc/data/circulations.js`, le fichier des trains de la carte Circulations,
+de la page Trafic et des bandeaux. Même dossier connecté, même modale de diff
+avant écriture, même refus si le fichier a changé sur le disque.
+
+- **Liste** : les trains par service, avec recherche (nom, gare, image).
+  Point jaune : modifié ; pastille rouge : image introuvable ou composition vide.
+- **Composition** : une ligne par élément, la première est la tête du train.
+  « + Véhicules » ouvre le catalogue de `livrees_img` : chaque clic ajoute au
+  panier, dans l'ordre, et deux clics sur le même véhicule donnent « 2* ».
+  Le nombre accepte `3` ou `2-4` ; une ligne peut devenir « Au choix » (`A|B`)
+  ou « Mélange » (`SHUFFLE{…}`). Les images `_R` sont reprises toutes seules
+  (`G>D`), ⇄ les échange pour un véhicule tourné vers l'arrière.
+- **Aperçu** dans les deux sens, avec la rame après l'arrêt (changement de
+  locomotive, dételage, attelage) ; **Tester en animation** fait tourner le
+  moteur de la page Trafic avec ce seul train, sans enregistrer.
+- **Variantes** : onglets Base / Variante n. Dans une variante, un champ
+  modifié n'est écrit que dans la variante (repère violet, ↺ pour revenir à
+  la base).
+- **Services** : vitesse, voie et décor par défaut, période historique, ordre.
+- **Décor** (carte Marche d'un train) : image de `mltc/assets/decors/`
+  répétée le long de la voie, ou « Aucun ». Une caténaire passe derrière la
+  voie, atténuée ; un troisième rail est posé sur la voie (réglage « Plan »
+  du panneau Assets, clé `decors` du fichier). Sans décor, la page Trafic
+  trace un simple fil au-dessus des engins de 58 px, comme avant.
+- **Gare et quai** : quai de `mltc/assets/quais/` répété N fois (tronçons
+  de 400 px) et posé sur le haut de la voie, bâtiment de `mltc/assets/gares/`
+  posé sur le quai. Plans, du fond vers l'avant : bâtiment, caténaire, quai
+  (tous trois atténués), voie, troisième rail, trains d'arrière-plan, train,
+  premier plan. Les opacités sont dans `ALPHA` de `js/compositions.js`.
+- **Assets** : les images de `mltc/assets` rangées par usage (décors, voies,
+  quais, gares, attelages, premiers plans), avec un aperçu sur la voie et un engin de 58 px,
+  la hauteur du fil de contact par rapport aux pantographes et la liste des
+  trains qui les utilisent. « Importer des images… » copie des PNG dans le bon
+  dossier ; « Supprimer » n'est possible que pour une image inutilisée. Ces
+  deux actions écrivent directement sur le disque, sans passer par
+  Enregistrer : relire `git status` ensuite.
+- **Contrôle** : vérifie que le fichier se relit et se réécrit à l'identique,
+  liste les images manquantes et les pays inconnus.
+
+La mise en forme du JSON est celle du fichier d'origine (une valeur par
+ligne au-delà de 110 colonnes) : un enregistrement ne touche que les trains
+modifiés. Le commentaire d'en-tête et la ligne `window.MLTC_CIRCULATIONS =`
+sont recollés tels quels.
 
 ## Fichiers
 
@@ -107,3 +155,5 @@ avant écriture que le reste de l'outil.
 | `js/preview.js` | aperçu iframe à CSS et images inlinés |
 | `js/kit.js` | briques d'interface |
 | `js/ui.js`, `js/ui-extra.js` | interface |
+| `js/circ-data.js` | lecture, mise en forme et syntaxe de `circulations.js` |
+| `js/ui-compos.js` | interface de l'éditeur de compositions |

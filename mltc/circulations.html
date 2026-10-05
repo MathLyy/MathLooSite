@@ -81,7 +81,11 @@
         <section class="circ-hero">
             <div class="container">
                 <h1 class="mltc-page-title">Circulations</h1>
-                <p class="circ-subtitle">Explorez le réseau MLTC Railways à travers les 12 états membres du Mathlyens.</p>
+                <p class="circ-subtitle">Les trains des 12 états membres du Mathlyens, aujourd'hui et de 1958 à 2001.</p>
+                <a class="circ-live-link" href="trafic.html">
+                    Les voir circuler en animation
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </a>
             </div>
         </section>
 
@@ -91,8 +95,22 @@
                     <div class="circ-map-stage">
                         <div class="circ-map-wrap">
                             <div class="circ-map-intro">
-                                <h2>Survolez, cliquez, comparez</h2>
-                                <p>La carte reste interactive en permanence. Sélectionnez un pays pour faire glisser l'interface vers une lecture plus détaillée des circulations MLTC.</p>
+                                <div class="circ-map-intro-text">
+                                    <h2>Choisir un pays</h2>
+                                    <p>En couleur, ceux dont les circulations sont renseignées. Leurs trains s'affichent à côté de la carte.</p>
+                                </div>
+                                <div class="circ-period-wrap">
+                                    <div class="circ-period" role="group" aria-label="Période">
+                                        <button type="button" class="circ-period-btn active" data-period="actuel" aria-pressed="true">Aujourd'hui</button>
+                                        <button type="button" class="circ-period-btn" data-period="historique" aria-pressed="false">Historique</button>
+                                    </div>
+                                    <div class="circ-period circ-epochs" role="group" aria-label="Époque" hidden>
+                                        <button type="button" class="circ-period-btn active" data-epoch="1958-1973" aria-pressed="true">1958-1973</button>
+                                        <button type="button" class="circ-period-btn" data-epoch="1973-1984" aria-pressed="false">1973-1984</button>
+                                        <button type="button" class="circ-period-btn" data-epoch="1984-1997" aria-pressed="false">1984-1997</button>
+                                        <button type="button" class="circ-period-btn" data-epoch="1997-2001" aria-pressed="false">1997-2001</button>
+                                    </div>
+                                </div>
                             </div>
                             <div class="circ-map-skeleton" id="circ-skeleton">
                                 <div class="circ-skeleton-shape"></div>
@@ -101,6 +119,7 @@
                             <svg viewBox="0 0 800 650" class="circ-map" role="img" aria-label="Carte des pays du Mathlyens">
                                 <!-- Généré dynamiquement par circulations.js -->
                             </svg>
+                            <p class="circ-map-hint" id="circ-map-hint" aria-live="polite"></p>
                         </div>
                     </div>
 
@@ -113,27 +132,21 @@
                             <div class="circ-operator-tabs" role="tablist" aria-label="Type d'opérateur">
                                 <button type="button" class="circ-op-tab active" role="tab" aria-selected="true" data-operator="mltc">MLTC Railways</button>
                                 <button type="button" class="circ-op-tab" role="tab" aria-selected="false" data-operator="prives">Autres opérateurs</button>
-                                <button type="button" class="circ-op-tab" role="tab" aria-selected="false" data-operator="fret">Fret &amp; Postal</button>
+                                <button type="button" class="circ-op-tab" role="tab" aria-selected="false" data-operator="fret">Fret et infra</button>
                             </div>
 
                             <div class="circ-bar-controls">
                                 <input id="circ-search" type="search" placeholder="Rechercher…" aria-label="Recherche">
                                 <select id="circ-filter" aria-label="Filtrer par service">
                                     <option value="">Tous les services</option>
-                                    <option value="Xpress">Xpress</option>
-                                    <option value="HSX">HSX</option>
-                                    <option value="TransRegio">TransRegio</option>
-                                    <option value="Vivarail">Vivarail</option>
-                                    <option value="Nocrail">Nocrail</option>
-                                    <option value="Urbahn">Urbahn</option>
-                                    <option value="Intracity">Intracity</option>
                                 </select>
+                                <button type="button" id="circ-reroll" class="circ-reroll" title="Tirer d'autres compositions au hasard">Nouveau tirage</button>
                             </div>
 
                             <div class="circ-compositions">
                                 <ul id="circ-list" class="circ-list" aria-live="polite"></ul>
-                                <p class="circ-empty" id="circ-empty">Cliquez sur un pays pour voir ses compositions.</p>
-                                <p class="circ-footer"><small>Compositions à titre indicatif.</small></p>
+                                <p class="circ-empty" id="circ-empty">Aucun pays choisi.</p>
+                                <p class="circ-footer"><small>Compositions tirées au hasard à chaque affichage, à titre indicatif.</small></p>
                             </div>
                         </div>
                     </aside>
@@ -142,7 +155,7 @@
         </section>
 
         <section class="last-modified">
-            <div class="container"><p>Dernière mise à jour : 23 avril 2026</p></div>
+            <div class="container"><p>Dernière mise à jour : 4 octobre 2026</p></div>
         </section>
     </main>
 
@@ -163,12 +176,13 @@
                     <a href="../liens.html">Liens</a>
                 </div>
             </div>
-            <div class="footer-bottom"><span class="footer-version">v<strong>0.10</strong> (28/09/2026)</span><p>&copy; 2026 MathLoo. Tous droits réservés.</p></div>
+            <div class="footer-bottom"><span class="footer-version">v<strong>0.11</strong> (05/10/2026)</span><p>&copy; 2026 MathLoo. Tous droits réservés.</p></div>
         </div>
     </footer>
 
     <script src="../js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+    <script src="../js/compositions.js"></script>
     <script src="../js/circulations.js"></script>
 </body>
 </html>

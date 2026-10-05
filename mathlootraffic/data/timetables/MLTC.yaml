@@ -1,0 +1,913 @@
+# --- SYNTAX GUIDE ---
+# 1. Random Count: "2-4*Car.png" (Adds 2, 3, or 4 cars)
+# 2. Random Choice: "CarA.png|CarB.png" (Randomly picks CarA OR CarB)
+# 3. Directional: "Left.png>Right.png" (Uses Left.png for L, Right.png for R)
+# 4. Shuffle: "SHUFFLE{CarA.png, CarB.png}" (Randomizes order. If combined with count, count is the TOTAL number of items drawn from the shuffled pool)
+# 5. Combined: "2-3*SHUFFLE{CarA.png>CarA_R.png|CarB.png, CarC.png}"
+# 6. Locomotive Change: Add 'loco_change: "NewLoco.png"' to the 'stop' config.
+#    Optional: 'detach_count: N' to detach N elements (default 1).
+# 7. Custom Track: Add 'track: "track_image.png"' to use a specific track for this train.
+# 8. Foreground: Add 'foreground: "image.png"' or full config (see docs).
+
+trains:
+
+ # --- Nocrail ---
+
+  - title: "Nocrail Hambourg - Le Grau du Roi / Montpellier"
+    direction: "R"
+    speed: 160
+    composition:
+      - "A-NRBR186.png"
+      - "2*C-NRWLABmz76.94.png"
+      - "4*C-NRVE2NSuperT2.png"
+      - "C-NRWRmz88.png"
+      - "C-NRCorailVUA9c9ux.png"
+      - "C-NRCorailVUB10c10ux.png"
+      - "C-NRCorailVUB7Suh.png"
+      - "C-NRCorailVUA9c9ux.png"
+
+  - title: "Nocrail Hambourg - Le Grau du Roi / Montpellier (dissociation tranche Nimes - Le Grau du Roi)"
+    direction: "R"
+    speed: 120
+    stop:
+      at: 3200
+      duration: 3
+      loco_change: "A-NRD445.png"
+      detach_count: 10
+    composition:
+      - "A-NRBR186.png"
+      - "2*C-NRWLABmz76.94.png"
+      - "4*C-NRVE2NSuperT2.png"
+      - "C-NRWRmz88.png"
+      - "C-NRCorailVUA9c9ux.png"
+      - "C-NRCorailVUB10c10ux.png"
+      - "C-NRCorailVUB7Suh.png"
+      - "C-NRCorailVUA9c9ux.png"
+      
+  - title: "Nocrail Hambourg - Le Grau du Roi (tranche Nimes)"
+    direction: "R"
+    speed: 60
+    composition:
+      - "A-NRD445.png"
+      - "C-NRCorailVUB7Suh.png"
+      - "C-NRCorailVUA9c9ux.png"
+
+  - direction: "any"
+    title: "Nocrail Calais - Perpignan"
+    speed: 300
+    track: "voie_beton.png"
+    composition:
+      - "B-NRTGVPSEN.png"
+
+  - direction: "any"
+    title: "Nocrail Paris - Briançon"
+    speed: 100
+    track: "voie_beton.png"
+    composition:
+      - "2*A-NRD445.png"
+      - "2*D-NRUass.png"
+      - "3-5*C-NRCorailVUA9c9ux.png"
+      - "SHUFFLE{C-NRWRmz88.png, C-NRCorailVUB7Suh.png}"
+      - "4*C-NRCorailVUB10c10ux.png"
+
+  - direction: "any"
+    title: "Nocrail Strasbourg - Bordeaux"
+    speed: 200
+    composition:
+      - "A-NRCL43.png>A-NRCL43_R.png"
+      - "4*C-NRMk4NS.png"
+      - "C-NRMk3RFM.png"
+      - "6*C-NRMk3SLEP.png"
+      - "A-NRCL43_R.png>A-NRCL43.png"
+
+  - direction: "any"
+    title: "Nocrail Amsterdam - Brest / Arcachon"
+    speed: 200
+    composition:
+      - "B-NRBmx.png>B-NRBmx_R.png"
+      - "6*SHUFFLE{C-NRWLABmz76.94.png, C-NRWLABmz76.94_R.png}"
+      - "B-NRBmx_R.png>B-NRBmx.png"
+      - "B-NRBmx.png>B-NRBmx_R.png"
+      - "6*SHUFFLE{C-NRWLABmz76.94.png, C-NRWLABmz76.94_R.png}"
+      - "B-NRBmx_R.png>B-NRBmx.png"
+
+  - direction: "any"
+    title: "Nocrail Amsterdam - Brest / Arcachon (dissociation rame Paris - Arcachon)"
+    speed: 120
+    stop:
+      at: "45%"
+      duration: 5
+      detach_count: 8
+    composition:
+      - "B-NRBmx.png>B-NRBmx_R.png"
+      - "6*SHUFFLE{C-NRWLABmz76.94.png, C-NRWLABmz76.94_R.png}"
+      - "B-NRBmx_R.png>B-NRBmx.png"
+      - "B-NRBmx.png>B-NRBmx_R.png"
+      - "6*SHUFFLE{C-NRWLABmz76.94.png, C-NRWLABmz76.94_R.png}"
+      - "B-NRBmx_R.png>B-NRBmx.png"
+
+  - direction: "any"
+    title: "Nocrail Paris - Hendaye (via Toulouse)"
+    speed: 140
+    composition:
+      - "B-NRmDDM.png>B-NRmDDM_R.png"
+      - "6*C-NRVE2NSuperT2.png"
+      - "B-NRmDDM_R.png>B-NRmDDM.png"
+
+  - direction: "any"
+    title: "Nocrail Luxembourg - Hendaye (via Lyon)"
+    speed: 100
+    composition:
+      - "A-NRBB20006.png"
+      - "2*D-NRDDm915.png"
+      - "4*C-NRUICFB8c.png"
+      - "C-NRWRmz88.png"
+      - "4*C-NRUICFVL.png"
+      - "C-NRCorailVUB10c10ux.png"
+
+  - direction: "any"
+    title: "Nocrail Glasgow - Strasbourg"
+    speed: 140
+    composition:
+      - "A-NRCL92.png"
+      - "C-NRMk3RFM.png"
+      - "4*C-NRMk4NS.png"
+      - "C-NRMk4NSvs.png"
+      - "6*C-NRMk4NSvl.png"
+
+  - direction: "any"
+    title: "Nocrail Glasgow - Strasbourg (changement de locomotive)"
+    speed: 140
+    stop:
+      at: "40%"
+      duration: 3
+      loco_change: "A-NRBB25500.png"
+      detach_count: 1
+    composition:
+      - "A-NRCL92.png"
+      - "C-NRMk3RFM.png"
+      - "4*C-NRMk4NS.png"
+      - "C-NRMk4NSvs.png"
+      - "6*C-NRMk4NSvl.png"
+
+  - direction: "any"
+    title: "Nocrail Amsterdam - Dresden"
+    speed: 160
+    composition:
+      - "SHUFFLE{A-BLVectronDM.png, A-BLEuroDual.png}"
+      - "C-NRTalgoVI.png"
+
+  - direction: "any"
+    title: "Nocrail Paris - Dusseldorf"
+    speed: 160
+    composition:
+      - "A-NRBR181.2.png"
+      - "5*C-NRCorailVUA9c9ux.png"
+      - "C-NRWRmz88.png"
+      - "4*C-NRCorailVUB10c10ux.png"
+      - "C-NRCorailVUB7Suh.png"
+
+  - direction: "any"
+    title: "Nocrail Napoli - Bordeaux"
+    speed: 140
+    composition:
+      - "A-NRE464.png>A-NRE464_R.png"
+      - "4*SHUFFLE{C-NRCorailVUA9c9ux.png, C-NRUICFVL.png, C-NRMk3SLEP.png}"
+      - "C-NRMk3RFM.png"
+      - "4*SHUFFLE{C-NRUICFB8c.png, C-NRCorailVUB10c10ux.png, C-NRVE2NSuperT2.png}"
+      - "C-NRCorailVUB7Suh.png"
+
+  - direction: "any"
+    title: "Nocrail Napoli - Bordeaux (changement de locomotive)"
+    speed: 140
+    stop:
+      at: "40%"
+      duration: 3
+      loco_change: "A-NRBB36000.png"
+      detach_count: 1
+    composition:
+      - "A-NRE464.png>A-NRE464_R.png"
+      - "4*SHUFFLE{C-NRCorailVUA9c9ux.png, C-NRUICFVL.png, C-NRMk3SLEP.png}"
+      - "C-NRMk3RFM.png"
+      - "4*SHUFFLE{C-NRUICFB8c.png, C-NRCorailVUB10c10ux.png, C-NRVE2NSuperT2.png}"
+      - "C-NRCorailVUB7Suh.png"
+
+  - direction: "any"
+    title: "Nocrail København - Portbou"
+    speed: 160
+    composition:
+      - "A-NRBB36000.png"
+      - "C-NRTalgoVI.png"
+
+  - direction: "any"
+    title: "Nocrail København - Portbou (changement de locomotive)"
+    speed: 140
+    stop:
+      at: 1600
+      duration: 3
+      loco_change: "A-BLBR192.png"
+      detach_count: 1
+    composition:
+      - "A-NRBB36000.png"
+      - "C-NRTalgoVI.png"
+
+  - direction: "any"
+    title: "Nocrail Reggio de Calabre - Ljubljana"
+    speed: 160
+    composition:
+      - "A-NRE464.png>A-NRE464_R.png"
+      - "C-NRTalgoVI.png"
+      - "A-NRE464_R.png>A-NRE464.png"
+
+  - direction: "any"
+    title: "Nocrail Hendaye - Stuttgart"
+    speed: 160
+    composition:
+      - "A-NRBR181.2.png"
+      - "A-NRCL43.png>A-NRCL43_R.png"
+      - "5*C-NRMk3SLEP.png"
+      - "C-NRMk3RFM.png"
+      - "3*C-NRMk4NS.png"
+      - "A-NRCL43_R.png"
+
+  - direction: "any"
+    title: "Nocrail Hendaye - Stuttgart"
+    speed: 160
+    composition:
+      - "A-NRCL43.png>A-NRCL43_R.png"
+      - "5*C-NRMk3SLEP.png"
+      - "C-NRMk3RFM.png"
+      - "3*C-NRMk4NS.png"
+      - "A-NRCL43_R.png"
+
+  - direction: "any"
+    title: "Nocrail Edimburgh - København / Sassnitz"
+    speed: 140
+    composition:
+      - "A-NRCL92.png"
+      - "4*C-NRUICFVL.png"
+      - "C-NRMk3RFM.png"
+      - "4*C-NRUICFB8c.png"
+      - "C-NRMk4NSvs.png"
+      - "2*C-NRMk4NSvl.png"
+
+  - direction: "any"
+    title: "Nocrail Edimburgh - København / Sassnitz (changement de loco)"
+    speed: 140
+    stop:
+      at: "40%"
+      duration: 3
+      loco_change: "A-NRBR186.png"
+      detach_count: 1
+    composition:
+      - "A-NRCL92.png"
+      - "4*C-NRUICFVL.png"
+      - "C-NRMk3RFM.png"
+      - "4*C-NRUICFB8c.png"
+      - "C-NRMk4NSvs.png"
+      - "2*C-NRMk4NSvl.png"
+
+  - direction: "any"
+    title: "Nocrail Edimburgh - København / Sassnitz (dissociation tranche Hambourg - Sassnitz)"
+    speed: 140
+    stop:
+      at: "40%"
+      duration: 3
+      loco_change: "B-TRABDe44.png"
+      detach_count: 10
+    composition:
+      - "A-NRBR186.png"
+      - "4*C-NRUICFVL.png"
+      - "C-NRMk3RFM.png"
+      - "4*C-NRUICFB8c.png"
+      - "C-NRMk4NSvs.png"
+      - "2*C-NRMk4NSvl.png"
+
+  - direction: "any"
+    title: "Nocrail Edimburgh - Sassnitz (tranche Hambourg)"
+    speed: 140
+    composition:
+      - "B-TRABDe44.png"
+      - "C-NRMk4NSvs.png"
+      - "2*C-NRMk4NSvl.png"
+
+  # --- MLCC ---
+
+  - title: ""
+    direction: "any"
+    speed: 80
+    composition:
+      - "A-MLCCRh1064.png"
+      - "3-5*D-MLCCFcs6541.png"
+      - "0-1*D-MLCCS58_grey.png"
+
+  - title: ""
+    direction: "any"
+    speed: 30
+    composition:
+      - "A-MLCCTmII_2.png"
+      - "0-2*D-MLCCUerdingen30m3.png"
+
+  - title: ""
+    direction: "any"
+    speed: 100
+    composition:
+      - "A-MLCC2CC261000.png"
+      - "8-10*D-MLCCFalrrs152.png"
+
+  - direction: "any"
+    speed: 100
+    composition:
+      - "SHUFFLE{A-MLCCBB7200.png, A-MLCCBR152.png, A-MLCCBR156.png, A-MLCCBR186.png, A-MLCCBR189.png, A-MLCCBR240.png, A-MLCCBR285.png, A-MLCCCC65500.png, A-MLCCCC72000.png, A-MLCCCL60.png, A-MLCCEG.png, A-MLCCE652.png, A-MLCCRh1110.5.png}"
+      - "16-24*SHUFFLE{D-MLCC_PGS58_Blanc.png, D-MLCC_PGS58_Bleu.png, D-MLCC_PGS58_BleuMarine.png, D-MLCC_PGS58_Cyan.png, D-MLCC_PGS58_Fuschia.png, D-MLCC_PGS58_Gris.png, D-MLCC_PGS58_Jaune.png, D-MLCC_PGS58_Marron.png, D-MLCC_PGS58_Noir.png, D-MLCC_PGS58_Orange.png, D-MLCC_PGS58_Pourpre.png, D-MLCC_PGS58_Rose.png, D-MLCC_PGS58_Rouge.png, D-MLCC_PGS58_Vert.png, D-MLCC_PGS58_VertForet.png, D-MLCC_PGS58_Violet.png, D-MLCC_PS58_Blanc.png, D-MLCC_PS58_Bleu.png, D-MLCC_PS58_BleuMarine.png, D-MLCC_PS58_Cyan.png, D-MLCC_PS58_Fuschia.png, D-MLCCS58_Orange.png, D-MLCCS58_Noir.png, D-MLCCS58_Marron.png, D-MLCCS58_Jaune.png, D-MLCCS58_Gris.png, D-MLCCS58_Fuschia.png, D-MLCCS58_Cyan.png, D-MLCCS58_BleuMarine.png, D-MLCCS58_Bleu.png, D-MLCCS58_Blanc.png, D-MLCC_PS58_Violet.png, D-MLCC_PS58_VertForet.png, D-MLCC_PS58_Vert.png, D-MLCC_PS58_Rouge.png, D-MLCC_PS58_Rose.png, D-MLCC_PS58_Pourpre.png, D-MLCC_PS58_Orange.png, D-MLCC_PS58_Noir.png, D-MLCC_PS58_Marron.png, D-MLCC_PS58_Jaune.png, D-MLCC_PS58_Gris.png, D-MLCCS58_Pourpre.png, D-MLCCS58_Rose.png, D-MLCCS58_Rouge.png, D-MLCCS58_Vert.png, D-MLCCS58_VertForet.png, D-MLCCS58_Violet.png}"
+
+  - title: ""
+    direction: "any"
+    speed: 100
+    composition:
+      - "A-MLCCBR204.png"
+      - "10-13*D-MLCCZans.png"
+
+  - title: ""
+    direction: "any"
+    speed: 80
+    composition:
+      - "A-MLCCEe922.png"
+      - "C-XBpmbdzf.png>C-XBpmbdzf_R.png"
+      - "4-7*SHUFFLE{C-XBpmz291.png, C-XBpmz292.png, C-XBpmz295.png, C-XBvmz185.png, C-XApmz123.png, C-XApmz123.png, C-XCorailVTUB11.png}"
+
+  - direction: "any"
+    speed: 80
+    composition:
+      - "A-MLCCCC65500.png"
+      - "9-16*SHUFFLE{D-MLCC_PEaos_2.png, D-MLCC_PEaos_1.png, D-MLCCEaos.png}"
+
+  - direction: "any"
+    speed: 100
+    composition:
+      - "A-MLCCEem923.png"
+      - "9*D-MLCCUces.png"
+
+  - direction: "any"
+    speed: 100
+    composition:
+      - "SHUFFLE{A-MLCCBB75000.png, A-MLCCBB67400.png, A-MLCCG2000.png}"
+      - "15-20*SHUFFLE{D-MLCCUces.png, D-MLCC_PUces.png, D-MLCCUcs.png, D-MLCC_PUcs.png}"
+
+  - direction: "any"
+    speed: 100
+    composition:
+      - "A-MLCCCL67_s.png"
+      - "10*D-MLCCRC4.png"
+
+  - direction: "any"
+    speed: 100
+    composition:
+      - "A-MLCCG400.png"
+      - "1-3*D-MLCC_PLaais.png"
+
+  - direction: "any"
+    speed: 100
+    composition:
+      - "SHUFFLE{A-MLCCBB8500.png, A-MLCCBR150.png, A-MLCCBR155.png, A-MLCCCL58.png, A-MLCCCL37.png, A-MLCCNS1200.png, A-MLCCBB37000.png, A-MLCCBB27000.png, A-MLCCBB26000.png, A-MLCCBB25500.png}"
+      - "12-16*SHUFFLE{D-MLCC_PEaos_1.png, D-MLCC_PEaos_2.png, D-MLCC_PFcs6541_1.png, D-MLCC_PFcs6541_2.png, D-MLCCFcs6541.png, D-MLCC_PKs70.6.png}"
+
+  - direction: "any"
+    speed: 100
+    composition:
+      - "A-MLCCCL60.png"
+      - "10-14*SHUFFLE{D-MLCC_PKIA.png, D-MLCCKIA.png}"
+
+  - direction: "any"
+    speed: 100
+    composition:
+      - "A-MLCCCL77.png"
+      - "13-20*SHUFFLE{D-MLCC_PJNA.png, D-MLCCJNA.png}"
+
+  - direction: "any"
+    speed: 100
+    composition:
+      - "SHUFFLE{A-MLCCCL90.png, A-BLCL57.png, A-MLCCCL37.png, A-MLCCCL58.png, A-MLCCCL60.png, A-MLCCCL67.png, A-MLCCCL67_s.png}"
+      - "14-22*SHUFFLE{D-MLCCHYA.png, D-MLCC_PHYA.png}"
+
+  # --- MLUP ---
+
+  - title: "MLUP HighSpeedPost Hamburg - Frankfurt"
+    direction: "any"
+    speed: 160
+    composition:
+      - "B-MLUPTGVP_DE.png"
+
+  - title: ""
+    direction: "any"
+    speed: 130
+    composition:
+      - "B-MLUPX2200P.png"
+
+  - direction: "any"
+    speed: 120
+    composition:
+      - "B-MLUPmP3000.png"
+      - "1-3*SHUFFLE{D-MLUPHbbkkss.png, D-MLUPZ350_R.png, D-MLUPZ350.png>D-MLUPZ350_R.png}"
+
+  - direction: "any"
+    speed: 120
+    composition:
+      - "1-3*B-MLUPAMP.png"
+
+  - direction: "any"
+    title: "MLUP Isère"
+    speed: 140
+    composition:
+      - "A-MLUPBB25500_R.png"
+      - "5-10*SHUFFLE{C-MLUPPE26.png, C-MLUPPA26.png}"
+
+  - direction: "any"
+    speed: 100
+    composition:
+      - "A-MLUPD445.png"
+      - "4-6*D-MLUPHbbkkss.png"
+
+  - direction: "any"
+    speed: 300
+    track: "voie_beton.png"
+    composition:
+      - "SHUFFLE{B-MLUPTGVP_DE.png, B-MLUPTGVP_FR.png, B-MLUPTGVP_NL.png}"
+
+  # --- MLTC Infrastructures ---
+
+  - title: ""
+    direction: "any"
+    speed: 60
+    composition:
+      - "B-MLTCIDU84.png>B-MLTCIDU84_R.png"
+      - "0-1*C-MLTCIMauzinette.png"
+
+  - title: ""
+    direction: "any" 
+    speed: 160
+    composition:
+      - "B-MLTCINMT.png"
+
+  - title: ""
+    direction: "any" 
+    speed: 100
+    composition:
+      - "A-MLTCIBB62400.png"
+      - "8-10*D-MLTCIFanps.png"
+
+  - direction: "L"
+    speed: 80
+    composition:
+      - "A-MLTCICNS.png"
+      - "A-MLTCIBB62400.png"
+
+  - direction: "any"
+    speed: 100
+    composition:
+      - "B-MLTCICL153.png"
+
+  - direction: "any"
+    speed: 320
+    track: "voie_beton.png"
+    composition:
+      - "B-MLTCIIRIS320.png"
+
+  # --- Xpress ---
+
+  - title: "Xpress s'Elsass 220"
+    direction: "any"
+    speed: 220
+    reverse_composition: true
+    composition:
+      - "A-XCL91als.png>A-XCL91als_R.png"
+      - "2*C-XMk4FOals.png"
+      - "C-XMk4RFMals.png"
+      - "5*C-XMk4TSOals.png"
+      - "C-XMk4DVTals_R.png>C-XMk4DVTals.png"
+
+  - title: ""
+    direction: "any"
+    speed: 200
+    composition:
+      - "1-2*B-XZ2000.png"
+
+  - title: "Xpress Lyon - Bordeaux"
+    direction: "any"
+    speed: 160
+    composition:
+      - "B-XTGVTMDC.png"
+
+  - title: "Xpress Angers - Le Croisic"
+    direction: "any"
+    speed: 160
+    composition:
+      - "2*B-XIR4.png"
+
+  - title: ""
+    direction: "any"
+    speed: 200
+    composition:
+      - "1-2*B-XBR403(I).png"
+
+  - title: ""
+    direction: "any"
+    speed: 180
+    reverse_composition: true
+    composition:
+      - "A-XRh1044.5.png"
+      - "3*C-XNG88A10.png"
+      - "C-XNG88B5r.png"
+      - "5*C-XNG88B11.png"
+      - "C-XNG88B7Dx_R.png>C-XNG88B7Dx.png"
+
+  - title: ""
+    direction: "any"
+    speed: 160
+    reverse_composition: true
+    composition:
+      - "A-XE464.png>A-XE464_R.png"
+      - "2*C-XNG88A10.png"
+      - "C-XNG88B5r.png"
+      - "4*C-XNG88B11.png"
+      - "C-XNG88B7Dx_R.png>C-XNG88B7Dx.png"
+
+  - title: "Xpress Paris - Strasbourg"
+    direction: "any"
+    speed: 160
+    reverse_composition: true
+    composition:
+      - "A-XBB26000.png"
+      - "2*C-XVE2NA13.png"
+      - "C-XVE2NB8rtux.png"
+      - "4*C-XVE2NB15.png"
+      - "C-XVE2NB12Dux_R.png>C-XVE2NB12Dux.png"
+
+  - title: ""
+    direction: "any"
+    speed: 120
+    stop:
+      at: 400
+      duration: 3
+      loco_change: "A-XCL68.png"
+    composition:
+      - "A-XCL89.png"
+      - "2*C-XMk4FO.png"
+      - "C-XMk4RFM.png"
+      - "4*C-XMk4TSO.png"
+      - "C-XMk4DVT_R.png>C-XMk4DVT.png"
+
+  - direction: "any"
+    speed: 200
+    reverse_composition: true
+    composition:
+      - "A-XVectronMS_U.png>A-XVectronMS_U_R.png"
+      - "C-XIC2000AD.png>C-XIC2000AD_R.png"
+      - "2*C-XIC2000A.png"
+      - "C-XIC2000WRB.png"
+      - "5*C-XIC2000B.png"
+      - "C-XIC2000Bt_R.png>C-XIC2000Bt.png"
+
+  # --- TR ---
+
+  - title: "TR Strasbourg - Basel (via Freiburg)"
+    direction: "any"
+    speed: 100
+    stop:
+      at: 1500
+      duration: 3
+    reverse_composition: true
+    composition:
+      - "A-TRBB20200_V.png"
+      - "2*C-TRDBvq_R.png>C-TRDBvq.png|C-TRDBvq2s_R.png>C-TRDBvq2s.png"
+
+  - title: ""
+    direction: "any"
+    speed: 100
+    composition:
+      - "1-3*B-TRAAL21200.png|B-TRAAL21300.png"
+
+  - title: "TR Manchester - West Kirby"
+    direction: "any"
+    speed: 160
+    composition:
+      - "2*B-TRCL377.7.png"
+
+  - title: "TR Liege - Charleroi"
+    direction: "any"
+    speed: 160
+    composition:
+      - "2*B-TRETR521.png"
+
+  - title: ""
+    direction: "any"
+    speed: 100
+    composition:
+      - "1-2*B-TRRSp1.png"
+
+  - title: ""
+    direction: "any"
+    speed: 100
+    composition:
+      - "1-4*B-TRZ23000.png"
+
+  - title: ""
+    direction: "any"
+    speed: 100
+    composition:
+      - "1-2*B-TRBR798.png"
+      - "0-1*C-TRVB141.png"
+
+  - title: ""
+    direction: "any"
+    speed: 140
+    composition:
+      - "A-TRBB73000_U.png>A-TRBB73000_U_R.png"
+      - "3-5*C-TRDPCnB.png"
+      - "0-1*C-TRDPCnAB.png"
+      - "C-TRDPCnpB_R.png>C-TRDPCnpB.png"
+
+  - title: ""
+    direction: "any"
+    speed: 140
+    composition:
+      - "2*B-TRAMR.png"
+
+  - title: ""
+    direction: "any"
+    speed: 100
+    composition:
+      - "1-2*B-TRBR640.png"
+
+  - title: "TR Nice - Cuneo"
+    direction: "any" 
+    speed: 140
+    composition:
+      - "A-TRV200.png"
+      - "0-2*C-TRNWAB.png"
+      - "2-5*C-TRNWB.png"
+      - "C-TRNWBdnrzf_R.png>C-TRNWBdnrzf.png"
+
+  - title: "TR Bremen - Bremerhaven"
+    direction: "any" 
+    speed: 80
+    stop:
+      at: 500
+      duration: 3
+    reverse_composition: true
+    composition:
+      - "A-TRBR143.png"
+      - "2*C-TRRIO_R.png>C-TRRIO.png"
+
+  - direction: "any"
+    speed: 100
+    track: "voie_beton.png"
+    composition:
+      - "B-TRBR670.png"
+
+  - direction: "any"
+    speed: 140
+    composition:
+      - "1-3*B-TRBR620.png"
+
+  - direction: "any"
+    speed: 140
+    composition:
+      - "1-3*B-TRCL150.png"
+
+  - direction: "any"
+    title: "TR Pwllheli - Llandudno Junction"
+    speed: 72
+    composition:
+      - "1-3*B-TRCL132.png"
+
+  - direction: "any"
+    speed: 72
+    composition:
+      - "2*B-TRBR515.png"
+
+  # --- Vivarail ---
+
+  - title: "Vivarail Amsterdam - Luxembourg"
+    direction: "any"
+    speed: 180
+    reverse_composition: true
+    composition:
+      - "A-VNS1600BNL.png"
+      - "6*C-VA2t6u.png"
+      - "C-VA3rtux.png"
+      - "4*C-VA9tu.png"
+      - "C-VB5Dux_R.png>C-VB5Dux.png"
+
+  - title: "Vivarail Strasbourg - Londres"
+    direction: "any"
+    speed: 300
+    track: "voie_beton.png"
+    composition:
+      - "B-Ve300.png"
+
+  - title: "Vivarail Rennes - Bruxelles"
+    direction: "any"
+    speed: 320
+    reverse_composition: true
+    composition:
+      - "B-VTGVPBA.png"
+
+
+  # --- HSX ---
+
+  - title: "HSX "
+    direction: "any"
+    speed: 320
+    track: "voie_beton.png"
+    composition:
+      - "B-HSXTGVM.png"
+
+  # --- Frail ---
+
+  - title: "Frail Perpignan"
+    direction: "any"
+    speed: 100
+    composition:
+      - "2-3*B-FRMS61.png"
+
+  - direction: "any"
+    title: "Frail Nîmes"
+    speed: 140
+    stop:
+      at: 1800
+      duration: 3
+    composition:
+      - "2*B-FRProtos.png"
+
+  - direction: "any"
+    title: "Frail Saint-Etienne"
+    speed: 160
+    composition:
+      - "2*B-FRB83500.png"
+
+  # --- Urbahn ---
+
+  - title: "Urbahn Lausanne"
+    direction: "any"
+    speed: 130
+    composition:
+      - "2*B-UBRe450NDW.png|B-UBRe450NDW_R.png"
+
+  # --- Intracity ---
+
+  - title: "Intracity Limoges"
+    direction: "any"
+    speed: 80
+    stop:
+      at: 1200
+      duration: 5
+    reverse_departure: true
+    composition:
+      - "1-2*B-ICRS1.png"
+
+  - title: "Intracity Poitiers - Futuroscope"
+    direction: "L"
+    speed: 100
+    stop:
+      at: 260
+      duration: 5
+    reverse_departure: true
+    foreground: 
+      image: "reb_futuroscope.png"
+      y: -8
+    composition:
+      - "2*B-ICBem550.png"
+
+  - direction: "any"
+    speed: 120
+    composition:
+      - "2*B-IC250.png"
+
+  - direction: "any"
+    speed: 100
+    composition:
+      - "B-ICTTFS.png"
+
+  # --- SanGo! ---
+
+  - direction: "any"
+    speed: 160
+    reverse_composition: true
+    composition:
+      - "SHUFFLE{A-SanGoBB9300.png, A-SanGoBB9200.png, A-SanGoBB9200_site.png}"
+      - "0-1*C-SanGoCorailMC76.png"
+      - "5-6*SHUFFLE{C-SanGoCorailVTU_site.png, C-SanGoCorailVTU.png, C-SanGoCorailVU_site.png, C-SanGoCorailVU.png}"
+      - "C-SanGoCorailVTUB10r.png"
+      - "C-SanGoCorailVUB6Dux_R.png>C-SanGoCorailVUB6Dux.png"
+
+  - direction: "any"
+    speed: 140
+    composition:
+      - "A-SanGoBB67400.png"
+      - "0-1*C-SanGoCorailMC76.png"
+      - "3-4*SHUFFLE{C-SanGoCorailVTU_site.png, C-SanGoCorailVTU.png, C-SanGoCorailVU_site.png, C-SanGoCorailVU.png}"
+      - "C-SanGoCorailVTUB10r.png"
+
+  - direction: "any"
+    title: "SanGo! Clermont-Ferrand - Toulouse"
+    speed: 160
+    composition:
+      - "A-SanGoCC72100.png"
+      - "C-SanGoCorailMC76.png"
+      - "C-SanGoCorailVTUB10r.png"
+      - "5-7*SHUFFLE{C-SanGoCorailVTU_site.png, C-SanGoCorailVTU.png, C-SanGoCorailVU_site.png, C-SanGoCorailVU.png}"
+
+  - direction: "any"
+    title: "SanGo! Régional Clermont-Ferrand - Neussargues"
+    speed: 140
+    reverse_composition: true
+    composition:
+      - "B-SanGoX2200.png"
+      - "2*C-SanGoXR6100.png"
+      - "C-SanGoXRx6200_R.png>C-SanGoXRx6200.png"
+
+  - direction: "any"
+    title: "SanGo! Régional Nîmes - Le Grau du Roi"
+    speed: 60
+    reverse_composition: true
+    composition:
+      - "B-SanGoX2200.png"
+      - "3*C-SanGoXR6100PRD.png"
+      - "C-SanGoXRx6200PRD_R.png>C-SanGoXRx6200PRD.png"
+
+  - direction: "any"
+    title: "SanGo! Régional Perpignan - Villefranche-de-Conflent"
+    speed: 120
+    composition:
+      - "1-2*B-SanGoZ7300.png"
+
+  - direction: "any"
+    speed: 140
+    reverse_composition: true
+    composition:
+      - "SHUFFLE{A-SanGoBB67400.png, A-SanGoBB8500.png}"
+      - "1-2*SHUFFLE{C-SanGoRRR_R.png>C-SanGoRRR.png, C-SanGoRIO88_R.png>C-SanGoRIO88.png, C-SanGoRIO_R.png>C-SanGoRIO.png}"
+
+  - direction: "any"
+    speed: 140
+    reverse_composition: true
+    stop:
+      at: 1000
+      duration: 3
+    composition:
+      - "A-SanGoBB8500.png"
+      - "4-6*C-SanGoNWB.png"
+      - "C-SanGoNWBdnrzf_R.png>C-SanGoNWBdnrzf.png"
+
+  - direction: "any"
+    title: "SanGo! Lyon - Toulouse"
+    speed: 160
+    composition:
+      - "B-SanGoTGVPSE.png"
+
+  - direction: "any"
+    title: "SanGo! Montpellier - Paris"
+    speed: 300
+    track: "voie_beton.png"
+    composition:
+      - "2*SHUFFLE{B-SanGoTGVPSE_H.png, B-SanGoTGVPSE.png}"
+
+  # --- CFP ---
+
+  - direction: "any"
+    title: "CFP Cadéac - Lannemezan"
+    speed: 140
+    composition:
+      - "1-2*B-CFPZ7100.png>B-CFPZ7100_R.png"
+
+  - direction: "any"
+    title: "CFP Foix - Lannemezan"
+    speed: 140
+    composition:
+      - "B-CFPALn776.png>B-CFPALn776_R.png"
+      - "2-4*C-CFPXR6100.png"
+      - "1-1*B-CFPALn776.png>B-CFPALn776_R.png"
+
+  - direction: "any"
+    title: "CFP Elne - Arles-sur-Tech"
+    speed: 120
+    composition:
+      - "1-2*SHUFFLE{B-CFPZ7100.png, B-CFPZ7100_R.png}"
+      - "0-1*C-CFPXR6100.png"
+
+  - direction: "any"
+    speed: 100
+    composition:
+      - "A-CFPG1000.png"
+      - "3-7*D-CFPLaais.png"
+
+  - direction: "any"
+    title: "CFP Acheminement"
+    speed: 100
+    composition:
+      - "A-CFPG1000.png"
+      - "1-2*B-CFPALn776.png>B-CFPALn776_R.png"
+      - "1-3*C-CFPXR6100.png"
+
+  # --- Divers ---

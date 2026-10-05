@@ -170,6 +170,30 @@
         return true;
     }
 
+    /* Fichier binaire (image importée). Écrase le fichier s'il existe :
+       l'appelant demande confirmation avant. */
+    async function writeBinary(path, blob) {
+        const fh = await fileHandle(path, true);
+        const w = await fh.createWritable();
+        await w.write(blob);
+        await w.close();
+        const f = await fh.getFile();
+        if (f.size !== blob.size) {
+            const e = new Error('Verification apres ecriture echouee sur ' + path);
+            e.code = 'VERIFY';
+            throw e;
+        }
+        return true;
+    }
+
+    async function removeFile(path) {
+        const i = path.lastIndexOf('/');
+        const dir = await dirHandle(i < 0 ? '' : path.slice(0, i));
+        await dir.removeEntry(i < 0 ? path : path.slice(i + 1));
+        stat.delete(path);
+        return true;
+    }
+
     /* ---- images ---------------------------------------------------------- */
 
     const IMG_BASE = 'mltc/livrees_pages/livrees_img';
@@ -236,6 +260,8 @@
         listDir: listDir,
         readText: readText,
         writeText: writeText,
+        writeBinary: writeBinary,
+        removeFile: removeFile,
         isStale: isStale,
         indexImages: indexImages,
         images: images,

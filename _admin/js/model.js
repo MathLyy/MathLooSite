@@ -263,6 +263,17 @@
     function newH2(page, text) {
         return mk('h2', { tag: 'h2', text: text || 'Titre', id: uniqueId(page, text || 'titre') });
     }
+    /* Composition type : bloc legende + image (div.lv-figure), place sous
+       l'engin ou la liste concernes. Images dans livrees_img/img_compos/. */
+    function newFigure(caption, src) {
+        return mk('figure', {
+            tag: 'div',
+            openTagRaw: '<div class="lv-figure">',
+            closeTagRaw: '</div>',
+            html: '\r\n        <p>' + Ser.esc(caption || 'Compositions types :') + '</p>\r\n        '
+                + '<img src="' + Ser.escAttr(src || '') + '" alt="Compositions" />\r\n      '
+        });
+    }
     function newDesc(html) { return mk('desc', { tag: 'div', html: html || '<p></p>' }); }
 
     /* Description intercalee DANS une liste d'engins : le corps est indente
@@ -348,6 +359,7 @@
         newSep: newSep,
         newH2: newH2,
         newDesc: newDesc,
+        newFigure: newFigure,
         newListDesc: newListDesc,
         newList: newList,
         newSection: newSection,

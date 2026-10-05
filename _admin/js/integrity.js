@@ -1,7 +1,8 @@
 /* =========================================================================
    integrity.js — Controles inter-fichiers, EN LECTURE SEULE.
 
-   L'outil n'ecrit jamais circulations.json ni services-page.js : il se
+   L'editeur Livrees n'ecrit jamais circulations.js (c'est le role de
+   l'editeur Compositions, compositions.html) ni services-page.js : il se
    contente d'avertir. Le rayon d'explosion d'un bug reste confine au HTML
    des livrees, exactement la zone que git revoque trivialement.
    ========================================================================= */
@@ -24,28 +25,40 @@
             errors: []
         };
 
-        /* --- circulations.json ------------------------------------------- */
+        /* --- circulations.js --------------------------------------------- */
+        /* Fichier .js (lisible en file://) qui enveloppe du JSON strict :
+           window.MLTC_CIRCULATIONS = { ... };. Trains rangés par service ;
+           les images y sont écrites « dossier/fichier.png » (relatif à
+           livrees_img/), au milieu de la syntaxe des compositions
+           (2*, A|B, G>D, SHUFFLE{...}). */
         try {
-            const data = JSON.parse(await Fs.readText('mltc/data/circulations.json'));
-            for (const country of Object.keys(data)) {
-                for (const comp of (data[country].compositions || [])) {
-                    const label = country + ' — ' + (comp.name || comp.service || '?');
+            const src = await Fs.readText('mltc/data/circulations.js');
+            const start = src.indexOf('{', src.indexOf('MLTC_CIRCULATIONS'));
+            const data = JSON.parse(src.slice(start, src.lastIndexOf('}') + 1));
+            const services = data.services || {};
+            const IMG_REF = /[^\s,{}|>*\/"]+\/[^\s,{}|>*\/"]+\.png/gi;
+            for (const service of Object.keys(services)) {
+                for (const train of (services[service] || [])) {
+                    const route = Array.isArray(train.route) ? train.route : [];
+                    const label = service + ' — ' + (train.name
+                        || (route.length ? route[0] + ' → ' + route[route.length - 1] : '(sans titre)'));
                     (function walk(v) {
                         if (typeof v === 'string') {
-                            const i = v.indexOf('livrees_img/');
-                            if (i >= 0) {
-                                const rel = v.slice(i);
+                            const refs = v.match(IMG_REF) || [];
+                            for (const ref of refs) {
+                                const rel = 'livrees_img/' + ref;
                                 if (!out.circ.has(rel)) out.circ.set(rel, []);
-                                out.circ.get(rel).push(label);
+                                const users = out.circ.get(rel);
+                                if (users.indexOf(label) < 0) users.push(label);
                             }
                         } else if (v && typeof v === 'object') {
                             Object.values(v).forEach(walk);
                         }
-                    })(comp);
+                    })(train);
                 }
             }
         } catch (e) {
-            out.errors.push('circulations.json illisible : ' + e.message);
+            out.errors.push('circulations.js illisible : ' + e.message);
         }
 
         /* --- services-page.js -------------------------------------------- */
@@ -67,6 +80,11 @@
                 let engines = 0;
                 if (!page.readOnly) {
                     P.walk(page, n => {
+                        if (n.type === 'figure' && n.html) {
+                            const m = /<img\b[^>]*\ssrc="([^"]*)"/i.exec(n.html);
+                            if (m) out.usedImages.add(m[1]);
+                            return;
+                        }
                         if (n.type !== 'engine') return;
                         engines++;
                         if (n.img.src) out.usedImages.add(n.img.src);
@@ -91,7 +109,7 @@
             out.errors.push('livrees.html illisible : ' + e.message);
         }
 
-        /* --- chemins de circulations.json absents du disque ---------------- */
+        /* --- chemins de circulations.js absents du disque ---------------- */
         if (Fs.images()) {
             for (const rel of out.circ.keys()) {
                 if (!Fs.hasImage(rel)) out.circMissing.push(rel);
@@ -104,7 +122,7 @@
 
     function cached() { return refs; }
 
-    /* Compositions de circulations.json qui referencent cette image. */
+    /* Compositions de circulations.js qui referencent cette image. */
     function circUsers(rel) {
         if (!refs || !rel) return [];
         return refs.circ.get(rel) || [];

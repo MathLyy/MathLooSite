@@ -10,20 +10,28 @@
         [442, 'Luxembourg'],    [276, 'Allemagne'],
         [208, 'Danemark'],      [724, 'Espagne'],
         [380, 'Italie'],        [40,  'Autriche'],
-        [203, 'Rép. Tchèque'],  [756, 'Suisse']
+        [203, 'République tchèque'], [756, 'Suisse']
     ]);
+
+    /* ---- Historique : quatre époques, sur neuf pays seulement ---- */
+    const EPOCHS = ['1958-1973', '1973-1984', '1984-1997', '1997-2001'];
+    const HISTORIC_COUNTRIES = new Set(['France', 'Royaume-Uni', 'Belgique', 'Pays-Bas', 'Luxembourg',
+        'Allemagne', 'Danemark', 'Suisse', 'Italie']);
 
     /* ---- Operator groupings (used by the operator tab strip) ---- */
     const OPERATOR_SERVICES = {
-        mltc:   ['HSX', 'Xpress', 'TransRegio', 'Vivarail', 'Nocrail', 'Urbahn', 'Intracity'],
+        mltc:   ['HSX', 'Xpress', 'TransRegio', 'Vivarail', 'Nocrail', 'Frail', 'Urbahn', 'Intracity'],
         prives: ['SanGo!', 'CFP'],
-        fret:   ['MLCC', 'MLUP']
+        fret:   ['MLCC', 'MLUP', 'MLTC Infrastructures']
     };
     const OPERATOR_LABELS = {
         mltc:   'MLTC Railways',
-        prives: 'Opérateurs privés',
-        fret:   'Fret & Postal'
+        prives: 'Autres opérateurs',
+        fret:   'Fret et infra'
     };
+    /* Onglets toujours présents ; « Autres opérateurs » n'apparaît que dans
+       les pays qui en ont (la France aujourd'hui). */
+    const ALWAYS_TABS = ['mltc', 'fret'];
     const SERVICE_TO_OPERATOR = (() => {
         const map = {};
         Object.keys(OPERATOR_SERVICES).forEach(op => {
@@ -45,17 +53,30 @@
     const searchEl = document.getElementById('circ-search');
     const filterEl = document.getElementById('circ-filter');
     const hintEl   = document.getElementById('circ-map-hint');
+    const rerollEl = document.getElementById('circ-reroll');
     const opTabs   = Array.from(document.querySelectorAll('.circ-op-tab'));
+    const tabsEl   = document.querySelector('.circ-operator-tabs');
+    const periodBtns = Array.from(document.querySelectorAll('.circ-period-btn[data-period]'));
+    const epochsEl   = document.querySelector('.circ-epochs');
+    const epochBtns  = Array.from(document.querySelectorAll('.circ-period-btn[data-epoch]'));
+
+    /* Compositions (js/compositions.js) : chemins depuis la racine du site,
+       rames vues dans le sens gauche, 3 tirées au hasard par service. */
+    const Compo       = window.MltcCompo;
+    const BASE        = '../';
+    const MAP_OPTS    = { direction: 'L', reversed: false };
+    const PER_SERVICE = 3;
 
     const DEFAULT_TITLE = 'Sélectionnez un pays';
     const DEFAULT_DESC = 'Choisissez un territoire sur la carte pour afficher les services, compositions et variantes associées.';
-    const DEFAULT_HINT = 'Cliquez sur un pays pour ouvrir le panneau des circulations sans quitter la carte.';
-    const ACTIVE_HINT = 'La carte reste active : cliquez sur un autre pays, ou dans le vide de la carte pour revenir à la vue d\'ensemble.';
+    const HISTORIC_HINT = 'Historique : France, Royaume-Uni, Benelux, Allemagne, Danemark, Suisse et Italie.';
 
     let shapes = [];
     let DATA = {};
     let activeCountry = null;
-    let crossCountry = {};
+    let byCountry = {};         // pays -> [{ service, train }]
+    let historic = false;       // période : services d'avant 2001 (CCFM, WME, MSER)
+    let epoch = EPOCHS[0];      // époque affichée en historique
     let renderToken = 0;
 
     /* ---- Helpers ---- */
@@ -75,7 +96,14 @@
             panelEl.setAttribute('aria-hidden', String(!active));
             if ('inert' in panelEl) panelEl.inert = !active;
         }
-        if (hintEl) hintEl.textContent = active ? ACTIVE_HINT : DEFAULT_HINT;
+        updateHint(active);
+    }
+
+    function updateHint(active) {
+        if (!hintEl) return;
+        if (active || !historic) hintEl.textContent = '';
+        else hintEl.textContent = Object.keys(byCountry).some(countryHasData)
+            ? HISTORIC_HINT : epoch + ' : aucune composition renseignée pour l’instant.';
     }
 
     function clearList() {
@@ -92,25 +120,67 @@
         setLayoutState(false);
     }
 
-    function getCountryEntries(name) {
-        const entry = DATA[name];
-        if (!entry) return [];
-        const local = (entry.compositions || []).map(item => ({ item, origin: null }));
-        const cross = (crossCountry[name] || []).map(c => ({ item: c.item, origin: c.originCountry }));
-        const all = local.concat(cross);
-        return all
-            .filter(e => operatorOf(e.item) === activeOperator)
-            .sort((a, b) => a.item.service.localeCompare(b.item.service));
+    /* Circulations du pays pour la période choisie : [{ service, train }].
+       En historique, un train sans « epoques » vaut pour les quatre. */
+    function periodEntries(name) {
+        if (historic && !HISTORIC_COUNTRIES.has(name)) return [];
+        return (byCountry[name] || []).filter(e => Compo.isHistoric(DATA, e.service) === historic
+            && (!historic || inEpoch(e.train)));
     }
 
-    function operatorOf(item) {
-        return SERVICE_TO_OPERATOR[item.service] || 'mltc';
+    function inEpoch(t) {
+        return !Array.isArray(t.epoques) || !t.epoques.length || t.epoques.indexOf(epoch) >= 0;
+    }
+
+    function isOff(name) {
+        return historic && !HISTORIC_COUNTRIES.has(name);
+    }
+
+    /* ... et, aujourd'hui, pour l'onglet actif. */
+    function getCountryEntries(name) {
+        return periodEntries(name).filter(e => historic || operatorOf(e.service) === activeOperator);
+    }
+
+    function countryHasData(name) {
+        return periodEntries(name).length > 0;
+    }
+
+    /* Pays qui ont des circulations pour la période : en couleur sur la carte.
+       En historique, les pays hors période s'estompent et ne se cliquent plus. */
+    function paintCountries() {
+        shapes.forEach(s => {
+            const off = isOff(s.dataset.country);
+            s.classList.toggle('has-data', countryHasData(s.dataset.country));
+            s.classList.toggle('is-off', off);
+            s.setAttribute('tabindex', off ? '-1' : '0');
+            s.setAttribute('aria-disabled', String(off));
+        });
+    }
+
+    function operatorOf(service) {
+        return SERVICE_TO_OPERATOR[service] || 'mltc';
+    }
+
+    /* Regroupe par service (ordre alphabétique) et mélange chaque groupe.
+       limit : nombre gardé par service (0 = tous). */
+    function pickEntries(entries, limit) {
+        const groups = new Map();
+        entries.forEach(e => {
+            if (!groups.has(e.service)) groups.set(e.service, []);
+            groups.get(e.service).push(e);
+        });
+        const out = [];
+        Array.from(groups.keys()).sort((a, b) => a.localeCompare(b)).forEach(service => {
+            const list = Compo.shuffle(groups.get(service));
+            out.push.apply(out, limit ? list.slice(0, limit) : list);
+        });
+        return out;
     }
 
     function refreshServiceFilter() {
         if (!filterEl) return;
         const previous = filterEl.value;
-        const services = OPERATOR_SERVICES[activeOperator] || [];
+        const services = historic ? (DATA.historiques || []) : (OPERATOR_SERVICES[activeOperator] || []);
         const opts = ['<option value="">Tous les services</option>']
             .concat(services.map(s => '<option value="' + esc(s) + '">' + esc(s) + '</option>'));
         filterEl.innerHTML = opts.join('');
@@ -153,7 +223,7 @@
                 setEmpty(true);
             } else {
                 setEmpty(false);
-                listEl.innerHTML = entries.map(e => itemHTML(e.item, e.origin || e.country)).join('');
+                listEl.innerHTML = entries.map(itemHTML).join('');
                 wireScrollSync();
                 wireRouteExpand();
             }
@@ -165,48 +235,52 @@
         }, 120);
     }
 
-    /** Build cross-country index: trains serving stations in a foreign country */
-    function buildCrossCountryIndex() {
-        crossCountry = {};
-        Object.keys(DATA).forEach(origin => {
-            (DATA[origin].compositions || []).forEach(item => {
-                const list = item.countries || [];
-                list.forEach(c => {
-                    if (c !== origin) {
-                        if (!crossCountry[c]) crossCountry[c] = [];
-                        crossCountry[c].push({ item, originCountry: origin });
-                    }
-                });
-            });
+    /* Versions d'un train montrées sur la carte : la base, et chaque
+       variante qui a ses propres pays (une rame par tronçon du trajet, par
+       exemple avant et après un changement de locomotive). Chaque version
+       est le train tel qu'il circule : { service, train: réglages fusionnés }. */
+    function mapVersions(e) {
+        const out = [{ service: e.service, train: Compo.scenario(DATA, e.service, e.train, 0) }];
+        (Array.isArray(e.train.variants) ? e.train.variants : []).forEach((v, i) => {
+            if (v && Array.isArray(v.countries)) {
+                out.push({ service: e.service, train: Compo.scenario(DATA, e.service, e.train, i + 1) });
+            }
         });
+        return out;
+    }
+
+    /* Index pays -> circulations. Un train sans pays ne circule que sur la
+       page Trafic ; un nom de pays inconnu de la carte est signalé. */
+    function buildCountryIndex() {
+        byCountry = {};
+        const known = new Set(COUNTRY_IDS.values());
+        Compo.trains(DATA).forEach(e => mapVersions(e).forEach(v => {
+            (Array.isArray(v.train.countries) ? v.train.countries : []).forEach(c => {
+                if (!known.has(c)) console.warn('[Circulations] pays inconnu de la carte : ' + c);
+                if (!byCountry[c]) byCountry[c] = [];
+                if (byCountry[c].indexOf(v) < 0) byCountry[c].push(v);
+            });
+        }));
     }
 
     /* shared onload: size to native pixels, then update scroll spacer */
     const IMG_ONLOAD = `this.style.width=this.naturalWidth+'px';this.style.height=this.naturalHeight+'px';var el=this;requestAnimationFrame(function(){var w=el.closest('.circ-consist-wrap');if(w){var s=w.querySelector('.circ-scroll-spacer');if(s)s.style.width=el.closest('.circ-consist').scrollWidth+'px'}})`;
 
-    function buildVehicleRow(vehicles) {
-        const total = vehicles.length;
-        const imgs = vehicles.map((v, i) => {
-            if (typeof v === 'object' && v.coupler) {
-                const mb = typeof v.bottom === 'number' ? v.bottom : 7;
-                const ol = typeof v.overlap === 'number' ? v.overlap : 3;
-                const z = total + 1;
-                return `<img class="circ-coupler-img" style="z-index:${z};margin-bottom:${mb}px;margin-left:-${ol}px;margin-right:-${ol}px" draggable="false" src="${esc(v.coupler)}" alt="" onload="${IMG_ONLOAD}">`;
+    /* Rame résolue ({ src } ou attelage { src, coupler, overlap, bottom }). */
+    function buildVehicleRow(list) {
+        const total = list.length;
+        const imgs = list.map((v, i) => {
+            const src = esc(BASE + v.src);
+            if (v.coupler) {
+                return `<img class="circ-coupler-img" style="z-index:${total + 1};margin-bottom:${v.bottom}px;margin-left:-${v.overlap}px;margin-right:-${v.overlap}px" draggable="false" src="${src}" alt="" onload="${IMG_ONLOAD}">`;
             }
-            const z = total - i;
-            if (typeof v === 'object' && v.src) {
-                const flip = v.flip ? 'transform:scaleX(-1);' : '';
-                return `<img class="circ-train-img" style="z-index:${z};${flip}" draggable="false" src="${esc(v.src)}" alt="" onload="${IMG_ONLOAD}">`;
-            }
-            return `<img class="circ-train-img" style="z-index:${z}" draggable="false" src="${esc(v)}" alt="" onload="${IMG_ONLOAD}">`;
+            return `<img class="circ-train-img" style="z-index:${total - i}" draggable="false" src="${src}" alt="" onload="${IMG_ONLOAD}">`;
         }).join('');
         return `<div class="circ-vehicle-row">${imgs}</div>`;
     }
 
-    function buildConsistBlock(trainContent, label) {
-        const labelHTML = label ? `<span class="circ-segment-label">${esc(label)}</span>` : '';
+    function buildConsistBlock(trainContent) {
         return `<div class="circ-consist-wrap">
-                    ${labelHTML}
                     <div class="circ-consist">
                         <div class="circ-consist-inner">
                             ${trainContent}
@@ -217,50 +291,50 @@
                 </div>`;
     }
 
-    function itemHTML(item, showCountry) {
-        const hasImg      = item.img && item.img.trim();
-        const hasVehicles = Array.isArray(item.vehicles) && item.vehicles.length;
-        const hasSegments = Array.isArray(item.segments) && item.segments.length;
-
-        let consistBlocks = '';
-        if (hasSegments) {
-            const segHTML = item.segments.map(seg => {
-                const segVehicles = Array.isArray(seg.vehicles) ? seg.vehicles : [];
-                const content = segVehicles.length ? buildVehicleRow(segVehicles) : '';
-                return buildConsistBlock(content, seg.label);
-            }).join('');
-            consistBlocks = `<div class="circ-segments-group">${segHTML}</div>`;
-        } else if (hasVehicles) {
-            consistBlocks = buildConsistBlock(buildVehicleRow(item.vehicles), null);
-        } else if (hasImg) {
-            const imgContent = `<div class="circ-vehicle-row"><img class="circ-train-img" draggable="false" src="${esc(item.img)}" alt="${esc(item.name)}" onload="${IMG_ONLOAD}"></div>`;
-            consistBlocks = buildConsistBlock(imgContent, null);
+    /* Rame d'une circulation, tirée au hasard à chaque affichage. Si son
+       arrêt change la rame (changement de locomotive, dételage, attelage),
+       c'est la rame d'après l'arrêt qui circule dans les pays de la version. */
+    function consistHTML(e) {
+        const cfg = e.train;
+        let list = Compo.resolve(cfg.composition, MAP_OPTS);
+        const st = cfg.stop;
+        if (st && (st.loco_change || (st.attach && st.attach.length) || st.detach_count)) {
+            list = Compo.afterStop(list, st, MAP_OPTS);
         }
+        return list.length ? buildConsistBlock(buildVehicleRow(list)) : '';
+    }
+
+    function itemHTML(e) {
+        const t = e.train;
+        const stops = Array.isArray(t.route) ? t.route : [];
+        const nameHTML = t.name ? `<span class="circ-route-name">${esc(t.name)}</span>` : '';
 
         /* Route: show departure → terminus, expandable to full */
-        const stops = item.name.split(/\s*→\s*/);
         let routeHTML;
         if (stops.length > 2) {
             const mid = stops.slice(1, -1).map(s => '<span class="circ-route-mid">' + esc(s) + '</span>').join(' → ');
-            routeHTML = `<h4 class="circ-route">`
-                + `<span class="circ-route-origin">${esc(stops[0])}&ensp;\u2192&ensp;</span>`
-                + `<span class="circ-route-stops" hidden>${mid}&ensp;\u2192&ensp;</span>`
+            routeHTML = `<h4 class="circ-route">${nameHTML}`
+                + `<span class="circ-route-origin">${esc(stops[0])}&ensp;→&ensp;</span>`
+                + `<span class="circ-route-stops" hidden>${mid}&ensp;→&ensp;</span>`
                 + `<span class="circ-route-dest">${esc(stops[stops.length - 1])}</span>`
                 + `<button class="circ-route-toggle" aria-label="Afficher le trajet complet" title="Trajet complet">`
                 + `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>`
                 + `</button></h4>`;
+        } else if (stops.length) {
+            routeHTML = `<h4>${nameHTML}${esc(stops.join(' → '))}</h4>`;
         } else {
-            routeHTML = `<h4>${esc(item.name)}</h4>`;
+            routeHTML = `<h4>${esc(t.name || e.service)}</h4>`;
         }
+        const detailHTML = t.detail ? `<span class="circ-item-detail">${esc(t.detail)}</span>` : '';
 
         return `
             <li class="circ-item">
                 <div class="circ-item-head">
-                    <span class="circ-item-service" data-service="${esc(item.service)}">${esc(item.service)}</span>
+                    <span class="circ-item-service" data-service="${esc(e.service)}">${esc(e.service)}</span>
                     ${routeHTML}
-                    <span class="circ-item-detail">${esc(item.detail)}</span>
+                    ${detailHTML}
                 </div>
-                ${consistBlocks}
+                ${consistHTML(e)}
             </li>`;
     }
 
@@ -311,16 +385,14 @@
     }
 
     function getAvailableOperators(name) {
-        const entry = DATA[name];
-        if (!entry) return new Set();
-        const local = (entry.compositions || []).map(item => ({ item }));
-        const cross = (crossCountry[name] || []).map(c => ({ item: c.item }));
-        const ops = new Set();
-        local.concat(cross).forEach(e => ops.add(operatorOf(e.item)));
+        const ops = new Set(ALWAYS_TABS);
+        periodEntries(name).forEach(e => ops.add(operatorOf(e.service)));
         return ops;
     }
 
     function updateOperatorTabsVisibility(name) {
+        /* Historique : pas d'onglets, les compagnies d'avant 2001 seulement. */
+        if (tabsEl) tabsEl.hidden = historic;
         const available = getAvailableOperators(name);
         opTabs.forEach(t => {
             const op = t.dataset.operator;
@@ -341,19 +413,20 @@
         }
     }
 
+    /* Vue par défaut d'un pays : au plus PER_SERVICE circulations par
+       service, tirées au hasard à chaque affichage. */
     function selectCountry(name) {
-        const entry = DATA[name];
-        if (!entry) return;
         clearActive();
         activeCountry = name;
         const shape = shapes.find(s => s.dataset.country === name);
         if (shape) shape.classList.add('active');
         updateOperatorTabsVisibility(name);
-        renderEntries(getCountryEntries(name), {
+        renderEntries(pickEntries(getCountryEntries(name), PER_SERVICE), {
             active: true,
             title: name,
-            description: entry.description || 'Consultez les circulations associées à ce territoire.',
-            emptyMessage: 'Aucune circulation ' + OPERATOR_LABELS[activeOperator] + ' n\'est renseignée pour ce pays.'
+            emptyMessage: historic
+                ? 'Aucune composition n’est renseignée pour ce pays en ' + epoch + '.'
+                : 'Aucune circulation ' + OPERATOR_LABELS[activeOperator] + ' n’est renseignée pour ce pays.'
         });
         if (window.innerWidth < 768) {
             panelEl?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -373,20 +446,53 @@
             selectCountry(activeCountry);
             return;
         }
-        const results = getCountryEntries(activeCountry).filter(entry => {
-            const blob = (activeCountry + ' ' + entry.item.name + ' ' + entry.item.service + ' ' + entry.item.detail).toLowerCase();
-            return (!q || blob.includes(q)) && (!service || entry.item.service.toLowerCase() === service);
+        /* Recherche et filtre portent sur toutes les circulations du pays. */
+        const results = getCountryEntries(activeCountry).filter(e => {
+            const t = e.train;
+            const blob = [activeCountry, e.service, t.name, (t.route || []).join(' '), t.detail]
+                .filter(Boolean).join(' ').toLowerCase();
+            return (!q || blob.includes(q)) && (!service || e.service.toLowerCase() === service);
         });
-        const entry = DATA[activeCountry] || {};
-        const baseDescription = entry.description || 'Consultez les circulations associées à ce territoire.';
-        renderEntries(results, {
+        renderEntries(pickEntries(results, 0), {
             active: true,
             title: activeCountry,
-            description: results.length
-                ? baseDescription + ' ' + results.length + ' circulation(s) correspondent au filtre.'
-                : 'Aucune circulation ne correspond aux filtres en cours.',
             emptyMessage: 'Aucun résultat pour cette sélection.'
         });
+    }
+
+    /* ---- Période : aujourd'hui ou historique, et son époque ---- */
+
+    function pressOne(btns, isOn) {
+        btns.forEach(b => {
+            const on = isOn(b);
+            b.classList.toggle('active', on);
+            b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+    }
+
+    function periodChanged() {
+        searchEl.value = '';
+        refreshServiceFilter();
+        paintCountries();
+        if (activeCountry && !isOff(activeCountry)) selectCountry(activeCountry);
+        else if (activeCountry) resetView();
+        else updateHint(false);
+    }
+
+    function setPeriod(period) {
+        const next = period === 'historique';
+        if (next === historic) return;
+        historic = next;
+        pressOne(periodBtns, b => (b.dataset.period === 'historique') === historic);
+        if (epochsEl) epochsEl.hidden = !historic;
+        periodChanged();
+    }
+
+    function setEpoch(next) {
+        if (next === epoch || EPOCHS.indexOf(next) < 0) return;
+        epoch = next;
+        pressOne(epochBtns, b => b.dataset.epoch === epoch);
+        periodChanged();
     }
 
     /* ---- Wire SVG shapes ---- */
@@ -399,6 +505,7 @@
             s.setAttribute('role', 'button');
             s.setAttribute('aria-label', country + ' - voir les compositions');
             s.addEventListener('click', (e) => {
+                if (isOff(country)) return;     // comme un clic dans le vide
                 e.stopPropagation();
                 searchEl.value = '';
                 filterEl.value = '';
@@ -561,13 +668,20 @@
     async function init() {
         setLayoutState(false);
         await buildMap();
-        const r = await fetch('data/circulations.json');
-        if (!r.ok) throw new Error('Données : HTTP ' + r.status);
-        DATA = await r.json() || {};
-        buildCrossCountryIndex();
+        DATA = await Compo.load(BASE) || {};
+        buildCountryIndex();
+        refreshServiceFilter();
+        paintCountries();
         wireShapes();
+        periodBtns.forEach(b => b.addEventListener('click', () => setPeriod(b.dataset.period)));
+        epochBtns.forEach(b => b.addEventListener('click', () => setEpoch(b.dataset.epoch)));
+        /* Les pays en couleur clignotent deux fois au chargement, pour montrer
+           que la carte se clique (sauf si le visiteur réduit les animations). */
+        svgEl.classList.add('is-inviting');
+        svgEl.addEventListener('animationend', () => svgEl.classList.remove('is-inviting'), { once: true });
         searchEl.addEventListener('input', applyFilter);
         filterEl.addEventListener('change', applyFilter);
+        if (rerollEl) rerollEl.addEventListener('click', applyFilter);
         opTabs.forEach(t => {
             t.addEventListener('click', () => setActiveOperator(t.dataset.operator));
         });

@@ -403,6 +403,7 @@
             case 'catTitle': return textCard(node, siblings, page, 'Titre de catégorie');
             case 'lastmodText': return textCard(node, siblings, page, 'Dernière mise à jour');
             case 'desc': return descCard(node, siblings, page);
+            case 'figure': return figureCard(node, siblings, page);
             case 'btns': return btnsCard(node, siblings, page);
             case 'list': return listCard(node, siblings, page);
             case 'icons': return iconsCard(node, siblings, page);
@@ -592,6 +593,86 @@
         ]);
         const plain = node.html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
         return card('Description', plain.slice(0, 70) + (plain.length > 70 ? '…' : ''), body, {
+            key: node._key, actions: [removeBtn(node, siblings, page)]
+        });
+    }
+
+    /* --- composition type (legende + image) ------------------------------ */
+    const FIG_P = /(<p\b[^>]*>)([\s\S]*?)(<\/p>)/i;
+    const FIG_IMG = /<img\b[^>]*>/i;
+    function figGet(html) {
+        const p = FIG_P.exec(html), im = FIG_IMG.exec(html);
+        const attr = n => im ? ((new RegExp('\\s' + n + '="([^"]*)"', 'i').exec(im[0]) || [])[1] || '') : '';
+        return { caption: p ? P.decodeText(p[2]) : '', src: attr('src'), alt: attr('alt') };
+    }
+    /* Legende facultative : second paragraphe <p class="lv-legend"> sous le titre. */
+    const FIG_LEG = /(\s*)<p\b[^>]*class="lv-legend"[^>]*>([\s\S]*?)<\/p>/i;
+    function figLegendGet(html) {
+        const m = FIG_LEG.exec(html);
+        return m ? P.decodeText(m[2]) : '';
+    }
+    function figLegendSet(html, value) {
+        const has = FIG_LEG.test(html);
+        if (!value) return has ? html.replace(FIG_LEG, '') : html;
+        const tag = '<p class="lv-legend">' + Ser.esc(value) + '</p>';
+        if (has) return html.replace(FIG_LEG, (m, ws) => ws + tag);
+        return html.replace(FIG_P, m => m + '\r\n        ' + tag);
+    }
+    function figSetAttr(html, name, value) {
+        return html.replace(FIG_IMG, tag => {
+            const re = new RegExp('(\\s' + name + '=")[^"]*(")', 'i');
+            const v = Ser.escAttr(value);
+            return re.test(tag) ? tag.replace(re, (m, a, b) => a + v + b)
+                : tag.replace(/\s*\/?>$/, ' ' + name + '="' + v + '" />');
+        });
+    }
+
+    function figureCard(node, siblings, page) {
+        const f = figGet(node.html);
+        const set = fn => { M.setField(node, page, n => { n.html = fn(n.html); }); markDirty(); schedulePreview(); };
+
+        const thumb = el('div.thumb', { style: 'min-height:40px' });
+        const pathTxt = el('div.path', { text: f.src || '(aucune image)' });
+        function drawThumb() {
+            K.clear(thumb);
+            const cur = figGet(node.html).src;
+            pathTxt.textContent = cur || '(aucune image)';
+            if (!cur) return;
+            const im = el('img', { alt: '', style: 'max-width:100%;max-height:120px;image-rendering:pixelated' });
+            thumb.appendChild(im);
+            Fs.imageURL(cur).then(u => { if (u) im.src = u; });
+        }
+        drawThumb();
+
+        const body = el('div.body', {}, [
+            K.field('Titre', el('input', {
+                type: 'text', value: f.caption,
+                oninput: e => set(h => h.replace(FIG_P, (m, a, t, c) => a + Ser.esc(e.target.value) + c))
+            }), 'Texte affiché au-dessus de l\'image, par exemple « Compositions types : »'),
+            K.field('Légende (facultative)', el('input', {
+                type: 'text', value: figLegendGet(node.html),
+                oninput: e => set(h => figLegendSet(h, e.target.value))
+            }), 'Texte affiché sous le titre, avec un petit espacement, par exemple « Composition de 3 caisses. »'),
+            K.field('Image', el('div', {}, [
+                thumb, pathTxt,
+                el('div', { style: 'display:flex;gap:6px;margin-top:6px' }, [
+                    el('button.btn.sm', {
+                        text: 'Choisir…',
+                        onclick: async () => {
+                            const r = await X.pickImage({ current: figGet(node.html).src, folder: 'img_compos' });
+                            if (!r || r.src == null) return;
+                            set(h => figSetAttr(h, 'src', r.src));
+                            drawThumb();
+                        }
+                    })
+                ])
+            ])),
+            K.field('Texte alternatif', el('input', {
+                type: 'text', value: f.alt,
+                oninput: e => set(h => figSetAttr(h, 'alt', e.target.value))
+            }))
+        ]);
+        return card('Composition type', f.caption.slice(0, 60), body, {
             key: node._key, actions: [removeBtn(node, siblings, page)]
         });
     }
@@ -811,6 +892,18 @@
                     S.open.add(d._key);
                     markDirty(); renderEditor(); schedulePreview();
                 }
+            }),
+            el('button.btn.sm', {
+                text: '+ Composition type',
+                style: 'margin-left:6px',
+                title: 'Image d\'une composition type, placée dans la liste',
+                onclick: () => {
+                    const d = M.newFigure();
+                    M.insertChild(node, 1e9, d, page);
+                    d._key = 'k' + (++keySeq);
+                    S.open.add(d._key);
+                    markDirty(); renderEditor(); schedulePreview();
+                }
             })
         ]));
 
@@ -974,12 +1067,12 @@
                 if (users.length && r.src !== before) {
                     const ok = await K.confirm('Image référencée ailleurs',
                         '<p><code>' + before + '</code> est utilisée par <strong>' + users.length
-                        + '</strong> composition(s) de <code>circulations.json</code> :</p><ul>'
+                        + '</strong> composition(s) de <code>circulations.js</code> :</p><ul>'
                         + users.slice(0, 8).map(u => '<li>' + u + '</li>').join('')
                         + (users.length > 8 ? '<li>…</li>' : '')
                         + '</ul><p class="dim">Le changer ici ne casse rien immédiatement — '
-                        + 'circulations.json continue de pointer vers le fichier, qui existe toujours. '
-                        + 'Mais si vous supprimez ce PNG, l\'animation de train et la page Circulations casseront.</p>',
+                        + 'circulations.js continue de pointer vers le fichier, qui existe toujours. '
+                        + 'Mais si vous supprimez ce PNG, la carte Circulations, la page Trafic et le bandeau animé ne l\'afficheront plus.</p>',
                         'J\'ai compris, continuer');
                     if (!ok) return;
                 }
@@ -1107,10 +1200,10 @@
     function addBlockBar(siblings, page, isRoot, allowed) {
         const kinds = allowed || (isRoot
             ? ['section', 'h2', 'desc', 'btns']
-            : ['catbar', 'list', 'desc', 'sep', 'btns', 'section']);
+            : ['catbar', 'list', 'desc', 'figure', 'sep', 'btns', 'section']);
         const labels = {
             section: '+ Section', h2: '+ Titre d\'époque', desc: '+ Description',
-            btns: '+ Boutons d\'ancre', catbar: '+ Barre de catégorie',
+            btns: '+ Boutons d\'ancre', figure: '+ Composition type', catbar: '+ Barre de catégorie',
             list: '+ Liste d\'engins', sep: '+ Séparation', topbar: '+ Titre',
             sub: '+ Sous-titre', icons: '+ Grille d\'icônes'
         };
@@ -1133,6 +1226,7 @@
             case 'section': return M.newSection(page, 'Nouvelle catégorie');
             case 'h2': return M.newH2(page, 'Nouvelle époque');
             case 'desc': return M.newDesc('<p>À compléter.</p>');
+            case 'figure': return M.newFigure();
             case 'catbar': return M.newCatbar('Nouvelle catégorie');
             case 'sep': return M.newSep('Nouveau groupe');
             case 'list': return M.newList(container && container.openTagRaw ? '      ' : '      ');
@@ -1178,9 +1272,9 @@
         const problems = Ser.verify(page, out);
         if (problems.length) {
             K.modal({
-                title: 'Vérification échouée — rien n\'a été écrit',
+                title: 'Vérification échouée, rien n\'a été écrit',
                 body: el('div', {}, [
-                    el('p.err', { text: 'Le résultat ne satisfait pas les invariants de sécurité :' }),
+                    el('p.err', { text: 'Problèmes détectés dans le résultat :' }),
                     el('ul', {}, problems.map(p => el('li', { text: p })))
                 ]),
                 footer: [el('div.spacer')]
@@ -1336,17 +1430,17 @@
 
         body.appendChild(el('p.dim', {
             text: 'Ces contrôles sont en lecture seule : l\'outil n\'écrit jamais '
-                + 'circulations.json ni services-page.js, il se contente d\'avertir.'
+                + 'circulations.js ni services-page.js, il se contente d\'avertir.'
         }));
         body.appendChild(el('p', {
             html: r.counts.total + ' images sur le disque · ' + r.counts.used + ' utilisées par les pages · '
-                + r.counts.circ + ' référencées par circulations.json · '
+                + r.counts.circ + ' référencées par circulations.js · '
                 + r.counts.liveries + ' liens depuis services-page.js · '
                 + r.counts.indexLinks + ' icônes sur livrees.html'
         }));
 
         section('Erreurs dures', r.circMissing.map(p =>
-            'circulations.json référence ' + p + ' — fichier absent du disque (casse train-anim.js)')
+            'circulations.js référence ' + p + ' — fichier absent du disque (manque sur la carte, la page Trafic et le bandeau)')
             .concat(r.badLiveries.map(l => 'services-page.js pointe vers ' + l + ' — page inexistante'))
             .concat(r.badIndex.map(l => 'livrees.html pointe vers ' + l.href + ' — page inexistante'))
             .concat(r.errors), 'err');
@@ -1356,7 +1450,7 @@
 
         section('Images orphelines (' + r.orphans.length + ')',
             r.orphans.slice(0, 200), 'dim',
-            'Présentes sur le disque mais référencées ni par une page ni par circulations.json. '
+            'Présentes sur le disque mais référencées ni par une page ni par circulations.js. '
             + 'Purement informatif.');
 
         function section(title, items, cls, hint) {

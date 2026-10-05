@@ -86,7 +86,7 @@
                     ]);
                     /* Avertissement hauteur non canonique (58 px). */
                     img.addEventListener('load', () => {
-                        if (img.naturalHeight && img.naturalHeight !== window.LvValidate.SPRITE_H) {
+                        if (folder !== 'img_compos' && img.naturalHeight && img.naturalHeight !== window.LvValidate.SPRITE_H) {
                             item.querySelector('.tags').appendChild(
                                 K.badge('warn', img.naturalHeight + ' px'));
                         }

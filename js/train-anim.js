@@ -1,17 +1,23 @@
 /* ═══════════════════════════════════════════════════
-   Train Animation – cycles through circulations.json
+   Train Animation – cycles through circulations
    compositions right-to-left on a rail track.
 
    Options (attributs data-* du conteneur) :
      data-base     préfixe vers la racine du site
-     data-source   fichier JSON, relatif à la racine
-                   (défaut : mltc/data/circulations.json)
+     data-source   fichier JSON de compositions, relatif à la
+                   racine (sans lui : mltc/data/circulations.js,
+                   lu par js/compositions.js, à charger avant
+                   ce script)
      data-group    clé d'un groupe de compositions dans ce
                    fichier ({ "groupe": [compositions] })
      data-order    "sequence" pour garder l'ordre du fichier
                    (défaut : ordre aléatoire)
      data-caption  id d'un élément qui affiche le nom de la
                    composition en cours
+
+   Avec le fichier des circulations, chaque passage tire une
+   rame au hasard ; avec data-caption, seuls les trains qui
+   ont un nom ou un trajet passent.
    ═══════════════════════════════════════════════════ */
 
 (function () {
@@ -26,7 +32,7 @@
   const TRACK_H       = 8;           // track strip height
 
   const base    = container.dataset.base || '';
-  const source  = container.dataset.source || 'mltc/data/circulations.json';
+  const source  = container.dataset.source || '';
   const group   = container.dataset.group || '';
   const inOrder = container.dataset.order === 'sequence';
   const caption = container.dataset.caption ? document.getElementById(container.dataset.caption) : null;
@@ -35,6 +41,7 @@
   let compositions = [];
   let compIndex = 0;
   let trainWrap = null;
+  let circData = null;          // fichier des circulations (clé "services")
 
   /* ── helpers ── */
   function randBetween(a, b) { return a + Math.random() * (b - a); }
@@ -67,16 +74,22 @@
   /* ── load compositions ── */
   async function loadCompositions() {
     try {
-      const res  = await fetch(base + source);
-      const data = await res.json();
-      if (group) {
-        compositions = (data[group] || []).slice();
+      if (source) {
+        const res  = await fetch(base + source);
+        const data = await res.json();
+        compositions = (group ? data[group] || [] : []).slice();
       } else {
-        for (const country of Object.values(data)) {
-          if (country.compositions) {
-            for (const comp of country.compositions) compositions.push(comp);
-          }
+        const Compo = window.MltcCompo;
+        if (!Compo) {
+          console.warn('train-anim: js/compositions.js doit être chargé avant train-anim.js');
+          return;
         }
+        circData = await Compo.load(base);
+        compositions = Compo.trains(circData)
+          .filter(e => !Compo.isHistoric(circData, e.service))
+          .filter(e => Array.isArray(e.train.composition) && e.train.composition.length)
+          .filter(e => !caption || Compo.label(e.train))
+          .map(e => ({ entry: e }));
       }
       /* shuffle */
       for (let i = inOrder ? 0 : compositions.length - 1; i > 0; i--) {
@@ -84,13 +97,42 @@
         [compositions[i], compositions[j]] = [compositions[j], compositions[i]];
       }
     } catch (e) {
-      console.warn('train-anim: could not load ' + source, e);
+      console.warn('train-anim: could not load ' + (source || 'mltc/data/circulations.js'), e);
     }
+  }
+
+  /* Train du fichier des circulations : rame tirée au hasard, vue dans
+     le sens gauche (le bandeau défile vers la gauche). */
+  function fromEntry(e) {
+    const Compo = window.MltcCompo;
+    const cfg = Compo.scenario(circData, e.service, e.train, 0);
+    const label = Compo.label(cfg);
+    return {
+      name: label ? e.service + ' · ' + label : e.service,
+      detail: cfg.detail || '',
+      items: Compo.resolve(cfg.composition, { direction: 'L' })
+    };
   }
 
   /* ── build train images (same logic as circulations.js) ── */
   function buildTrain(comp) {
     trainWrap.innerHTML = '';
+    if (comp.items) {
+      const total = comp.items.length;
+      comp.items.forEach((v, i) => {
+        const img = document.createElement('img');
+        img.draggable = false;
+        img.src = base + v.src;
+        img.style.cssText =
+          'display:block;max-width:none;image-rendering:pixelated;' +
+          'user-select:none;-webkit-user-drag:none;pointer-events:none;position:relative;' +
+          (v.coupler
+            ? `z-index:${total + 1};margin-bottom:${v.bottom}px;margin-left:-${v.overlap}px;margin-right:-${v.overlap}px;`
+            : `z-index:${total - i};`);
+        trainWrap.appendChild(img);
+      });
+      return;
+    }
     const vehicles = comp.vehicles || (comp.img ? [comp.img] : []);
     const total = vehicles.length;
 
@@ -128,7 +170,8 @@
   function runComposition() {
     if (!compositions.length) return;
 
-    const comp = compositions[compIndex];
+    const next = compositions[compIndex];
+    const comp = next.entry ? fromEntry(next.entry) : next;
     compIndex = (compIndex + 1) % compositions.length;
 
     buildTrain(comp);

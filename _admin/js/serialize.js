@@ -295,6 +295,7 @@
             case 'h2': return '<h2' + (n.id != null ? ' id="' + escAttr(n.id) + '"' : '')
                 + '>' + esc(n.text) + '</h2>';
             case 'desc': return '<' + n.tag + ' class="lv-desc">' + n.html + '</' + n.tag + '>';
+            case 'figure': return n.openTagRaw + n.html + n.closeTagRaw;
             case 'btns': return renderBtns(n);
             case 'icons': return renderIcons(n);
             default: return n.raw;

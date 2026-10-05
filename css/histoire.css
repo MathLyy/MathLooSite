@@ -968,383 +968,10 @@
 .chr-outro-go:focus-visible svg { transform: translateX(4px); }
 
 /* ════════════════════════════════════════════════════════════════════════
-   PARTIE I — ORIGINES : ledger des trois projets, spécimens fondateurs
+   CARTE DE COUVERTURE (partie II) : balisage .cov-* câblé par
+   js/coverage-map.js, seule l'enveloppe visuelle est définie ici.
    ════════════════════════════════════════════════════════════════════════ */
 
-/* Ledger des trois voies étudiées : un tableau de verdict, pas trois
-   cartes égales — l'oeil doit lire tout de suite laquelle a gagné. */
-.chr-trial { margin-top: var(--spacing-xl); border-top: 1px solid var(--border); }
-.chr-trial-row {
-    display: grid;
-    grid-template-columns: 44px 1fr auto;
-    gap: var(--spacing-lg);
-    align-items: start;
-    padding: var(--spacing-lg) 0;
-    border-bottom: 1px solid var(--border);
-}
-.chr-trial-num {
-    font-family: var(--chr-serif);
-    font-weight: 800;
-    font-size: 1.3rem;
-    color: var(--text-muted);
-}
-.chr-trial-body h3 {
-    font-family: var(--chr-serif);
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 6px;
-}
-.chr-trial-body p { color: var(--text-secondary); font-size: 0.94rem; line-height: 1.6; margin: 0; }
-.chr-trial-verdict {
-    align-self: center;
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 5px 12px;
-    border: 1px solid currentColor;
-    white-space: nowrap;
-}
-.chr-trial-row--out { opacity: 0.62; }
-.chr-trial-row--out .chr-trial-verdict { color: var(--text-muted); }
-.chr-trial-row--won { border-bottom-color: var(--chr-accent); }
-.chr-trial-row--won .chr-trial-verdict { color: var(--chr-accent-ink); border-color: var(--chr-accent); background: var(--chr-accent-soft); }
-.chr-trial-row--won .chr-trial-num { color: var(--chr-accent); }
-
-@media (max-width: 640px) {
-    .chr-trial-row { grid-template-columns: 1fr; gap: var(--spacing-sm); }
-    .chr-trial-verdict { justify-self: start; }
-}
-
-/* Spécimens fondateurs : fiche d'archive pour chacune des trois compagnies,
-   avec la bande de livrée présentée comme une pièce conservée en vitrine. */
-.chr-specimen {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: var(--spacing-xl);
-    padding: var(--spacing-xl) 0;
-    border-bottom: 1px solid var(--border);
-}
-.chr-specimen:first-of-type { border-top: 1px solid var(--border); margin-top: var(--spacing-xl); }
-.chr-specimen-plate {
-    font-family: var(--chr-serif);
-}
-.chr-specimen-year {
-    display: block;
-    font-size: 0.74rem;
-    font-weight: 700;
-    color: var(--text-muted);
-    letter-spacing: 0.06em;
-}
-.chr-specimen-acronym {
-    display: block;
-    font-weight: 800;
-    font-size: 2.2rem;
-    color: var(--chr-accent);
-    line-height: 1.05;
-    margin-top: 2px;
-}
-.chr-specimen-full {
-    display: block;
-    font-family: var(--font-body);
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    margin-top: 6px;
-    line-height: 1.4;
-}
-.chr-specimen-body p { color: var(--text-secondary); line-height: 1.7; font-size: 0.98rem; margin: 0 0 var(--spacing-md); }
-.chr-specimen-body p:last-child { margin-bottom: 0; }
-
-/* Triple appellation CCFM / MSVM / GEVM : trois noms pour une seule
-   compagnie, présentés côte à côte plutôt qu'empilés. */
-.chr-triple {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-md) var(--spacing-lg);
-    margin-bottom: var(--spacing-md);
-}
-.chr-triple-item { min-width: 140px; }
-.chr-triple-acro {
-    display: block;
-    font-family: var(--chr-serif);
-    font-weight: 800;
-    font-size: 1.15rem;
-    color: var(--chr-accent);
-}
-.chr-triple-lang { display: block; font-size: 0.76rem; color: var(--text-muted); line-height: 1.35; margin-top: 2px; }
-
-@media (max-width: 720px) {
-    .chr-specimen { grid-template-columns: 1fr; gap: var(--spacing-md); }
-}
-
-/* Bande de livrée : image de sprite à taille réelle, jamais redimensionnée.
-   Même technique que les pages Livrées : cadre à défilement horizontal si
-   l'image déborde, largeur/hauteur laissées intactes. */
-.chr-strip {
-    overflow-x: auto;
-    overflow-y: hidden;
-    overscroll-behavior-x: contain;
-    background: #0a0a10;
-    border: 1px solid var(--border);
-    max-width: 100%;
-    scrollbar-width: thin;
-    scrollbar-color: var(--chr-accent) rgba(124, 58, 237, 0.10);
-}
-.chr-strip img {
-    display: block;
-    width: auto;
-    height: auto;
-    max-width: none;
-    max-height: none;
-    image-rendering: pixelated;
-    user-select: none;
-    -webkit-user-drag: none;
-}
-.chr-strip::-webkit-scrollbar { height: 8px; }
-.chr-strip::-webkit-scrollbar-track { background: rgba(124, 58, 237, 0.08); }
-.chr-strip::-webkit-scrollbar-thumb { background: var(--chr-accent); }
-.chr-strip::-webkit-scrollbar-thumb:hover { background: var(--chr-accent-ink); }
-.chr-strip-hint {
-    font-size: 0.78rem;
-    color: var(--text-muted);
-    margin-top: 6px;
-    font-style: italic;
-}
-
-/* Cartes de jalon, statiques (réunification allemande / tunnel sous la
-   Manche) : deux rappels ponctuels, sans lien avec une carte, à ne pas
-   confondre avec .chr-evt plus bas (Expansion), qui est un accordéon lié
-   au survol de la carte de couverture. Le nom "milestone" plutôt que
-   "event" evite la quasi-collision entre les deux prefixes. */
-.chr-milestone-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    margin: var(--spacing-lg) 0 var(--spacing-xl);
-}
-.chr-milestone-card { background: var(--surface); padding: var(--spacing-lg); }
-.chr-milestone-year {
-    display: inline-block;
-    font-family: var(--chr-serif);
-    font-weight: 800;
-    font-size: 1.5rem;
-    color: var(--chr-accent);
-    margin-bottom: 6px;
-}
-.chr-milestone-card h4 { font-size: 1.02rem; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
-.chr-milestone-card p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; margin: 0; }
-
-/* ── Codex des marques : sélecteur de spécimen partagé (Origines + Services) ── */
-
-.chr-codex {
-    margin-top: var(--spacing-xl);
-    border: 1px solid var(--border);
-}
-.chr-codex-nav {
-    display: flex;
-    flex-wrap: wrap;
-    border-bottom: 1px solid var(--border);
-    background: var(--surface-elevated);
-}
-.chr-codex-tab {
-    appearance: none;
-    background: none;
-    border: 0;
-    border-right: 1px solid var(--border);
-    padding: 12px 18px;
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 0.86rem;
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: color var(--transition-base), background var(--transition-base);
-}
-.chr-codex-tab:hover { color: var(--text-primary); }
-.chr-codex-tab.active {
-    color: var(--chr-accent-ink);
-    background: var(--chr-accent-soft);
-    box-shadow: inset 0 -2px 0 var(--chr-accent);
-}
-.chr-codex-panel { display: none; padding: var(--spacing-xl); }
-.chr-codex-panel.active { display: block; animation: chr-fade-in 0.3s ease; }
-.chr-codex-panel .chr-strip { margin-bottom: var(--spacing-lg); }
-.chr-codex-panel h4 {
-    font-family: var(--chr-serif);
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: var(--spacing-sm);
-}
-.chr-codex-panel p { color: var(--text-secondary); line-height: 1.7; }
-.chr-svc-abbr {
-    display: inline-block;
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: var(--chr-accent-ink);
-    border: 1px solid var(--chr-accent-line);
-    padding: 1px 7px;
-    margin-left: 8px;
-    vertical-align: middle;
-}
-
-/* ── Filiation des marques (Services) ────────────────────────────────────
-   Vue d'ensemble de la refonte 2012 : quatre marques fondatrices en haut de
-   chaque groupe, une fleche, une ou plusieurs marques actuelles en dessous.
-   Chaque groupe est autonome (pas de lignes de connexion traversant toute la
-   grille) : le TransRegio se scinde en trois heritiers, les autres n'en ont
-   qu'un, et un groupe n'a aucun predecesseur ; forcer ces cas dans un seul
-   diagramme a lignes aurait demande un calcul de position par JS pour rester
-   robuste en responsive, alors qu'un groupe independant s'empile de lui-meme
-   quel que soit son nombre d'heritiers. */
-.chr-lineage { margin: var(--spacing-xl) 0 var(--spacing-2xl); }
-.chr-lineage-caption {
-    margin: 0 0 var(--spacing-md);
-    font-size: 0.82rem;
-    font-style: italic;
-    color: var(--text-muted);
-}
-.chr-lineage-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-    gap: var(--spacing-md);
-}
-.chr-lineage-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 8px;
-    padding: var(--spacing-lg) var(--spacing-md);
-    background: var(--surface);
-    border: 1px solid var(--border);
-}
-.chr-lineage-then {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--text-muted);
-}
-.chr-lineage-then--empty {
-    font-size: 0.68rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-style: italic;
-}
-.chr-lineage-arrow { width: 15px; height: 15px; flex-shrink: 0; color: var(--chr-accent); }
-.chr-lineage-now { display: flex; flex-direction: column; gap: 4px; }
-.chr-lineage-now span { font-weight: 800; font-size: 1rem; color: var(--text-primary); }
-
-@keyframes chr-fade-in {
-    from { opacity: 0; transform: translateY(4px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@media (max-width: 640px) {
-    .chr-codex-tab { flex: 1 1 auto; text-align: center; padding: 10px 12px; font-size: 0.8rem; }
-    .chr-codex-panel { padding: var(--spacing-lg); }
-}
-
-/* ════════════════════════════════════════════════════════════════════════
-   PARTIE II — EXPANSION : chronologie liée à la carte
-   ════════════════════════════════════════════════════════════════════════ */
-
-.chr-exp-layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 460px;
-    gap: var(--spacing-2xl);
-    align-items: start;
-    margin-top: var(--spacing-xl);
-}
-.chr-exp-map-slot { position: sticky; top: 110px; }
-
-@media (max-width: 1080px) {
-    .chr-exp-layout { grid-template-columns: 1fr; }
-    .chr-exp-map-slot { position: static; margin-bottom: var(--spacing-xl); order: -1; }
-}
-
-.chr-phase-group + .chr-phase-group { margin-top: var(--spacing-2xl); }
-.chr-phase-head {
-    display: flex;
-    align-items: baseline;
-    gap: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
-    flex-wrap: wrap;
-}
-.chr-phase-dates {
-    font-family: var(--chr-serif);
-    font-weight: 800;
-    font-size: 1.1rem;
-    color: var(--chr-accent);
-}
-.chr-phase-head h3 { font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin: 0; }
-.chr-phase-summary { color: var(--text-muted); font-size: 0.9rem; margin: 2px 0 var(--spacing-md); }
-
-.chr-evt {
-    position: relative;
-    padding: var(--spacing-md) 0 var(--spacing-md) var(--spacing-lg);
-    border-left: 2px solid var(--border);
-    transition: border-color var(--transition-base);
-    cursor: pointer;
-}
-.chr-evt::before {
-    content: '';
-    position: absolute;
-    left: -5px; top: 20px;
-    width: 8px; height: 8px;
-    background: var(--background);
-    border: 2px solid var(--text-muted);
-    transition: background var(--transition-base), border-color var(--transition-base);
-}
-.chr-evt.active { border-left-color: var(--chr-accent); }
-.chr-evt.active::before { background: var(--chr-accent); border-color: var(--chr-accent); }
-.chr-evt-head {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-.chr-evt-year {
-    font-family: var(--chr-serif);
-    font-weight: 700;
-    font-size: 0.98rem;
-    color: var(--text-primary);
-}
-.chr-evt-flag { font-size: 1rem; line-height: 1; }
-.chr-evt-title {
-    appearance: none;
-    background: none;
-    border: 0;
-    padding: 0;
-    text-align: left;
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 0.98rem;
-    color: var(--text-primary);
-    cursor: pointer;
-    flex: 1;
-    min-width: 160px;
-}
-.chr-evt.active .chr-evt-title { color: var(--chr-accent-strong); }
-.chr-evt-body {
-    overflow: hidden;
-    max-height: 0;
-    transition: max-height 0.35s ease;
-}
-.chr-evt-body.chr-visible { max-height: 260px; }
-.chr-evt-body p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; margin: var(--spacing-sm) 0 0; }
-
-.chr-exp-closing { margin-top: var(--spacing-2xl); max-width: 74ch; }
-
-/* La carte reprend l'exact balisage .cov-* déjà câblé par
-   js/coverage-map.js : seule l'enveloppe visuelle change ici. */
-.chr-map-frame {
-    border: 1px solid var(--border);
-    background: var(--surface-elevated);
-    padding: var(--spacing-lg);
-}
 .cov-map-wrap { position: relative; }
 .cov-status { font-size: 0.85rem; color: var(--text-muted); margin-bottom: var(--spacing-sm); min-height: 1.2em; }
 .cov-map-wrap[data-state="ready"] .cov-status { display: none; }
@@ -1399,276 +1026,22 @@
     padding: 2px 8px;
 }
 
-/* ── Coexistence : ledger à deux colonnes ────────────────────────────── */
+/* ── Carte de couverture, dans le fil de la partie II ─────────────────── */
 
-.chr-ledger-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    margin: var(--spacing-xl) 0;
-    max-width: 640px;
+/* Paliers de couverture : une teinte, du clair (ciblée) au foncé (quasi
+   totale). En thème sombre, l'ordre s'inverse : le plus couvert est le plus
+   lumineux. Valeurs vérifiées contre --background dans les deux thèmes. */
+.chr-page {
+    --cov-l1: #bba3f8;
+    --cov-l2: #9474ee;
+    --cov-l3: #6a3fd5;
+    --cov-l4: #3f1785;
 }
-.chr-ledger-stat { background: var(--surface); padding: var(--spacing-lg); text-align: center; }
-.chr-ledger-stat .chr-num { font-size: 2.2rem; display: block; }
-.chr-ledger-stat span { display: block; font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
-
-.chr-split {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-2xl);
-    margin: var(--spacing-xl) 0;
-}
-.chr-split-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: var(--spacing-sm);
-    font-size: 0.95rem;
-}
-.chr-split-mark { width: 9px; height: 9px; background: var(--chr-accent); flex-shrink: 0; }
-.chr-split:nth-child(1) .chr-split-mark,
-.chr-split-col:first-child .chr-split-mark { background: var(--chr-accent); }
-.chr-split-col:last-child .chr-split-mark { background: var(--text-muted); }
-.chr-split-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--spacing-md); }
-.chr-tag {
-    font-size: 0.76rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    border: 1px solid var(--border);
-    padding: 3px 9px;
-}
-
-@media (max-width: 780px) {
-    .chr-split { grid-template-columns: 1fr; gap: var(--spacing-lg); }
-    .chr-ledger-stats { grid-template-columns: 1fr; max-width: 320px; }
-}
-
-/* ════════════════════════════════════════════════════════════════════════
-   DOSSIER — Lignes & Territoires
-   ════════════════════════════════════════════════════════════════════════ */
-
-.chr-dos-header { padding: var(--spacing-2xl) 0; }
-.chr-dos-sigles {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
-    flex-wrap: wrap;
-}
-.chr-dos-prlc {
-    font-family: var(--chr-serif);
-    font-weight: 800;
-    font-size: 1.5rem;
-    color: var(--chr-accent);
-    letter-spacing: 0.02em;
-}
-.chr-dos-divider { width: 1px; height: 20px; background: var(--border); }
-.chr-dos-full { font-size: 0.82rem; color: var(--text-muted); }
-.chr-dos-header h2 {
-    font-family: var(--chr-serif);
-    font-weight: 800;
-    font-size: clamp(1.9rem, 4vw, 2.6rem);
-    color: var(--text-primary);
-    margin-bottom: var(--spacing-md);
-}
-.chr-dos-lede { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.65; max-width: 68ch; margin-bottom: var(--spacing-lg); }
-.chr-dos-pills { display: flex; flex-wrap: wrap; gap: 8px; }
-.chr-dos-pill {
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    border: 1px solid var(--border);
-    padding: 5px 12px;
-}
-.chr-dos-pill strong { color: var(--chr-accent-ink); font-weight: 700; }
-
-/* Frise du dossier : même schéma que la carte de couverture (ligne
-   continue, noeuds carrés), teinte ambre du dossier. */
-.chr-frise { position: relative; margin-top: var(--spacing-xl); padding-left: 28px; }
-.chr-frise::before {
-    content: '';
-    position: absolute;
-    left: 5px; top: 6px; bottom: 6px;
-    width: 1px;
-    background: var(--border);
-}
-.chr-frise-item { position: relative; padding-bottom: var(--spacing-xl); }
-.chr-frise-item:last-child { padding-bottom: 0; }
-.chr-frise-dot {
-    position: absolute;
-    left: -28px; top: 4px;
-    width: 11px; height: 11px;
-    background: var(--background);
-    border: 2px solid var(--chr-accent);
-}
-.chr-frise-date {
-    font-family: var(--chr-serif);
-    font-weight: 700;
-    font-size: 0.92rem;
-    color: var(--chr-accent-ink);
-    margin-bottom: 6px;
-}
-.chr-frise-item h3 { font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
-.chr-frise-item p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.62; margin: 0; max-width: 68ch; }
-
-/* Ledger des lignes : remplace un ancien encart de carte factice (icône +
-   texte "carte à venir") par un vrai schéma linéaire de gares, technique et
-   honnête plutôt que décoratif. */
-.chr-lines {
-    margin-top: var(--spacing-xl);
-    border: 1px solid var(--border);
-}
-.chr-line-row {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: var(--spacing-lg);
-    align-items: start;
-    padding: var(--spacing-lg);
-    border-bottom: 1px solid var(--border);
-}
-.chr-line-row:last-child { border-bottom: 0; }
-.chr-line-row.chr-line-tbd { opacity: 0.68; }
-.chr-line-name {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--chr-serif);
-    font-weight: 700;
-    font-size: 1.02rem;
-    color: var(--text-primary);
-    margin-bottom: 6px;
-}
-.chr-line-name::before { content: ''; width: 9px; height: 9px; background: var(--chr-accent); flex-shrink: 0; }
-.chr-line-tbd .chr-line-name::before { background: var(--text-muted); }
-.chr-line-row p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.55; margin: 0; }
-.chr-line-status {
-    font-size: 0.68rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--chr-accent-ink);
-    border: 1px solid var(--chr-accent-line);
-    padding: 4px 9px;
-    white-space: nowrap;
-}
-.chr-line-tbd .chr-line-status { color: var(--text-muted); border-color: var(--border); }
-
-.chr-ext-note {
-    margin-top: var(--spacing-lg);
-    padding: var(--spacing-md) var(--spacing-lg);
-    background: var(--chr-accent-soft);
-    border-left: 2px solid var(--chr-accent);
-    font-size: 0.88rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-}
-.chr-ext-note strong { color: var(--text-primary); }
-
-@media (max-width: 640px) {
-    .chr-line-row { grid-template-columns: 1fr; }
-    .chr-line-status { justify-self: start; }
-}
-
-/* Registre du matériel (Valado). */
-.chr-fleet {
-    margin-top: var(--spacing-xl);
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-}
-.chr-fleet-card { background: var(--surface); padding: var(--spacing-lg); }
-.chr-fleet-visual { color: var(--chr-accent); margin-bottom: var(--spacing-md); }
-.chr-fleet-kind { display: block; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 4px; }
-.chr-fleet-card h3 { font-family: var(--chr-serif); font-size: 1.3rem; font-weight: 700; color: var(--text-primary); margin-bottom: var(--spacing-md); }
-.chr-fleet-specs { display: grid; grid-template-columns: 1fr; gap: 7px; }
-.chr-fleet-spec { display: flex; justify-content: space-between; gap: var(--spacing-md); font-size: 0.86rem; padding-bottom: 7px; border-bottom: 1px solid var(--border); }
-.chr-fleet-spec:last-child { border-bottom: 0; padding-bottom: 0; }
-.chr-fleet-spec span:first-child { color: var(--text-muted); }
-.chr-fleet-spec strong { color: var(--text-primary); text-align: right; font-weight: 600; }
-
-/* Communiqué de presse : traitement papier-à-en-tête. */
-.chr-press {
-    margin-top: var(--spacing-xl);
-    border: 1px solid var(--border);
-    background: var(--surface);
-    padding: var(--spacing-2xl);
-    max-width: 760px;
-}
-.chr-press-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: var(--spacing-md);
-    padding-bottom: var(--spacing-lg);
-    border-bottom: 2px solid var(--text-primary);
-    margin-bottom: var(--spacing-lg);
-    flex-wrap: wrap;
-}
-.chr-press-logo { font-family: var(--chr-serif); font-weight: 800; font-size: 1.3rem; letter-spacing: 0.04em; color: var(--text-primary); }
-.chr-press-meta { text-align: right; }
-.chr-press-type { display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--chr-accent-ink); }
-.chr-press-date { display: block; font-size: 0.82rem; color: var(--text-muted); margin-top: 3px; }
-.chr-press h3 { font-family: var(--chr-serif); font-size: 1.25rem; font-weight: 700; color: var(--text-primary); line-height: 1.35; margin-bottom: var(--spacing-lg); }
-.chr-press-body p { color: var(--text-secondary); line-height: 1.75; margin-bottom: 1em; font-size: 0.96rem; }
-.chr-press-body p:last-child { margin-bottom: 0; }
-.chr-press-body strong { color: var(--text-primary); }
-.chr-press-foot {
-    display: flex;
-    justify-content: space-between;
-    gap: var(--spacing-md);
-    margin-top: var(--spacing-xl);
-    padding-top: var(--spacing-lg);
-    border-top: 1px solid var(--border);
-    flex-wrap: wrap;
-}
-.chr-press-foot strong { display: block; font-size: 0.82rem; color: var(--text-primary); margin-bottom: 3px; }
-.chr-press-foot p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0; }
-.chr-press-ref { font-size: 0.76rem; color: var(--text-muted); align-self: flex-end; }
-
-@media (max-width: 640px) {
-    .chr-press { padding: var(--spacing-lg); }
-    .chr-press-head { flex-direction: column; }
-    .chr-press-meta { text-align: left; }
-}
-
-/* ── Tourner la page : navigation de fin de chapitre ─────────────────── */
-
-.chr-turn {
-    display: flex;
-    justify-content: space-between;
-    gap: var(--spacing-xl);
-    flex-wrap: wrap;
-}
-.chr-turn-link {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    text-decoration: none;
-    padding: var(--spacing-lg);
-    border: 1px solid var(--border);
-    min-width: 220px;
-    flex: 1;
-    transition: border-color var(--transition-base), background var(--transition-base);
-}
-.chr-turn-link:hover,
-.chr-turn-link:focus-visible {
-    border-color: var(--chr-accent);
-    background: var(--chr-accent-soft);
-    outline: none;
-}
-.chr-turn-next { text-align: right; margin-left: auto; }
-.chr-turn-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); }
-.chr-turn-title { font-family: var(--chr-serif); font-weight: 700; font-size: 1.1rem; color: var(--chr-accent-strong); }
-
-@media (max-width: 640px) {
-    .chr-turn { flex-direction: column; }
-    .chr-turn-next { text-align: left; }
+[data-theme="dark"] .chr-page {
+    --cov-l1: #4d3794;
+    --cov-l2: #6d4ecd;
+    --cov-l3: #9d83f4;
+    --cov-l4: #d8ccfe;
 }
 
 /* ── Révélation au défilement ─────────────────────────────────────────── */
@@ -1678,9 +1051,8 @@
 
 @media (prefers-reduced-motion: reduce) {
     .chr-reveal { opacity: 1; transform: none; transition: none; }
-    .chr-evt-body { transition: none; }
     .chr-chapter, .chr-dossier-card, .chr-dossier-go svg,
-    .chr-turn-link, .chr-codex-tab, .chr-codex-panel {
+    .chr-part .chr-rail::after, .chr-part .chr-rail-link::before {
         transition: none !important;
         animation: none !important;
     }
@@ -1874,7 +1246,516 @@
     .chr-next-go { justify-self: start; }
 }
 
-/* ── Fiches des compagnies : même format pour chacune ─────────────────── */
+/* ════════════════════════════════════════════════════════════════════════
+   SOUS-PAGES (parties I, II, III et dossier) : système « La ligne »
+
+   Toutes les sous-pages portent .chr-part sur leur <main>, plus une
+   variante .chr-part--i / --ii / --iii / --dossier. Le gabarit est commun
+   (en-tête sombre pleine largeur, trame fine en filigrane, liseré, année
+   d'ouverture en contour, même violet MLTC dans le corps), mais chaque
+   en-tête porte une trame tirée de son contenu :
+     I       trois voies séparées qui fusionnent en une seule (2001) ;
+     II      une trame de carte (l'expansion du réseau) ;
+     III     une matrice de points d'afficheur (les services d'aujourd'hui) ;
+     dossier des courbes de niveau traversées par une ligne en
+             pointillés (les territoires, les lignes rouvertes), sur l'ambre
+             qui relie le dossier à sa carte de la page d'index.
+   La bande de fin annonce la page suivante dans sa propre ambiance.
+
+   Les couleurs des trois compagnies fondatrices ne servent que sur leurs
+   propres fiches (partie I) ; les marques de 2001 (partie II) reprennent
+   le même format de fiche, chacune dans la couleur de sa livrée.
+
+   Le système file une métaphore ferroviaire, qui sert la lecture : le
+   sommaire collant est le tracé d'une ligne dont chaque période est une
+   gare (la ligne se remplit au fil de la lecture), et chaque période
+   s'ouvre sur sa gare (filet + carré).
+
+   Tout est préfixé par .chr-part : la page d'index (histoire.html), qui
+   partage ce fichier, n'est pas touchée.
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* ── Jetons ──────────────────────────────────────────────────────────── */
+
+.chr-part {
+    --gutter: max(var(--spacing-lg), calc((100vw - 1240px) / 2 + var(--spacing-lg)));
+    --hero-bg: #1f0f42;
+    --hero-accent: #b794ff;
+    --hero-stripe: #8b5cf6;
+    /* Aplat sombre des éléments « panneau » (fiche technique, tableau). */
+    --panel: #1f0f42;
+    --track: #dcd5e6;
+    /* Trames, dans un même langage : traits clairs très transparents. */
+    --pat-lines: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 640' preserveAspectRatio='xMidYMax slice'%3E%3Cg fill='none' stroke='%23332553' stroke-width='2'%3E%3Cpath d='M0 290 H770 L1010 410'/%3E%3Cpath d='M0 410 H1010'/%3E%3Cpath d='M0 530 H770 L1010 410'/%3E%3Cpath d='M1010 410 H1440'/%3E%3C/g%3E%3Cg fill='%23332553'%3E%3Crect x='254' y='284' width='12' height='12'/%3E%3Crect x='534' y='284' width='12' height='12'/%3E%3Crect x='254' y='404' width='12' height='12'/%3E%3Crect x='534' y='404' width='12' height='12'/%3E%3Crect x='254' y='524' width='12' height='12'/%3E%3Crect x='534' y='524' width='12' height='12'/%3E%3Crect x='999' y='399' width='22' height='22'/%3E%3C/g%3E%3C/svg%3E");
+    --pat-grid:
+        linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+    --pat-dots: radial-gradient(rgba(255, 255, 255, 0.075) 1.2px, transparent 1.6px);
+    --pat-contours: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 640' preserveAspectRatio='xMidYMax slice'%3E%3Cg fill='none' stroke='rgba(240,189,107,0.10)' stroke-width='1.5' transform='rotate(-10 1130 300)'%3E%3Cellipse cx='1130' cy='300' rx='70' ry='40'/%3E%3Cellipse cx='1137' cy='304' rx='132' ry='76'/%3E%3Cellipse cx='1144' cy='308' rx='194' ry='112'/%3E%3Cellipse cx='1151' cy='312' rx='256' ry='148'/%3E%3Cellipse cx='1158' cy='316' rx='318' ry='184'/%3E%3Cellipse cx='1165' cy='320' rx='380' ry='220'/%3E%3Cellipse cx='1172' cy='324' rx='442' ry='256'/%3E%3Cellipse cx='1179' cy='328' rx='504' ry='292'/%3E%3C/g%3E%3Cpath d='M0 500 C320 500 520 400 780 420 S1160 540 1440 450' fill='none' stroke='rgba(240,189,107,0.22)' stroke-width='3' stroke-dasharray='14 10'/%3E%3Cg fill='rgba(240,189,107,0.22)'%3E%3Crect x='300' y='482' width='14' height='14'/%3E%3Crect x='770' y='413' width='14' height='14'/%3E%3C/g%3E%3C/svg%3E");
+    /* En-tête de la page, et ambiance de la page suivante (bande de fin). */
+    --hero-pattern: var(--pat-grid);
+    --hero-pattern-size: 56px 56px;
+    --hero-pattern-pos: 0 0;
+    --hero-pattern-repeat: repeat;
+    --next-bg: var(--hero-bg);
+    --next-accent: var(--hero-accent);
+    --next-stripe: var(--hero-stripe);
+    --next-pattern: none;
+    --next-pattern-size: auto;
+    --next-pattern-pos: 0 0;
+    --next-pattern-repeat: repeat;
+}
+[data-theme="dark"] .chr-part { --track: #3b3150; }
+
+.chr-part--i {
+    --hero-pattern: var(--pat-lines);
+    --hero-pattern-size: cover;
+    --hero-pattern-pos: center bottom;
+    --hero-pattern-repeat: no-repeat;
+    --next-pattern: var(--pat-grid);
+    --next-pattern-size: 56px 56px;
+}
+.chr-part--ii {
+    --next-pattern: var(--pat-dots);
+    --next-pattern-size: 12px 12px;
+}
+.chr-part--iii {
+    --hero-pattern: var(--pat-dots);
+    --hero-pattern-size: 12px 12px;
+    --next-bg: #24180a;
+    --next-accent: #f0bd6b;
+    --next-stripe: #e3a94a;
+    --next-pattern: var(--pat-contours);
+    --next-pattern-size: cover;
+    /* le haut des courbes : la ligne en pointillés ne passe pas sous le texte */
+    --next-pattern-pos: center top;
+    --next-pattern-repeat: no-repeat;
+}
+.chr-part--dossier {
+    --panel: #24180a;
+    --hero-bg: #24180a;
+    --hero-accent: #f0bd6b;
+    --hero-stripe: #e3a94a;
+    --hero-pattern: var(--pat-contours);
+    --hero-pattern-size: cover;
+    --hero-pattern-pos: center bottom;
+    --hero-pattern-repeat: no-repeat;
+    /* Retour au sommaire : le violet de la charnière de la page d'index. */
+    --next-bg: #331a63;
+    --next-accent: #b794ff;
+    --next-stripe: #8b5cf6;
+}
+
+/* ── En-tête : héros sombre, pleine largeur, trame propre à la page ──── */
+
+.chr-part section.chr-opening {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding: 168px var(--gutter) var(--spacing-3xl);
+    background-color: var(--hero-bg);
+    background-image: var(--hero-pattern);
+    background-size: var(--hero-pattern-size);
+    background-position: var(--hero-pattern-pos);
+    background-repeat: var(--hero-pattern-repeat);
+    color: #fff;
+}
+.chr-part section.chr-opening::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 10px;
+    background: var(--hero-stripe);
+}
+
+/* Année d'ouverture de la partie, monumentale et en contour, dressée le
+   long du bord droit comme sur un poteau de quai (les chiffres romains de
+   Syne ne sont que des barres, d'où l'année plutôt que le numéro). */
+.chr-hero-glyph {
+    position: absolute;
+    right: calc(var(--gutter) - 0.12em);
+    /* centré sous la navbar et le sous-menu (114px), qui couvrent le haut */
+    top: calc(57px + 50%);
+    z-index: -1;
+    writing-mode: vertical-rl;
+    transform: translateY(-50%) rotate(180deg);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(5rem, 8vw, 8.4rem);
+    line-height: 0.82;
+    letter-spacing: 0.02em;
+    /* Remplissage opaque peint par-dessus le contour : il masque les
+       contours internes de la police variable et la trame derrière. */
+    color: var(--hero-bg);
+    -webkit-text-stroke: 4px color-mix(in srgb, var(--hero-accent) 50%, var(--hero-bg));
+    paint-order: stroke fill;
+    pointer-events: none;
+    user-select: none;
+}
+
+.chr-part .chr-back { color: rgba(255, 255, 255, 0.62); }
+.chr-part .chr-back:hover { color: #fff; }
+
+.chr-part .chr-opening-kicker { align-items: center; margin-bottom: var(--spacing-lg); }
+.chr-part .chr-part-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.6rem;
+    height: 2.6rem;
+    padding: 0 12px;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--hero-bg);
+    background: var(--hero-accent);
+}
+.chr-part .chr-part-num--tag { font-size: 0.8rem; letter-spacing: 0.14em; }
+.chr-part .chr-opening-period {
+    color: rgba(255, 255, 255, 0.72);
+    border-left-color: rgba(255, 255, 255, 0.22);
+    font-size: 0.9rem;
+}
+.chr-part .chr-opening h1 {
+    color: #fff;
+    font-size: clamp(2.3rem, 8.4vw, 6.6rem);
+    line-height: 0.98;
+    max-width: 12ch;
+    margin-bottom: var(--spacing-lg);
+}
+.chr-part .chr-opening-sub {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+    max-width: 46ch;
+}
+.chr-part .chr-fiction {
+    max-width: 78ch;
+    margin-top: var(--spacing-3xl);
+    border-top-color: rgba(255, 255, 255, 0.16);
+}
+.chr-part .chr-fiction-tag { background: rgba(255, 255, 255, 0.1); color: var(--hero-accent); }
+.chr-part .chr-fiction-text { color: rgba(255, 255, 255, 0.66); }
+.chr-part .chr-fiction-text strong { color: #fff; }
+
+@media (max-width: 1100px) {
+    .chr-hero-glyph { opacity: 0.2; right: var(--spacing-md); }
+}
+@media (max-width: 720px) {
+    .chr-hero-glyph { display: none; }
+}
+@media (max-width: 640px) {
+    .chr-part section.chr-opening { padding: 148px var(--spacing-md) var(--spacing-2xl); }
+}
+
+/* Le bandeau animé enchaîne directement sous le liseré. */
+.chr-part .chr-trainband { margin-top: 0; }
+.chr-part .chr-train-cap { margin: 10px 0 0; }
+
+/* ── Sommaire : le tracé de la ligne ─────────────────────────────────── */
+
+.chr-part .chr-rail {
+    margin-top: var(--spacing-md);
+    border-top: 0;
+    background: var(--background);
+}
+/* Voie (gris) et partie parcourue (accent), à hauteur des gares. La
+   longueur parcourue (--rail-fill) est calculée par js/histoire.js. */
+.chr-part .chr-rail::before,
+.chr-part .chr-rail::after {
+    content: '';
+    position: absolute;
+    top: 19px;
+    left: var(--gutter);
+    height: 3px;
+}
+.chr-part .chr-rail::before { right: var(--gutter); background: var(--track); }
+.chr-part .chr-rail::after {
+    width: var(--rail-fill, 0px);
+    background: var(--chr-accent);
+    transition: width 0.25s ease-out;
+}
+.chr-part .chr-rail-link,
+.chr-part .chr-rail-link + .chr-rail-link {
+    position: relative;
+    z-index: 1;
+    border-top: 0;
+    margin-top: 0;
+    padding: 38px var(--spacing-md) 14px 0;
+}
+/* Gare : un carré sur la voie. Pleine une fois dépassée. */
+.chr-part .chr-rail-link::before {
+    content: '';
+    position: absolute;
+    top: 13px;
+    left: 0;
+    width: 15px;
+    height: 15px;
+    background: var(--background);
+    border: 3px solid var(--track);
+    transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+.chr-part .chr-rail-link.is-passed::before { border-color: var(--chr-accent); background: var(--chr-accent); }
+.chr-part .chr-rail-link.is-active::before {
+    border-color: var(--chr-accent);
+    background: var(--background);
+    box-shadow: 0 0 0 4px var(--chr-accent-soft);
+}
+.chr-part .chr-rail-link.is-active { color: var(--text-primary); }
+
+/* ── Périodes : chacune s'ouvre sur sa gare ──────────────────────────── */
+
+.chr-part .chr-body-main { counter-reset: chr-period; }
+.chr-part section.chr-period {
+    counter-increment: chr-period;
+    padding: 6rem 0 5.5rem;
+    border-top: 0;
+}
+.chr-part .chr-body-main > .chr-period:nth-child(even),
+[data-theme="dark"] .chr-part .chr-body-main > .chr-period:nth-child(even) {
+    background: var(--chr-accent-soft);
+}
+.chr-part .chr-body-main > .chr-period + section { border-top: 0; }
+
+.chr-part .chr-head {
+    position: relative;
+    max-width: none;
+    padding-top: 2.6rem;
+    margin-bottom: var(--spacing-2xl);
+}
+/* Filet de quai : l'accent sur les premiers centimètres, puis la voie. */
+.chr-part .chr-head::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--chr-accent) 0 96px, var(--track) 96px);
+}
+.chr-part .chr-head::after {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: 0;
+    width: 17px;
+    height: 17px;
+    background: var(--background);
+    border: 3px solid var(--chr-accent);
+}
+.chr-part .chr-body-main > .chr-period:nth-child(even) .chr-head::after { background: var(--chr-accent); }
+
+.chr-part .chr-period .chr-head .chr-eyebrow {
+    font-size: clamp(3.4rem, 9vw, 7.4rem);
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+    margin-bottom: var(--spacing-md);
+}
+/* Numéro d'ordre de la période, au-dessus de la date. */
+.chr-part .chr-period .chr-head .chr-eyebrow::before {
+    content: counter(chr-period, decimal-leading-zero);
+    display: block;
+    width: auto;
+    height: auto;
+    background: none;
+    margin-bottom: 14px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+}
+.chr-part .chr-head h2 {
+    font-size: clamp(1.8rem, 3.8vw, 2.9rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+/* ── Texte courant ───────────────────────────────────────────────────── */
+
+.chr-part .chr-prose { max-width: none; }
+.chr-part .chr-prose p { font-size: 1.06rem; line-height: 1.78; }
+.chr-part .chr-lead p:first-child {
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    line-height: 1.55;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+}
+/* Textes de plusieurs paragraphes : deux colonnes sur grand écran, le
+   premier paragraphe d'une introduction restant sur toute la largeur. */
+.chr-part .chr-prose--cols { columns: 2; column-gap: var(--spacing-2xl); }
+.chr-part .chr-prose--cols p { break-inside: avoid; }
+.chr-part .chr-prose--cols.chr-lead p:first-child { column-span: all; margin-bottom: 1.4em; }
+@media (max-width: 900px) {
+    .chr-part .chr-prose--cols { columns: 1; }
+}
+
+/* ── Fin de partie : la suite, dans l'ambiance de sa propre page ────── */
+
+.chr-part section.chr-next {
+    position: relative;
+    background-color: var(--next-bg);
+    background-image: var(--next-pattern);
+    background-size: var(--next-pattern-size);
+    background-position: var(--next-pattern-pos);
+    background-repeat: var(--next-pattern-repeat);
+    padding-top: calc(var(--spacing-3xl) + 10px);
+    padding-bottom: var(--spacing-2xl);
+}
+.chr-part section.chr-next::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: var(--next-stripe);
+}
+.chr-part .chr-next-num {
+    font-size: clamp(5rem, 13vw, 10rem);
+    color: var(--next-accent);
+}
+.chr-part .chr-next-label { color: var(--next-accent); }
+.chr-part .chr-next-title { font-size: clamp(2rem, 5vw, 3.6rem); }
+.chr-part .chr-next-go { background: var(--next-accent); border-color: var(--next-accent); color: var(--next-bg); }
+.chr-part .chr-next-main:hover .chr-next-go,
+.chr-part .chr-next-main:focus-visible .chr-next-go { background: transparent; color: #fff; border-color: #fff; }
+.chr-part .chr-next-main:focus-visible { outline-color: var(--next-accent); }
+
+/* ════════════════════════════════════════════════════════════════════════
+   Composants des parties
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* ── Bande de livrée ─────────────────────────────────────────────────── */
+/* Image de sprite à taille réelle, jamais redimensionnée : cadre à
+   défilement horizontal si elle déborde, centrée sinon. */
+.chr-strip {
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    background: #0a0a10;
+    max-width: 100%;
+    scrollbar-width: thin;
+    scrollbar-color: var(--chr-accent) rgba(124, 58, 237, 0.10);
+}
+.chr-strip img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    margin-inline: auto;
+    image-rendering: pixelated;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+.chr-strip::-webkit-scrollbar { height: 8px; }
+.chr-strip::-webkit-scrollbar-track { background: rgba(124, 58, 237, 0.08); }
+.chr-strip::-webkit-scrollbar-thumb { background: var(--chr-accent); }
+.chr-strip-hint {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+    font-style: italic;
+}
+
+/* ── I · Trois projets : un dossier d'archives, trois verdicts ───────── */
+
+.chr-options {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-xl);
+    counter-reset: chr-option;
+}
+.chr-option {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-lg);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    counter-increment: chr-option;
+    overflow: hidden;
+}
+/* Numéro du projet en filigrane, dans le coin. */
+.chr-option::before {
+    content: counter(chr-option);
+    position: absolute;
+    top: -0.12em;
+    right: 0.12em;
+    font-weight: 800;
+    font-size: 8rem;
+    line-height: 1;
+    color: var(--text-primary);
+    opacity: 0.05;
+}
+.chr-option-rank {
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-muted);
+}
+.chr-option h3 {
+    font-family: var(--chr-serif);
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin: 8px 0 var(--spacing-md);
+    color: var(--text-primary);
+}
+.chr-option p {
+    color: var(--text-secondary);
+    line-height: 1.68;
+    margin: 0 0 var(--spacing-xl);
+}
+/* Verdict : un tampon encreur, légèrement de travers. */
+.chr-option-fate {
+    margin-top: auto;
+    align-self: flex-start;
+    padding: 6px 14px;
+    border: 3px solid currentColor;
+    font-size: 0.86rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text-muted);
+    transform: rotate(-5deg);
+    transform-origin: left center;
+}
+/* Le projet retenu : l'accent plein, c'est celui qui fait l'histoire. */
+.chr-option--kept { background: var(--primary-700); border-color: var(--primary-700); }
+.chr-option--kept::before { color: #fff; opacity: 0.14; }
+.chr-option--kept .chr-option-rank { color: rgba(255, 255, 255, 0.75); }
+.chr-option--kept h3 { color: #fff; }
+.chr-option--kept p { color: rgba(255, 255, 255, 0.9); }
+.chr-option--kept .chr-option-fate { color: #fff; }
+[data-theme="dark"] .chr-option--kept { background: #5b21b6; border-color: #5b21b6; }
+@media (max-width: 900px) {
+    .chr-options { grid-template-columns: minmax(0, 1fr); }
+}
+
+.chr-transition {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-md);
+    font-size: clamp(1.15rem, 1.8vw, 1.4rem);
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--text-primary) !important;
+}
+.chr-transition::before {
+    content: '\2193';
+    flex-shrink: 0;
+    font-weight: 800;
+    color: var(--chr-accent);
+}
+
+/* ── I · Fiches des compagnies fondatrices (1958) ────────────────────── */
 
 .chr-co-list { margin-top: var(--spacing-xl); border-top: 1px solid var(--border); }
 .chr-co {
@@ -1913,105 +1794,392 @@
 }
 .chr-co-facts dd { margin: 2px 0 0; font-weight: 600; color: var(--text-primary); }
 .chr-co-body > p { color: var(--text-secondary); line-height: 1.7; margin: 0 0 var(--spacing-md); }
-
+.chr-co > .chr-strip { grid-column: 1 / -1; }
 @media (max-width: 720px) {
     .chr-co { grid-template-columns: minmax(0, 1fr); gap: var(--spacing-md); }
 }
 
-/* ── Parcours parallèles : une colonne par compagnie ──────────────────── */
+/* Fiche pleine couleur : le fond reprend la couleur de livrée de la
+   compagnie (partie I) ou de la marque (partie II), le texte passe en
+   clair. La liste prend au moins la largeur de la colonne, et s'élargit
+   jusqu'à la largeur des images (--band-w) quand elles sont plus larges,
+   en restant centrée. */
+.chr-co-list:has(.chr-co--band) {
+    border-top: 0;
+    display: grid;
+    gap: var(--spacing-xl);
+    width: min(max(100%, calc(var(--band-w, 2154px) + 2 * var(--spacing-xl))), calc(100vw - 48px));
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.chr-co--band {
+    padding: var(--spacing-xl);
+    background: var(--co-color);
+    border: 0;
+    color: #fff;
+}
+.chr-co--band .chr-co-acro { color: #d9ae2b; font-size: 3rem; letter-spacing: -0.01em; }
+.chr-co--band .chr-co-full { color: rgba(255, 255, 255, 0.78); }
+.chr-co--band .chr-co-facts dt { color: var(--co-accent); }
+.chr-co--band .chr-co-facts dd { color: #fff; }
+.chr-co--band .chr-co-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: var(--spacing-xl);
+}
+.chr-co--band .chr-co-body > :not(.chr-co-cta) { grid-column: 1; }
+.chr-co--band .chr-co-body > p { color: rgba(255, 255, 255, 0.92); margin-bottom: 0; }
+.chr-co--band > .chr-strip { margin-top: calc(-1 * var(--spacing-md)); scrollbar-width: none; }
+.chr-co--band > .chr-strip::-webkit-scrollbar { display: none; }
+.chr-co--band .chr-strip-hint { display: none; }
+.chr-co-cta {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    justify-self: end;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 290px;
+    padding: 12px 20px;
+    font-weight: 700;
+    font-size: 1.15rem;
+    line-height: 1.35;
+    color: var(--co-color);
+    background: #d9ae2b;
+    text-decoration: none;
+    border: 2px solid #d9ae2b;
+    transition: background 0.2s, color 0.2s;
+}
+.chr-co-cta svg { width: 22px; height: 22px; flex-shrink: 0; }
+.chr-co-cta:hover, .chr-co-cta:focus-visible { background: var(--co-color); color: #d9ae2b; }
+/* Marques de 2001 (partie II) : noms plus longs que les sigles, et deux
+   repères (avant 2001, en 2012) en cases translucides sous le texte. */
+.chr-co-list--brandband .chr-co--band { grid-template-columns: 290px minmax(0, 1fr); }
+.chr-co-list--brandband .chr-co-acro { font-size: clamp(1.9rem, 3vw, 2.4rem); overflow-wrap: break-word; }
+.chr-co--band .chr-co-body > p + .chr-co-facts { margin-top: var(--spacing-lg); }
+.chr-co--band .chr-co-facts--rows {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.16);
+}
+.chr-co--band .chr-co-facts--rows > div { background: rgba(0, 0, 0, 0.22); }
+.chr-co--band .chr-co-facts--rows dd { color: #fff; }
+@media (max-width: 900px) {
+    .chr-co--band .chr-co-body { display: block; }
+    .chr-co-cta { margin-top: var(--spacing-md); max-width: none; }
+}
+@media (max-width: 720px) {
+    .chr-co--band,
+    .chr-co-list--brandband .chr-co--band { padding: var(--spacing-lg); grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Fiche d'immatriculation (partie I) : fond neutre, liseré épais à gauche
+   dans la couleur de la compagnie, données courtes en tête, puis le train
+   en pleine largeur. Le logo intégré à gauche de l'image (--strip-crop
+   premiers pixels) est masqué. --co-ink : couleur de la compagnie, foncée
+   en thème clair et remplacée par l'accent en thème sombre, pour rester
+   lisible sur la surface. */
+.chr-co-list:has(.chr-co--fiche) {
+    --band-w: 1654px;
+    border-top: 0;
+    display: grid;
+    gap: var(--spacing-xl);
+    width: min(max(100%, calc(var(--band-w) + 2 * var(--spacing-xl) + 10px)), calc(100vw - 48px));
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.chr-co--fiche {
+    --co-ink: color-mix(in srgb, var(--co-color) 80%, #000);
+    --strip-crop: 500px;
+    padding: var(--spacing-xl);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 10px solid var(--co-color);
+}
+[data-theme="dark"] .chr-co--fiche { --co-ink: var(--co-accent); }
+.chr-co--fiche .chr-co-acro { color: var(--co-ink); font-size: 3rem; letter-spacing: -0.01em; }
+.chr-co--fiche .chr-co-facts dt { color: var(--co-ink); }
+.chr-co--fiche .chr-co-body > p { max-width: 68ch; }
+.chr-co--fiche .chr-co-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    max-width: none;
+    padding: 0 0 2px;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--co-ink);
+    background: none;
+    text-decoration: none;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    transition: border-color var(--transition-base);
+}
+.chr-co--fiche .chr-co-cta svg { width: 18px; height: 18px; flex-shrink: 0; transition: transform var(--transition-base); }
+.chr-co--fiche .chr-co-cta:hover,
+.chr-co--fiche .chr-co-cta:focus-visible { background: none; color: var(--co-ink); border-bottom-color: currentColor; }
+.chr-co--fiche .chr-co-cta:hover svg,
+.chr-co--fiche .chr-co-cta:focus-visible svg { transform: translateX(4px); }
+.chr-co--fiche > .chr-strip img { margin: 0 0 0 calc(-1 * var(--strip-crop)); }
+@media (max-width: 720px) {
+    .chr-co--fiche { padding: var(--spacing-lg); }
+}
+
+/* ── Parcours parallèles (I : par compagnie ; II : par pays) ─────────── */
 
 .chr-paths {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1px;
+    gap: var(--spacing-lg);
     margin-top: var(--spacing-xl);
-    background: var(--border);
-    border: 1px solid var(--border);
 }
-.chr-path { background: var(--surface); padding: var(--spacing-lg); }
+.chr-paths--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.chr-path {
+    position: relative;
+    overflow: hidden;
+    padding: var(--spacing-xl);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 6px solid var(--chr-accent);
+}
 .chr-path-head {
-    font-size: 1rem;
+    position: relative;
+    z-index: 1;
+    font-family: var(--chr-serif);
+    font-size: 1.05rem;
     font-weight: 700;
     line-height: 1.35;
     color: var(--text-primary);
-    margin: 0 0 var(--spacing-lg);
+    margin: 0 0 var(--spacing-xl);
 }
 .chr-path-head span {
     display: block;
-    font-size: 1.5rem;
+    font-size: 1.9rem;
     font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
     color: var(--chr-accent);
     margin-bottom: 4px;
 }
-.chr-path-step + .chr-path-step {
-    margin-top: var(--spacing-lg);
-    padding-top: var(--spacing-lg);
-    border-top: 1px solid var(--border);
+/* Code du pays en filigrane (partie II). */
+.chr-path[data-code]::after {
+    content: attr(data-code);
+    position: absolute;
+    top: 0.05em;
+    right: 0.15em;
+    font-weight: 800;
+    font-size: 6.5rem;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--chr-accent);
+    opacity: 0.1;
+    pointer-events: none;
+}
+/* Étapes : une mini-ligne verticale, une gare par date. */
+.chr-path-step {
+    position: relative;
+    padding-left: 26px;
+    padding-bottom: var(--spacing-lg);
+    border-left: 2px solid var(--track);
+    margin-left: 6px;
+}
+.chr-path-step:last-child { padding-bottom: 0; border-left-color: transparent; }
+.chr-path-step::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: -8px;
+    width: 14px;
+    height: 14px;
+    background: var(--chr-accent);
 }
 .chr-path-year {
     display: block;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    color: var(--chr-accent-ink);
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: -0.005em;
+    color: var(--text-primary);
     margin-bottom: 6px;
 }
-.chr-path-step p { color: var(--text-secondary); font-size: 0.93rem; line-height: 1.62; margin: 0; }
+.chr-path-step p { color: var(--text-secondary); font-size: 0.96rem; line-height: 1.65; margin: 0; }
 .chr-path-step em { font-style: italic; }
-
-@media (max-width: 860px) {
+@media (max-width: 960px) {
     .chr-paths { grid-template-columns: 1fr; }
 }
-
-/* Les h3 prennent Syne par défaut (style.css) : la chronique réserve Syne
-   au seul titre de page. */
-.chr-path-head,
-.chr-frise-item h3 { font-family: var(--chr-serif); }
-
-/* ── Parcours sur deux colonnes (quatre pays par période) ─────────────── */
-.chr-paths--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (max-width: 760px) {
     .chr-paths--2 { grid-template-columns: 1fr; }
 }
 
-/* ── Carte de couverture, dans le fil de la partie II ─────────────────── */
+/* ── Frises ──────────────────────────────────────────────────────────── */
+/* Horizontale sur grand écran : une voie, une gare par événement. */
 
-/* Paliers de couverture : une teinte, du clair (ciblée) au foncé (quasi
-   totale). En thème sombre, l'ordre s'inverse : le plus couvert est le plus
-   lumineux. Valeurs vérifiées contre --background dans les deux thèmes. */
-.chr-page {
-    --cov-l1: #bba3f8;
-    --cov-l2: #9474ee;
-    --cov-l3: #6a3fd5;
-    --cov-l4: #3f1785;
+.chr-frise {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-xl);
+    padding-top: 40px;
 }
-[data-theme="dark"] .chr-page {
-    --cov-l1: #4d3794;
-    --cov-l2: #6d4ecd;
-    --cov-l3: #9d83f4;
-    --cov-l4: #d8ccfe;
+.chr-frise::before {
+    content: '';
+    position: absolute;
+    top: 9px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--track);
 }
+.chr-frise-item { position: relative; }
+.chr-frise-dot {
+    position: absolute;
+    top: -38px;
+    left: 0;
+    width: 17px;
+    height: 17px;
+    background: var(--background);
+    border: 3px solid var(--chr-accent);
+}
+.chr-frise-date {
+    font-weight: 800;
+    font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--chr-accent);
+    margin-bottom: var(--spacing-sm);
+}
+.chr-frise-item h3 {
+    font-family: var(--chr-serif);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+.chr-frise-item p { color: var(--text-secondary); font-size: 0.96rem; line-height: 1.66; margin: 0; }
+
+/* I · 2001, MLTC Railways : l'aboutissement de la frise, gare pleine. */
+.chr-frise-item--goal .chr-frise-dot {
+    top: -41px;
+    width: 23px;
+    height: 23px;
+    background: var(--chr-accent);
+    border-color: var(--chr-accent);
+}
+
+@media (max-width: 900px) {
+    .chr-frise { grid-template-columns: 1fr; padding-top: 0; padding-left: 34px; gap: var(--spacing-xl); }
+    .chr-frise::before { top: 0; bottom: 0; left: 7px; right: auto; width: 3px; height: auto; background: var(--track); }
+    .chr-frise-dot { top: 2px; left: -34px; }
+    .chr-frise-item--goal .chr-frise-dot { top: 0; left: -37px; }
+}
+
+/* Dossier : sept événements, lus comme un carnet (date à gauche). */
+.chr-part--dossier .chr-frise {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding-top: 0;
+    border-top: 1px solid var(--border);
+}
+.chr-part--dossier .chr-frise::before { display: none; }
+.chr-part--dossier .chr-frise-item {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    column-gap: var(--spacing-2xl);
+    padding: var(--spacing-lg) 0;
+    border-bottom: 1px solid var(--border);
+}
+.chr-part--dossier .chr-frise-dot { display: none; }
+.chr-part--dossier .chr-frise-date { grid-row: 1 / span 2; margin: 0; }
+.chr-part--dossier .chr-frise-item h3,
+.chr-part--dossier .chr-frise-item p { grid-column: 2; }
+@media (max-width: 720px) {
+    .chr-part--dossier .chr-frise { padding-left: 0; }
+    .chr-part--dossier .chr-frise-item { grid-template-columns: 1fr; }
+    .chr-part--dossier .chr-frise-date { grid-row: auto; margin-bottom: var(--spacing-sm); }
+    .chr-part--dossier .chr-frise-item h3,
+    .chr-part--dossier .chr-frise-item p { grid-column: 1; }
+}
+
+/* ── II / III · Fiches de marque ─────────────────────────────────────── */
+/* Une fiche par marque, numérotée, la bande de livrée en tête comme un
+   train qui entre en gare. */
+
+.chr-co-list--brands {
+    display: grid;
+    gap: var(--spacing-lg);
+    border-top: 0;
+    counter-reset: chr-brand;
+}
+.chr-co-list--brands .chr-co {
+    counter-increment: chr-brand;
+    grid-template-columns: 290px minmax(0, 1fr);
+    gap: var(--spacing-md) var(--spacing-2xl);
+    padding: var(--spacing-xl);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 6px solid var(--chr-accent);
+}
+.chr-co-list--brands .chr-co > .chr-strip {
+    grid-row: 1;
+    max-width: none;
+    margin: calc(-1 * var(--spacing-xl)) calc(-1 * var(--spacing-xl)) var(--spacing-sm);
+}
+.chr-co-list--brands .chr-co-plate::before {
+    content: counter(chr-brand, decimal-leading-zero);
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--chr-accent-ink);
+}
+.chr-co-list--brands .chr-co-acro {
+    font-size: clamp(1.45rem, 2.2vw, 1.8rem);
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    overflow-wrap: break-word;
+}
+.chr-co-list--brands .chr-co-body > p { font-size: 1.04rem; color: var(--text-secondary); margin-bottom: var(--spacing-lg); }
+/* Repères (avant / après, présence, exemples) : des cases côte à côte. */
+.chr-co-facts--rows {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1px;
+    margin: 0;
+    background: var(--border);
+    border: 1px solid var(--border);
+}
+.chr-co-facts--rows > div { padding: 12px 16px; background: var(--background); }
+.chr-co-facts--rows dt { color: var(--chr-accent-ink); margin-bottom: 4px; }
+.chr-co-facts--rows dd { margin: 0; font-weight: 500; line-height: 1.5; color: var(--text-primary); }
+@media (max-width: 760px) {
+    .chr-co-list--brands .chr-co { grid-template-columns: minmax(0, 1fr); padding: var(--spacing-lg); }
+    .chr-co-list--brands .chr-co > .chr-strip { margin: calc(-1 * var(--spacing-lg)) calc(-1 * var(--spacing-lg)) var(--spacing-sm); }
+}
+
+/* ── II · Carte de couverture ────────────────────────────────────────── */
 
 .chr-mapfig {
-    margin: var(--spacing-xl) 0 0;
-    border: 1px solid var(--border);
+    margin: var(--spacing-2xl) 0 0;
+    padding: var(--spacing-xl);
     background: var(--surface);
-    padding: var(--spacing-lg);
+    border: 1px solid var(--border);
+    border-top: 6px solid var(--chr-accent);
 }
 .chr-mapfig-cap {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-bottom: var(--spacing-md);
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-lg);
 }
 .chr-mapfig-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-    gap: var(--spacing-xl);
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: var(--spacing-2xl);
     align-items: start;
-}
-.chr-mapfig-side .cov-tooltip { border-top: 1px solid var(--border); }
-@media (max-width: 860px) {
-    .chr-mapfig-grid { grid-template-columns: 1fr; }
 }
 .chr-mapfig-side .cov-legend {
     margin-top: 0;
@@ -2020,99 +2188,381 @@
     flex-direction: column;
     align-items: flex-start;
 }
-
-/* Fiches de marque : les repères (avant 2001, matériel, en 2012) se lisent
-   en lignes, libellé à gauche, plutôt qu'en colonnes côte à côte. */
-.chr-co-facts--rows { display: grid; grid-template-columns: 1fr; gap: 6px; }
-.chr-co-facts--rows > div {
-    display: grid;
-    grid-template-columns: 110px minmax(0, 1fr);
-    gap: var(--spacing-md);
-    align-items: baseline;
-}
-.chr-co-facts--rows dd { margin: 0; font-weight: 500; color: var(--text-secondary); }
-.chr-co-facts--rows dt { color: var(--text-muted); }
-@media (max-width: 520px) {
-    .chr-co-facts--rows > div { grid-template-columns: 1fr; gap: 0; }
+.chr-mapfig-side .cov-tooltip { border-top: 1px solid var(--border); }
+@media (max-width: 860px) {
+    .chr-mapfig-grid { grid-template-columns: 1fr; }
+    .chr-mapfig { padding: var(--spacing-lg); }
 }
 
-/* Fiches de marque : le nom complet tient lieu de titre, sans sigle. Plus
-   petit que le sigle d'une compagnie, pour que HighSpeedXpress ou
-   Cross-Channel tiennent dans la colonne. */
-.chr-co-list--brands .chr-co { grid-template-columns: 200px minmax(0, 1fr); }
-.chr-co-list--brands .chr-co-acro { font-size: 1.2rem; }
-@media (max-width: 720px) {
-    .chr-co-list--brands .chr-co { grid-template-columns: minmax(0, 1fr); }
-}
+/* ── III · Filiation 2001 → 2012 : un tableau des départs ────────────── */
+/* Panneau sombre dans les deux thèmes, comme un afficheur de gare. */
 
-/* ── Filiation des marques 2001 -> 2012 (partie III) ──────────────────── */
-.chr-lin { margin-top: var(--spacing-xl); border-top: 1px solid var(--border); }
+.chr-lin {
+    margin-top: var(--spacing-2xl);
+    padding: var(--spacing-md) var(--spacing-xl) var(--spacing-lg);
+    background: var(--panel);
+    border-top: 6px solid var(--chr-accent);
+    color: #e6eef0;
+}
 .chr-lin-row {
     display: grid;
-    grid-template-columns: 200px minmax(0, 1fr);
-    gap: var(--spacing-lg);
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-    color: var(--text-secondary);
-    font-size: 0.95rem;
+    grid-template-columns: 240px 48px minmax(0, 1fr);
+    align-items: baseline;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    font-size: 1.02rem;
     line-height: 1.5;
+    color: rgba(255, 255, 255, 0.82);
 }
-.chr-lin-row strong { color: var(--text-primary); font-weight: 700; }
-.chr-lin-row--head {
-    font-size: 0.7rem;
+.chr-lin-row:last-child { border-bottom: 0; }
+.chr-lin-row > span:first-child {
+    grid-column: 1;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+.chr-lin-row > span:last-child { grid-column: 3; }
+.chr-lin-row:not(.chr-lin-row--head)::after {
+    content: '\2192';
+    grid-column: 2;
+    grid-row: 1;
+    font-weight: 800;
+    color: var(--hero-accent);
+}
+.chr-lin-row strong { color: #fff; font-weight: 800; font-size: 1.12rem; }
+.chr-lin-row--head { padding-bottom: 10px; }
+.chr-lin-row--head > span,
+.chr-lin-row--head > span:first-child {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--hero-accent);
+}
+.chr-lin-row--new > span:first-child { font-style: italic; text-transform: none; letter-spacing: 0; }
+.chr-lin-row--new strong { color: var(--hero-accent); }
+@media (max-width: 640px) {
+    .chr-lin { padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-md); }
+    .chr-lin-row { grid-template-columns: 1fr; gap: 2px; }
+    .chr-lin-row > span:last-child { grid-column: 1; }
+    .chr-lin-row:not(.chr-lin-row--head)::after { display: none; }
+    .chr-lin-row--head > span:last-child { display: none; }
+}
+
+/* ── Dossier · Le plan : chiffres de la première phase ───────────────── */
+
+.chr-figures {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: var(--spacing-2xl) 0 0;
+    border-top: 3px solid var(--text-primary);
+}
+.chr-figures > div {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: 6px;
+    padding: var(--spacing-lg) var(--spacing-lg) 0 0;
+}
+.chr-figures > div + div { padding-left: var(--spacing-lg); border-left: 1px solid var(--border); }
+.chr-figures dd {
+    margin: 0;
+    font-weight: 800;
+    font-size: clamp(2rem, 3.6vw, 2.9rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--chr-accent);
+}
+.chr-figures dt {
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    color: var(--text-muted);
+}
+@media (max-width: 900px) {
+    .chr-figures { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .chr-figures > div:nth-child(3) { padding-left: 0; border-left: 0; }
+    .chr-figures > div:nth-child(n + 3) { margin-top: var(--spacing-md); }
+}
+
+/* ── Dossier · Les lignes : chacune dessinée comme un tracé ──────────── */
+
+.chr-lines {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-xl);
+}
+.chr-line-row {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg) var(--spacing-xl) var(--spacing-xl);
+    background: var(--surface);
+    border: 1px solid var(--border);
+}
+.chr-line-name {
+    position: relative;
+    font-family: var(--chr-serif);
+    font-weight: 800;
+    font-size: 1.3rem;
+    line-height: 1.25;
+    color: var(--text-primary);
+    padding-bottom: 26px;
+    margin-bottom: var(--spacing-md);
+    /* La voie, entre les deux gares terminus. */
+    background: linear-gradient(var(--chr-accent), var(--chr-accent)) left 0 bottom 7px / 100% 3px no-repeat;
+}
+.chr-line-name::before,
+.chr-line-name::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 17px;
+    height: 17px;
+    background: var(--surface);
+    border: 3px solid var(--chr-accent);
+}
+.chr-line-name::before { left: 0; }
+.chr-line-name::after { right: 0; }
+/* Ligne pas encore ouverte : voie en pointillés. */
+.chr-line-planned .chr-line-name,
+.chr-line-tbd .chr-line-name {
+    background: repeating-linear-gradient(90deg, var(--chr-accent) 0 10px, transparent 10px 18px) left 0 bottom 7px / 100% 3px no-repeat;
+}
+.chr-line-tbd { opacity: 0.75; }
+.chr-line-tbd .chr-line-name::before,
+.chr-line-tbd .chr-line-name::after { border-color: var(--text-muted); }
+.chr-line-row p { color: var(--text-secondary); font-size: 0.96rem; line-height: 1.62; margin: 0; }
+.chr-line-status {
+    align-self: flex-start;
+    font-size: 0.74rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--panel);
+    background: var(--chr-accent);
+    padding: 5px 10px;
+    white-space: nowrap;
+}
+.chr-line-planned .chr-line-status,
+.chr-line-tbd .chr-line-status { background: transparent; color: var(--chr-accent-ink); box-shadow: inset 0 0 0 2px var(--chr-accent); }
+@media (max-width: 760px) {
+    .chr-lines { grid-template-columns: 1fr; }
+}
+
+/* Axe ouvert en plusieurs tronçons : le tracé passe sous le nom, une gare
+   à chaque extrémité de tronçon, chacun avec sa date. --km (posé sur le
+   <li>) règle sa longueur relative. */
+.chr-line-row--axis .chr-line-name {
+    background: none;
+    padding-bottom: 0;
+    margin-bottom: var(--spacing-sm);
+}
+.chr-line-row--axis .chr-line-name::before,
+.chr-line-row--axis .chr-line-name::after { display: none; }
+.chr-line-track {
+    display: flex;
+    margin: 0 0 var(--spacing-md);
+    padding: 0;
+    list-style: none;
+}
+.chr-line-track li {
+    position: relative;
+    flex: var(--km, 1) 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 28px var(--spacing-md) 0 0;
+    background: linear-gradient(var(--chr-accent), var(--chr-accent)) left 0 top 7px / 100% 3px no-repeat;
+}
+.chr-line-track li::before,
+.chr-line-track li:last-child::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 17px;
+    height: 17px;
+    background: var(--surface);
+    border: 3px solid var(--chr-accent);
+}
+.chr-line-track li::before { left: 0; }
+.chr-line-track li:last-child::after { right: 0; }
+.chr-line-track li:last-child { padding-right: 0; }
+.chr-line-track span:first-child {
+    font-weight: 700;
+    font-size: 0.92rem;
+    line-height: 1.3;
+    color: var(--text-primary);
+}
+.chr-line-track span:last-child {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--chr-accent-ink);
+}
+
+/* ── Dossier · La Valado : trois planches techniques ─────────────────── */
+/* Chaque version : nom, rames à taille réelle sur la voie du bandeau
+   animé (même image, mêmes 8 px), une cote sous chaque rame avec sa
+   capacité, puis le texte et la fiche. Les sprites ne sont jamais
+   redimensionnés : la bande défile si elle déborde (.chr-strip). */
+.chr-versions { margin-top: var(--spacing-xl); }
+.chr-version + .chr-version { margin-top: var(--spacing-2xl); }
+.chr-version-head {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--chr-accent);
+}
+.chr-version-head h3 { margin: 0; font-size: 1.3rem; font-weight: 800; letter-spacing: -0.01em; }
+.chr-version-tag {
+    font-size: 0.72rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--chr-accent-ink);
 }
-.chr-lin-row--new span:first-child { color: var(--text-muted); font-style: italic; }
-@media (max-width: 560px) {
-    .chr-lin-row { grid-template-columns: 1fr; gap: 2px; }
-    .chr-lin-row--head span:last-child { display: none; }
-}
 
-/* ── Tableau comparatif de matériel (dossier PRLC) ────────────────────── */
-.chr-spec-wrap { margin-top: var(--spacing-xl); overflow-x: auto; border: 1px solid var(--border); }
-.chr-spec { width: 100%; min-width: 560px; border-collapse: collapse; font-size: 0.9rem; }
-.chr-spec th,
-.chr-spec td {
-    padding: 10px var(--spacing-md);
-    text-align: left;
-    vertical-align: top;
-    border-bottom: 1px solid var(--border);
-    line-height: 1.45;
+/* La voie passe sous les rames ; en dessous, la zone des cotes. */
+.chr-strip--rail {
+    --cote-zone: 46px;
+    padding-top: 20px;
+    background: #0a0a10 url(../mltc/assets/1-Voie_Bois.png) repeat-x left 0 bottom var(--cote-zone) / auto 8px;
+    background-attachment: local;
+    image-rendering: pixelated;
 }
-.chr-spec tbody tr:last-child th,
-.chr-spec tbody tr:last-child td { border-bottom: 0; }
-.chr-spec thead th {
-    font-weight: 800;
-    font-size: 1rem;
-    color: var(--chr-accent-strong);
-    background: var(--chr-accent-soft);
+.chr-version-set {
+    display: flex;
+    align-items: flex-end;
+    gap: 40px;
+    width: max-content;
+    margin-inline: auto;
+    padding: 0 16px 14px;
 }
-.chr-spec tbody th {
+.chr-consist { margin: 0; }
+.chr-consist img { margin: 0; }
+
+/* Cote de dessin technique, à la largeur exacte de la rame. */
+.chr-cote {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 18px;
+    margin-top: 22px;
     font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    color: #b9b2a6;
+    image-rendering: auto;
+}
+.chr-cote::before {
+    content: '';
+    position: absolute;
+    inset: 2px 0;
+    border-inline: 1px solid rgba(240, 189, 107, 0.6);
+    background: linear-gradient(rgba(240, 189, 107, 0.6), rgba(240, 189, 107, 0.6)) center / 100% 1px no-repeat;
+}
+.chr-cote span { position: relative; padding: 0 10px; background: #0a0a10; }
+.chr-cote strong { color: #f0bd6b; font-weight: 800; }
+
+.chr-version-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: var(--spacing-xl) var(--spacing-2xl);
+    align-items: start;
+    margin-top: var(--spacing-lg);
+}
+.chr-version-body > p {
+    margin: 0;
+    line-height: 1.7;
+    color: var(--text-secondary);
+}
+.chr-version-spec { margin: 0; border-top: 1px solid var(--border); }
+.chr-version-spec > div {
+    display: grid;
+    grid-template-columns: 9.5rem minmax(0, 1fr);
+    gap: var(--spacing-md);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+}
+.chr-version-spec dt {
+    padding-top: 2px;
+    font-size: 0.72rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--text-muted);
-    white-space: nowrap;
+    letter-spacing: 0.08em;
+    color: var(--chr-accent-ink);
 }
-.chr-spec td { color: var(--text-secondary); }
+.chr-version-spec dd { margin: 0; font-size: 0.95rem; line-height: 1.45; color: var(--text-primary); }
+
+/* Valado L : choix de la composition (affiché par js/histoire.js). */
+.chr-consist-pick {
+    display: flex;
+    margin-left: auto;
+    align-self: center;
+}
+.chr-consist-pick[hidden] { display: none; }
+.chr-consist-pick-label {
+    align-self: center;
+    margin-right: 10px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+.chr-consist-pick button {
+    padding: 5px 12px;
+    font: inherit;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--chr-accent-ink);
+    background: transparent;
+    border: 2px solid var(--chr-accent);
+    cursor: pointer;
+    transition: background var(--transition-fast), color var(--transition-fast);
+}
+.chr-consist-pick button + button { border-left: 0; }
+.chr-consist-pick button:hover { background: var(--chr-accent-soft); }
+.chr-consist-pick button[aria-pressed="true"] { color: var(--panel); background: var(--chr-accent); }
+.chr-consist-pick button:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 2px; }
+
+.chr-versions-hint { margin-top: var(--spacing-lg); }
+.chr-versions.is-scroll .chr-versions-hint::after { content: " Images à taille réelle : faites défiler chaque bande pour voir la rame en entier."; }
+
+@media (max-width: 900px) {
+    .chr-version-body { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+    .chr-version-spec > div { grid-template-columns: 1fr; gap: 2px; }
+}
 
 .chr-page .visually-hidden {
     position: absolute;
-    width: 1px; height: 1px;
+    width: 1px;
+    height: 1px;
     overflow: hidden;
     clip: rect(0 0 0 0);
     white-space: nowrap;
 }
 
-/* Le communiqué suit le texte de la section, pas un titre. */
-.chr-period .chr-press { margin-top: var(--spacing-xl); }
-.chr-spec { table-layout: fixed; }
-.chr-spec thead th:first-child { width: 150px; }
-.chr-next-main--nonum { grid-template-columns: minmax(0, 1fr) auto; }
-@media (max-width: 720px) {
-    .chr-next-main--nonum { grid-template-columns: 1fr; }
+@media (max-width: 640px) {
+    .chr-part section.chr-period { padding: 3.5rem 0; }
+    .chr-part .chr-head { margin-bottom: var(--spacing-xl); }
+    .chr-option, .chr-path { padding: var(--spacing-lg); }
 }

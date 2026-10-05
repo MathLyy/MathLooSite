@@ -1,0 +1,168 @@
+/* ============================================================
+    MLTC - Trafic (mltc/trafic.html, js/rames.js)
+    Les trains circulent sur un canvas plein cadre, sous la
+    navigation (70 px) et le sous-menu MLTC (44 px). Toujours
+    sur fond noir : les sprites sont pensés pour lui.
+    ============================================================ */
+
+.trafic-stage {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 114px);
+    height: calc(100dvh - 114px);
+    min-height: 420px;
+    margin-top: 114px;
+    background: #000;
+    color: #fff;
+}
+.trafic-stage:fullscreen {
+    height: 100vh;
+    margin-top: 0;
+}
+
+/* ---- Barre de commandes ---- */
+.trafic-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 32px;
+    padding: 12px var(--spacing-lg);
+    background: #0d0817;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.trafic-head {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.trafic-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: #fff;
+}
+.trafic-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.65);
+    text-decoration: none;
+}
+.trafic-back svg { width: 15px; height: 15px; }
+.trafic-back:hover { color: #fff; }
+
+.trafic-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 18px;
+}
+.trafic-field {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+.trafic-field output {
+    min-width: 1.6em;
+    text-align: center;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: #fff;
+}
+.trafic-field select {
+    padding: 6px 8px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 0;
+    background: #000;
+    color: #fff;
+    font: 0.85rem var(--font-body);
+}
+
+.trafic-btn {
+    appearance: none;
+    padding: 7px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 0;
+    background: transparent;
+    color: #fff;
+    font: 600 0.85rem var(--font-body);
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.trafic-btn:hover:not(:disabled) {
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.06);
+}
+.trafic-btn:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+.trafic-btn--main {
+    min-width: 6.5em;
+    border-color: #b794ff;
+    background: #b794ff;
+    color: #160b29;
+}
+.trafic-btn--main:hover:not(:disabled) {
+    border-color: #cbb4f7;
+    background: #cbb4f7;
+}
+.trafic-btn--icon {
+    width: 30px;
+    padding: 5px 0;
+    font-size: 1rem;
+    line-height: 1;
+}
+.trafic-btn:focus-visible,
+.trafic-field select:focus-visible,
+.trafic-back:focus-visible {
+    outline: 2px solid #b794ff;
+    outline-offset: 2px;
+}
+
+/* ---- Voies ---- */
+.trafic-view {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+}
+.trafic-view canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+.trafic-status {
+    position: absolute;
+    right: var(--spacing-lg);
+    bottom: var(--spacing-md);
+    margin: 0;
+    padding: 6px 10px;
+    background: rgba(0, 0, 0, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.8rem;
+    pointer-events: none;
+}
+.trafic-status:empty { display: none; }
+
+@media (max-width: 720px) {
+    .trafic-bar {
+        padding: 10px var(--spacing-md);
+        gap: 10px;
+    }
+    .trafic-controls { gap: 8px 12px; }
+    .trafic-status {
+        right: var(--spacing-md);
+        bottom: var(--spacing-sm);
+    }
+}

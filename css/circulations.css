@@ -90,19 +90,68 @@
 }
 .circ-map-intro {
     display: flex;
-    flex-direction: column;
-    gap: 6px;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px 20px;
+    flex-wrap: wrap;
     margin-bottom: 10px;
 }
+.circ-map-intro-text {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+    flex: 1 1 260px;
+}
+
+/* Période : aujourd'hui ou compagnies d'avant 2001, puis l'époque */
+.circ-period-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    flex-shrink: 0;
+}
+.circ-period {
+    display: inline-flex;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+    background: var(--surface-elevated);
+}
+.circ-period-btn {
+    appearance: none;
+    padding: 7px 12px;
+    border: 0;
+    border-right: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-primary);
+    font: 600 0.82rem var(--font-body);
+    cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease;
+}
+.circ-period-btn:last-child { border-right: 0; }
+.circ-period-btn:hover { background: color-mix(in srgb, var(--primary-100) 50%, transparent); }
+.circ-period-btn.active { background: var(--primary-500); color: #fff; }
+.circ-epochs .circ-period-btn { padding: 5px 9px; font-size: 0.76rem; font-weight: 500; }
+.circ-epochs[hidden] { display: none; }
+.circ-period-btn:focus-visible { outline: 2px solid var(--primary-500); outline-offset: -2px; }
+
+/* Message sous la carte */
+.circ-map-hint {
+    margin: 8px 0 0;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary-700, #7c3aed);
+}
+[data-theme="dark"] .circ-map-hint { color: var(--primary-300, #d8b4fe); }
 .circ-map-intro h2 {
     margin: 0;
-    font-size: clamp(0.8rem, 1vw, 0.92rem);
-    font-family: var(--font-body);
+    font-size: clamp(1rem, 1.3vw, 1.15rem);
+    font-family: var(--font-display);
     line-height: 1.2;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-muted);
+    font-weight: 700;
+    color: var(--text-primary);
 }
 .circ-map-intro p {
     margin: 0;
@@ -176,7 +225,7 @@
 }
 .circ-bar-controls {
     display: grid;
-    grid-template-columns: minmax(0, 1.3fr) minmax(180px, 0.7fr);
+    grid-template-columns: minmax(0, 1.3fr) minmax(160px, 0.7fr) auto;
     gap: 12px;
     margin-top: 16px;
     margin-bottom: 6px;
@@ -199,11 +248,49 @@
     border-color: var(--primary-500);
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-300) 24%, transparent);
 }
+/* Nouveau tirage des compositions affichées */
+.circ-reroll {
+    padding: 11px 16px;
+    border: 1px solid var(--border);
+    border-radius: 0;
+    background: var(--surface-elevated);
+    color: var(--primary-700, #7c3aed);
+    font: 600 0.9rem var(--font-body);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+.circ-reroll:hover { border-color: var(--primary-500); }
+.circ-reroll:focus-visible {
+    outline: none;
+    border-color: var(--primary-500);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-300) 24%, transparent);
+}
+[data-theme="dark"] .circ-reroll { color: var(--primary-300, #c4b5fd); }
+
+/* ---- Lien vers la page Trafic (hero) : discret, la carte reste
+        l'élément principal de la page ---- */
+.circ-live-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary-700, #7c3aed);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+}
+.circ-live-link svg { width: 15px; height: 15px; transition: transform 0.2s ease; }
+.circ-live-link:hover { border-bottom-color: currentColor; }
+.circ-live-link:hover svg { transform: translateX(3px); }
+.circ-live-link:focus-visible { outline: 2px solid var(--primary-500); outline-offset: 3px; }
+[data-theme="dark"] .circ-live-link { color: var(--primary-300, #d8b4fe); }
 
 /* ---- Operator tab strip (segmented control) ---- */
 .circ-operator-tabs {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    display: flex;
     gap: 0;
     margin-top: 16px;
     border: 1px solid var(--border);
@@ -211,7 +298,11 @@
     overflow: hidden;
     flex-shrink: 0;
 }
+.circ-operator-tabs[hidden],
+.circ-op-tab[hidden] { display: none; }
 .circ-op-tab {
+    flex: 1 1 0;
+    min-width: 0;
     appearance: none;
     background: transparent;
     border: none;
@@ -296,10 +387,41 @@
     transition: fill .22s ease, stroke .22s ease, opacity .22s ease, filter .22s ease;
 }
 
+/* Pays qui ont des circulations pour la période choisie */
+.circ-country.has-data .circ-shape {
+    /* Teintes calculées d'avance : Chrome interpole mal color-mix() vers une
+       couleur simple (le pays vire au vert et au rouge pendant l'animation). */
+    fill: #e4cbfe;              /* --primary-300 à 70 % sur blanc */
+    stroke: var(--primary-300, #d8b4fe);
+}
+[data-theme="dark"] .circ-country.has-data .circ-shape {
+    fill: #6f3ea5;              /* --primary-500 à 55 % sur #2a2140 */
+}
+.circ-map.is-inviting .circ-country.has-data .circ-shape {
+    animation: circ-invite 0.9s ease-in-out 2;
+}
+@keyframes circ-invite {
+    50% { fill: var(--primary-500, #a855f7); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .circ-map.is-inviting .circ-country.has-data .circ-shape { animation: none; }
+}
+.circ-country:not(.has-data) { cursor: default; }
+
+/* Historique : pays hors période, estompés et inertes */
+.circ-country.is-off { cursor: default; }
+.circ-country.is-off .circ-shape,
+.circ-country.is-off:hover .circ-shape {
+    fill: #d0d4db;
+    stroke: var(--surface, #fff);
+    opacity: 0.35;
+    filter: none;
+}
+
 /* Hover */
 .circ-country:hover .circ-shape,
 .circ-country:focus .circ-shape {
-    fill: color-mix(in srgb, var(--primary-200) 74%, #fff);
+    fill: #efe0ff;              /* --primary-200 à 74 % sur blanc */
     stroke: var(--primary-300, #c4b5fd);
     filter: brightness(1.02);
 }
@@ -428,6 +550,15 @@
     color: var(--text-secondary);
     font-weight: 500;
 }
+/* Nom propre d'un train (« Nordstern »), devant son trajet */
+.circ-route-name {
+    margin-right: 0.5em;
+    padding-right: 0.5em;
+    border-right: 1px solid var(--border);
+    color: var(--primary-700, #7c3aed);
+    white-space: nowrap;
+}
+[data-theme="dark"] .circ-route-name { color: var(--primary-300, #c4b5fd); }
 .circ-route-toggle {
     display: inline-flex;
     align-items: center;
@@ -551,35 +682,6 @@
     flex-shrink: 0;
 }
 
-/* ---- Segment label (loco change mid-route) ---- */
-.circ-segment-label {
-    display: block;
-    font-size: .78rem;
-    color: var(--text-muted);
-    padding: 6px 0 2px;
-    font-style: italic;
-}
-
-/* ---- Multi-segment group (e.g. locomotive change) ---- */
-.circ-segments-group {
-    border-left: 3px solid var(--primary-300, #a78bfa);
-    padding-left: 12px;
-    margin: 4px 0;
-    border-radius: 0;
-}
-
-[data-theme="dark"] .circ-segments-group {
-    border-left-color: var(--primary-500, #7c3aed);
-}
-
-.circ-segments-group .circ-consist-wrap + .circ-consist-wrap {
-    margin-top: 2px;
-}
-
-.circ-segments-group .circ-segment-label {
-    padding-top: 8px;
-}
-
 .circ-footer {
     margin-top: 24px;
     text-align: center;
@@ -653,8 +755,18 @@
         max-width: 100%;
     }
     .circ-map-intro h2 {
-        font-size: 0.78rem;
+        font-size: 0.95rem;
     }
+    .circ-period-wrap {
+        align-items: stretch;
+        width: 100%;
+    }
+    .circ-period {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
+    }
+    .circ-epochs .circ-period-btn { padding: 6px 2px; }
     .circ-bar-controls {
         grid-template-columns: 1fr;
     }
