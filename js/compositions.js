@@ -120,15 +120,25 @@
         const direction = (opts && opts.direction) || 'L';
         const reversed = !!(opts && opts.reversed);
         const out = [];
+        /* Un attelage n'est posé que s'il relie deux rames : il attend le
+           prochain véhicule. Si la rame suivante est tirée à 0 (« 0-1* »),
+           l'attelage disparaît avec elle ; en tête ou en fin de composition,
+           ou à la suite d'un autre attelage, il disparaît aussi. */
+        let pending = null;
+        const push = v => {
+            if (pending && out.length) out.push(pending);
+            pending = null;
+            out.push(v);
+        };
         (items || []).forEach(item => {
             if (item && typeof item === 'object') {
-                if (item.coupler) {
-                    out.push({
+                if (item.coupler && !pending) {
+                    pending = {
                         src: ASSETS + item.coupler,
                         coupler: true,
                         overlap: typeof item.overlap === 'number' ? item.overlap : 3,
                         bottom: typeof item.bottom === 'number' ? item.bottom : 7
-                    });
+                    };
                 }
                 return;
             }
@@ -164,7 +174,7 @@
                     if (!pool.length) break;
                 }
                 const ref = pickRef(pool.shift(), direction, reversed);
-                if (ref) out.push({ src: LIVREES + ref });
+                if (ref) push({ src: LIVREES + ref });
             }
         });
         return out;

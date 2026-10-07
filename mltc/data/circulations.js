@@ -15,7 +15,8 @@ window.MLTC_CIRCULATIONS = {
     "Choix : \"A.png|B.png\" prend A ou B au hasard.",
     "Sens : \"G.png>D.png\" prend G quand le train roule vers la gauche, D vers la droite (la carte montre le sens gauche).",
     "Mélange : \"SHUFFLE{A.png, B.png}\" mélange le lot ; avec un nombre, c'est le nombre total tiré du lot. Combinable : \"2-3*SHUFFLE{A.png>A_R.png|B.png, C.png}\".",
-    "Attelage entre deux rames : {\"coupler\": \"TGVcouple.png\"} (image de mltc/assets/, options overlap et bottom en pixels).",
+    "Attelage entre deux rames : {\"coupler\": \"TGVcouple.png\"} (image de mltc/assets/, options overlap et bottom en pixels). L'attelage n'apparaît que si un véhicule le suit : avec \"0-1*X.png\" derrière lui, il disparaît quand X est tiré à 0 (idem pour une suite rame, attelage, \"0-1*\" rame, attelage, \"0-1*\" rame).",
+    "Train d'arrière-plan : background.direction vaut L, R, any (défaut) ou opposite (sens contraire du train principal, même quand celui-ci est tiré au hasard). background.name est un intitulé facultatif, affiché assombri à côté de celui du train principal, avec background.service pour lui donner un autre service que celui du principal (la voie reste alors tant que le fond circule). background.delay décale son apparition : un nombre de secondes (négatif : avant le train principal) ou \"random\" pour un tirage entre -3 et 3 s à chaque passage.",
     "Carte : name, route (liste des gares), detail (matériel) et countries sont facultatifs. Sans countries, le train ne circule que sur la page Trafic.",
     "Pays reconnus : France, Royaume-Uni, Belgique, Pays-Bas, Luxembourg, Allemagne, Danemark, Espagne, Italie, Autriche, République tchèque, Suisse.",
     "Animation : direction (L, R ou any, défaut any), speed (km/h), track (image de mltc/assets/voies/, défaut voie_bois.png), decor, reverse_composition, reverse_departure, start_stationary, starting_speed, y_offset, background, foreground.",
@@ -56,7 +57,7 @@ window.MLTC_CIRCULATIONS = {
       },
       {
         "route": ["Lille", "Paris", "Tours", "Poitiers", "Bordeaux"],
-        "detail": "TGV RD + TGV POS",
+        "detail": "UM TGV",
         "countries": ["France"],
         "composition": [
           "SHUFFLE{hsx/B-HSXTGVDuplex.png, hsx/B-HSXTGVRD.png}",
@@ -101,6 +102,124 @@ window.MLTC_CIRCULATIONS = {
         "countries": ["Allemagne"],
         "composition": ["hsx/B-HSXICE1.png"],
         "speed": 280
+      },
+      {
+        "route": ["Lyon", "Dijon", "Besançon", "Belfort", "Mulhouse", "Colmar", "Strasbourg"],
+        "detail": "TGV Réseau",
+        "countries": ["France"],
+        "composition": ["hsx/B-HSXTGVR.png"],
+        "speed": 320,
+        "track": "voie_beton.png"
+      },
+      {
+        "route": [
+          "Nancy",
+          "Strasbourg",
+          "Colmar",
+          "Mulhouse",
+          "Belfort",
+          "Besançon",
+          "Dijon",
+          "Beaune",
+          "Mâcon",
+          "Lyon",
+          "Avignon",
+          "Aix-en-Provence",
+          "Marseille",
+          "Toulon",
+          "Les Arcs",
+          "Saint-Raphaël",
+          "Cannes",
+          "Antibes",
+          "Nice"
+        ],
+        "detail": "UM TGV",
+        "countries": ["France"],
+        "composition": [
+          "hsx/B-HSXTGVR.png",
+          {"coupler": "TGVcouple.png"},
+          "SHUFFLE{hsx/B-HSXTGVR.png, hsx/B-HSXTGVPOS.png}"
+        ],
+        "speed": 320,
+        "track": "voie_beton.png"
+      },
+      {
+        "name": "Grand Sud (Ventimiglia - Marseille)",
+        "route": [
+          "Ventimiglia",
+          "Menton",
+          "Monaco",
+          "Nice",
+          "Antibes",
+          "Cannes",
+          "Saint-Raphaël",
+          "Toulon",
+          "Marseille"
+        ],
+        "detail": "TGV Duplex",
+        "countries": ["France"],
+        "composition": ["SHUFFLE{hsx/B-HSXTGVRD.png, hsx/B-HSXTGVDuplex.png}"],
+        "speed": 160,
+        "track": "voie_bois.png",
+        "decor": "cat.png",
+        "background": {
+          "name": "Frites Industrie",
+          "service": "MLCC",
+          "composition": [
+            "mlcc/A-MLCCBB26000.png",
+            "10-15*SHUFFLE{mlcc/D-MLCC_PI87_1.png, mlcc/D-MLCC_PI87.png, mlcc/D-MLCCI87.png, mlcc/D-MLCC_PI87FI.png, mlcc/D-MLCCI87FI.png, mlcc/D-MLCC_PI87FI_1.png}"
+          ],
+          "direction": "opposite",
+          "speed": 100,
+          "chance": 50,
+          "delay": "random"
+        },
+        "variants": [
+          {
+            "name": "Grand Sud",
+            "route": [
+              "Ventimiglia",
+              "Menton",
+              "Monaco",
+              "Nice",
+              "Antibes",
+              "Cannes",
+              "Saint-Raphaël",
+              "Toulon",
+              "Marseille",
+              "Avignon",
+              "Nîmes",
+              "Montpellier",
+              "Béziers",
+              "Narbonne",
+              "Carcassonne",
+              "Toulouse",
+              "Montauban",
+              "Agen",
+              "Bordeaux"
+            ],
+            "detail": "UM TGV",
+            "composition": [
+              "SHUFFLE{hsx/B-HSXTGVRD.png, hsx/B-HSXTGVDuplex.png}",
+              {"coupler": "TGVcouple.png"},
+              "SHUFFLE{hsx/B-HSXTGVPOS.png, hsx/B-HSXTGVR.png, hsx/B-HSXTGVDuplex.png}"
+            ],
+            "decor": "cat1500V.png",
+            "reverse_composition": true,
+            "background": {
+              "service": "TransRegio",
+              "composition": [
+                "tr/B-TRZ7100PRD.png>tr/B-TRZ7100PRD_R.png",
+                "4*tr/C-TRZR27100PRD.png>tr/C-TRZR27100PRD_R.png",
+                "tr/B-TRZ7100PRD_R.png>tr/B-TRZ7100PRD.png"
+              ],
+              "direction": "opposite",
+              "speed": 140,
+              "chance": 50,
+              "delay": 1
+            }
+          }
+        ]
       }
     ],
     "Xpress": [
@@ -117,7 +236,20 @@ window.MLTC_CIRCULATIONS = {
           "xpress/C-XMk4DVTals_R.png>xpress/C-XMk4DVTals.png"
         ],
         "speed": 220,
-        "reverse_composition": true
+        "decor": "cat.png",
+        "reverse_composition": true,
+        "background": {
+          "composition": [
+            "xpress/A-XCL91als.png>xpress/A-XCL91als_R.png",
+            "2*xpress/C-XMk4FOals.png",
+            "xpress/C-XMk4RFMals.png",
+            "5*xpress/C-XMk4TSOals.png",
+            "xpress/C-XMk4DVTals_R.png>xpress/C-XMk4DVTals.png"
+          ],
+          "direction": "opposite",
+          "speed": 220,
+          "delay": "random"
+        }
       },
       {
         "route": ["Avignon", "Arles", "Marseille"],
@@ -151,7 +283,9 @@ window.MLTC_CIRCULATIONS = {
         "detail": "IC4",
         "countries": ["France"],
         "composition": ["2*xpress/B-XIR4.png"],
-        "speed": 160
+        "speed": 180,
+        "track": "voie_beton.png",
+        "decor": "cat.png"
       },
       {
         "composition": ["1-2*xpress/B-XBR403(I).png"],
@@ -180,7 +314,8 @@ window.MLTC_CIRCULATIONS = {
         "reverse_composition": true
       },
       {
-        "name": "Paris - Strasbourg",
+        "route": ["Paris", "Châlons-en-Champagne", "Nancy", "Strasbourg"],
+        "detail": "BB 26000 + VE2N",
         "countries": ["France"],
         "composition": [
           "xpress/A-XBB26000.png",
@@ -190,6 +325,7 @@ window.MLTC_CIRCULATIONS = {
           "xpress/C-XVE2NB12Dux_R.png>xpress/C-XVE2NB12Dux.png"
         ],
         "speed": 160,
+        "decor": "cat.png",
         "reverse_composition": true
       },
       {
@@ -218,6 +354,22 @@ window.MLTC_CIRCULATIONS = {
         ]
       },
       {
+        "route": [
+          "Strasbourg",
+          "Colmar",
+          "Mulhouse",
+          "Basel",
+          "Zürich",
+          "Zug",
+          "Arth-Goldau",
+          "Bellinzona",
+          "Lugano",
+          "Chiasso",
+          "Como",
+          "Milano"
+        ],
+        "detail": "Vectron + IC2000",
+        "countries": ["France", "Suisse", "Italie"],
         "composition": [
           "xpress/A-XVectronMS_U.png>xpress/A-XVectronMS_U_R.png",
           "xpress/C-XIC2000AD.png>xpress/C-XIC2000AD_R.png",
@@ -227,7 +379,9 @@ window.MLTC_CIRCULATIONS = {
           "xpress/C-XIC2000Bt_R.png>xpress/C-XIC2000Bt.png"
         ],
         "speed": 200,
-        "reverse_composition": true
+        "decor": "cat.png",
+        "reverse_composition": true,
+        "background": {"composition": [], "speed": 80, "chance": 50}
       },
       {
         "route": [
@@ -283,6 +437,21 @@ window.MLTC_CIRCULATIONS = {
           "xpress/C-XViaggioAR.png",
           "xpress/C-XViaggioB.png",
           "5*xpress/C-XVE2NB15.png"
+        ]
+      },
+      {
+        "composition": [
+          "xpress/A-XRe464.png",
+          "2*xpress/C-XECApm.png",
+          "xpress/C-XViaggioAR.png",
+          "4*xpress/C-XECBpm.png",
+          "xpress/C-XVUIVBt_R.png>xpress/C-XVUIVBt.png",
+          "xpress/A-XRE460.png",
+          "xpress/C-XIC2000AD.png>xpress/C-XIC2000AD_R.png",
+          "xpress/C-XIC2000A.png",
+          "xpress/C-XIC2000BR.png",
+          "3*xpress/C-XIC2000B.png",
+          "xpress/C-XIC2000Bt_R.png>xpress/C-XIC2000Bt.png"
         ]
       }
     ],
@@ -668,7 +837,6 @@ window.MLTC_CIRCULATIONS = {
         "speed": 140
       },
       {
-        "name": "Bremen - Bremerhaven",
         "route": [
           "Bremerhaven",
           "Lunestedt",
@@ -700,10 +868,31 @@ window.MLTC_CIRCULATIONS = {
         "speed": 140
       },
       {
-        "name": "Pwllheli - Llandudno Junction",
+        "route": [
+          "Harlech",
+          "Tygwyn",
+          "Talsarnau",
+          "Llandecwyn",
+          "Penrhyndeudraeth",
+          "Minffordd",
+          "Porthmadog",
+          "Criccieth",
+          "Penychain",
+          "Abererch",
+          "Pwllheli"
+        ],
+        "detail": "Class 132",
         "countries": ["Royaume-Uni"],
         "composition": ["1-3*tr/B-TRCL132.png"],
-        "speed": 72
+        "speed": 61,
+        "stop": {"at": "50%", "duration": 5},
+        "station": {"at": "60%", "length": 3},
+        "background": {
+          "composition": ["tr/B-TRCL150.png"],
+          "speed": 80,
+          "chance": 50,
+          "start_stationary": {"at": "50%"}
+        }
       },
       {
         "composition": ["2*tr/B-TRBR515.png"],
@@ -746,6 +935,179 @@ window.MLTC_CIRCULATIONS = {
           "tr/C-TRMk2DBSO_R.png>tr/C-TRMk2DBSO.png"
         ],
         "reverse_composition": true
+      },
+      {
+        "route": [
+          "Montpellier",
+          "Frontignan",
+          "Sète",
+          "Agde",
+          "Béziers",
+          "Narbonne",
+          "Port-la-Nouvelle",
+          "Leucate La Franqui",
+          "Salses",
+          "Rivesaltes",
+          "Perpignan"
+        ],
+        "detail": "Z 7100 + remorques (rénovées)",
+        "countries": ["France"],
+        "composition": [
+          "tr/B-TRZ7100PRD.png>tr/B-TRZ7100PRD_R.png",
+          "4*tr/C-TRZR27100PRD.png>tr/C-TRZR27100PRD_R.png",
+          "tr/B-TRZ7100PRD_R.png>tr/B-TRZ7100PRD.png"
+        ],
+        "speed": 140
+      },
+      {
+        "name": "Sauvetage X 73500",
+        "detail": "BB 63000 + X 73500",
+        "composition": ["tr/A-TRBB63000.png", "tr/B-TROX73500.png"],
+        "speed": 80
+      },
+      {
+        "name": "Grand-mère Express",
+        "route": [
+          "Bordeaux",
+          "Bruges",
+          "Blanquefort",
+          "Parempuyre",
+          "Ludon",
+          "Macau",
+          "Margaux",
+          "Moulis-Listrac",
+          "Pauillac",
+          "Lesparre",
+          "Soulac-sur-Mer",
+          "Le Verdon",
+          "Pointe de Grave"
+        ],
+        "detail": "BB 300 + Voitures diverses",
+        "countries": ["France"],
+        "composition": [
+          "tr/A-TRBB300.png",
+          "tr/C-TRBbd499.png",
+          "tr/C-TRB29-30.png",
+          "tr/C-TRUICYBA.png",
+          "tr/C-TRUICB7D.png"
+        ],
+        "speed": 80,
+        "variants": [
+          {
+            "detail": "BB 300 + USI/UIC",
+            "countries": ["France"],
+            "composition": [
+              "ccfm/CCFM1958-A-BB300.png",
+              "2*ccfm/CCFM1958-C-UICB10.png",
+              "ccfm/CCFM1958-C-USI61B10t.png",
+              "ccfm/CCFM1958-C-UICA9.png"
+            ]
+          }
+        ]
+      },
+      {
+        "route": [
+          "Vierzon",
+          "Reuilly",
+          "Sainte-Lizaigne",
+          "Issoudun",
+          "Neuvy-Pailloux",
+          "Châteauroux",
+          "Argenton-Sur-Creuse",
+          "Eguzon",
+          "Saint-Sébastien",
+          "La Souterraine",
+          "Saint-Sulpice-Laurière",
+          "La Jonchere",
+          "Ambazac",
+          "Limoges"
+        ],
+        "detail": "Z 5500 + Remorques",
+        "countries": ["France"],
+        "composition": [
+          "tr/B-TRZ5500.png",
+          "2-3*SHUFFLE{tr/C-TRXR6000.png, tr/C-TRXR6100.png}",
+          "tr/C-TRXRx6200_R.png>tr/C-TRXRx6200.png"
+        ],
+        "speed": 140,
+        "decor": "cat1500V.png",
+        "reverse_composition": true,
+        "background": {
+          "name": "Limoges - Orléans",
+          "service": "Xpress",
+          "composition": [
+            "xpress/A-XBB7200.png",
+            "2*xpress/C-XCorailVTUA10.png",
+            "xpress/C-XCorailVTUA5B5.png",
+            "2*xpress/C-XCorailVTUB11.png",
+            "xpress/C-XCorailVUB11.png",
+            "xpress/C-XCorailVTUB11.png"
+          ],
+          "direction": "opposite",
+          "speed": 160,
+          "chance": 40,
+          "delay": "random"
+        }
+      },
+      {
+        "route": [
+          "Limoges",
+          "Pierre-Buffiere",
+          "Uzerche",
+          "Allassac",
+          "Brive-La-Gaillarde",
+          "Souillac",
+          "Gourdon",
+          "Cahors",
+          "Lalbenque",
+          "Caussade",
+          "Albias",
+          "Montauban"
+        ],
+        "detail": "Mat'54",
+        "countries": ["France"],
+        "composition": ["2*tr/B-TRMat54.png"],
+        "speed": 140,
+        "decor": "cat1500V.png",
+        "background": {
+          "composition": ["2*tr/B-TRMat54.png"],
+          "direction": "opposite",
+          "speed": 140,
+          "chance": 50,
+          "delay": "random"
+        }
+      },
+      {
+        "name": "Train Jaune (basse saison)",
+        "route": [
+          "Villefranche - Vernet-les-Bains",
+          "Serdinya",
+          "Joncet",
+          "Olette - Canaveilles les Bains",
+          "Nyer",
+          "Thuès - Les Bains",
+          "Thuès Carença",
+          "Fontpédrouse - Saint-Thomas-Les-Bains",
+          "Sauto",
+          "Planès",
+          "Mont-Louis - La Cabanasse",
+          "Bolquère - Eyne",
+          "Font-Romeu-Odeillo-Via",
+          "Estavar",
+          "Saillagouse",
+          "Err",
+          "Sainte-Léocadie",
+          "Osséja",
+          "Bourg-Madame",
+          "Ur Les Escaldes",
+          "Enveitg - Bena Fanes",
+          "Latour-de-Carol"
+        ],
+        "detail": "Z 150",
+        "countries": ["France"],
+        "composition": ["1-2*tr/MB-TRZ150.png"],
+        "speed": 40,
+        "decor": "3R.png"
       }
     ],
     "Vivarail": [
@@ -869,7 +1231,18 @@ window.MLTC_CIRCULATIONS = {
           "sango/C-SanGoCorailVUB6Dux_R.png>sango/C-SanGoCorailVUB6Dux.png"
         ],
         "speed": 160,
-        "reverse_composition": true
+        "decor": "cat1500V.png",
+        "reverse_composition": true,
+        "background": {
+          "service": "MLUP",
+          "composition": [
+            "mlup/B-MLUPmP3000.png",
+            "0-3*SHUFFLE{mlup/D-MLUPHbbkkss.png, mlup/D-MLUPZ350.png>mlup/D-MLUPZ350_R.png}"
+          ],
+          "speed": 120,
+          "chance": 50,
+          "delay": "random"
+        }
       },
       {
         "composition": [
@@ -992,15 +1365,23 @@ window.MLTC_CIRCULATIONS = {
           "sango/C-SanGoNWBdnrzf_R.png>sango/C-SanGoNWBdnrzf.png"
         ],
         "speed": 140,
+        "decor": "cat1500V.png",
         "reverse_composition": true,
-        "stop": {"at": 1000, "duration": 3}
+        "background": {
+          "service": "Frail",
+          "composition": ["1-2*frail/B-FRZ7300R.png"],
+          "direction": "opposite",
+          "speed": 80,
+          "chance": 60,
+          "delay": "random"
+        }
       },
       {
         "name": "TGV",
         "route": ["Lyon", "Valence", "Nîmes", "Montpellier", "Béziers", "Narbonne", "Carcassonne", "Toulouse"],
         "detail": "TGV PSE",
         "countries": ["France"],
-        "composition": ["2*sango/B-SanGoTGVPSE.png"],
+        "composition": ["sango/B-SanGoTGVPSE.png", {"coupler": "TGVcouple.png"}, "sango/B-SanGoTGVPSE.png"],
         "speed": 160
       },
       {
@@ -1008,9 +1389,22 @@ window.MLTC_CIRCULATIONS = {
         "route": ["Montpellier", "Nîmes", "Valence", "Lyon", "Paris"],
         "detail": "TGV PSE",
         "countries": ["France"],
-        "composition": ["2*SHUFFLE{sango/B-SanGoTGVPSE_H.png, sango/B-SanGoTGVPSE.png}"],
+        "composition": [
+          "SHUFFLE{sango/B-SanGoTGVPSE_H.png, sango/B-SanGoTGVPSE.png}",
+          {"coupler": "TGVcouple.png"},
+          "sango/B-SanGoTGVPSE.png"
+        ],
         "speed": 300,
-        "track": "voie_beton.png"
+        "track": "voie_beton.png",
+        "background": {
+          "name": "Paris - Marseille",
+          "service": "HSX",
+          "composition": ["hsx/B-HSXTGVDuplex.png", {"coupler": "TGVcouple.png"}, "hsx/B-HSXTGVDuplex.png"],
+          "direction": "opposite",
+          "speed": 320,
+          "chance": 50,
+          "delay": "random"
+        }
       }
     ],
     "CFP": [
@@ -1094,7 +1488,8 @@ window.MLTC_CIRCULATIONS = {
           "xpress/C-XBpmbdzf.png>xpress/C-XBpmbdzf_R.png",
           "4-7*SHUFFLE{xpress/C-XBpmz291.png, xpress/C-XBpmz292.png, xpress/C-XBpmz295.png, xpress/C-XBvmz185.png, xpress/C-XApmz123.png, xpress/C-XApmz123.png, xpress/C-XCorailVTUB11.png}"
         ],
-        "speed": 80
+        "speed": 80,
+        "background": {"name": "HLP", "composition": ["tr/A-TRBR111.png"], "speed": 100, "delay": "random"}
       },
       {
         "name": "Ferraille",

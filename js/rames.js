@@ -26,7 +26,9 @@
     const PIXELS_PER_METER = 10;
     const KMH_TO_PX_S = 0.27778 * PIXELS_PER_METER;
     const TRACK_OFFSET_Y = 8;                 // les roues mordent sur la voie
-    const BG_TRAIN_ALPHA = 0.5;               // train d'arrière-plan, pour la profondeur
+    const BG_LABEL_ALPHA = 0.5;               // intitulé du fond, à côté de celui du principal
+    const BG_TRAIN_DIM = 0.5;                // train d'arrière-plan assombri (opaque), pour la profondeur
+    const THIRD_RAIL_DIM = 0.45;              // troisième rail assombri (opaque)
     const WIRE_COLOR = '#646464';
     const TRACKS = {
         'voie_bois.png': 'mltc/assets/voies/voie_bois.png',
@@ -92,9 +94,32 @@
         ctx.drawImage(im, Math.round(x * dpr) / dpr, Math.round(y * dpr) / dpr);
     }
 
+    /* Copie de l'image assombrie de `dim` (0 à 1), en gardant sa silhouette.
+       Dessinée opaque, elle donne l'impression de profondeur d'une
+       transparence sur fond noir, sans laisser voir ce qui est derrière
+       (caténaire, bâtiment). Mise en cache par image et par valeur. */
+    const dimCache = new WeakMap();
+    function dimmed(im, dim) {
+        if (!dim) return im;
+        let byDim = dimCache.get(im);
+        if (!byDim) { byDim = new Map(); dimCache.set(im, byDim); }
+        let c = byDim.get(dim);
+        if (!c) {
+            c = document.createElement('canvas');
+            c.width = im.width; c.height = im.height;
+            const g = c.getContext('2d');
+            g.drawImage(im, 0, 0);
+            g.globalCompositeOperation = 'source-atop';
+            g.fillStyle = 'rgba(0,0,0,' + dim + ')';
+            g.fillRect(0, 0, c.width, c.height);
+            byDim.set(dim, c);
+        }
+        return c;
+    }
+
     /* Suite de véhicules, la tête (indice 0) à droite si headRight.
        Les attelages sont dessinés par-dessus. */
-    function drawGroup(list, x, headRight, groundY) {
+    function drawGroup(list, x, headRight, groundY, dim) {
         const couplers = [];
         let drawX = headRight ? x + groupWidth(list) : x;
         list.forEach(v => {
@@ -103,17 +128,17 @@
             if (headRight) { drawX -= w; left = drawX; }
             else { left = drawX; drawX += w; }
             if (v.coupler) couplers.push([v, left - v.overlap]);
-            else blit(v.img, left, groundY - v.img.height);
+            else blit(dimmed(v.img, dim), left, groundY - v.img.height);
         });
-        couplers.forEach(([v, left]) => blit(v.img, left, groundY - v.img.height - v.bottom));
+        couplers.forEach(([v, left]) => blit(dimmed(v.img, dim), left, groundY - v.img.height - v.bottom));
     }
 
     /* ---- Voie et son décor ---- */
     /* Plans, du plus éloigné au plus proche (les trains viennent ensuite) :
        bâtiment de gare, caténaire, quai (tous trois atténués), voie, puis
        troisième rail posé sur la voie. La caténaire et le troisième rail
-       sont répétés sur toute la largeur, le bas de l'image calé sur le bas
-       de la voie ; le quai est posé sur le haut de la voie, le bâtiment sur
+       sont répétés sur toute la largeur (la caténaire calée sur le bas de
+       la voie, le troisième rail sur le haut du rail) ; le quai est posé sur le haut de la voie, le bâtiment sur
        le quai. */
     class Track {
         constructor(image, decor, onTrack, station) {
@@ -127,6 +152,7 @@
         /* Hauteur occupée au-dessus du sol par le décor et la gare. */
         rise() {
             let r = this.decor ? this.decor.height - this.height : 0;
+            if (this.decor && this.onTrack) r = this.decor.height - 1;
             const st = this.station;
             if (st) {
                 const h = (st.platform ? st.platform.height : 0) + (st.building ? st.building.height : 0);
@@ -137,28 +163,30 @@
         tile(im, y, screenWidth) {
             for (let x = 0; x < screenWidth; x += im.width) ctx.drawImage(im, x, y);
         }
+        /* Bâtiment, caténaire et quai : assombris et opaques (plus de
+           transparence), chaque plan cachant celui qui est derrière. */
         draw(screenWidth) {
             const y = Math.round(this.y * dpr) / dpr;
             const st = this.station;
+            const dimStation = 1 - Compo.ALPHA.station, dimCat = 1 - Compo.ALPHA.catenary;
             let qx = 0, qw = 0;
             if (st) {
                 qw = st.platform ? st.platform.width * st.length : (st.building ? st.building.width : 0);
                 qx = resolveAnchoredPosition(st.at, screenWidth, qw, 'L');
             }
-            ctx.globalAlpha = Compo.ALPHA.station;
             if (st && st.building) {
                 const qh = st.platform ? st.platform.height : 0;
-                blit(st.building, qx + (qw - st.building.width) / 2 + st.buildingX, y - qh - st.building.height);
+                blit(dimmed(st.building, dimStation), qx + (qw - st.building.width) / 2 + st.buildingX, y - qh - st.building.height);
             }
-            ctx.globalAlpha = Compo.ALPHA.catenary;
-            if (this.decor && !this.onTrack) this.tile(this.decor, y + this.height - this.decor.height, screenWidth);
-            ctx.globalAlpha = Compo.ALPHA.station;
+            if (this.decor && !this.onTrack) this.tile(dimmed(this.decor, dimCat), y + this.height - this.decor.height, screenWidth);
             if (st && st.platform) {
-                for (let i = 0; i < st.length; i++) blit(st.platform, qx + i * st.platform.width, y - st.platform.height);
+                const p = dimmed(st.platform, dimStation);
+                for (let i = 0; i < st.length; i++) blit(p, qx + i * st.platform.width, y - st.platform.height);
             }
-            ctx.globalAlpha = 1;
             if (this.image) this.tile(this.image, y, screenWidth);
-            if (this.decor && this.onTrack) this.tile(this.decor, y + this.height - this.decor.height, screenWidth);
+            /* Troisième rail : la dernière ligne de l'image est transparente,
+               la dernière ligne opaque repose sur le haut du rail. */
+            if (this.decor && this.onTrack) this.tile(dimmed(this.decor, THIRD_RAIL_DIM), y - this.decor.height + 1, screenWidth);
         }
         groundY() { return this.y + this.height - TRACK_OFFSET_Y; }
     }
@@ -201,6 +229,7 @@
             }
             this.targetSpeed = Math.abs(this.velocity);
             this.cleanupTimer = 0;
+            this.wait = 0;   // secondes avant d'apparaître (décalage du fond ou du principal)
 
             this.stopConfig = cfg.stop || null;
             this.hasStopped = false;
@@ -281,6 +310,7 @@
         }
 
         update(dt, screenWidth) {
+            if (this.wait > 0) { this.wait -= dt; return; }
             /* 1. Déclenchement du freinage */
             if (this.stopConfig && !this.hasStopped && this.state === 'moving' && this.resolvedStopAt !== null) {
                 const distToStop = this.direction === 'R'
@@ -533,26 +563,34 @@
             }
         }
 
-        draw(screenWidth) {
+        /* dim : assombrissement opaque (train d'arrière-plan), 0 sinon. */
+        draw(screenWidth, dim) {
+            if (this.wait > 0) return;
             /* Sans décor choisi (clé decor absente), un simple fil au-dessus
                des engins de 58 px (pantographes levés). decor: false l'ôte. */
-            if (this.height === 58 && this.cfg.decor === undefined) {
+            if (!dim && this.height === 58 && this.cfg.decor === undefined) {
                 ctx.fillStyle = WIRE_COLOR;
                 ctx.fillRect(0, Math.round(this.groundY - this.height - 1), screenWidth, 1);
             }
             const ev = this.stopEvent;
-            if (ev && ev.detachGroup) drawGroup(ev.detachGroup.vehicles, ev.detachGroup.x, ev.detachGroup.dir > 0, this.groundY);
-            if (ev && ev.attachGroup) drawGroup(ev.attachGroup.vehicles, ev.attachGroup.x, this.direction === 'R', this.groundY);
-            drawGroup(this.vehicles, this.x, this.direction === 'R', this.groundY);
+            if (ev && ev.detachGroup) drawGroup(ev.detachGroup.vehicles, ev.detachGroup.x, ev.detachGroup.dir > 0, this.groundY, dim);
+            if (ev && ev.attachGroup) drawGroup(ev.attachGroup.vehicles, ev.attachGroup.x, this.direction === 'R', this.groundY, dim);
+            drawGroup(this.vehicles, this.x, this.direction === 'R', this.groundY, dim);
 
             if (this.foreground) {
                 const fg = this.foreground;
-                blit(fg.image, fg.at, this.groundY - fg.image.height - fg.yOffset);
+                blit(dimmed(fg.image, dim), fg.at, this.groundY - fg.image.height - fg.yOffset);
             }
         }
 
         shouldRemove() {
             return this.cleanupTimer >= 0.5;
+        }
+
+        /* Un train d'arrière-plan encore en route retient la voie, sauf
+           s'il reste arrêté sans fin. */
+        lingers() {
+            return !this.shouldRemove() && this.stopTimer !== Infinity;
         }
     }
 
@@ -651,8 +689,17 @@
             if (cfg.background) {
                 const chance = cfg.background.chance !== undefined ? cfg.background.chance : 100;
                 if (Math.random() * 100 < chance) {
-                    bg = new Train(Object.assign({ service: cfg.service }, cfg.background), W);
+                    const bgCfg = Object.assign({ service: cfg.service }, cfg.background);
+                    /* "opposite" : roule à contresens du train principal, quel que soit son tirage. */
+                    if (bgCfg.direction === 'opposite') bgCfg.direction = train.direction === 'R' ? 'L' : 'R';
+                    bg = new Train(bgCfg, W);
+                    bg.ownService = !!cfg.background.service;   // service propre : son libellé peut s'afficher seul
                     bg.groundY = track.groundY() + bg.yOffset;
+                    /* delay : secondes de décalage (négatif : le fond passe avant le principal). */
+                    const raw = cfg.background.delay;
+                    const delay = raw === 'random' ? randFloat(-3, 3) : (Number(raw) || 0);
+                    if (delay > 0) bg.wait = delay;
+                    else if (delay < 0) train.wait = -delay;
                 }
             }
             active.push({ train, track, bg });
@@ -687,23 +734,33 @@
             it.train.update(dt, W);
             if (it.bg) it.bg.update(dt, W);
         });
-        active = active.filter(it => !it.train.shouldRemove());
+        active = active.filter(it => !it.train.shouldRemove() || (it.bg && it.bg.lingers()));
     }
 
-    function drawLabel(train, y) {
+    /* Service puis intitulé, à partir de x0 ; renvoie le bord droit. Le fond
+       n'affiche son service que s'il en a un propre (background.service). */
+    function drawLabel(train, y, x0, alpha) {
+        ctx.save();
+        ctx.globalAlpha = alpha;
         ctx.textBaseline = 'top';
-        ctx.font = '700 11px ' + FONT;
-        if ('letterSpacing' in ctx) ctx.letterSpacing = '0.06em';
-        const svc = train.service.toUpperCase();
-        ctx.fillStyle = SERVICE_COLORS[train.service] || SERVICE_COLOR;
-        ctx.fillText(svc, 12, y);
-        const x = 12 + ctx.measureText(svc).width + 8;
-        if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
+        let x = x0;
+        if (train.ownService !== false) {
+            ctx.font = '700 11px ' + FONT;
+            if ('letterSpacing' in ctx) ctx.letterSpacing = '0.06em';
+            const svc = train.service.toUpperCase();
+            ctx.fillStyle = SERVICE_COLORS[train.service] || SERVICE_COLOR;
+            ctx.fillText(svc, x, y);
+            x += ctx.measureText(svc).width + 8;
+            if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
+        }
         if (train.label) {
             ctx.font = '400 12px ' + FONT;
             ctx.fillStyle = 'rgba(255, 255, 255, 0.82)';
             ctx.fillText(train.label, x, y - 1);
+            x += ctx.measureText(train.label).width;
         }
+        ctx.restore();
+        return x;
     }
 
     function draw() {
@@ -714,14 +771,13 @@
         active.sort((a, b) => a.track.y - b.track.y);
         active.forEach(it => {
             it.track.draw(W);
-            if (it.bg) {
-                ctx.save();
-                ctx.globalAlpha = BG_TRAIN_ALPHA;
-                it.bg.draw(W);
-                ctx.restore();
-            }
+            if (it.bg) it.bg.draw(W, BG_TRAIN_DIM);
             it.train.draw(W);
-            drawLabel(it.train, it.track.y + it.track.height + 5);
+            /* Intitulé du fond à la suite de celui du principal, assombri. */
+            const y = it.track.y + it.track.height + 5;
+            const end = drawLabel(it.train, y, 12, 1);
+            const bg = it.bg;
+            if (bg && (bg.label || bg.ownService) && !bg.shouldRemove()) drawLabel(bg, y, end + 28, BG_LABEL_ALPHA);
         });
     }
 

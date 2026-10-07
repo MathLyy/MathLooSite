@@ -981,6 +981,12 @@
         return !!(stop && (stop.loco_change || (stop.attach && stop.attach.length) || stop.detach_count));
     }
 
+    /* Sens des images du fond dans l'aperçu : fixe, opposé au principal, ou celui du principal. */
+    function bgDir(d) {
+        if (d === 'L' || d === 'R') return d;
+        return d === 'opposite' ? (S.dir === 'R' ? 'L' : 'R') : S.dir;
+    }
+
     async function drawPreview() {
         const P = S.preview;
         if (!P || !S.sel || !P.strip.isConnected) return;
@@ -992,7 +998,7 @@
         const a = await renderStrip(list, S.dir, scene);
         const b = stopChanges(cfg.stop) ? await renderStrip(Compo.afterStop(list, cfg.stop, opts), S.dir, scene) : null;
         const bg = cfg.background && Array.isArray(cfg.background.composition) && cfg.background.composition.length
-            ? await renderStrip(Compo.resolve(cfg.background.composition, opts), S.dir, scene) : null;
+            ? await renderStrip(Compo.resolve(cfg.background.composition, { direction: bgDir(cfg.background.direction) }), S.dir, scene) : null;
         if (token !== S.pvToken) return;
 
         const put = (box, r) => {
@@ -1465,9 +1471,23 @@
             };
             kids.push(el('div.cp-grid3', {}, [
                 K.field('Probabilité (%)', numInput(bg.chance, '100', n => edit(s => bo(s, 'chance', n === 100 ? undefined : n)), true)),
-                K.field('Sens', selectInput([['', 'Au hasard'], ['L', 'Vers la gauche (L)'], ['R', 'Vers la droite (R)']],
-                    bg.direction === 'L' || bg.direction === 'R' ? bg.direction : '', s2 => edit(s => bo(s, 'direction', s2 || undefined)))),
+                K.field('Sens', selectInput([['', 'Au hasard'], ['L', 'Vers la gauche (L)'], ['R', 'Vers la droite (R)'],
+                    ['opposite', 'Sens opposé au train principal']],
+                    bg.direction === 'L' || bg.direction === 'R' || bg.direction === 'opposite' ? bg.direction : '',
+                    s2 => edit(s => bo(s, 'direction', s2 || undefined)))),
                 K.field('Vitesse (km/h)', numInput(bg.speed, '100', n => edit(s => bo(s, 'speed', n)), true))
+            ]));
+            kids.push(el('div.cp-grid3', {}, [
+                K.field('Intitulé', textInput(bg.name, 'facultatif', v => edit(s => bo(s, 'name', v || undefined))),
+                    'Affiché assombri à côté de celui du train principal'),
+                K.field('Service', selectInput(
+                    [['', 'Celui du train principal']].concat(Object.keys(services()).concat(bg.service && !services()[bg.service] ? [bg.service] : [])
+                        .map(k => [k, k.toUpperCase()])),
+                    bg.service || '', v => edit(s => bo(s, 'service', v || undefined))),
+                    'Service affiché avec son intitulé'),
+                K.field('Décalage', checkInput(bg.delay === 'random', 'Aléatoire (-3 à 3 s)',
+                    on => edit(s => bo(s, 'delay', on ? 'random' : undefined))),
+                    'Tiré à chaque passage : de 3 s avant à 3 s après le train principal. Décoché : en même temps')
             ]));
             kids.push(K.field('Composition', compoEditor(bg.composition || [], list => edit(s => { s.composition = list; }))));
             kids.push(sub('stop', bg.stop, ['at', 'duration']));

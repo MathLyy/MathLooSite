@@ -22,7 +22,7 @@
     const STOP_ORDER = ['at', 'duration', 'loco_change', 'detach_count', 'detach_position',
         'attach', 'attach_position', 'attach_self_detach_count'];
     const STATION_ORDER = ['at', 'length', 'platform', 'building', 'building_x'];
-    const BG_ORDER = ['composition', 'direction', 'speed', 'chance', 'y_offset', 'start_stationary', 'stop'];
+    const BG_ORDER = ['name', 'service', 'composition', 'direction', 'speed', 'chance', 'delay', 'y_offset', 'start_stationary', 'stop'];
 
     const COUNTRIES = ['France', 'Royaume-Uni', 'Belgique', 'Pays-Bas', 'Luxembourg', 'Allemagne',
         'Danemark', 'Espagne', 'Italie', 'Autriche', 'République tchèque', 'Suisse'];
