@@ -1,6 +1,6 @@
 /* =========================================================================
-   scan.js — Scanner de source HTML par offsets.
-   Ne construit AUCUN DOM : retourne les enfants directs d'une region du
+   scan.js : Scanner de source HTML par offsets.
+   Ne construit aucun DOM : retourne les enfants directs d'une region du
    texte source sous forme de plages [start, end). C'est ce qui permet de
    reemettre verbatim tout ce qui n'est pas edite.
    ========================================================================= */

@@ -1,7 +1,7 @@
 /* =========================================================================
-   model.js — Mutations du modele.
+   model.js : Mutations du modele.
 
-   Les blancs entre enfants SONT des noeuds texte dans `children`. Toute
+   Les blancs entre enfants sont des nœuds texte dans `children`. Toute
    insertion ajoute aussi son separateur, toute suppression retire le sien :
    le formatage est traite explicitement, jamais devine au moment du rendu.
    ========================================================================= */
@@ -63,7 +63,7 @@
         if (index >= pos.length) {
             if (pos.length === 0) {
                 /* Conteneur vide : le blanc final est l'indentation de la
-                   balise fermante — on insere AVANT lui, pas apres. */
+                   balise fermante : on insère avant lui, pas après. */
                 const lastIsText = kids.length && kids[kids.length - 1].type === 'text';
                 if (lastIsText) kids.splice(kids.length - 1, 0, sep, node);
                 else kids.push(sep, node, textNode(prof.sep.replace(/  $/, '')));
@@ -111,10 +111,10 @@
 
     /* ---- deplacement de blocs (reordonnancement) ------------------------ */
 
-    /* Étendue reellement deplacable d'un bloc : l'element PLUS le bandeau de
-       commentaires ASCII qui le titre. Les pages suivent une convention nette
-       — une ligne vide separe deux blocs, un simple retour a la ligne lie un
-       commentaire a l'element qui suit. Sans cela, deplacer une section
+    /* Étendue réellement déplaçable d'un bloc : l'élément et le bandeau de
+       commentaires qui le titre. Convention des pages : une ligne vide sépare
+       deux blocs, un simple retour à la ligne lie un commentaire à l'élément
+       qui suit. Sans cela, deplacer une section
        laisserait son bandeau derriere elle, a titrer la mauvaise section. */
     function blockSpan(children, arrayIndex) {
         let start = arrayIndex;

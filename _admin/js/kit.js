@@ -1,5 +1,5 @@
 /* =========================================================================
-   kit.js — Briques d'interface partagees (DOM, modales, notifications).
+   kit.js : Briques d'interface partagees (DOM, modales, notifications).
    ========================================================================= */
 (function () {
     'use strict';

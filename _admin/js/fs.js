@@ -1,5 +1,5 @@
 /* =========================================================================
-   fs.js — Acces disque via la File System Access API.
+   fs.js : Acces disque via la File System Access API.
 
    Point critique : `Blob.text()` supprimerait silencieusement un BOM UTF-8,
    ce qui le ferait disparaitre a la reecriture. On decode donc nous-memes

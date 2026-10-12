@@ -1,9 +1,9 @@
 /* ========================================
    Hub Design
-   Page d'entree de la rubrique Design : elle emprunte au design ses propres
-   outils (grille de construction, reperes de coupe, decalage des couleurs
-   d'impression, regle graduee). Angles droits partout, aucun arrondi.
-   Charge apres style.css et pages.css, sur design/index.html uniquement.
+   Page d'entrée de la rubrique Design, qui reprend les outils du graphiste
+   (grille de construction, repères de coupe, décalage des couleurs
+   d'impression, règle graduée). Aucun arrondi.
+   Chargé après style.css et pages.css, sur design/index.html uniquement.
    ======================================== */
 
 .design-page {
@@ -16,7 +16,7 @@
     overflow-x: clip;
 }
 
-/* ── Hero : une planche de construction ── */
+/* ---- En-tête : une planche de construction ---- */
 .design-hero {
     position: relative;
     isolation: isolate;
@@ -25,7 +25,7 @@
     overflow: hidden;
 }
 
-/* Grille de construction, estompee vers le bas */
+/* Grille de construction, estompée vers le bas */
 .design-hero::before {
     content: '';
     position: absolute;
@@ -69,8 +69,8 @@
     background: currentColor;
 }
 
-/* Le titre est imprime trois fois, avec un leger defaut de repérage :
-   l'effet des couleurs qui ne tombent pas tout a fait au meme endroit. */
+/* Titre imprimé trois fois, avec un léger défaut de repérage : les
+   couleurs ne tombent pas tout à fait au même endroit. */
 .design-hero h1 {
     position: relative;
     isolation: isolate;
@@ -175,7 +175,7 @@
     to { transform: translate(10px, -14px) rotate(6deg); }
 }
 
-/* Regle graduee au pied du hero */
+/* Règle graduée au pied de l'en-tête */
 .design-ruler {
     height: 22px;
     background-image:
@@ -188,7 +188,7 @@
     margin: 0 calc(var(--spacing-lg) * -1);
 }
 
-/* ── Bande de verbes, legerement penchee ── */
+/* ---- Bande de verbes, légèrement penchée ---- */
 .dz-band-zone {
     overflow: hidden;
     padding: var(--spacing-2xl) 0;
@@ -239,7 +239,7 @@
     to { transform: translateX(-50%); }
 }
 
-/* ── Projets ── */
+/* ---- Projets ---- */
 .design-projects {
     padding: var(--spacing-2xl) var(--spacing-lg) var(--spacing-3xl);
 }
@@ -272,7 +272,7 @@
     color: var(--text-muted);
 }
 
-/* Projet en vedette : visuel et texte cote a cote */
+/* Projet en vedette : visuel et texte côte à côte */
 .dz-project {
     position: relative;
     display: grid;
@@ -284,7 +284,7 @@
     transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Filet spectral en tete de carte */
+/* Filet spectral en tête de carte */
 .dz-project::before {
     content: '';
     position: absolute;
@@ -323,7 +323,7 @@
     transform: scale(1.04);
 }
 
-/* Gros numero d'index, en contour */
+/* Grand numéro d'index, en contour */
 .dz-project-num {
     position: absolute;
     left: var(--spacing-lg);
@@ -354,7 +354,7 @@
     color: var(--text-muted);
 }
 
-/* Etiquette de domaine */
+/* Étiquette de domaine */
 .dz-tag {
     display: inline-block;
     padding: 0.3rem 0.7rem;
@@ -391,7 +391,7 @@
     letter-spacing: 0.04em;
 }
 
-/* Places reservees : un cadre de coupe vide */
+/* Emplacements libres : un cadre de coupe vide */
 .dz-slots {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -413,7 +413,7 @@
         transparent;
 }
 
-/* Reperes de coupe aux quatre coins */
+/* Repères de coupe aux quatre coins */
 .dz-slot::before,
 .dz-slot::after {
     content: '';
@@ -467,7 +467,7 @@
     color: var(--text-muted);
 }
 
-/* ── Responsive ── */
+/* ---- Responsive ---- */
 @media (max-width: 900px) {
     .design-hero {
         padding-top: 120px;
@@ -505,7 +505,7 @@
     }
 }
 
-/* Pas de survol sur ecran tactile : rien qui reste "colle" */
+/* Pas de survol sur écran tactile : rien ne reste « collé » */
 @media (hover: none) {
     .dz-project:hover {
         transform: none;

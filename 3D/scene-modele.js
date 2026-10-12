@@ -1,27 +1,27 @@
 /* ========================================
-   Modele de la vue isometrique du hub 3D (3D/index.html)
-   Ce fichier se modifie a la main : la scene est reconstruite a chaque
-   chargement par js/scene-iso.js, rien d'autre a toucher.
+   Modèle de la vue isométrique du hub 3D (3D/index.html)
+   Ce fichier se modifie à la main : la scène est reconstruite à chaque
+   chargement par js/scene-iso.js, rien d'autre à toucher.
 
    Comment lire les couches :
-   - une couche = une tranche horizontale du modele, de la plus basse (au sol)
-     a la plus haute ;
-   - dans une couche, chaque ligne est une rangee dans la longueur :
-     la premiere ligne est la rangee du fond, la derniere celle face a vous
-     (cote gauche de l'image) ;
-   - dans une ligne, chaque caractere est un cube : le premier est a l'arriere,
-     le dernier a l'avant (cote droit de l'image) ;
-   - un point (.) ou une espace = pas de cube ; toute autre lettre renvoie a
+   - une couche = une tranche horizontale du modèle, de la plus basse (au sol)
+     à la plus haute ;
+   - dans une couche, chaque ligne est une rangée dans la longueur :
+     la première ligne est la rangée du fond, la dernière celle face à vous
+     (côté gauche de l'image) ;
+   - dans une ligne, chaque caractère est un cube : le premier est à l'arrière,
+     le dernier à l'avant (côté droit de l'image) ;
+   - un point (.) ou une espace = pas de cube ; toute autre lettre renvoie à
      une couleur de la palette.
-   Les lignes et les couches n'ont pas besoin d'avoir la meme longueur.
+   Les lignes et les couches n'ont pas besoin d'avoir la même longueur.
    ======================================== */
 
 window.TD_SCENE = {
-    // Lu par les lecteurs d'ecran a la place de l'image
+    // Lu par les lecteurs d'écran à la place de l'image
     description: 'Une voiture IC 2020 assemblée cube par cube',
 
     // Une lettre = une couleur. C'est la teinte de la face gauche :
-    // le dessus est eclairci et la face droite assombrie automatiquement.
+    // le dessus est éclairci et la face droite assombrie automatiquement.
     palette: {
         'B': '#2b282a', // bogies et attelages
         'L': '#d0bfca', // bas de caisse
@@ -54,16 +54,16 @@ window.TD_SCENE = {
     ],
 
     rendu: {
-        // 'plein' : cubes colores ; 'filaire' : aretes seules, faces cachees masquees
+        // 'plein' : cubes colorés ; 'filaire' : arêtes seules, faces cachées masquées
         style: 'plein',
         // Liseré sombre autour de chaque face (style 'plein' uniquement)
         contours: true,
-        // Ombre portee sous le modele
+        // Ombre portée sous le modèle
         ombre: true,
-        // Nombre de cases de sol libres autour du modele
+        // Nombre de cases de sol libres autour du modèle
         margeSol: 2,
-        // Eclairage : part de blanc ajoutee au dessus (0 a 1),
-        // luminosite de la face droite (0 a 1)
+        // Éclairage : part de blanc ajoutée au dessus (0 à 1),
+        // luminosité de la face droite (0 à 1)
         dessus: 0.22,
         droite: 0.7
     },
@@ -71,14 +71,14 @@ window.TD_SCENE = {
     animation: {
         // Ordre de montage :
         // 'couches'  : de bas en haut, couche par couche
-        // 'longueur' : de l'arriere vers l'avant, tranche par tranche
-        // 'largeur'  : du fond vers vous, rangee par rangee
+        // 'longueur' : de l'arrière vers l'avant, tranche par tranche
+        // 'largeur'  : du fond vers vous, rangée par rangée
         ordre: 'couches',
-        // 'chute' : les cubes tombent a leur place ; 'pop' : ils apparaissent en grossissant
+        // 'chute' : les cubes tombent à leur place ; 'pop' : ils apparaissent en grossissant
         effet: 'chute',
         // Hauteur de chute, en cubes
         hauteur: 1.8,
-        // Duree de l'arrivee d'un cube, en millisecondes
+        // Durée de l'arrivée d'un cube, en millisecondes
         duree: 550,
         // Temps entre deux cubes, en millisecondes
         ecart: 24,

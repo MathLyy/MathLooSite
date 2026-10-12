@@ -37,7 +37,7 @@
                 <li class="nav-item">
                     <a href="../design/index.html" class="nav-link">Design</a>
                 </li>
-                <!-- Divers masque temporairement (rubrique encore vide)
+                <!-- Divers masqué temporairement (rubrique encore vide)
                 <li class="nav-item">
                     <a href="../divers/index.html" class="nav-link">Divers</a>
                 </li> -->
@@ -71,7 +71,7 @@
         </div>
     </nav>
 
-    <!-- MLTC Sub-navigation -->
+    <!-- Sous-menu MLTC -->
     <nav class="mltc-subnav" aria-label="Rubriques MLTC">
         <div class="container">
             <ul class="subnav-menu">
@@ -86,10 +86,10 @@
     </nav>
 
     <main>
-        <!-- MLTC Hero - Split layout -->
+        <!-- En-tête en deux colonnes -->
         <section class="mltc-hero">
             <div class="hero-split">
-                <!-- Left column: title + CTA -->
+                <!-- Colonne de gauche : titre et bouton -->
                 <div class="hero-left">
                     <div class="hero-left-deco" aria-hidden="true"></div>
                     <div class="hero-left-top">
@@ -105,7 +105,7 @@
                     </div>
                 </div>
 
-                <!-- Right column: stats + livery showcase -->
+                <!-- Colonne de droite : chiffres et livrées -->
                 <div class="hero-right">
                     <div class="hero-right-top">
                         <div class="hero-stats">
@@ -140,7 +140,7 @@
             </div>
         </section>
 
-        <!-- Train banner: pixel-art compositions scrolling -->
+        <!-- Bandeau animé -->
         <div class="train-banner">
             <div id="train-animation-container" data-base="../"></div>
         </div>
@@ -161,7 +161,7 @@
             </div>
         </section>
 
-        <!-- Navigation Cards -->
+        <!-- Explorer la MLTC -->
         <section class="hub-section" id="mltc-explore">
             <div class="explore-bg" aria-hidden="true">
                 <div class="explore-blob explore-blob--1"></div>
@@ -176,7 +176,7 @@
                 </div>
 
                 <div class="explore-grid">
-                    <!-- Featured: Histoire -->
+                    <!-- Carte principale : Histoire -->
                     <a href="histoire.html" class="explore-card explore-card--featured" data-card="histoire">
                         <div class="explore-card-bg" style="background-image:url('histoire_pages/fondh.jpg')"></div>
                         <div class="explore-card-overlay"></div>
@@ -203,7 +203,7 @@
                         </div>
                     </a>
 
-                    <!-- Secondary: Livrées -->
+                    <!-- Carte secondaire : Livrées -->
                     <a href="livrees.html" class="explore-card explore-card--secondary" data-card="livrees">
                         <div class="explore-card-shine" aria-hidden="true"></div>
                         <div class="explore-card-content">
@@ -235,7 +235,7 @@
                         </div>
                     </a>
 
-                    <!-- Secondary: Circulations -->
+                    <!-- Carte secondaire : Circulations -->
                     <a href="circulations.html" class="explore-card explore-card--secondary" data-card="circulations">
                         <div class="explore-card-shine" aria-hidden="true"></div>
                         <div class="explore-card-content">
@@ -302,7 +302,7 @@
     <script src="../js/train-anim.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
     <script>
-    // Render decorative Europe map in the Circulations explore card
+    // Carte d'Europe décorative de la carte Circulations
     (async () => {
         const svg = document.querySelector('.explore-card-map');
         if (!svg || !window.topojson) return;
@@ -361,7 +361,7 @@
                 path.setAttribute('class', 'explore-map-country');
                 svg.appendChild(path);
             });
-        } catch (e) { /* silent */ }
+        } catch (e) { /* décor seulement : rien à afficher en cas d'échec */ }
     })();
     </script>
 </body>

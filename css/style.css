@@ -1,11 +1,11 @@
 /* ========================================
-   MathLoo Portfolio - Main Stylesheet
-   Theme: Modern Violet
+   MathLoo : feuille de style commune
+   Jetons, navigation, boutons, pied de page
    ======================================== */
 
-/* CSS Variables */
+/* Variables */
 :root {
-    /* Primary Colors - Violet Theme */
+    /* Violet principal */
     --primary-50: #faf5ff;
     --primary-100: #f3e8ff;
     --primary-200: #e9d5ff;
@@ -17,7 +17,7 @@
     --primary-800: #6b21a8;
     --primary-900: #581c87;
 
-    /* Neutral Colors */
+    /* Neutres */
     --neutral-50: #fafafa;
     --neutral-100: #f5f5f5;
     --neutral-200: #e5e5e5;
@@ -29,7 +29,7 @@
     --neutral-800: #262626;
     --neutral-900: #171717;
 
-    /* Light Theme (default) */
+    /* Thème clair (par défaut) */
     --text-primary: var(--neutral-800);
     --text-secondary: var(--neutral-600);
     --text-muted: var(--neutral-500);
@@ -43,18 +43,17 @@
     --accent-text: var(--primary-600);
     --accent-bg: var(--primary-100);
 
-    /* Hierarchie du violet : trois niveaux d'usage, du plus porteur de sens
-       au purement decoratif. Toute nouvelle page doit puiser ici plutot que
-       de reprendre une teinte au hasard dans l'echelle --primary-*, sans quoi
-       tout se retrouve au meme niveau de lecture et plus rien ne ressort.
-         1. --accent-action  : ce sur quoi on peut cliquer ou ce qui doit etre
-                               lu en premier (liens, titres actifs).
-         2. --accent-label   : les reperes de lecture (labels de section,
-                               periodes, annees, valeurs chiffrees).
-         3. --accent-decor   : ce qui ne porte aucune information (filets,
-                               noeuds de frise, filigranes, fonds teintes) ;
-                               --accent-decor-line et --accent-decor-wash en
-                               sont les declinaisons filet et aplat. */
+    /* Trois niveaux de violet, du plus porteur de sens au décoratif. Les pages
+       puisent ici plutôt que dans l'échelle --primary-*, pour garder une
+       hiérarchie de lecture.
+         1. --accent-action : ce qui se clique ou se lit en premier (liens,
+                              titres actifs).
+         2. --accent-label  : les repères de lecture (labels de section,
+                              périodes, années, valeurs chiffrées).
+         3. --accent-decor  : ce qui ne porte pas d'information (filets, nœuds
+                              de frise, filigranes, fonds teintés) ;
+                              --accent-decor-line et --accent-decor-wash en sont
+                              les déclinaisons filet et aplat. */
     --accent-action: var(--primary-700);
     --accent-label: var(--primary-600);
     --accent-decor: var(--primary-500);
@@ -63,11 +62,11 @@
     --footer-bg: var(--neutral-900);
     --footer-border: var(--neutral-800);
 
-    /* Typography */
+    /* Typographie */
     --font-display: 'Syne', sans-serif;
     --font-body: 'DM Sans', sans-serif;
 
-    /* Spacing */
+    /* Espacements */
     --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
     --spacing-md: 1rem;
@@ -76,7 +75,7 @@
     --spacing-2xl: 3rem;
     --spacing-3xl: 4rem;
 
-    /* Border Radius */
+    /* Arrondis (aucun : le site est anguleux) */
     --radius-sm: 0;
     --radius-md: 0;
     --radius-lg: 0;
@@ -84,7 +83,7 @@
     --radius-2xl: 0;
     --radius-full: 0;
 
-    /* Shadows - Light Theme */
+    /* Ombres, thème clair */
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
@@ -98,7 +97,7 @@
     --transition-slow: 300ms ease;
 }
 
-/* Dark Theme */
+/* Thème sombre */
 [data-theme="dark"] {
     --text-primary: #f5f5f5;
     --text-secondary: #a8a3b3;
@@ -113,8 +112,8 @@
     --accent-text: var(--primary-400);
     --accent-bg: rgba(168, 85, 247, 0.15);
 
-    /* Meme hierarchie qu'en theme clair, remontee dans l'echelle : sur fond
-       sombre, ce sont les teintes claires qui portent le plus loin. */
+    /* Même hiérarchie qu'en thème clair, décalée vers les teintes claires, qui
+       portent mieux sur fond sombre. */
     --accent-action: var(--primary-300);
     --accent-label: var(--primary-400);
     --accent-decor: var(--primary-500);
@@ -123,7 +122,7 @@
     --footer-bg: #080510;
     --footer-border: #2d2240;
 
-    /* Shadows - Dark Theme */
+    /* Ombres, thème sombre */
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
@@ -132,7 +131,7 @@
     --shadow-glow: 0 0 30px rgba(168, 85, 247, 0.15);
 }
 
-/* Reset & Base */
+/* Base */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -142,8 +141,8 @@
 html {
     scroll-behavior: smooth;
     overflow-x: hidden;
-    /* Navbar fixe de 70px : evite que les ancres passent dessous.
-       mltc.css remonte cette valeur a 130px pour les pages a sous-navigation. */
+    /* Navbar fixe de 70px : les ancres ne passent pas dessous.
+       mltc.css porte cette valeur à 130px pour les pages à sous-menu. */
     scroll-padding-top: 90px;
 }
 
@@ -181,7 +180,7 @@ ul {
     list-style: none;
 }
 
-/* Container */
+/* Conteneur */
 .container {
     width: 100%;
     max-width: 1200px;
@@ -189,7 +188,7 @@ ul {
     padding: 0 var(--spacing-lg);
 }
 
-/* Typography */
+/* Typographie */
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     font-weight: 600;
@@ -318,7 +317,7 @@ h1, h2, h3, h4, h5, h6 {
     display: none;
 }
 
-/* Hamburger Menu */
+/* Menu mobile */
 .hamburger {
     display: none;
     flex-direction: column;
@@ -335,7 +334,7 @@ h1, h2, h3, h4, h5, h6 {
     transition: var(--transition-base);
 }
 
-/* Theme Toggle */
+/* Bouton de thème */
 .theme-toggle {
     display: flex;
     align-items: center;
@@ -371,12 +370,12 @@ h1, h2, h3, h4, h5, h6 {
     display: none;
 }
 
-/* Light theme: show moon (to switch to dark) */
+/* Thème clair : lune (passer en sombre) */
 :root .theme-toggle .icon-moon {
     display: block;
 }
 
-/* Dark theme: show sun (to switch to light) */
+/* Thème sombre : soleil (passer en clair) */
 [data-theme="dark"] .theme-toggle .icon-sun {
     display: block;
 }
@@ -393,7 +392,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ========================================
-   Buttons
+   Boutons
    ======================================== */
 .btn {
     display: inline-flex;
@@ -433,7 +432,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ========================================
-   Hero Section
+   En-tête de l'accueil
    ======================================== */
 .hero {
     min-height: 100vh;
@@ -499,89 +498,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ========================================
-   Featured Section
-   ======================================== */
-.featured-section {
-    padding: var(--spacing-3xl) var(--spacing-lg);
-    background: var(--surface);
-}
-
-.featured-card {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-2xl);
-    background: var(--surface);
-    border-radius: var(--radius-2xl);
-    overflow: hidden;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-lg), var(--shadow-glow);
-}
-
-.featured-image {
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-.featured-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.featured-content {
-    padding: var(--spacing-2xl) var(--spacing-2xl) var(--spacing-2xl) 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.featured-tag {
-    display: inline-block;
-    font-size: 0.85rem;
-    color: var(--primary-600);
-    font-weight: 500;
-    margin-bottom: var(--spacing-md);
-}
-
-.featured-content h3 {
-    font-size: 2rem;
-    margin-bottom: var(--spacing-md);
-}
-
-.featured-content p {
-    color: var(--text-secondary);
-    margin-bottom: var(--spacing-xl);
-    line-height: 1.7;
-}
-
-.featured-stats {
-    display: flex;
-    gap: var(--spacing-xl);
-    margin-bottom: var(--spacing-xl);
-}
-
-.stat {
-    text-align: center;
-}
-
-.stat-number {
-    display: block;
-    font-family: var(--font-display);
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--accent-text);
-}
-
-.stat-label {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-}
-
-/* ========================================
-   About Section
+   À propos
    ======================================== */
 .about-section {
     padding: var(--spacing-3xl) var(--spacing-lg);
@@ -603,7 +520,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ========================================
-   Footer
+   Pied de page
    ======================================== */
 .footer {
     background: var(--footer-bg);
@@ -678,7 +595,7 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--neutral-400);
 }
 
-/* Update callout - floating tab in hero */
+/* Encart de mise à jour, dans l'en-tête de l'accueil */
 .update-callout {
     position: absolute;
     bottom: 24px;
@@ -712,7 +629,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ========================================
-   Disclaimer Popup
+   Avertissement
    ======================================== */
 
 .disclaimer-overlay {
@@ -796,18 +713,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ========================================
-   Responsive Design
+   Responsive
    ======================================== */
-@media (max-width: 968px) {
-    .featured-card {
-        grid-template-columns: 1fr;
-    }
-
-    .featured-content {
-        padding: var(--spacing-xl);
-    }
-}
-
 @media (max-width: 768px) {
     .nav-menu {
         position: fixed;
@@ -868,10 +775,6 @@ h1, h2, h3, h4, h5, h6 {
         text-align: center;
     }
 
-    .featured-stats {
-        flex-wrap: wrap;
-    }
-
     .footer-content {
         flex-direction: column;
         gap: var(--spacing-xl);
@@ -885,7 +788,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ========================================
-   Train Animation – border
+   Bandeau animé
    ======================================== */
 #train-animation-container {
     position: relative;
@@ -897,14 +800,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ========================================
-   Page Fade-In (light mode pages)
-   Navbar & subnav excluded
+   Fondu d'arrivée des pages (hors navbar et sous-menu)
    ======================================== */
 @keyframes pageFadeIn {
     from { opacity: 0; }
     to   { opacity: 1; }
 }
-/* Apply only when no .lv-page (livrees subpages have their own system) */
+/* Sauf section Livrées, qui a son propre fondu */
 body:not(:has(.lv-page)) > main,
 body:not(:has(.lv-page)) > footer {
     animation: pageFadeIn 0.5s ease both;

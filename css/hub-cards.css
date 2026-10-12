@@ -1,19 +1,15 @@
-/* ═══════════════════════════════════════════════════
-   Hub cards - cartes de navigation premium
-   ───────────────────────────────────────────────────
-   Gabarit partage par tous les hubs du site : accueil
-   (section Projets), 3D, Design, Divers, et la section
-   « Explorer la MLTC ».
+/* ========================================
+   Cartes de hub
+   ----------------------------------------
+   Gabarit commun aux hubs du site : accueil (section
+   Projets), Divers et la section « Explorer la MLTC ».
+   Les décors propres à la MLTC (pile de livrées, carte
+   d'Europe) sont dans mltc.css.
 
-   Extrait de css/mltc.css, ou ce systeme est ne. Les
-   decors propres a la MLTC (pile de livrees, carte
-   d'Europe) restent dans mltc.css.
-
-   Convention : chaque carte peut porter un
-   style="--card-color: #xxxxxx" pour teinter son anneau
-   de survol. Sans lui, l'accent violet du site est
-   utilise.
-   ═══════════════════════════════════════════════════ */
+   Chaque carte peut porter style="--card-color: #xxxxxx"
+   pour teinter son anneau de survol ; à défaut, l'accent
+   violet du site est utilisé.
+   ======================================== */
 
 .hub-section {
     position: relative;
@@ -26,7 +22,7 @@
     background: color-mix(in srgb, #2a1a4a 28%, var(--background));
 }
 
-/* Decorative background layer */
+/* Fond décoratif */
 .explore-bg {
     position: absolute;
     inset: 0;
@@ -55,7 +51,7 @@
     z-index: 1;
 }
 
-/* Header block */
+/* En-tête de section */
 .explore-header {
     text-align: center;
     margin-bottom: clamp(32px, 4vw, 56px);
@@ -100,7 +96,7 @@
     line-height: 1.55;
 }
 
-/* Asymmetric grid: featured (full-height) + 2 stacked secondary */
+/* Grille asymétrique : carte principale sur toute la hauteur, deux secondaires empilées */
 .explore-grid {
     display: grid;
     grid-template-columns: 1.35fr 1fr;
@@ -114,10 +110,9 @@
     grid-row: 1 / span 2;
 }
 
-/* Variante 1 carte principale + 3 secondaires (accueil).
-   Les rangees ont un plancher mais peuvent grandir : une carte
-   secondaire dont le texte deborderait etire la grille plutot que
-   de se faire rogner par l'overflow: hidden de .explore-card. */
+/* Variante une carte principale et trois secondaires (accueil, avec Divers).
+   Rangées à hauteur minimale mais extensibles : un texte long agrandit la
+   grille au lieu d'être rogné par l'overflow de .explore-card. */
 .explore-grid--4 {
     grid-template-rows: repeat(3, minmax(230px, auto));
     min-height: 0;
@@ -126,17 +121,7 @@
     grid-row: 1 / span 3;
 }
 
-/* Variante carte unique (hub 3D tant qu'il n'y a qu'un projet) */
-.explore-grid--1 {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    min-height: 0;
-}
-.explore-grid--1 .explore-card {
-    min-height: 380px;
-}
-
-/* Variante 2 cartes cote a cote, sans carte principale (hub 3D) */
+/* Variante deux cartes côte à côte, sans carte principale (hub Divers) */
 .explore-grid--2 {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto;
@@ -146,25 +131,14 @@
     min-height: 340px;
 }
 
-/* Dans les grilles a colonnes egales, une carte principale ne s'etire pas
-   sur deux rangees : elle occupe simplement sa cellule. */
-.explore-grid--2 .explore-card--featured,
-.explore-grid--3 .explore-card--featured {
+/* Dans une grille à colonnes égales, la carte principale occupe une seule
+   cellule. */
+.explore-grid--2 .explore-card--featured {
     grid-row: auto;
     min-height: 0;
 }
 
-/* Variante 3 cartes egales (hub Divers) */
-.explore-grid--3 {
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: auto;
-    min-height: 0;
-}
-.explore-grid--3 .explore-card {
-    min-height: 340px;
-}
-
-/* Card base */
+/* Carte */
 .explore-card {
     position: relative;
     display: block;
@@ -189,7 +163,7 @@
         0 0 0 1px var(--card-color, var(--primary-400));
 }
 
-/* Featured card: image-driven, dark gradient */
+/* Carte principale : image et dégradé sombre */
 .explore-card--featured {
     background: #1a0d33;
     color: #fff;
@@ -223,7 +197,7 @@
     transition: opacity 0.5s ease;
 }
 
-/* Secondary cards: gradient surface */
+/* Cartes secondaires : surface en dégradé */
 .explore-card--secondary {
     background: linear-gradient(135deg,
         var(--surface) 0%,
@@ -237,7 +211,7 @@
         color-mix(in srgb, #2a1a4a 70%, var(--surface)) 100%);
 }
 
-/* Shine sweep on hover */
+/* Reflet qui balaie la carte au survol */
 .explore-card-shine {
     position: absolute;
     inset: 0;
@@ -254,7 +228,7 @@
     transform: translateX(110%);
 }
 
-/* Content layer */
+/* Contenu */
 .explore-card-content {
     position: relative;
     z-index: 3;
@@ -299,7 +273,7 @@
     border-color: rgba(167, 139, 250, 0.28);
 }
 
-/* Icon */
+/* Icône */
 .explore-card-icon {
     display: flex;
     align-items: center;
@@ -335,7 +309,7 @@
     background: rgba(255, 255, 255, 0.22);
 }
 
-/* Title and copy */
+/* Titre et texte */
 .explore-card-bottom {
     display: flex;
     flex-direction: column;
@@ -396,7 +370,7 @@
     color: rgba(255, 255, 255, 0.7);
 }
 
-/* CTA pill */
+/* Bouton d'appel */
 .explore-card-cta {
     display: inline-flex;
     align-items: center;
@@ -439,12 +413,10 @@
     transform: translateX(6px);
 }
 
-/* Responsive */
+/* ---- Responsive ---- */
 @media (max-width: 900px) {
     .explore-grid,
-    .explore-grid--1,
     .explore-grid--2,
-    .explore-grid--3,
     .explore-grid--4 {
         grid-template-columns: 1fr;
         grid-template-rows: auto;
@@ -475,14 +447,14 @@
     }
 }
 
-/* On touch devices (no hover), show the hover end-state by default */
+/* Écrans tactiles (sans survol) : état de survol affiché d'emblée */
 @media (hover: none) {
     .explore-card-bg { transform: scale(1.1); }
     .explore-card-icon { transform: rotate(-6deg) scale(1.08); }
     .explore-card-cta-arrow { transform: translateX(6px); }
 }
 
-/* Reduced motion */
+/* Animations réduites */
 @media (prefers-reduced-motion: reduce) {
     .explore-blob,
     .explore-card,

@@ -1,5 +1,5 @@
 /* =========================================================================
-   ui.js — Interface de l'outil admin.
+   ui.js : Interface de l'outil admin.
    ========================================================================= */
 (function () {
     'use strict';
@@ -477,7 +477,7 @@
         let count = 0;
         (function rec(list) { for (const c of list) { if (c.type === 'engine') count++; if (c.children) rec(c.children); } })(node.children);
 
-        return card('Section' + (cb ? ' — ' + cb.text : (node.id ? ' #' + node.id : '')),
+        return card('Section' + (cb ? ' · ' + cb.text : (node.id ? ' #' + node.id : '')),
             count + ' engins', body, {
             key: node._key,
             issues: issuesOf(node),
@@ -521,7 +521,7 @@
         }
         body.appendChild(addBlockBar(node.children, page, false, ['sub', 'icons']));
         const t = node.children.find(c => c.type === 'catTitle');
-        return card('Catégorie' + (t ? ' — ' + t.text : ''), '', body, {
+        return card('Catégorie' + (t ? ' · ' + t.text : ''), '', body, {
             key: node._key,
             actions: [removeBtn(node, siblings, page, 'cette catégorie')]
         });
@@ -558,7 +558,7 @@
             ]),
             issueLines(node)
         ]);
-        return card('Titre d\'époque — ' + node.text, '', body, {
+        return card('Titre d\'époque · ' + node.text, '', body, {
             key: node._key, issues: issuesOf(node),
             actions: [removeBtn(node, siblings, page)]
         });
@@ -569,12 +569,12 @@
             type: 'text', value: node.text,
             oninput: e => {
                 M.setField(node, page, n => { n.text = e.target.value; });
-                head.querySelector('.title').textContent = label + ' — ' + e.target.value;
+                head.querySelector('.title').textContent = label + ' · ' + e.target.value;
                 markDirty(); schedulePreview();
             }
         });
         const body = el('div.body', {}, [K.field('Texte', input)]);
-        const c = card(label + ' — ' + node.text, '', body, {
+        const c = card(label + ' · ' + node.text, '', body, {
             key: node._key,
             actions: node.type === 'lastmodText' ? [] : [removeBtn(node, siblings, page)]
         });
@@ -751,17 +751,17 @@
 
         async function drawRow(l, i) {
             const file = (l.href || '').split('#')[0].replace(/^livrees_pages\//, '');
-            const pageSel = el('select', {}, [el('option', { value: '', text: '— page —' })]
+            const pageSel = el('select', {}, [el('option', { value: '', text: 'Choisir une page' })]
                 .concat(S.files.map(f => el('option', { value: f, text: f }))));
             pageSel.value = file;
 
             const anchorSel = el('select');
             async function fillAnchors() {
                 K.clear(anchorSel);
-                anchorSel.appendChild(el('option', { value: '', text: '— aucune ancre —' }));
+                anchorSel.appendChild(el('option', { value: '', text: 'Aucune ancre' }));
                 const anchors = pageSel.value ? await X.anchorsOf(pageSel.value) : [];
                 for (const a of anchors) {
-                    anchorSel.appendChild(el('option', { value: a.id, text: '#' + a.id + ' — ' + a.label }));
+                    anchorSel.appendChild(el('option', { value: a.id, text: '#' + a.id + ' · ' + a.label }));
                 }
                 anchorSel.value = (l.href || '').split('#')[1] || '';
             }
@@ -1070,7 +1070,7 @@
                         + '</strong> composition(s) de <code>circulations.js</code> :</p><ul>'
                         + users.slice(0, 8).map(u => '<li>' + u + '</li>').join('')
                         + (users.length > 8 ? '<li>…</li>' : '')
-                        + '</ul><p class="dim">Le changer ici ne casse rien immédiatement — '
+                        + '</ul><p class="dim">Le changer ici ne casse rien immédiatement : '
                         + 'circulations.js continue de pointer vers le fichier, qui existe toujours. '
                         + 'Mais si vous supprimez ce PNG, la carte Circulations, la page Trafic et le bandeau animé ne l\'afficheront plus.</p>',
                         'J\'ai compris, continuer');
@@ -1097,7 +1097,7 @@
         });
 
         const moveSel = el('select');
-        moveSel.appendChild(el('option', { value: '', text: '— déplacer vers… —' }));
+        moveSel.appendChild(el('option', { value: '', text: 'Déplacer vers…' }));
         const targets = moveTargets(page, list, node);
         targets.forEach((t, i) => {
             moveSel.appendChild(el('option', { value: String(i), text: t.label }));
@@ -1346,7 +1346,7 @@
         X.forgetAnchors(page.path.split('/').pop());
         Ig.collect().catch(() => { });
         renderEditor();
-        K.toast('Enregistré : ' + page.path + ' — vérifiez git diff', 'good');
+        K.toast('Enregistré : ' + page.path + '. Vérifiez git diff.', 'good');
     }
 
     async function revertCurrent() {
@@ -1368,7 +1368,7 @@
        --------------------------------------------------------------------- */
     async function runAutoTest() {
         const body = el('div');
-        const m = K.modal({ title: 'Auto-test — fidélité de lecture/écriture', body: body });
+        const m = K.modal({ title: 'Auto-test : fidélité de lecture/écriture', body: body });
         body.appendChild(el('p.dim', {
             text: 'Chaque page est analysée puis réécrite sans aucune modification. '
                 + 'Le résultat doit être identique à l\'octet près.'
@@ -1411,7 +1411,7 @@
             ]));
         }
         summary.innerHTML = bad === 0
-            ? '<strong class="ok">' + ok + '/' + (ok + bad) + ' — aucune divergence.</strong> '
+            ? '<strong class="ok">' + ok + '/' + (ok + bad) + ' : aucune divergence.</strong> '
               + '<span class="dim">L\'éditeur peut réécrire ces pages sans effet de bord.</span>'
             : '<strong class="err">' + bad + ' divergence(s).</strong> '
               + '<span class="dim">N\'enregistrez rien tant que ce n\'est pas corrigé.</span>';
@@ -1430,19 +1430,17 @@
 
         body.appendChild(el('p.dim', {
             text: 'Ces contrôles sont en lecture seule : l\'outil n\'écrit jamais '
-                + 'circulations.js ni services-page.js, il se contente d\'avertir.'
+                + 'circulations.js, il se contente d\'avertir.'
         }));
         body.appendChild(el('p', {
             html: r.counts.total + ' images sur le disque · ' + r.counts.used + ' utilisées par les pages · '
                 + r.counts.circ + ' référencées par circulations.js · '
-                + r.counts.liveries + ' liens depuis services-page.js · '
                 + r.counts.indexLinks + ' icônes sur livrees.html'
         }));
 
         section('Erreurs dures', r.circMissing.map(p =>
-            'circulations.js référence ' + p + ' — fichier absent du disque (manque sur la carte, la page Trafic et le bandeau)')
-            .concat(r.badLiveries.map(l => 'services-page.js pointe vers ' + l + ' — page inexistante'))
-            .concat(r.badIndex.map(l => 'livrees.html pointe vers ' + l.href + ' — page inexistante'))
+            'circulations.js référence ' + p + ' : fichier absent du disque (manque sur la carte, la page Trafic et le bandeau)')
+            .concat(r.badIndex.map(l => 'livrees.html pointe vers ' + l.href + ' : page inexistante'))
             .concat(r.errors), 'err');
 
         section('Pages sans engin (squelettes)',

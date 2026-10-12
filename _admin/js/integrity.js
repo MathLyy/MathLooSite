@@ -1,10 +1,9 @@
 /* =========================================================================
-   integrity.js — Controles inter-fichiers, EN LECTURE SEULE.
+   integrity.js : contrôles inter-fichiers, en lecture seule.
 
-   L'editeur Livrees n'ecrit jamais circulations.js (c'est le role de
-   l'editeur Compositions, compositions.html) ni services-page.js : il se
-   contente d'avertir. Le rayon d'explosion d'un bug reste confine au HTML
-   des livrees, exactement la zone que git revoque trivialement.
+   L'éditeur Livrées n'écrit jamais circulations.js (c'est le rôle de
+   l'éditeur Compositions, compositions.html) : il se contente d'avertir.
+   Un bug reste ainsi confiné au HTML des livrées, facile à annuler avec git.
    ========================================================================= */
 (function () {
     'use strict';
@@ -18,7 +17,6 @@
         const out = {
             circ: new Map(),      // 'livrees_img/x/y.png' -> [noms de compositions]
             circMissing: [],
-            liveries: [],         // 'livrees_pages/xpress.html'
             indexLinks: [],       // {href, img, alt}
             usedImages: new Set(),
             pages: [],
@@ -40,7 +38,7 @@
             for (const service of Object.keys(services)) {
                 for (const train of (services[service] || [])) {
                     const route = Array.isArray(train.route) ? train.route : [];
-                    const label = service + ' — ' + (train.name
+                    const label = service + ' · ' + (train.name
                         || (route.length ? route[0] + ' → ' + route[route.length - 1] : '(sans titre)'));
                     (function walk(v) {
                         if (typeof v === 'string') {
@@ -59,16 +57,6 @@
             }
         } catch (e) {
             out.errors.push('circulations.js illisible : ' + e.message);
-        }
-
-        /* --- services-page.js -------------------------------------------- */
-        try {
-            const src = await Fs.readText('js/services-page.js');
-            const re = /livery:\s*'([^']+)'/g;
-            let m;
-            while ((m = re.exec(src))) out.liveries.push(m[1]);
-        } catch (e) {
-            out.errors.push('js/services-page.js illisible : ' + e.message);
         }
 
         /* --- pages de livrees : images reellement utilisees --------------- */
@@ -128,16 +116,6 @@
         return refs.circ.get(rel) || [];
     }
 
-    /* Pages/services qui pointent vers cette page de livree. */
-    function pageUsers(slug) {
-        if (!refs) return { liveries: [], index: [] };
-        const target = 'livrees_pages/' + slug + '.html';
-        return {
-            liveries: refs.liveries.filter(l => l === target),
-            index: refs.indexLinks.filter(l => (l.href || '').split('#')[0] === target)
-        };
-    }
-
     /* Liens de l'index pointant vers une ancre precise d'une page. */
     function anchorUsers(slug, id) {
         if (!refs) return [];
@@ -157,11 +135,6 @@
                 }
             }
         }
-        const badLiveries = [];
-        for (const l of new Set(refs.liveries)) {
-            const slug = l.replace(/^livrees_pages\//, '').replace(/\.html$/, '');
-            if (!refs.pages.some(p => p.file === slug + '.html')) badLiveries.push(l);
-        }
         const badIndex = refs.indexLinks.filter(l => {
             const f = (l.href || '').split('#')[0].replace(/^livrees_pages\//, '');
             return f && !refs.pages.some(p => p.file === f);
@@ -169,13 +142,11 @@
         return {
             orphans: orphans,
             circMissing: refs.circMissing,
-            badLiveries: badLiveries,
             badIndex: badIndex,
             skeletons: refs.pages.filter(p => p.engines === 0),
             errors: refs.errors,
             counts: {
                 circ: refs.circ.size,
-                liveries: refs.liveries.length,
                 indexLinks: refs.indexLinks.length,
                 used: refs.usedImages.size,
                 total: idx ? [...idx.values()].reduce((a, b) => a + b.length, 0) : 0
@@ -187,7 +158,6 @@
         collect: collect,
         cached: cached,
         circUsers: circUsers,
-        pageUsers: pageUsers,
         anchorUsers: anchorUsers,
         report: report
     };

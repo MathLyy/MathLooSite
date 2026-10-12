@@ -1,5 +1,5 @@
 /* =========================================================================
-   ui-extra.js — Selecteur d'images, assistant « nouvelle page »,
+   ui-extra.js : Selecteur d'images, assistant « nouvelle page »,
    enumeration des ancres d'une page cible.
    ========================================================================= */
 (function () {
@@ -20,7 +20,7 @@
         return new Promise(resolve => {
             const index = Fs.images();
             if (!index) {
-                K.toast('Index des images non construit — reconnectez le dossier', 'bad');
+                K.toast('Index des images non construit : reconnectez le dossier', 'bad');
                 return resolve(null);
             }
 
@@ -60,7 +60,7 @@
                 const q = search.value.trim().toLowerCase();
                 const files = (index.get(folder) || []).filter(f => !/_R\.png$/i.test(f.name));
                 const shown = q ? files.filter(f => f.name.toLowerCase().includes(q)) : files;
-                info.textContent = shown.length + ' image(s) — dossier ' + folder;
+                info.textContent = shown.length + ' image(s) · dossier ' + folder;
 
                 if (!shown.length) {
                     grid.appendChild(el('div.empty', { text: 'Aucune image' }));
@@ -245,7 +245,7 @@
             body: el('div', {}, [
                 el('p.dim', {
                     text: 'Le head, la navbar, le sous-menu et le footer sont repris tels quels '
-                        + 'depuis boreale.html — ils ne peuvent donc pas diverger des autres pages.',
+                        + 'depuis boreale.html : ils ne peuvent donc pas diverger des autres pages.',
                     style: 'margin-top:0;font-size:12.5px'
                 }),
                 K.field('Nom du fichier (slug)', slug, 'Donnera mltc/livrees_pages/<slug>.html'),

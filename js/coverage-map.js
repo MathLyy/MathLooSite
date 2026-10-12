@@ -217,9 +217,8 @@
             const g = document.createElementNS(NS, 'g');
             g.setAttribute('class', 'cov-country');
             g.dataset.country = m.info.name;
-            /* Le survol était le seul moyen d'atteindre un pays : le groupe
-               devient focusable et annonce son nom, pour que la carte soit
-               utilisable au clavier et par un lecteur d'écran. */
+            /* Pays focusable, avec son nom annoncé : la carte reste utilisable
+               au clavier et avec un lecteur d'écran. */
             g.setAttribute('tabindex', '0');
             g.setAttribute('role', 'button');
             g.setAttribute('aria-label',

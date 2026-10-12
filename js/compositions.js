@@ -1,4 +1,4 @@
-/* ═══════════════════════════════════════════════════
+/* ========================================
    MLTC - Compositions : lecture de mltc/data/circulations.js,
    partagée par la carte (circulations.js), la page Trafic
    (rames.js) et le bandeau animé (train-anim.js).
@@ -6,7 +6,7 @@
    La syntaxe des compositions est décrite dans la clé "_aide"
    du fichier de données. Les chemins renvoyés (src) partent de
    la racine du site : chaque page y ajoute son propre préfixe.
-   ═══════════════════════════════════════════════════ */
+   ======================================== */
 
 (function () {
     'use strict';

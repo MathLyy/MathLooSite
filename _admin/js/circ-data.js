@@ -1,5 +1,5 @@
 /* =========================================================================
-   circ-data.js — Lecture et réécriture de mltc/data/circulations.js.
+   circ-data.js : Lecture et réécriture de mltc/data/circulations.js.
 
    Le fichier est du JSON strict enveloppé dans
    « window.MLTC_CIRCULATIONS = { ... }; ». Tout ce qui précède la première

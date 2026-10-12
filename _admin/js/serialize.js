@@ -1,5 +1,5 @@
 /* =========================================================================
-   serialize.js — Modele Page -> texte source.
+   serialize.js : Modele Page -> texte source.
 
    Principe directeur : ce qui n'est pas edite est reemis octet pour octet.
      Niveau 1 : noeud intact                  -> n.raw
@@ -176,8 +176,8 @@
     }
 
     /* Profil de rendu d'un noeud : celui attache a l'insertion (model.js),
-       sinon deduit du `raw` du noeud lui-meme — indispensable pour qu'un
-       engin existant qui devient structurel garde SON format d'origine. */
+       sinon déduit du `raw` du nœud lui-même, pour qu'un engin existant
+       qui devient structurel garde son format d'origine. */
     function profileFor(n, page) {
         if (n._profile) return n._profile;
         const raw = n.raw || '';

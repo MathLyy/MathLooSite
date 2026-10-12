@@ -1,5 +1,5 @@
 /* =========================================================================
-   recent.js — Lecture/ecriture du bloc "Dernieres nouveautes" de
+   recent.js : Lecture/ecriture du bloc "Dernieres nouveautes" de
    mltc/livrees.html (la <ul class="lv-changelog-list"> de la page index).
 
    Purement manuel : ce module ne scanne pas les autres pages ni ne devine

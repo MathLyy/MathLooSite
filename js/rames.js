@@ -1,4 +1,4 @@
-/* ═══════════════════════════════════════════════════
+/* ========================================
    MLTC - Trafic : les trains de mltc/data/circulations.js
    circulent sur des voies superposées (canvas).
 
@@ -10,7 +10,7 @@
    Nommé rames.js et non trafic.js : la règle « /trafic.js »
    d'EasyPrivacy (uBlock Origin, Adblock) bloque ce nom de
    fichier sur tous les sites servis en http.
-   ═══════════════════════════════════════════════════ */
+   ======================================== */
 
 (function () {
     'use strict';
@@ -138,8 +138,8 @@
        bâtiment de gare, caténaire, quai (tous trois atténués), voie, puis
        troisième rail posé sur la voie. La caténaire et le troisième rail
        sont répétés sur toute la largeur (la caténaire calée sur le bas de
-       la voie, le troisième rail sur le haut du rail) ; le quai est posé sur le haut de la voie, le bâtiment sur
-       le quai. */
+       la voie, le troisième rail sur le haut du rail) ; le quai est posé
+       sur le haut de la voie, le bâtiment sur le quai. */
     class Track {
         constructor(image, decor, onTrack, station) {
             this.image = image;
@@ -163,8 +163,8 @@
         tile(im, y, screenWidth) {
             for (let x = 0; x < screenWidth; x += im.width) ctx.drawImage(im, x, y);
         }
-        /* Bâtiment, caténaire et quai : assombris et opaques (plus de
-           transparence), chaque plan cachant celui qui est derrière. */
+        /* Bâtiment, caténaire et quai : assombris et opaques, chaque plan
+           cachant celui qui est derrière. */
         draw(screenWidth) {
             const y = Math.round(this.y * dpr) / dpr;
             const st = this.station;

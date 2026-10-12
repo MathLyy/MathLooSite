@@ -1,5 +1,5 @@
 // ========================================
-// Chronique du Mathlyens - interactions des 5 pages Histoire
+// Chronique du Mathlyens : interactions des pages Histoire
 //
 // Révélation au défilement, bandes de livrée (sprite jamais redimensionné),
 // sommaire des sous-pages (tracé de ligne qui se remplit à la lecture) et
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // ── Révélation progressive au défilement ──
+    // ---- Révélation progressive au défilement ----
     const revealTargets = document.querySelectorAll('.chr-reveal');
     if (revealTargets.length) {
         if (reduceMotion) {
@@ -29,11 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ── Bandes de livrée : signaler le défilement quand le sprite déborde ──
+    // ---- Bandes de livrée : signaler le défilement quand le sprite déborde ----
     // Les images de mltc/histoire_pages/img_histoire/ (1077 ou 2154 px de
-    // large) ne sont jamais réduites (contrainte : le pixel art ne doit ni être redimensionné, ni
-    // étiré). En dessous de cette largeur, .chr-strip défile horizontalement,
-    // et il faut que cela se voie.
+    // large) ne sont jamais redimensionnées, pour garder le pixel art net.
+    // En dessous de cette largeur, .chr-strip défile horizontalement : une
+    // indication le signale.
     function assessStrips(root) {
         (root || document).querySelectorAll('.chr-strip').forEach(strip => {
             if (!strip.clientWidth) return; // panneau masqué, largeur nulle
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     assessStrips();
     window.addEventListener('resize', () => assessStrips());
 
-    // ── Valado L : choix de la composition ──
+    // ---- Valado L : choix de la composition ----
     // Chaque bouton porte son image, sa largeur et sa capacité ; la rame et
     // sa cote changent ensemble. Sans JavaScript, le sélecteur reste masqué
     // et la composition à 3 caisses s'affiche seule.
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pick.hidden = false;
     });
 
-    // ── Sommaire des périodes : la ligne se remplit au fil de la lecture ──
+    // ---- Sommaire des périodes : la ligne se remplit au fil de la lecture ----
     // Chaque lien est une gare. La période active est la dernière dont le
     // haut a passé le tiers de l'écran ; la voie parcourue (--rail-fill, lue
     // par css/histoire.css) avance de gare en gare, au prorata de la période
@@ -122,11 +122,10 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('resize', updateRail);
     }
 
-    // ── Alliance du Mathlyens : silhouette de carte en toile de fond ──
-    // Reprend les geometries et la projection de js/coverage-map.js (non
-    // modifie) pour dessiner les Etats membres en aplat unique et tres
-    // transparent, sans aucune interactivite : un repere geographique, pas
-    // une seconde carte de couverture.
+    // ---- Alliance du Mathlyens : silhouette de carte en toile de fond ----
+    // Mêmes géométries et même projection que js/coverage-map.js : les États
+    // membres en un aplat unique très transparent, sans interaction. Un
+    // repère géographique, pas une seconde carte de couverture.
     (function buildAllianceMap() {
         const svgEl = document.querySelector('.chr-alliance-map');
         const geo = window.COV_GEO;

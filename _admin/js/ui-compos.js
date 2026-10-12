@@ -1,5 +1,5 @@
 /* =========================================================================
-   ui-compos.js — Éditeur des compositions (mltc/data/circulations.js).
+   ui-compos.js : Éditeur des compositions (mltc/data/circulations.js).
 
    Repris du constructeur de rames de MathLooTraffic, mais branché
    directement sur le fichier du site : on choisit un train dans la liste,
@@ -20,7 +20,7 @@
 
     const PX_PER_M = 10;                 // échelle du moteur Trafic (js/rames.js)
     const IMG = 'livrees_img/';          // préfixe de l'index d'images de LvFs
-    const TITLE = 'Admin Compositions — MLTC';
+    const TITLE = 'Admin Compositions · MLTC';
 
     const S = {
         file: null,          // { prefix, data, suffix }
@@ -2055,7 +2055,7 @@
         snapshot();
         drawRailList();
         refreshChrome();
-        K.toast('Enregistré : ' + C.PATH + ' — vérifiez git diff', 'good');
+        K.toast('Enregistré : ' + C.PATH + '. Vérifiez git diff.', 'good');
     }
 
     function selKey() {

@@ -1,15 +1,14 @@
 /* ========================================
-   Story layout – pages « article long »
+   Pages « article long » (récit illustré)
    ----------------------------------------
-   Gabarit de recit illustre, ne sur la page 3D puis
-   generalise : 3D/voxel.html, divers/fangame.html et les
-   sous-pages de design partagent cette mise en page.
+   Utilisé par 3D/voxel.html, divers/fangame.html et les
+   pages projet de design.
 
-   Dependance : js/story.js. Sans lui, les blocs .reveal
-   restent en opacity: 0 et la page parait vide.
+   Dépend de js/story.js : sans lui, les blocs .reveal
+   restent en opacity: 0 et la page paraît vide.
    ======================================== */
 
-/* ── Hero override ── */
+/* ---- En-tête ---- */
 .page-hero--story {
     padding: 160px var(--spacing-lg) var(--spacing-3xl);
     text-align: center;
@@ -36,12 +35,12 @@
     line-height: 1.7;
 }
 
-/* ── Hero avec image de fond ──
-   A combiner avec .page-hero--story. L'image se pose en ligne sur la section :
+/* ---- En-tête avec image de fond ----
+   À combiner avec .page-hero--story. L'image se pose en ligne sur la section :
    style="background-image:url('...'); background-size:cover; background-position:center 46%;
-   background-repeat:no-repeat" (en ligne, pour que le chemin soit relatif a la page
-   et que le theme sombre ne le reinitialise pas). Le voile ci-dessous garantit la
-   lisibilite du texte quelle que soit l'image. */
+   background-repeat:no-repeat" (en ligne, pour que le chemin soit relatif à la page
+   et que le thème sombre ne la remplace pas). Le voile garantit la lisibilité
+   du texte quelle que soit l'image. */
 .page-hero--image {
     position: relative;
     isolation: isolate;
@@ -55,7 +54,7 @@
     inset: 0;
     z-index: -1;
     background: linear-gradient(180deg, rgba(15, 10, 26, 0.62) 0%, rgba(15, 10, 26, 0.80) 100%);
-    /* Flou de l'image de fond : masque le manque de definition d'une photo de petite taille */
+    /* Flou de l'image de fond : masque le manque de définition d'une petite photo */
     -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(6px);
 }
@@ -83,7 +82,7 @@
     -webkit-backdrop-filter: blur(8px);
 }
 
-/* ── Intro note – styled callout ── */
+/* ---- Encart d'introduction ---- */
 .intro-callout {
     max-width: 780px;
     margin: 0 auto;
@@ -133,7 +132,7 @@
     color: var(--text-primary);
 }
 
-/* ── Section wrapper with alternating backgrounds ── */
+/* ---- Sections, fonds alternés ---- */
 .story-section {
     padding: 5rem var(--spacing-lg);
 }
@@ -146,7 +145,7 @@
     background: var(--surface-elevated);
 }
 
-/* ── Section header – large, with number ── */
+/* ---- En-tête de section numéroté ---- */
 .section-header {
     max-width: 1100px;
     margin: 0 auto var(--spacing-2xl);
@@ -184,13 +183,13 @@
     font-style: italic;
 }
 
-/* ── Content blocks ── */
+/* ---- Blocs de contenu ---- */
 .story-content {
     max-width: 1100px;
     margin: 0 auto;
 }
 
-/* Prose – reading width */
+/* Texte courant, largeur de lecture */
 .story-prose {
     max-width: 720px;
     margin: 0 auto;
@@ -212,7 +211,7 @@
     color: var(--text-muted);
 }
 
-/* ── Grid layout: text + image side by side ── */
+/* ---- Grille : texte et image côte à côte ---- */
 .story-grid {
     display: grid;
     grid-template-columns: 1fr 1.15fr;
@@ -269,7 +268,7 @@
     font-weight: 600;
 }
 
-/* ── Subsection heading (h3) within content ── */
+/* ---- Intertitre (h3) ---- */
 .story-content h3,
 .story-prose h3 {
     font-size: 1.4rem;
@@ -292,7 +291,7 @@
     background: var(--primary-400);
 }
 
-/* ── Figures ── */
+/* ---- Figures ---- */
 .fig-story {
     overflow: hidden;
     border: 1px solid var(--border);
@@ -315,8 +314,7 @@
     transition: transform 0.4s ease;
 }
 
-/* Fond sombre : pour le voxel et le pixel art, dont les images
-   sont detourees sur fond noir. */
+/* Fond sombre, pour le voxel et le pixel art détourés sur fond noir. */
 .fig-story--dark img,
 .fig-showcase--dark img {
     background: var(--neutral-900);
@@ -336,7 +334,7 @@
     border-top: 1px solid var(--border);
 }
 
-/* Full-width figure (for big showcase images) */
+/* Figure pleine largeur */
 .fig-showcase {
     max-width: 1100px;
     margin: var(--spacing-2xl) auto;
@@ -370,23 +368,23 @@
     border-top: 1px solid var(--border);
 }
 
-/* Showcase recadre en 16:9 (--crop-focus regle le cadrage vertical) */
+/* Figure pleine largeur recadrée en 16:9 (--crop-focus règle le cadrage vertical) */
 .fig-showcase--crop img {
     aspect-ratio: 16 / 9;
     object-fit: cover;
     object-position: center var(--crop-focus, 50%);
 }
 
-/* Extra-wide showcase that breaks out of container */
+/* Figure extra-large, qui sort du conteneur */
 .fig-showcase--bleed {
     max-width: 1300px;
     margin-left: auto;
     margin-right: auto;
 }
 
-/* ── Emplacement a remplir ──
-   Bloc visible signalant une section dont les images ou le texte
-   restent a fournir. A retirer une fois le contenu en place. */
+/* ---- Emplacement à remplir ----
+   Signale une section dont les images ou le texte restent à fournir.
+   À retirer une fois le contenu en place. */
 .story-todo {
     max-width: 720px;
     margin: var(--spacing-xl) auto;
@@ -415,7 +413,7 @@
     margin-bottom: var(--spacing-sm);
 }
 
-/* ── Lecteur audio (morceaux composes) ── */
+/* ---- Lecteur audio (morceaux composés) ---- */
 .story-audio {
     max-width: 720px;
     margin: var(--spacing-xl) auto;
@@ -443,10 +441,10 @@
     margin: var(--spacing-sm) 0 0;
 }
 
-/* ── Figure recadree ──
-   Ramene une image (souvent verticale) a un cadre 4:3 pour qu'elle ne prenne pas
-   plus de place que le texte. La lightbox montre l'image entiere : le recadrage
-   n'existe que dans la page. --crop-focus regle le cadrage vertical (0% = haut). */
+/* ---- Figure recadrée ----
+   Ramène une image (souvent verticale) à un cadre 4:3 pour qu'elle ne prenne
+   pas plus de place que le texte. La lightbox montre l'image entière.
+   --crop-focus règle le cadrage vertical (0% = haut). */
 .fig-story--crop img {
     height: auto;
     aspect-ratio: 4 / 3;
@@ -454,17 +452,17 @@
     object-position: center var(--crop-focus, 50%);
 }
 
-/* Colonne de texte alignee a gauche (au lieu de justifiee) */
+/* Colonne de texte alignée à gauche (au lieu de justifiée) */
 .grid-text--left p {
     text-align: left;
 }
 
-/* Bloc grille qui en suit un autre sans intertitre : il prend sa distance */
+/* Grille qui en suit une autre sans intertitre : espacement supplémentaire */
 .story-grid--spaced {
     margin-top: var(--spacing-3xl);
 }
 
-/* Encart place dans une colonne de texte : il en prend la largeur */
+/* Encart dans une colonne de texte : il en prend la largeur */
 .grid-text .insight-callout {
     max-width: none;
     margin: var(--spacing-xl) 0;
@@ -478,7 +476,7 @@
     margin-bottom: 0;
 }
 
-/* Grille texte + images dont la hauteur depend du texte : alignement en haut */
+/* Grille dont la hauteur dépend du texte : alignement en haut */
 .story-grid--top {
     align-items: start;
 }
@@ -494,7 +492,7 @@
     margin: 0;
 }
 
-/* ── Insight / learning callout ── */
+/* ---- Encart « parti pris » ---- */
 .insight-callout {
     max-width: 720px;
     margin: var(--spacing-2xl) auto;
@@ -524,7 +522,7 @@
     font-style: normal;
 }
 
-/* ── Image pair – two images side by side ── */
+/* ---- Deux images côte à côte ---- */
 .fig-pair {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -533,7 +531,7 @@
     margin: var(--spacing-2xl) auto;
 }
 
-/* ── Conclusion ── */
+/* ---- Conclusion ---- */
 .story-conclusion {
     padding: 5rem var(--spacing-lg);
     text-align: center;
@@ -571,7 +569,7 @@
     margin-bottom: var(--spacing-xl);
 }
 
-/* ── Compact article (for short/unfinished sections) ── */
+/* ---- Section courte ---- */
 .story-compact {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -588,7 +586,7 @@
     margin-bottom: var(--spacing-lg);
 }
 
-/* ── Responsive ── */
+/* ---- Responsive ---- */
 @media (max-width: 968px) {
     .story-grid {
         grid-template-columns: 1fr;
@@ -663,7 +661,7 @@
 
 }
 
-/* ── Scroll reveal animations ── */
+/* ---- Apparition au défilement ---- */
 @keyframes revealUp {
     from {
         opacity: 0;
@@ -683,7 +681,7 @@
     animation: revealUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* Stagger children within grids and pairs */
+/* Apparition décalée dans les grilles et les paires */
 .reveal.is-visible .grid-text {
     animation: revealUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards;
     opacity: 0;
@@ -695,11 +693,11 @@
     opacity: 0;
 }
 
-/* ── Page "spectre" (a poser sur <main>) ──
+/* ---- Page « spectre » (à poser sur <main>) ----
    Reprend les couleurs du projet La cour des grands : les losanges du dossier
-   (rouge, orange, jaune, vert, bleu) et les petales holographiques. Chaque
-   section porte deux teintes (--sp-a, --sp-b) qui colorent son numero et la
-   barre de ses intertitres. Les encarts recoivent un filet irise. */
+   (rouge, orange, jaune, vert, bleu) et les pétales holographiques. Chaque
+   section porte deux teintes (--sp-a, --sp-b) qui colorent son numéro et la
+   barre de ses intertitres. Les encarts reçoivent un filet irisé. */
 .story-spectrum {
     --sp-red: #e5484d;
     --sp-orange: #f28c3c;
@@ -744,7 +742,7 @@
 .story-spectrum .stat-strip-item:nth-child(3) .stat-strip-value { --sp-a: var(--sp-green);  --sp-b: var(--sp-blue); }
 .story-spectrum .stat-strip-item:nth-child(4) .stat-strip-value { --sp-a: var(--sp-blue);   --sp-b: var(--sp-violet); }
 
-/* ── Bande de chiffres : quelques faits en grand ── */
+/* ---- Bande de chiffres : quelques faits en grand ---- */
 .stat-strip {
     position: relative;
     display: grid;

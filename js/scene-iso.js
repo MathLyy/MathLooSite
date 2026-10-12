@@ -1,15 +1,15 @@
 /* ========================================
-   Vue isometrique du hub 3D
-   Construit en SVG le modele decrit dans 3D/scene-modele.js, puis l'assemble
+   Vue isométrique du hub 3D
+   Construit en SVG le modèle décrit dans 3D/scene-modele.js, puis l'assemble
    cube par cube. Chaque cube porte ses trois faces visibles (dessus, gauche,
    droite) : un cube qui arrive avant ses voisins reste entier. Une face
-   collee a un voisin deja pose est masquee, pour garder un rendu net.
+   collée à un voisin déjà posé est masquée, pour garder un rendu net.
 
-   Ordre d'affichage : les cubes poses sont tries du fond vers l'avant
-   (x + y + z croissant). Un cube en vol est dessine par-dessus, dans un
-   calque a part : les ordres de montage proposes posent toujours un cube
-   devant ou au-dessus de ceux deja en place, donc il ne doit jamais etre
-   recouvert pendant sa chute. Il rejoint le calque trie a l'atterrissage.
+   Ordre d'affichage : les cubes posés sont triés du fond vers l'avant
+   (x + y + z croissant). Un cube en vol est dessiné par-dessus, dans un
+   calque à part : les ordres de montage posent toujours un cube devant
+   ou au-dessus de ceux déjà en place, il ne doit donc jamais être
+   recouvert pendant sa chute. Il rejoint le calque trié à l'atterrissage.
    ======================================== */
 
 (function () {
@@ -21,27 +21,27 @@
     const R = M.rendu || {};
     const A = M.animation || {};
 
-    // Un cube : 20 unites de haut, ses aretes au sol penchent a 30 degres
+    // Un cube : 20 unités de haut, arêtes au sol inclinées à 30 degrés
     const DX = 20 * Math.cos(Math.PI / 6);
     const DY = 10;
     const DZ = 20;
     const proj = (x, y, z) => [(x - y) * DX, (x + y) * DY - z * DZ];
     const pts = list => list.map(p => proj(...p).map(n => n.toFixed(1)).join(',')).join(' ');
 
-    // ── Lecture du modele ──
+    // ---- Lecture du modèle ----
     const palette = M.palette || {};
     let cubes = [];
     (M.couches || []).forEach((couche, z) => couche.forEach((ligne, y) => [...ligne].forEach((c, x) => {
         if (c === '.' || c === ' ') return;
         if (!palette[c]) {
-            console.warn('scene-iso : lettre "' + c + '" absente de la palette, cube ignore');
+            console.warn('[SceneIso] lettre "' + c + '" absente de la palette, cube ignoré');
             return;
         }
         cubes.push({ x, y, z, c });
     })));
     if (!cubes.length) return;
 
-    // Recadrage sur le modele, avec sa marge de sol
+    // Recadrage sur le modèle, avec sa marge de sol
     const marge = R.margeSol ?? 2;
     const minX = Math.min(...cubes.map(v => v.x));
     const minY = Math.min(...cubes.map(v => v.y));
@@ -49,7 +49,7 @@
     const nx = Math.max(...cubes.map(v => v.x)) + 1 + marge;
     const ny = Math.max(...cubes.map(v => v.y)) + 1 + marge;
 
-    // ── Couleurs ──
+    // ---- Couleurs ----
     const rgb = hex => {
         const h = hex.replace('#', '');
         const f = h.length === 3 ? h.split('').map(d => d + d).join('') : h;
@@ -68,7 +68,7 @@
         };
     });
 
-    // ── Construction ──
+    // ---- Construction ----
     const el = (tag, attrs) => {
         const n = document.createElementNS(NS, tag);
         Object.entries(attrs || {}).forEach(([k, v]) => n.setAttribute(k, v));
@@ -80,13 +80,13 @@
     const fond = getComputedStyle(viewport || svg).backgroundColor;
     const filaire = R.style === 'filaire';
 
-    // Sol quadrille
+    // Sol quadrillé
     let d = '';
     for (let x = 0; x <= nx; x++) d += 'M' + pts([[x, 0, 0]]) + 'L' + pts([[x, ny, 0]]);
     for (let y = 0; y <= ny; y++) d += 'M' + pts([[0, y, 0]]) + 'L' + pts([[nx, y, 0]]);
     svg.appendChild(el('path', { class: 'td-floor', d }));
 
-    // Ombre : une case de sol sous chaque colonne occupee, decalee vers le bas
+    // Ombre : une case de sol sous chaque colonne occupée, décalée vers le bas
     if (R.ombre !== false) {
         const colonnes = new Set(cubes.map(v => v.x + ',' + v.y));
         let o = '';
@@ -122,7 +122,7 @@
                 p.style.strokeWidth = '1';
             } else {
                 p.style.fill = t[nom];
-                // Sans contours, un trait de la couleur de la face bouche les jours entre faces
+                // Sans contours, un trait de la couleur de la face comble les jours entre faces
                 if (R.contours === false) p.style.stroke = t[nom];
             }
             v.faces[nom] = p;
@@ -134,7 +134,7 @@
         grille.set(cle(x, y, z), v);
     });
 
-    // ── Ordre de montage ──
+    // ---- Ordre de montage ----
     const ordres = {
         couches: (a, b) => a.z - b.z || a.x - b.x || a.y - b.y,
         longueur: (a, b) => a.x - b.x || a.z - b.z || a.y - b.y,
@@ -142,7 +142,7 @@
     };
     cubes.sort(ordres[A.ordre] || ordres.couches);
 
-    // Masque les faces collees a un voisin pose : celles de ce cube, et celles
+    // Masque les faces collées à un voisin posé : celles de ce cube, et celles
     // des voisins de derriere qui touchent ce cube
     const voisins = [['top', 0, 0, 1], ['left', 0, 1, 0], ['right', 1, 0, 0]];
     function masquer(v) {
@@ -154,7 +154,7 @@
         });
     }
 
-    // Range le cube a sa place dans le calque trie
+    // Range le cube à sa place dans le calque trié
     function poser(v) {
         if (v.pose) return;
         v.pose = true;
@@ -186,7 +186,7 @@
             return;
         }
         svg.style.setProperty('--td-depart', depart + 'ms');
-        // Reinserer chaque cube relance son animation
+        // Réinsérer chaque cube relance son animation
         cubes.forEach((v, i) => {
             v.node.style.setProperty('--i', i);
             calqueVol.appendChild(v.node);
@@ -203,7 +203,7 @@
     const y1 = coins[2][1] + pad;
     svg.setAttribute('viewBox', [x0, y0, x1 - x0, y1 - y0].map(n => n.toFixed(1)).join(' '));
 
-    // Textes de la fenetre
+    // Textes de la fenêtre
     if (M.description) svg.setAttribute('aria-label', M.description);
     if (viewport) {
         const compteur = viewport.querySelector('[data-td-count]');

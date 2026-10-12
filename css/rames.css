@@ -1,9 +1,9 @@
-/* ============================================================
-    MLTC - Trafic (mltc/trafic.html, js/rames.js)
-    Les trains circulent sur un canvas plein cadre, sous la
-    navigation (70 px) et le sous-menu MLTC (44 px). Toujours
-    sur fond noir : les sprites sont pensés pour lui.
-    ============================================================ */
+/* ========================================
+   MLTC : Trafic (mltc/trafic.html, js/rames.js)
+   Les trains circulent sur un canvas plein cadre, sous la
+   navigation (70 px) et le sous-menu MLTC (44 px). Toujours
+   sur fond noir : les sprites sont pensés pour lui.
+   ======================================== */
 
 .trafic-stage {
     display: flex;

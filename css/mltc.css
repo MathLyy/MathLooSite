@@ -1,8 +1,8 @@
 /* ========================================
-   MLTC Section - Specific Styles
+   Section MLTC
    ======================================== */
 
-/* MLTC Sub-navigation */
+/* ---- Sous-menu MLTC ---- */
 .mltc-subnav {
     position: fixed;
     top: 70px;
@@ -24,7 +24,7 @@
     height: 100%;
 }
 
-/* Mobile-only toggle button (hidden on desktop) */
+/* Bouton du menu mobile (masqué sur grand écran) */
 .subnav-mobile-toggle {
     display: none;
 }
@@ -38,7 +38,7 @@
     justify-content: flex-start;
 }
 
-/* Liens de la barre MLTC, à plat (plus de menus déroulants) */
+/* Liens du sous-menu */
 .subnav-item {
     height: 100%;
     display: flex;
@@ -106,19 +106,17 @@
     background: #c4b5fd;
 }
 
-/* Production link - uppercase */
+/* Lien Production en capitales */
 .subnav-link[href*="production"] {
     text-transform: uppercase;
 }
 
-/* MLTC Hero - Immersive Scene */
-/* ═══════════════════════════════════════════════════
-   MLTC Hero - Split Layout
-   Inspired by editorial / modern SaaS hero patterns
-   ═══════════════════════════════════════════════════ */
+/* ========================================
+   En-tête de l'accueil MLTC, en deux colonnes
+   ======================================== */
 
 .mltc-hero {
-    margin-top: 113px; /* navbar (70) + subnav (44) - 1px overlap to avoid sub-pixel gap */
+    margin-top: 113px; /* navbar (70) + sous-menu (44), moins 1px pour éviter un liseré */
     position: relative;
     overflow: hidden;
 }
@@ -129,7 +127,7 @@
     min-height: 520px;
 }
 
-/* ── Left column ── */
+/* ---- Colonne de gauche ---- */
 .hero-left {
     position: relative;
     background: linear-gradient(135deg,
@@ -296,7 +294,7 @@
     transform: translateX(4px);
 }
 
-/* ── Right column ── */
+/* ---- Colonne de droite ---- */
 .hero-right {
     position: relative;
     background: var(--surface);
@@ -325,7 +323,7 @@
     margin-top: var(--spacing-lg);
 }
 
-/* Livery palette grid */
+/* Grille de livrées */
 .livery-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -366,7 +364,7 @@
     background-color: rgba(88, 28, 135, 0.3);
 }
 
-/* Overlay colored solid on hover */
+/* Aplat de couleur au survol */
 .livery-card::before {
     content: '';
     position: absolute;
@@ -404,7 +402,7 @@
     opacity: 1;
 }
 
-/* Placeholder WIP card - diagonal stripes pattern */
+/* Carte en attente : rayures diagonales */
 .livery-card-wip {
     background-image:
         repeating-linear-gradient(
@@ -420,9 +418,9 @@
     background-color: rgba(88, 28, 135, 0.4);
 }
 
-/* ═══════════════════════════════════════════════════
-   Train banner (horizontal scroll of pixel art trains)
-   ═══════════════════════════════════════════════════ */
+/* ========================================
+   Bandeau animé (trains en pixel art)
+   ======================================== */
 
 .train-banner {
     position: relative;
@@ -436,10 +434,9 @@
     background: #050308;
 }
 
-/* ═══════════════════════════════════════════════════
-   Legacy hero classes (kept for sub-pages that still
-   use .mltc-page-title)
-   ═══════════════════════════════════════════════════ */
+/* ========================================
+   Titre de page .mltc-page-title (Circulations, Livrées, Autres opérateurs)
+   ======================================== */
 
 .mltc-page-title {
     font-family: var(--font-display);
@@ -454,7 +451,7 @@
     background-clip: text;
 }
 
-/* MLTC Introduction */
+/* Introduction */
 .mltc-intro {
     padding: var(--spacing-3xl) var(--spacing-lg);
     background: var(--surface);
@@ -487,17 +484,12 @@
     box-shadow: var(--shadow-xl), var(--shadow-violet);
 }
 
-/* ═══════════════════════════════════════════════════
-   Explore MLTC - decors propres a la MLTC
-   ───────────────────────────────────────────────────
-   Le systeme de cartes de hub (.hub-section, .explore-grid,
-   .explore-card et leurs sous-elements) vit desormais dans
-   css/hub-cards.css, partage avec l'accueil et les hubs 3D,
-   Design et Divers. Ce fichier ne conserve que les decors
-   qui n'ont de sens que sur la page MLTC.
-   ═══════════════════════════════════════════════════ */
+/* ========================================
+   Explorer la MLTC : décors propres à la page
+   Les cartes elles-mêmes sont définies dans css/hub-cards.css.
+   ======================================== */
 
-/* Livery stack on Livrées card: 3 trains stacked just outside the right edge, slide left on hover */
+/* Carte Livrées : trois trains empilés juste au-delà du bord droit, qui glissent vers la gauche au survol */
 .explore-livery-stack {
     position: absolute;
     bottom: 0px;
@@ -519,16 +511,16 @@
     filter: drop-shadow(-2px 0 1.5px rgba(0, 0, 0, 0.35));
     transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
-/* At rest: each train sits flush past the right edge, only a small slice peeks into the card */
+/* Au repos, seule une petite partie de chaque train dépasse dans la carte */
 .explore-livery-img--1 { transform: translateX(calc(100% - 60px)); z-index: 3; }
 .explore-livery-img--2 { transform: translateX(calc(100% - 44px)); z-index: 2; }
 .explore-livery-img--3 { transform: translateX(calc(100% - 28px)); z-index: 1; }
-/* On hover: trains slide left a bit, revealing all three */
+/* Au survol, les trois trains apparaissent */
 .explore-card:hover .explore-livery-img--1 { transform: translateX(0); }
 .explore-card:hover .explore-livery-img--2 { transform: translateX(calc(100% - 170px)); }
 .explore-card:hover .explore-livery-img--3 { transform: translateX(calc(100% - 230px)); }
 
-/* Decorative Europe map on Circulations card: 12 member states only, larger */
+/* Carte Circulations : carte d'Europe décorative, les douze États membres seulement */
 .explore-card-map {
     position: absolute;
     top: -25%;
@@ -566,7 +558,7 @@
     fill: rgba(167, 139, 250, 0.3);
 }
 
-/* On touch devices (no hover), show the hover end-state by default */
+/* Écrans tactiles (sans survol) : état de survol affiché d'emblée */
 @media (hover: none) {
     .explore-livery-img--1 { transform: translateX(0); }
     .explore-livery-img--2 { transform: translateX(calc(100% - 130px)); }
@@ -584,7 +576,7 @@
     }
 }
 
-/* Reduced motion */
+/* Animations réduites */
 @media (prefers-reduced-motion: reduce) {
     .explore-livery-img,
     .explore-card-map {
@@ -593,7 +585,7 @@
     }
 }
 
-/* Scroll offset for fixed navbar */
+/* Décalage des ancres sous la navbar et le sous-menu */
 html {
     scroll-padding-top: 130px;
 }
@@ -603,7 +595,7 @@ html {
 }
 
 /* ========================================
-   Livrées Page - Image-centric design
+   Page Livrées
    ======================================== */
 .lv-page-section {
     padding: 156px 0 var(--spacing-3xl);
@@ -613,12 +605,6 @@ html {
     max-width: 1100px;
     margin: 0 auto;
     padding: 0 var(--spacing-xl);
-}
-
-/* Page header - compact, centered */
-.lv-header {
-    text-align: left;
-    margin-bottom: var(--spacing-2xl);
 }
 
 .lv-subtitle {
@@ -645,8 +631,8 @@ html {
     max-width: 72ch;
 }
 
-/* Category blocks */
-/* Subcategory label - inline, lightweight */
+/* Catégories */
+/* Libellé de sous-catégorie */
 .lv-sub {
     display: block;
     font-family: var(--font-body);
@@ -658,7 +644,7 @@ html {
     margin: var(--spacing-lg) 0 var(--spacing-sm);
 }
 
-/* Image rows - centered, breathing room */
+/* Rangées d'images */
 .lv-icons {
     display: flex;
     flex-wrap: wrap;
@@ -666,7 +652,7 @@ html {
     gap: var(--spacing-md);
 }
 
-/* Image links - the images ARE the UI */
+/* Images-liens */
 .lv-icons a {
     display: inline-block;
     transition: transform 0.2s ease, filter 0.2s ease;
@@ -690,16 +676,20 @@ html {
     -webkit-user-drag: none;
 }
 
-/* ═══════ SanGo! Section (opérateurs privés) - v3 ═══════ */
+/* ========================================
+   Autres opérateurs : SanGo!
+   ======================================== */
 
-/* ---- Section wrapper ---- */
+/* ---- Conteneur ---- */
 .sg-body {
     background: linear-gradient(135deg, #DE9247 0%, #DF5E47 100%);
     color: #fff;
     padding: var(--spacing-xl) 0 var(--spacing-2xl);
 }
 
-/* ═══════ CFP Section (opérateurs privés) ═══════ */
+/* ========================================
+   Autres opérateurs : CFP
+   ======================================== */
 
 .cfp-body {
     background: #D10422;
@@ -905,7 +895,7 @@ html {
     }
 }
 
-/* ---- Header / Hero banner ---- */
+/* ---- En-tête ---- */
 .sg-header {
     max-width: 1500px;
     margin: 0 auto var(--spacing-lg);
@@ -945,7 +935,7 @@ html {
     margin: 0;
 }
 
-/* ---- Grid: text left, infobox right ---- */
+/* ---- Grille : texte à gauche, encadré à droite ---- */
 .sg-container {
     max-width: 1500px;
     margin: 0 auto;
@@ -956,7 +946,7 @@ html {
     align-items: start;
 }
 
-/* ---- CTA link ---- */
+/* ---- Lien d'appel ---- */
 .sg-cta-caption {
     text-align: center;
     color: #555;
@@ -984,14 +974,14 @@ html {
     filter: drop-shadow(0 0 18px rgba(222, 146, 71, 0.7)) drop-shadow(0 0 40px rgba(223, 94, 71, 0.4));
 }
 
-/* Left column: stacked text blocks */
+/* Colonne de gauche : blocs de texte */
 .sg-content {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-xl);
 }
 
-/* ---- Section titles ---- */
+/* ---- Titres ---- */
 .sg-tag {
     display: block;
     color: #fff;
@@ -1003,7 +993,7 @@ html {
     margin-bottom: 0.6em;
 }
 
-/* ---- Full-width block ---- */
+/* ---- Bloc pleine largeur ---- */
 .sg-block {
     opacity: 0;
     transform: translateY(18px);
@@ -1027,7 +1017,7 @@ html {
     font-size: 1.05rem;
 }
 
-/* Staggered reveal */
+/* Apparition décalée */
 .sg-content > :nth-child(1) { animation-delay: 0.08s; }
 .sg-content > :nth-child(2) { animation-delay: 0.22s; }
 .sg-content > :nth-child(3) { animation-delay: 0.36s; }
@@ -1037,7 +1027,7 @@ html {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* ---- Infobox (right column, sticky) ---- */
+/* ---- Encadré (colonne de droite, collant) ---- */
 .sg-infobox {
     position: sticky;
     top: 100px;
@@ -1131,7 +1121,7 @@ html {
     }
 }
 
-/* Last Modified Section */
+/* Date de mise à jour */
 .last-modified {
     padding: var(--spacing-xl) var(--spacing-lg);
     border-top: 1px solid var(--border);
@@ -1188,7 +1178,7 @@ html {
     }
     .subnav-menu::-webkit-scrollbar { display: none; }
 
-    /* ── Mobile MLTC subnav: collapsible accordion menu ── */
+    /* ---- Sous-menu MLTC sur mobile : panneau repliable ---- */
     .mltc-subnav {
         height: auto;
         min-height: 44px;
@@ -1197,7 +1187,7 @@ html {
         padding: 0;
         height: auto;
     }
-    /* Visible toggle bar on mobile */
+    /* Barre du bouton, visible sur mobile */
     .subnav-mobile-toggle {
         display: flex;
         align-items: center;
@@ -1230,7 +1220,7 @@ html {
         transform: rotate(180deg);
     }
 
-    /* Hide horizontal menu by default; reveal as vertical panel when open */
+    /* Liste masquée par défaut, affichée en panneau vertical à l'ouverture */
     .subnav-menu {
         flex-direction: column;
         align-items: stretch;
@@ -1277,13 +1267,9 @@ html {
         width: 3px;
     }
 
-    /* Livrées responsive */
+    /* Page Livrées */
     .lv-container {
         padding: 0 var(--spacing-md);
-    }
-
-    .lv-header {
-        margin-bottom: var(--spacing-xl);
     }
 
     .lv-icons {
@@ -1312,7 +1298,7 @@ html {
 }
 
 /* ========================================
-   WIP (En construction) Page
+   Page en construction
    ======================================== */
 .wip-section {
     min-height: calc(100vh - 200px);

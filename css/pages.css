@@ -1,8 +1,8 @@
 /* ========================================
-   Additional Page Styles
+   Pages intérieures
    ======================================== */
 
-/* Page Hero (for Projets, Contact) */
+/* En-tête de page */
 .page-hero {
     padding: 140px var(--spacing-lg) var(--spacing-2xl);
     background: linear-gradient(135deg, var(--surface-elevated) 0%, var(--primary-50) 100%);
@@ -27,7 +27,7 @@
 }
 
 /* ========================================
-   Projects Page
+   Projets
    ======================================== */
 .projects-section {
     padding: var(--spacing-3xl) var(--spacing-lg);
@@ -58,7 +58,7 @@
     width: fit-content;
 }
 
-/* Projects Grid */
+/* Grille de projets */
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -104,7 +104,7 @@
     font-size: 0.9rem;
 }
 
-/* Secondary Project Card */
+/* Carte de projet secondaire */
 .project-card-secondary {
     display: flex;
     flex-direction: column;
@@ -119,7 +119,7 @@
 }
 
 /* ========================================
-   Featured Project - Clean Layout
+   Projet mis en avant
    ======================================== */
 .project-featured-clean {
     max-width: 700px;
@@ -146,30 +146,6 @@
     margin-bottom: var(--spacing-xl);
 }
 
-.project-stats {
-    display: flex;
-    gap: var(--spacing-2xl);
-    margin-bottom: var(--spacing-xl);
-    flex-wrap: wrap;
-}
-
-.project-stat {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-}
-
-.project-stat-number {
-    font-family: var(--font-display);
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--text-primary);
-}
-
-.project-stat-label {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-}
 
 .projects-section--other {
     padding-top: 0;
@@ -204,7 +180,7 @@
 }
 
 /* ========================================
-   External Links Page
+   Liens externes
    ======================================== */
 .links-section {
     padding: var(--spacing-3xl) var(--spacing-lg);
@@ -377,17 +353,13 @@
         padding-top: 120px;
     }
 
-    .project-stats {
-        gap: var(--spacing-lg);
-    }
-
     .links-grid {
         grid-template-columns: 1fr;
     }
 }
 
 
-/* Last Modified Section */
+/* Date de mise à jour */
 .last-modified {
     padding: var(--spacing-lg) var(--spacing-lg);
     border-top: 1px solid var(--border);

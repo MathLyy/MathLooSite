@@ -1,5 +1,5 @@
 /* =========================================================================
-   validate.js — Controles intra-page, rejoues en continu.
+   validate.js : Controles intra-page, rejoues en continu.
    Severites : 'error' (bloque la sauvegarde), 'warn', 'info'.
    ========================================================================= */
 (function () {

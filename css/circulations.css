@@ -1,7 +1,7 @@
-/* ============================================================
-    MLTC - Circulations
-    Layout: carte centree puis consultation en deux colonnes
-    ============================================================ */
+/* ========================================
+   MLTC : Circulations
+   Carte centrée, puis consultation en deux colonnes
+   ======================================== */
 
 /* ---- Hero ---- */
 .circ-hero {
@@ -16,7 +16,7 @@
     line-height: 1.62;
 }
 
-/* ---- Map skeleton loader ---- */
+/* ---- Squelette de chargement de la carte ---- */
 .circ-map-skeleton {
     display: flex;
     flex-direction: column;
@@ -45,7 +45,7 @@
     100% { background-position: -200% 0; }
 }
 
-/* ---- Two-state layout ---- */
+/* ---- Disposition en deux états ---- */
 .circ-experience {
     padding: 24px 0 56px;
     --circ-box-h: 860px;
@@ -210,7 +210,7 @@
     pointer-events: auto;
 }
 
-/* ---- Country and controls panel ---- */
+/* ---- Panneau du pays et commandes ---- */
 .circ-bar-country h2 {
     margin: 0;
     font-size: 1.55rem;
@@ -268,8 +268,7 @@
 }
 [data-theme="dark"] .circ-reroll { color: var(--primary-300, #c4b5fd); }
 
-/* ---- Lien vers la page Trafic (hero) : discret, la carte reste
-        l'élément principal de la page ---- */
+/* ---- Lien vers la page Trafic, discret ---- */
 .circ-live-link {
     display: inline-flex;
     align-items: center;
@@ -288,7 +287,7 @@
 .circ-live-link:focus-visible { outline: 2px solid var(--primary-500); outline-offset: 3px; }
 [data-theme="dark"] .circ-live-link { color: var(--primary-300, #d8b4fe); }
 
-/* ---- Operator tab strip (segmented control) ---- */
+/* ---- Onglets d'opérateurs ---- */
 .circ-operator-tabs {
     display: flex;
     gap: 0;
@@ -336,7 +335,7 @@
     background: rgba(167, 139, 250, 0.12);
 }
 
-/* ---- Compositions section ---- */
+/* ---- Compositions ---- */
 .circ-compositions {
     padding-top: 16px;
     padding-right: 18px;
@@ -374,7 +373,7 @@
     transform: translateY(8px);
 }
 
-/* ---- Country shapes (geographic) ---- */
+/* ---- Pays sur la carte ---- */
 .circ-country {
     cursor: pointer;
     outline: none;
@@ -418,7 +417,7 @@
     filter: none;
 }
 
-/* Hover */
+/* Survol */
 .circ-country:hover .circ-shape,
 .circ-country:focus .circ-shape {
     fill: #efe0ff;              /* --primary-200 à 74 % sur blanc */
@@ -426,7 +425,7 @@
     filter: brightness(1.02);
 }
 
-/* Active (selected) */
+/* Pays sélectionné */
 .circ-country.active .circ-shape {
     fill: var(--primary-500, #a855f7);
     stroke: var(--primary-700, #7e22ce);
@@ -452,7 +451,7 @@
     display: none;
 }
 
-/* Composition - flat, separator between items */
+/* Composition : liste à plat, séparateur entre les éléments */
 .circ-item {
     display: flex;
     flex-direction: column;
@@ -471,7 +470,7 @@
     background: color-mix(in srgb, var(--surface) 92%, var(--primary-50));
 }
 
-/* Top row: badge + name + detail */
+/* Première ligne : badge, nom, détail */
 .circ-item-head {
     display: flex;
     align-items: baseline;
@@ -514,7 +513,7 @@
     color: var(--text-primary);
 }
 
-/* Route expand toggle */
+/* Trajet dépliable */
 .circ-route {
     display: inline-flex;
     align-items: center;
@@ -592,20 +591,20 @@
     opacity: 0.88;
 }
 
-/* ---- Consist frame (black, 66px, scroll) ---- */
-/* wrapper keeps frame + scrollbar together */
+/* ---- Cadre de la rame (noir, 66px, défilant) ---- */
+/* le conteneur garde le cadre et sa barre ensemble */
 .circ-consist-wrap { position: relative; }
 
 .circ-consist {
     background: #0a0a10;
     height: 66px;
-    overflow: hidden;          /* scrollbar NO LONGER here */
+    overflow: hidden;
     display: flex;
     align-items: flex-end;
     position: relative;
 }
 
-/* separate scroll track below the rail - mirrors .lv-scroll-track */
+/* piste de défilement sous la voie, comme .lv-scroll-track */
 .circ-scroll {
     width: 100%;
     height: 14px;
@@ -619,7 +618,7 @@
 }
 .circ-scroll-spacer { height: 1px; }
 
-/* violet scrollbar - Webkit */
+/* barre violette (WebKit) */
 .circ-scroll::-webkit-scrollbar { height: 100%; }
 .circ-scroll::-webkit-scrollbar-track { background: rgba(124,58,237,0.06); }
 .circ-scroll::-webkit-scrollbar-thumb {
@@ -639,7 +638,7 @@
     flex-shrink: 0;
 }
 
-/* Row of individual vehicles side-by-side */
+/* Véhicules côte à côte */
 .circ-vehicle-row {
     display: flex;
     align-items: flex-end;
@@ -648,7 +647,7 @@
     padding-right: 10px;
 }
 
-/* Train panoramic image - native pixel size, no drag */
+/* Image de la rame à sa taille native, non déplaçable */
 .circ-train-img {
     display: block;
     max-width: none;
@@ -673,7 +672,7 @@
     z-index: 1;
 }
 
-/* Track - always fills full width of the frame */
+/* Voie sur toute la largeur du cadre */
 .circ-track {
     width: 100%;
     height: 8px;
@@ -777,7 +776,7 @@
     .circ-item-detail {
         margin-left: 0;
     }
-    /* Mobile: scroll directly on consist, hide separate scrollbar */
+    /* Mobile : défilement direct sur la rame, sans piste séparée */
     .circ-consist {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
@@ -786,7 +785,7 @@
     .circ-consist::-webkit-scrollbar { display: none; }
     .circ-scroll { display: none; }
 
-    /* Mobile: hide compositions scrollbar gutter (no visible scrollbar needed) */
+    /* Mobile : pas de gouttière de barre de défilement */
     .circ-compositions {
         padding-right: 0;
         scrollbar-gutter: auto;

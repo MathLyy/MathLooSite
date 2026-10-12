@@ -1,9 +1,9 @@
 /* =========================================================================
-   preview.js — Apercu fidele dans une iframe.
+   preview.js : Apercu fidele dans une iframe.
 
    Ni <link> ni <base> : sous une origine http://localhost, un <base> ferait
-   afficher les images du site DEPLOYE au lieu de l'arbre de travail. Tout
-   est inline — CSS lu sur le disque, images en blob:, et le vrai
+   afficher les images du site déployé au lieu de l'arbre de travail. Tout
+   est inline : CSS lu sur le disque, images en blob:, et le vrai
    js/livrees-subpages.js pour que le bouton R et l'auto-stack soient exacts.
    ========================================================================= */
 (function () {

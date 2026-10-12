@@ -1,5 +1,5 @@
 /* =========================================================================
-   diff.js — Diff ligne a ligne pour la modale de pre-sauvegarde.
+   diff.js : Diff ligne a ligne pour la modale de pre-sauvegarde.
    Prefixe/suffixe communs elimines d'abord, LCS seulement sur le reste :
    sur une page de 3000 lignes ou 1 ligne change, le LCS porte sur 1 ligne.
    ========================================================================= */
@@ -32,7 +32,7 @@
         const ops = [];
 
         /* Garde-fou : au-dela de 4000 lignes divergentes, on n'essaie pas
-           d'aligner — c'est de toute facon un diff a refuser. */
+           d'aligner : c'est de toute façon un diff à refuser. */
         if (a.length > 4000 || b.length > 4000) {
             a.forEach((t, i) => ops.push({ op: '-', a: s + i + 1, text: t }));
             b.forEach((t, i) => ops.push({ op: '+', b: s + i + 1, text: t }));

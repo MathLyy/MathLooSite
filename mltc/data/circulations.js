@@ -93,7 +93,11 @@ window.MLTC_CIRCULATIONS = {
         ],
         "detail": "ICE Duplex",
         "countries": ["Allemagne"],
-        "composition": ["hsx/B-HSXET.png", {"coupler": "ICE2couple.png"}, "hsx/B-HSXET.png"],
+        "composition": [
+          "hsx/B-HSXET.png",
+          {"coupler": "ICE2couple.png", "bottom": 5, "overlap": 4},
+          "hsx/B-HSXET.png"
+        ],
         "speed": 270
       },
       {
@@ -144,7 +148,7 @@ window.MLTC_CIRCULATIONS = {
         "track": "voie_beton.png"
       },
       {
-        "name": "Grand Sud (Ventimiglia - Marseille)",
+        "name": "Grand Sud",
         "route": [
           "Ventimiglia",
           "Menton",
@@ -154,11 +158,25 @@ window.MLTC_CIRCULATIONS = {
           "Cannes",
           "Saint-Raphaël",
           "Toulon",
-          "Marseille"
+          "Marseille",
+          "Avignon",
+          "Nîmes",
+          "Montpellier",
+          "Béziers",
+          "Narbonne",
+          "Carcassonne",
+          "Toulouse",
+          "Montauban",
+          "Agen",
+          "Bordeaux"
         ],
-        "detail": "TGV Duplex",
+        "detail": "UM TGV",
         "countries": ["France"],
-        "composition": ["SHUFFLE{hsx/B-HSXTGVRD.png, hsx/B-HSXTGVDuplex.png}"],
+        "composition": [
+          "SHUFFLE{hsx/B-HSXTGVRD.png, hsx/B-HSXTGVDuplex.png}",
+          {"coupler": "TGVcouple.png"},
+          "SHUFFLE{hsx/B-HSXTGVDuplex.png, hsx/B-HSXTGVPOS.png, hsx/B-HSXTGVR.png}"
+        ],
         "speed": 160,
         "track": "voie_bois.png",
         "decor": "cat.png",
@@ -173,53 +191,66 @@ window.MLTC_CIRCULATIONS = {
           "speed": 100,
           "chance": 50,
           "delay": "random"
-        },
-        "variants": [
-          {
-            "name": "Grand Sud",
-            "route": [
-              "Ventimiglia",
-              "Menton",
-              "Monaco",
-              "Nice",
-              "Antibes",
-              "Cannes",
-              "Saint-Raphaël",
-              "Toulon",
-              "Marseille",
-              "Avignon",
-              "Nîmes",
-              "Montpellier",
-              "Béziers",
-              "Narbonne",
-              "Carcassonne",
-              "Toulouse",
-              "Montauban",
-              "Agen",
-              "Bordeaux"
-            ],
-            "detail": "UM TGV",
-            "composition": [
-              "SHUFFLE{hsx/B-HSXTGVRD.png, hsx/B-HSXTGVDuplex.png}",
-              {"coupler": "TGVcouple.png"},
-              "SHUFFLE{hsx/B-HSXTGVPOS.png, hsx/B-HSXTGVR.png, hsx/B-HSXTGVDuplex.png}"
-            ],
-            "decor": "cat1500V.png",
-            "reverse_composition": true,
-            "background": {
-              "service": "TransRegio",
-              "composition": [
-                "tr/B-TRZ7100PRD.png>tr/B-TRZ7100PRD_R.png",
-                "4*tr/C-TRZR27100PRD.png>tr/C-TRZR27100PRD_R.png",
-                "tr/B-TRZ7100PRD_R.png>tr/B-TRZ7100PRD.png"
-              ],
-              "direction": "opposite",
-              "speed": 140,
-              "chance": 50,
-              "delay": 1
-            }
-          }
+        }
+      },
+      {
+        "route": [
+          "Lyon",
+          "Valence",
+          "Nîmes",
+          "Montpellier",
+          "Béziers",
+          "Narbonne",
+          "Perpignan",
+          "Figueres",
+          "Girona",
+          "Barcelona"
+        ],
+        "detail": "ICE 3 Neo",
+        "countries": ["France", "Espagne"],
+        "composition": [
+          "hsx/B-HSXICE3Neo.png",
+          {"coupler": "ICE3Ncouple.png", "overlap": 5},
+          "0-1*hsx/B-HSXICE3Neo.png"
         ]
+      },
+      {
+        "route": ["Madrid", "Cuenca", "Valencia"],
+        "detail": "S-112",
+        "countries": ["Espagne"],
+        "composition": ["hsx/B-HSXS112.png"]
+      },
+      {
+        "route": ["Wien", "Sankt Pölten", "Linz", "Regensburg", "Nürnberg"],
+        "detail": "ICE Duplex",
+        "countries": ["Allemagne", "Autriche"],
+        "composition": ["hsx/B-HSXET.png"],
+        "speed": 230
+      },
+      {
+        "route": ["Praha", "Ústí nad Labem", "Dresden", "Berlin"],
+        "detail": "ICE 3 Neo",
+        "countries": ["Allemagne", "République tchèque"],
+        "composition": ["hsx/B-HSXICE3Neo.png"],
+        "speed": 200
+      },
+      {
+        "route": [
+          "Bordeaux",
+          "Angoulême",
+          "Poitiers",
+          "Saint-Pierre-des-Corps",
+          "Le Mans",
+          "Laval",
+          "Rennes",
+          "Saint-Brieuc",
+          "Brest"
+        ],
+        "detail": "TGV M",
+        "countries": ["France"],
+        "composition": ["hsx/B-HSXTGVM.png"],
+        "speed": 320,
+        "variants": [{"speed": 160, "track": "voie_bois.png", "decor": "cat.png"}]
       }
     ],
     "Xpress": [
@@ -381,7 +412,16 @@ window.MLTC_CIRCULATIONS = {
         "speed": 200,
         "decor": "cat.png",
         "reverse_composition": true,
-        "background": {"composition": [], "speed": 80, "chance": 50}
+        "background": {
+          "service": "Urbahn",
+          "composition": [
+            "2*SHUFFLE{urbahn/B-UBRe450NDW.png>urbahn/B-UBRe450NDW_R.png, urbahn/B-UBRe450NDW_R.png>urbahn/B-UBRe450NDW.png}"
+          ],
+          "direction": "opposite",
+          "speed": 140,
+          "chance": 50,
+          "delay": "random"
+        }
       },
       {
         "route": [
@@ -404,7 +444,18 @@ window.MLTC_CIRCULATIONS = {
           "5*xpress/C-XMk4TSO.png",
           "xpress/C-XMk4DVT_R.png>xpress/C-XMk4DVT.png"
         ],
-        "reverse_composition": true
+        "speed": 225,
+        "track": "voie_beton.png",
+        "reverse_composition": true,
+        "background": {
+          "name": "HLP",
+          "service": "MLCC",
+          "composition": ["mlcc/A-MLCCCL67_s.png", "mlcc/A-MLCCCL67.png"],
+          "direction": "opposite",
+          "speed": 100,
+          "chance": 50,
+          "delay": "random"
+        }
       },
       {
         "route": ["Bruxelles", "Aalst", "Gent", "Aalter", "Brugge", "Oostende"],
@@ -419,13 +470,15 @@ window.MLTC_CIRCULATIONS = {
           "3*xpress/C-XUSI2B10.png",
           "xpress/C-XBpmbdzf_R.png>xpress/C-XBpmbdzf.png"
         ],
+        "speed": 160,
         "reverse_composition": true
       },
       {
         "route": ["Terneuzen", "Gent"],
         "detail": "UM IC3",
         "countries": ["Belgique", "Pays-Bas"],
-        "composition": ["2*xpress/B-XIC3.png"]
+        "composition": ["2*xpress/B-XIC3.png"],
+        "speed": 160
       },
       {
         "route": ["Maastricht", "Liège", "Namur", "Charleroi", "La Louvière", "Mons", "Tournai", "Lille"],
@@ -435,24 +488,39 @@ window.MLTC_CIRCULATIONS = {
           "xpress/A-XBB36000.png",
           "3*xpress/C-XNG88A10.png",
           "xpress/C-XViaggioAR.png",
-          "xpress/C-XViaggioB.png",
           "5*xpress/C-XVE2NB15.png"
-        ]
+        ],
+        "speed": 160
       },
       {
         "composition": [
           "xpress/A-XRe464.png",
           "2*xpress/C-XECApm.png",
           "xpress/C-XViaggioAR.png",
-          "4*xpress/C-XECBpm.png",
+          "4-5*xpress/C-XECBpm.png",
           "xpress/C-XVUIVBt_R.png>xpress/C-XVUIVBt.png",
           "xpress/A-XRE460.png",
           "xpress/C-XIC2000AD.png>xpress/C-XIC2000AD_R.png",
           "xpress/C-XIC2000A.png",
           "xpress/C-XIC2000BR.png",
-          "3*xpress/C-XIC2000B.png",
+          "3-4*xpress/C-XIC2000B.png",
           "xpress/C-XIC2000Bt_R.png>xpress/C-XIC2000Bt.png"
         ]
+      },
+      {
+        "route": [
+          "Valencia",
+          "Castelló de la Plana",
+          "Vinaròs",
+          "Tarragona",
+          "Vilafranca del Penedès",
+          "Barcelona"
+        ],
+        "detail": "S-252 + Talgo VI",
+        "countries": ["Espagne"],
+        "composition": ["xpress/A-XS252.png", "xpress/C-XTalgoVI.png"],
+        "speed": 200,
+        "track": "voie_beton.png"
       }
     ],
     "Nocrail": [
@@ -509,9 +577,11 @@ window.MLTC_CIRCULATIONS = {
         "track": "voie_beton.png"
       },
       {
-        "name": "Strasbourg - Bordeaux",
+        "route": ["Strasbourg", "Dijon", "Lyon", "Clermont-Ferrand", "Bordeaux"],
+        "detail": "BB 25500 + Class 43 + Mk4/Mk3",
         "countries": ["France"],
         "composition": [
+          "nocrail/A-NRBB25500.png",
           "nocrail/A-NRCL43.png>nocrail/A-NRCL43_R.png",
           "4*nocrail/C-NRMk4NS.png",
           "nocrail/C-NRMk3RFM.png",
@@ -1108,6 +1178,28 @@ window.MLTC_CIRCULATIONS = {
         "composition": ["1-2*tr/MB-TRZ150.png"],
         "speed": 40,
         "decor": "3R.png"
+      },
+      {
+        "route": [
+          "Zaragoza",
+          "Miraflores",
+          "Villanueva de Gállego",
+          "Tardienta",
+          "Huesca",
+          "Ayerbe",
+          "Riglos",
+          "Santa María y La Peña",
+          "Anzánigo",
+          "Caldearenas-Aquilué",
+          "Sabiñánigo",
+          "Jaca",
+          "Castiello-Pueblo",
+          "Villanúa",
+          "Canfranc"
+        ],
+        "detail": "S-594",
+        "countries": ["Espagne"],
+        "composition": ["1-2*tr/B-TRS594.png"]
       }
     ],
     "Vivarail": [
@@ -1458,7 +1550,10 @@ window.MLTC_CIRCULATIONS = {
     ],
     "MLCC": [
       {
-        "composition": ["mlcc/A-MLCCRh1064.png", "3-5*mlcc/D-MLCCFcs6541.png", "0-1*mlcc/D-MLCCS58_Gris.png"],
+        "name": "Triage",
+        "detail": "Rh 1064 + Wagons trémie",
+        "countries": ["Autriche"],
+        "composition": ["mlcc/A-MLCCRh1064.png", "3-8*SHUFFLE{mlcc/D-MLCCFcs6541.png}"],
         "speed": 80
       },
       {
@@ -1466,12 +1561,17 @@ window.MLTC_CIRCULATIONS = {
         "speed": 30
       },
       {
-        "composition": ["mlcc/A-MLCC2CC261000.png", "8-10*mlcc/D-MLCCFalrrs152.png"],
+        "detail": "2CC2 61000 + Trémies",
+        "countries": ["Allemagne"],
+        "composition": ["mlcc/A-MLCC2CC261000.png", "10-18*mlcc/D-MLCCFalrrs152.png"],
         "speed": 100
       },
       {
+        "name": "Coils",
+        "detail": "Bâchés",
+        "countries": ["Allemagne"],
         "composition": [
-          "SHUFFLE{mlcc/A-MLCCBB7200.png, mlcc/A-MLCCBR152.png, mlcc/A-MLCCBR156.png, mlcc/A-MLCCBR186.png, mlcc/A-MLCCBR189.png, mlcc/A-MLCCBR240.png, mlcc/A-MLCCBR285.png, mlcc/A-MLCCCC65500.png, mlcc/A-MLCCCC72000.png, mlcc/A-MLCCCL60.png, mlcc/A-MLCCEG.png, mlcc/A-MLCCE652.png, mlcc/A-MLCCRh1110.5.png}",
+          "SHUFFLE{mlcc/A-MLCCBR152.png, mlcc/A-MLCCBR156.png, mlcc/A-MLCCBR186.png, mlcc/A-MLCCBR189.png, mlcc/A-MLCCBR240.png, mlcc/A-MLCCBR285.png, mlcc/A-MLCCCC65500.png, mlcc/A-MLCCRh1110.5.png}",
           "16-24*SHUFFLE{mlcc/D-MLCC_PGS58_Blanc.png, mlcc/D-MLCC_PGS58_Bleu.png, mlcc/D-MLCC_PGS58_BleuMarine.png, mlcc/D-MLCC_PGS58_Cyan.png, mlcc/D-MLCC_PGS58_Fuschia.png, mlcc/D-MLCC_PGS58_Gris.png, mlcc/D-MLCC_PGS58_Jaune.png, mlcc/D-MLCC_PGS58_Marron.png, mlcc/D-MLCC_PGS58_Noir.png, mlcc/D-MLCC_PGS58_Orange.png, mlcc/D-MLCC_PGS58_Pourpre.png, mlcc/D-MLCC_PGS58_Rose.png, mlcc/D-MLCC_PGS58_Rouge.png, mlcc/D-MLCC_PGS58_Vert.png, mlcc/D-MLCC_PGS58_VertForet.png, mlcc/D-MLCC_PGS58_Violet.png, mlcc/D-MLCC_PS58_Blanc.png, mlcc/D-MLCC_PS58_Bleu.png, mlcc/D-MLCC_PS58_BleuMarine.png, mlcc/D-MLCC_PS58_Cyan.png, mlcc/D-MLCC_PS58_Fuschia.png, mlcc/D-MLCCS58_Orange.png, mlcc/D-MLCCS58_Noir.png, mlcc/D-MLCCS58_Marron.png, mlcc/D-MLCCS58_Jaune.png, mlcc/D-MLCCS58_Gris.png, mlcc/D-MLCCS58_Fuschia.png, mlcc/D-MLCCS58_Cyan.png, mlcc/D-MLCCS58_BleuMarine.png, mlcc/D-MLCCS58_Bleu.png, mlcc/D-MLCCS58_Blanc.png, mlcc/D-MLCC_PS58_Violet.png, mlcc/D-MLCC_PS58_VertForet.png, mlcc/D-MLCC_PS58_Vert.png, mlcc/D-MLCC_PS58_Rouge.png, mlcc/D-MLCC_PS58_Rose.png, mlcc/D-MLCC_PS58_Pourpre.png, mlcc/D-MLCC_PS58_Orange.png, mlcc/D-MLCC_PS58_Noir.png, mlcc/D-MLCC_PS58_Marron.png, mlcc/D-MLCC_PS58_Jaune.png, mlcc/D-MLCC_PS58_Gris.png, mlcc/D-MLCCS58_Pourpre.png, mlcc/D-MLCCS58_Rose.png, mlcc/D-MLCCS58_Rouge.png, mlcc/D-MLCCS58_Vert.png, mlcc/D-MLCCS58_VertForet.png, mlcc/D-MLCCS58_Violet.png}"
         ],
         "speed": 100
@@ -1483,6 +1583,7 @@ window.MLTC_CIRCULATIONS = {
       {
         "name": "Remonte rame Xpress",
         "detail": "Ee 922 + Voitures Xpress",
+        "countries": ["Allemagne"],
         "composition": [
           "mlcc/A-MLCCEe922.png",
           "xpress/C-XBpmbdzf.png>xpress/C-XBpmbdzf_R.png",
@@ -1494,7 +1595,7 @@ window.MLTC_CIRCULATIONS = {
       {
         "name": "Ferraille",
         "detail": "CC 65500 + Tombereaux",
-        "countries": ["Allemagne"],
+        "countries": ["France"],
         "composition": [
           "mlcc/A-MLCCCC65500.png",
           "9-16*SHUFFLE{mlcc/D-MLCC_PEaos_2.png, mlcc/D-MLCC_PEaos_1.png, mlcc/D-MLCCEaos.png}"
@@ -1502,12 +1603,15 @@ window.MLTC_CIRCULATIONS = {
         "speed": 80
       },
       {
+        "name": "Ciment",
+        "detail": "Eem 923 + Wagons silos",
+        "countries": ["Allemagne"],
         "composition": ["mlcc/A-MLCCEem923.png", "9*mlcc/D-MLCCUces.png"],
         "speed": 100
       },
       {
         "name": "Ciment",
-        "detail": "BB 67400 + Wagons silos",
+        "detail": "Wagons silos",
         "countries": ["France"],
         "composition": [
           "SHUFFLE{mlcc/A-MLCCBB75000.png, mlcc/A-MLCCBB67400.png, mlcc/A-MLCCG2000.png}",
@@ -1516,6 +1620,8 @@ window.MLTC_CIRCULATIONS = {
         "speed": 100
       },
       {
+        "name": "Troncs",
+        "countries": ["France"],
         "composition": ["mlcc/A-MLCCCL67_s.png", "10*mlcc/D-MLCCRC4.png"],
         "speed": 100
       },
@@ -1524,21 +1630,58 @@ window.MLTC_CIRCULATIONS = {
         "speed": 100
       },
       {
+        "name": "Diffus",
+        "countries": ["France"],
         "composition": [
-          "SHUFFLE{mlcc/A-MLCCBB8500.png, mlcc/A-MLCCBR150.png, mlcc/A-MLCCBR155.png, mlcc/A-MLCCCL58.png, mlcc/A-MLCCCL37.png, mlcc/A-MLCCNS1200.png, mlcc/A-MLCCBB37000.png, mlcc/A-MLCCBB27000.png, mlcc/A-MLCCBB26000.png, mlcc/A-MLCCBB25500.png}",
-          "12-16*SHUFFLE{mlcc/D-MLCC_PEaos_1.png, mlcc/D-MLCC_PEaos_2.png, mlcc/D-MLCC_PFcs6541_1.png, mlcc/D-MLCC_PFcs6541_2.png, mlcc/D-MLCCFcs6541.png, mlcc/D-MLCC_PKs70.6.png}"
+          "SHUFFLE{mlcc/A-MLCCBB8500.png, mlcc/A-MLCCCL58.png, mlcc/A-MLCCNS1200.png, mlcc/A-MLCCBB37000.png, mlcc/A-MLCCBB27000.png, mlcc/A-MLCCBB26000.png, mlcc/A-MLCCBB25500.png, mlcc/A-MLCCBB7200.png}",
+          "18-30*SHUFFLE{mlcc/D-MLCC_PFcs6541_1.png, mlcc/D-MLCC_PFcs6541_2.png, mlcc/D-MLCC_PEaos_2.png, mlcc/D-MLCC_PEaos_1.png, mlcc/D-MLCC_PGS58_Blanc.png, mlcc/D-MLCC_PGS58_Bleu.png, mlcc/D-MLCC_PGS58_Orange.png, mlcc/D-MLCC_PGS58_Rouge.png, mlcc/D-MLCC_PGS58_BleuMarine.png, mlcc/D-MLCC_PGS58_Pourpre.png, mlcc/D-MLCC_PS58_VertForet.png, mlcc/D-MLCC_PS58_Orange.png, mlcc/D-MLCC_PS58_Vert.png, mlcc/D-MLCC_PS58_Fuschia.png, mlcc/D-MLCC_PKs70.6.png, mlcc/D-MLCC_PLaais.png, mlcc/D-MLCC_PUcs.png, mlcc/D-MLCC_PShimmns.png, mlcc/D-MLCCFalrrs152.png, mlcc/D-MLCCEaos.png, mlcc/D-MLCCFcs6541.png, mlcc/D-MLCCLaais.png, mlcc/D-MLCCSggrss80'.png}"
         ],
+        "speed": 100,
+        "background": {
+          "name": "Grandes Lignes",
+          "service": "SanGo!",
+          "composition": [
+            "sango/A-SanGoCC72100.png",
+            "1-2*sango/C-SanGoCorailVTU_site.png",
+            "sango/C-SanGoCorailVTU.png",
+            "sango/C-SanGoCorailVTUB10r.png",
+            "3-4*sango/C-SanGoCorailVTU.png",
+            "0-1*sango/C-SanGoCorailVTU_site.png"
+          ],
+          "speed": 160,
+          "chance": 50,
+          "delay": "random"
+        }
+      },
+      {
+        "name": "Coils",
+        "detail": "Class 60 + Wagons téléscopiques",
+        "countries": ["Royaume-Uni"],
+        "composition": ["mlcc/A-MLCCCL60.png", "18-28*SHUFFLE{mlcc/D-MLCC_PKIA.png, mlcc/D-MLCCKIA.png}"],
         "speed": 100
       },
       {
-        "composition": ["mlcc/A-MLCCCL60.png", "10-14*SHUFFLE{mlcc/D-MLCC_PKIA.png, mlcc/D-MLCCKIA.png}"],
-        "speed": 100
+        "name": "Ferraille",
+        "detail": "Class 77 + Tombereaux",
+        "countries": ["Royaume-Uni"],
+        "composition": ["mlcc/A-MLCCCL77.png", "20-36*SHUFFLE{mlcc/D-MLCC_PJNA.png, mlcc/D-MLCCJNA.png}"],
+        "speed": 100,
+        "background": {
+          "service": "Xpress",
+          "composition": [
+            "xpress/A-XCL68.png",
+            "2*xpress/C-XMk4FO.png",
+            "xpress/C-XMk4RFM.png>xpress/C-XMk4RFM_R.png",
+            "4*xpress/C-XMk4TSO.png"
+          ],
+          "direction": "opposite",
+          "speed": 160,
+          "delay": "random"
+        }
       },
       {
-        "composition": ["mlcc/A-MLCCCL77.png", "13-20*SHUFFLE{mlcc/D-MLCC_PJNA.png, mlcc/D-MLCCJNA.png}"],
-        "speed": 100
-      },
-      {
+        "detail": "Trémies",
+        "countries": ["Royaume-Uni"],
         "composition": [
           "SHUFFLE{mlcc/A-MLCCCL90.png, boreale/A-BLCL57.png, mlcc/A-MLCCCL37.png, mlcc/A-MLCCCL58.png, mlcc/A-MLCCCL60.png, mlcc/A-MLCCCL67.png, mlcc/A-MLCCCL67_s.png}",
           "14-22*SHUFFLE{mlcc/D-MLCCHYA.png, mlcc/D-MLCC_PHYA.png}"

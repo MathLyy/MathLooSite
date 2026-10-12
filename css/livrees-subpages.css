@@ -1,52 +1,49 @@
 /* ========================================
-   Livrées Subpages - Unified Layout
-   Adapted from old site, preserving layout
+   Livrées : page d'index (livrees.html) et pages de compagnie
    ======================================== */
 
-/* Shared: force dark bg on both host (livrees.html) and subpages. */
+/* Thème sombre imposé sur toute la section Livrées. */
 body:has(.lv-page-section),
 body:has(.lv-page):not(.lv-host) {
     background: var(--background);
 }
-/* Hide theme toggle everywhere in the livrées section (dark is enforced) */
+/* Pas de bouton de thème dans la section (le sombre est imposé) */
 body:has(.lv-page-section) .theme-toggle,
 body:has(.lv-page):not(.lv-host) .theme-toggle {
     visibility: hidden;
     pointer-events: none;
 }
 
-/* ---- Cross-page fade (host + subpages share this) ---- */
+/* ---- Fondu entre les pages de la section ---- */
 body:has(.lv-page-section) main,
 body:has(.lv-page-section) footer,
 body:has(.lv-page):not(.lv-host) main,
 body:has(.lv-page):not(.lv-host) footer {
     transition: opacity 0.28s ease;
 }
-/* Arrival: start invisible, fade in after paint (class removed by JS) */
+/* Arrivée : invisible, puis fondu après le premier rendu (classe retirée par le JS) */
 body.lv-entering main,
 body.lv-entering footer {
     opacity: 0;
 }
-/* Departure: fade out before navigation */
+/* Départ : fondu avant la navigation */
 body.lv-leaving main,
 body.lv-leaving footer {
     opacity: 0;
     pointer-events: none;
 }
 
-/* Scroll offset for fixed navbar + subnav */
+/* Décalage des ancres sous la navbar et le sous-menu fixes */
 html { scroll-padding-top: 130px; scroll-behavior: smooth; }
 
-/* Page width and wrapper */
+/* Largeur de page */
 .lv-page { max-width:1900px; width:100%; margin:0 auto; padding:120px var(--spacing-lg) 0; box-sizing:border-box; overflow-x:hidden; font-family: var(--font-body); }
 @media (min-width:1920px) { .lv-page { max-width:calc(100vw - 20px); } }
 
-/* ---- livrees.html host styles (gallery index) ---- */
+/* ---- Page d'index (livrees.html) ---- */
 .lv-page-section { padding: 120px var(--spacing-lg) var(--spacing-xl); max-width: 1400px; margin: 0 auto; }
 .lv-container { display: flex; flex-direction: column; gap: var(--spacing-xl); }
-.lv-header { display: flex; flex-direction: column; gap: var(--spacing-sm); }
-.mltc-page-title,
-.lv-header h1 {
+.mltc-page-title {
     font-family: var(--font-display);
     font-weight: 800;
     font-size: clamp(2.2rem, 5vw, 3.4rem);
@@ -59,7 +56,7 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
 }
 .lv-subtitle { color: #a8a3b3; font-size: 1rem; line-height: 1.6; max-width: 900px; }
 
-/* ---- Hero blurred background (livrees.html) ---- */
+/* ---- En-tête à fond flou (livrees.html) ---- */
 .hero-livrees {
     position: relative;
     width: 100vw;
@@ -98,11 +95,8 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* Grille figee a 4 colonnes (au lieu de auto-fit, qui recalculait un nombre
-   de pistes different de 4 selon la largeur exacte du conteneur et faisait
-   parfois retomber le 4e repere seul sur une ligne, etire sur toute la
-   largeur) : les quatre reperes restent alignes sur une meme rangee tant
-   qu'il y a la place, et retombent proprement a 2 puis 1 colonne en dessous. */
+/* Grille fixe de 4 colonnes (auto-fit laissait parfois le 4e repère seul
+   sur une ligne) ; 2 puis 1 colonne sur écran étroit. */
 .lv-features {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -133,9 +127,8 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
     .lv-features { grid-template-columns: 1fr; }
 }
 
-/* "Dernieres nouveautes" : journal de mises a jour en liste, volontairement
-   different des cartes .lv-category (ce n'est pas une categorie de livrees
-   mais un flux d'activite recente), sans en-tete plein ni grille d'icones. */
+/* « Dernières nouveautés » : liste des mises à jour récentes, distincte des
+   cartes .lv-category (pas d'en-tête plein ni de grille d'icônes). */
 .lv-changelog {
     display: flex;
     flex-direction: column;
@@ -231,23 +224,16 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
     .lv-changelog-link { order: 3; }
 }
 
-/* Chaque grande categorie (MLTC / Avant la MLTC / En dehors de la MLTC / Reel)
-   devient une carte fermee plutot qu'un bloc separe du suivant par un simple
-   filet horizontal : sur une page qui enchaine plusieurs categories aux
-   contenus tres inegaux (une icone seule pour "Avant la MLTC", une dizaine
-   pour "MLTC"), le filet seul ne suffisait pas a faire voir ou une categorie
-   s'arrete et ou la suivante commence. La carte le rend evident au premier
-   coup d'oeil, meme en scroll rapide. */
+/* Chaque grande catégorie (MLTC, Avant la MLTC, En dehors de la MLTC, Réel)
+   est une carte fermée : les limites restent visibles malgré des contenus
+   très inégaux. */
 .lv-category {
     display: flex;
     flex-direction: column;
     background: var(--background);
     border: 1px solid var(--border);
 }
-/* Le titre est un bandeau plein (fond distinct, pleine largeur) plutot qu'un
-   texte precede d'une puce : sur une suite de cartes au contenu tres inegal,
-   un bloc de couleur homogene se repere d'un coup d'oeil, la ou une puce +
-   un simple filet restaient trop proches visuellement du texte des icones. */
+/* Titre en bandeau plein, repérable d'un coup d'œil. */
 .lv-category-title {
     font-family: var(--font-display);
     font-weight: 800;
@@ -269,10 +255,8 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
     .lv-category-title { font-size: 1.4rem; padding: var(--spacing-sm) var(--spacing-md); }
 }
 
-/* Sous-groupe (ex. "Services urbains") : un filet degrade plutot qu'un
-   simple texte en majuscules qui se fondait dans le fond de la carte, pour
-   que chaque grappe d'icones a l'interieur d'une categorie reste identifiable
-   sans avoir a lire le texte. */
+/* Sous-groupe (par exemple « Services urbains ») : filet dégradé, pour
+   repérer chaque groupe d'icônes sans lire le texte. */
 .lv-sub {
     display: flex;
     align-items: center;
@@ -296,11 +280,11 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
 .lv-icons a:hover { transform: translateY(-2px); opacity: 1; }
 .lv-icons img { display: block; width: auto; height: auto; max-width: none; image-rendering: pixelated; }
 
-/* Last modified (on livrees.html) */
+/* Date de mise à jour (livrees.html) */
 .last-modified { border-top: 1px solid rgba(255,255,255,0.08); padding: var(--spacing-md) 0; margin-top: var(--spacing-xl); }
 .last-modified p { color: #7a7485; font-size: 0.85rem; text-align: center; margin: 0; }
 
-/* Disclaimer popup (livrees.html) */
+/* Avertissement (livrees.html) */
 .disclaimer-overlay { position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); padding: var(--spacing-lg); }
 .disclaimer-overlay.hidden { display: none; }
 .disclaimer-popup { max-width: 480px; background: var(--surface); border: 1px solid rgba(255,255,255,0.08); border-radius: 0; padding: var(--spacing-xl); text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
@@ -311,54 +295,47 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
 .disclaimer-btn { display: inline-flex; align-items: center; justify-content: center; padding: var(--spacing-sm) var(--spacing-xl); background: var(--primary-600); color: #fff; border: none; font-family: var(--font-body); font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: background 0.2s ease; }
 .disclaimer-btn:hover { background: var(--primary-500); }
 
-/* Top area */
+/* En-tête de page */
 .lv-wrap { margin: var(--spacing-md) 0 var(--spacing-lg) 0; }
 .lv-topbar { background: linear-gradient(135deg, var(--primary-700), var(--primary-600)); color: #fff; font-family: var(--font-display); font-weight: 700; padding: var(--spacing-md) var(--spacing-lg); font-size: 1.5em; text-transform: uppercase; border-radius: var(--radius-md); letter-spacing: 0.02em; }
 .lv-desc { margin: var(--spacing-md) 0 var(--spacing-sm) 0; color: #d1d5db; }
 .lv-desc p { color: #d1d5db; line-height: 1.6; margin-bottom: 0.4rem; }
-.lv-slogan { color: rgba(255,255,255,0.55); font-size: 0.95rem; margin: 0.3em 0 0; }
 
-/* Buttons */
+/* Boutons */
 .lv-btns { display: flex; flex-wrap: wrap; gap: var(--spacing-sm); margin: var(--spacing-sm) 0 var(--spacing-lg) 0; }
 .lv-btn { display: inline-flex; align-items: center; justify-content: center; padding: var(--spacing-xs) var(--spacing-md); min-height: 40px; border: 1px solid rgba(124, 58, 237, 0.25); background: rgba(124, 58, 237, 0.1); color: #e5e7eb; font-family: var(--font-body); font-weight: 600; font-size: 0.9rem; text-decoration: none; border-radius: var(--radius-md); transition: var(--transition-base); }
 .lv-btn:hover { background: rgba(124, 58, 237, 0.2); border-color: rgba(124, 58, 237, 0.45); color: #fff; transform: translateY(-1px); }
 
-/* Categories */
+/* Catégories */
 .lv-cat { margin: var(--spacing-xl) 0 var(--spacing-lg) 0; }
 .lv-catbar { background: var(--primary-900); border: 1px solid var(--primary-800); color: #fff; font-family: var(--font-display); font-weight: 700; padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--radius-md); font-size: 0.95rem; letter-spacing: 0.01em; }
 
-/* Country separator inside a lv-list */
+/* Séparateur de pays dans une liste */
 .lv-country-sep { display: flex; align-items: center; gap: var(--spacing-sm); padding: var(--spacing-xs) var(--spacing-sm); margin: 0.7rem 0 0rem; font-family: var(--font-display); font-weight: 600; font-size: 0.85rem; color: var(--primary-300); letter-spacing: 0.03em; text-transform: uppercase; }
 .lv-country-sep::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(124,58,237,0.35), transparent); }
 
 .lv-list { padding: var(--spacing-sm) 0; }
 
-/* Rounded first/last engine in list */
-.lv-list .lv-engine:first-child { border-radius: var(--radius-md) var(--radius-md) 0 0; }
-.lv-list .lv-engine:last-child { border-radius: 0 0 var(--radius-md) var(--radius-md); }
-.lv-list .lv-engine:only-child { border-radius: var(--radius-md); }
-
-/* Headings inside lv-page */
+/* Titres */
 .lv-page h2 { background: linear-gradient(135deg, var(--primary-700), var(--primary-600)); color: #fff; font-family: var(--font-display); font-weight: 700; padding: var(--spacing-sm) var(--spacing-md); margin: var(--spacing-xl) 0 0 0; text-transform: uppercase; border-radius: var(--radius-md); font-size: 1.25rem; letter-spacing: 0.02em; }
 .lv-page h2 + .lv-catbar { margin-top: var(--spacing-sm); }
 .lv-page h2 + .lv-desc { margin-top: var(--spacing-md); }
 .lv-page h2 + .lv-btns { margin-top: var(--spacing-sm); }
 
-/* Figures and illustrations */
+/* Figures et illustrations */
 .lv-figure { margin: var(--spacing-lg) 0 var(--spacing-lg); text-align: left; color: #d1d5db; font-size: 0.9em; }
 .lv-figure img { display: block; margin-top: var(--spacing-sm); max-width: 100%; height: auto; border-radius: var(--radius-sm); }
 .lv-figure p { margin-bottom: var(--spacing-xs); font-family: var(--font-body); font-size: 1em; font-style: italic; }
 .lv-figure p + p { margin-top: var(--spacing-sm); }
 .lv-figure .lv-legend { font-style: normal; }
 
-/* No paragraph indent */
+/* Pas d'alinéa */
 .lv-page p { text-indent: 0 !important; }
 
-/* Engine row */
+/* Fiche d'engin */
 .lv-engine { display: grid; grid-template-columns: auto 1fr; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.04); margin: 0; position: relative; }
-/* Écart universel : chaque entrée est un bloc fermé, séparé du suivant.
-   Remplace l'ancien séparateur (border-top 2px) qui fusionnait les entrées
-   en un tableau continu et empêchait chaque bloc d'avoir sa bordure haute. */
+/* Écart entre les fiches : chaque entrée est un bloc fermé, avec sa propre
+   bordure. */
 .lv-engine + .lv-engine { margin-top: 5px; }
 .lv-left { padding: 0; display: block; align-self: stretch; }
 .lv-leftrow { display: grid; grid-template-columns: 220px 360px; min-height: 58px; height: 100%; margin: 0; }
@@ -375,7 +352,7 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
 .lv-desc-link { color: var(--primary-300); text-decoration: none; border-bottom: 1px solid rgba(124, 58, 237, 0.4); }
 .lv-desc-link:hover { border-bottom-color: currentColor; }
 
-/* Reset internal margins for clean top alignment */
+/* Marges internes à zéro pour aligner le haut */
 .lv-right .lv-box p,
 .lv-right .lv-box h1,
 .lv-right .lv-box h2,
@@ -387,14 +364,12 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
 .lv-right .lv-box ol { margin:0; }
 .lv-right .lv-box > * + * { margin-top:.25rem; }
 
-/* No scroll for descriptions - box grows with content. Vertical centering is
-   already handled by .lv-right (display:flex; align-items:center) one level
-   up: making .lv-box itself a flex container too would turn its text runs
-   into anonymous flex items, and browsers trim the whitespace at the edges
-   of those boxes, which glues words to an inline link right next to them
-   (e.g. "VR2N" losing its surrounding spaces). */
+/* Description sans défilement : le bloc suit son contenu. Le centrage
+   vertical est assuré par .lv-right ; faire de .lv-box un conteneur flex
+   transformerait ses textes en éléments anonymes, dont les espaces de bord
+   seraient supprimés (les mots se colleraient à un lien voisin). */
 
-/* Flip button (R) in the top-right corner */
+/* Bouton R (image miroir), en haut à droite */
 .lv-flip-btn {
    position: absolute;
    top: 4px;
@@ -420,13 +395,12 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
 }
 .lv-flip-btn:hover { opacity: 1; transform: scale(1.1); }
 
-/* ─────────────────────────────────────────────────────────────────────
+/* ========================================
    Bouton de variantes (usure, graffiti, chargement)
 
-   Même famille visuelle que le bouton R, mais en pastille à largeur
-   automatique : son libellé affiche l'état COURANT (NEUF / USÉ / TAGS /
-   CH. 1…), ce qui le rend auto-explicatif sans infobulle.
-   ───────────────────────────────────────────────────────────────────── */
+   Même famille que le bouton R, en pastille à largeur automatique : le
+   libellé affiche l'état courant (NEUF, USÉ, TAGS, CH. 1…).
+   ======================================== */
 .lv-var-btn {
    position: absolute;
    top: 4px;
@@ -459,8 +433,7 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
    box-shadow: 0 0 10px -2px rgba(139, 92, 246, 0.55);
 }
 
-/* Sur l'état de base, le bouton reste discret ; dès qu'une variante est
-   affichée il s'allume, pour qu'on n'oublie pas qu'on ne voit plus le neuf. */
+/* Discret sur l'état de base, allumé dès qu'une variante est affichée. */
 .lv-var-btn[data-index]:not([data-index="0"]) {
    opacity: 1;
    color: #fff;
@@ -471,25 +444,25 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
 /* Cohabitation avec le bouton R quand les deux sont présents */
 .lv-imgframe:has(.lv-flip-btn) .lv-var-btn { right: 32px; }
 
-/* CSS fallback mirroring when alternate image isn't provided */
+/* Miroir CSS quand il n'y a pas d'image _R */
 .lv-imgframe img.flip-x { transform: scaleX(-1); }
 
-/* Stacked layout (long images) */
-.lv-engine.stack { display:grid; grid-template-columns:220px 1fr; grid-template-rows:auto auto; grid-template-areas:"image image" "title text"; } /* image on top, title left + desc right underneath */
+/* ---- Disposition empilée (images longues) ---- */
+.lv-engine.stack { display:grid; grid-template-columns:220px 1fr; grid-template-rows:auto auto; grid-template-areas:"image image" "title text"; } /* image en haut, titre à gauche et description à droite dessous */
 .lv-engine.stack .lv-left { padding:0; }
 .lv-engine.stack .lv-left { display:contents; }
 .lv-engine.stack .lv-leftrow { display:contents; height:auto; }
-/* stacked layout: title stays in the left column (original behaviour) */
+/* le titre reste dans la colonne de gauche */
 .lv-engine.stack .lv-leftcol { grid-area:title; height:58px; }
 .lv-engine.stack .lv-right { grid-area:text; min-height:58px; height:auto; position:relative; z-index:0; }
 .lv-engine.stack .lv-imgframe { grid-area:image; grid-column:1 / -1; width:100%; height:59px; border-left:0; border-top:0; border-bottom:1px solid rgba(255,255,255,0.08); background:#0a0a10 !important; background-image:none !important; display:flex; justify-content:flex-start; align-items:flex-end; overflow-x:auto; overflow-y:hidden; position:relative; z-index:1; scrollbar-width:none; }
-/* mettre en évidence l'image liée au survol pour clarifier l'association */
+/* au survol, mise en évidence de l'image associée */
 .lv-engine.has-scroll:hover .lv-imgframe { box-shadow: 0 0 0 2px rgba(124,58,237,0.06), 0 6px 18px rgba(2,6,23,0.35); }
 .lv-engine:hover .lv-leftcol .lv-title .lv-name { color: var(--primary-400); }
 .lv-engine.stack .lv-imgframe::-webkit-scrollbar { display:none; }
 .lv-engine.stack .lv-imgframe img { display:block; position:static; height:auto; max-height:58px; width:auto; max-width:none; flex-shrink:0; }
 
-/* Separate scroll track above image - always visible */
+/* Piste de défilement au-dessus de l'image, toujours visible */
 .lv-scroll-track {
   grid-area: scroll;
   grid-column: 1 / -1;
@@ -514,13 +487,13 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
 .lv-scroll-track::-webkit-scrollbar-thumb:hover { background: var(--primary-400); }
 .lv-scroll-track > div { height: 1px; }
 
-/* When image overflows - image on top, then title (left) + description (right) beneath, then scroll track */
+/* Image qui déborde : image, puis titre (gauche) et description (droite), puis piste */
 .lv-engine.stack.has-scroll {
-  grid-template-columns: 220px 1fr; /* keep title left / desc right */
-  grid-template-rows: auto auto 14px; /* image / title+desc / scroll */
+  grid-template-columns: 220px 1fr; /* titre à gauche, description à droite */
+  grid-template-rows: auto auto 14px; /* image / titre et description / piste */
   grid-template-areas: "image image" "title text" "scroll scroll";
 }
-/* leftcol and title keep their original left alignment in this mode */
+/* la colonne de gauche et le titre restent alignés à gauche */
 .lv-engine.stack.has-scroll .lv-leftrow { display: contents; }
 .lv-engine.stack.has-scroll .lv-leftcol { grid-area: title; display:flex; align-items:center; justify-content:flex-start; padding:8px 12px; }
 .lv-engine.stack.has-scroll .lv-leftcol .lv-title { align-items:flex-start; text-align:left; }
@@ -529,76 +502,57 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
 .lv-engine.stack[data-fit="contain"] .lv-imgframe img { width:100%; height:auto; object-fit:contain; }
 .lv-engine.stack[data-fit="stretch"] .lv-imgframe img { width:100%; height:58px; object-fit:fill; }
 
-/* Cancel global .stack flow margins on grid children */
+/* Annule les marges de .stack sur les enfants de la grille */
 .lv-engine.stack > * { margin-block-start: 0 !important; }
 .lv-engine.stack > * + * { margin-block-start: 0 !important; }
 
 /* ========================================
    Encapsulation des entrées empilées
-   ----------------------------------------
-   Problème : la frontière INTERNE (image → sa propre légende, 1px à 8%)
-   était aussi marquée que la frontière EXTERNE (engin → engin suivant,
-   2px à 6%). Avec plusieurs images longues d'affilée, plus rien ne disait
-   quel texte appartenait à quelle image.
-
-   Solution : on inverse la hiérarchie. La frontière interne disparaît, la
-   frontière externe devient un contour fermé — l'image et son texte sont
-   alors perçus comme un seul objet (« common region »), sans ajouter
-   d'espace vide notable.
-
-   L'écart de 5px et le contour gris sont universels : toutes les entrées,
-   images courtes comprises, sont des blocs distincts et identiques. Ce qui
-   suit ne fait que supprimer la frontière interne des entrées empilées.
+   Pas de frontière entre une image longue et son texte : le contour
+   extérieur réunit les deux, et chaque fiche se lit comme un seul bloc.
+   L'écart de 5px et le contour gris valent pour toutes les fiches ; ici, on
+   retire seulement la frontière interne des fiches empilées.
    ======================================== */
 
-/* Chaque entrée empilée est un bloc autonome. La bordure n'est PAS
-   redéclarée ici : elle vient de .lv-engine, donc identique à celle des
-   entrées courtes — tous les blocs de la liste ont le même contour gris. */
+/* Fiche empilée : la bordure vient de .lv-engine, la même que pour les
+   fiches courtes. */
 .lv-list .lv-engine.stack {
    border-radius: var(--radius-md);
    overflow: hidden;
 }
 
-/* Frontière interne supprimée : l'image et son texte partagent la région */
+/* L'image et son texte partagent la même région */
 .lv-engine.stack .lv-imgframe,
 .lv-engine.stack.has-scroll .lv-imgframe { border-bottom: 0; }
 
-/* La frontière externe est gérée plus haut, pour TOUTES les entrées :
-   voir « Écart universel » sur .lv-engine + .lv-engine. */
 
-/* Survol : c'est le bloc entier qui réagit, ce qui confirme l'unité.
-   Appliqué à toutes les entrées, pas seulement aux empilées, pour que le
-   contour reste homogène d'un bout à l'autre de la liste. Remplace la
-   lueur portée sur l'image, que overflow:hidden rognerait. */
+/* Survol : toute la fiche réagit, pour toutes les entrées, ce qui garde un
+   contour homogène sur la liste (une lueur sur l'image serait rognée par
+   overflow:hidden). */
 .lv-list .lv-engine { transition: border-color var(--transition-base); }
 .lv-list .lv-engine:hover { border-color: rgba(124, 58, 237, 0.55); }
 .lv-engine.stack.has-scroll:hover .lv-imgframe { box-shadow: none; }
 
-/* Page navigation (prev/next) */
-.page-nav { display: flex; justify-content: space-between; margin: var(--spacing-xl) 0; gap: var(--spacing-md); }
-.page-nav a { display: inline-flex; align-items: center; padding: var(--spacing-sm) var(--spacing-lg); background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.25); color: #e5e7eb; font-family: var(--font-body); font-weight: 600; font-size: 0.9rem; text-decoration: none; border-radius: var(--radius-md); transition: var(--transition-base); }
-.page-nav a:hover { background: rgba(124, 58, 237, 0.2); border-color: rgba(124, 58, 237, 0.45); color: #fff; transform: translateY(-1px); }
-
 /* ========================================
-   Red Theme (MLCC)
-   Palette: #7c032d → #d10322
+   Thème rouge (MLCC)
+   Palette : #7c032d → #d10322
    ======================================== */
 
-/* Topbar */
+/* En-tête */
 .lv-theme-red .lv-topbar { background: linear-gradient(135deg, #7c032d, #d10322); }
 
-/* Buttons */
+/* Boutons */
 .lv-theme-red .lv-btn { border-color: rgba(209, 3, 34, 0.3); background: rgba(209, 3, 34, 0.12); }
 .lv-theme-red .lv-btn:hover { background: rgba(209, 3, 34, 0.25); border-color: rgba(209, 3, 34, 0.5); }
 
-/* Category bar */
+/* Barre de catégorie */
 .lv-theme-red .lv-catbar { background: #4a0118; border-color: #7c032d; }
 
-/* Country separator */
+/* Séparateur de pays */
 .lv-theme-red .lv-country-sep { color: #ff6b6b; }
 .lv-theme-red .lv-country-sep::after { background: linear-gradient(90deg, rgba(209, 3, 34, 0.4), transparent); }
 
-/* Engine hover */
+/* Survol des fiches */
 .lv-theme-red .lv-engine:hover .lv-leftcol .lv-title .lv-name { color: #ff6b6b; }
 .lv-theme-red .lv-engine.has-scroll:hover .lv-imgframe { box-shadow: 0 0 0 2px rgba(209, 3, 34, 0.08), 0 6px 18px rgba(2, 6, 23, 0.35); }
 
@@ -606,49 +560,45 @@ html { scroll-padding-top: 130px; scroll-behavior: smooth; }
 .lv-theme-red .lv-list .lv-engine:hover { border-color: rgba(209, 3, 34, 0.55); }
 .lv-theme-red .lv-engine.stack.has-scroll:hover .lv-imgframe { box-shadow: none; }
 
-/* Meta accent */
+/* Accent des métadonnées */
 .lv-theme-red .lv-title .lv-meta { color: #ff6b6b; }
 
-/* Flip button */
+/* Bouton R */
 .lv-theme-red .lv-flip-btn { background: #a50219; border-color: #d10322; }
 
-/* Scroll track */
+/* Piste de défilement */
 .lv-theme-red .lv-scroll-track { background: rgba(209, 3, 34, 0.08); border-color: rgba(209, 3, 34, 0.25); scrollbar-color: #d10322 rgba(209, 3, 34, 0.08); }
 .lv-theme-red .lv-scroll-track::-webkit-scrollbar-track { background: rgba(209, 3, 34, 0.08); }
 .lv-theme-red .lv-scroll-track::-webkit-scrollbar-thumb { background: #d10322; border-color: rgba(209, 3, 34, 0.08); }
 .lv-theme-red .lv-scroll-track::-webkit-scrollbar-thumb:hover { background: #ff4d4d; }
 
-/* Page navigation */
-.lv-theme-red .page-nav a { background: rgba(209, 3, 34, 0.12); border-color: rgba(209, 3, 34, 0.3); }
-.lv-theme-red .page-nav a:hover { background: rgba(209, 3, 34, 0.25); border-color: rgba(209, 3, 34, 0.5); }
-
-/* Subnav active state override for red pages */
+/* Lien actif du sous-menu */
 body:has(.lv-theme-red) .subnav-link.active { color: #ff6b6b !important; background: rgba(209, 3, 34, 0.18); }
 body:has(.lv-theme-red) .subnav-link:hover { color: #ff6b6b !important; }
 
-/* h2 headings in red theme */
+/* Titres h2 */
 .lv-theme-red h2 { background: linear-gradient(135deg, #7c032d, #d10322); }
 
 /* ========================================
-   Orange Theme (SanGo!)
-   Palette: #a83520 → #DF5E47
+   Thème orange (SanGo!)
+   Palette : #a83520 → #DF5E47
    ======================================== */
 
-/* Topbar */
+/* En-tête */
 .lv-theme-orange .lv-topbar { background: #DF5E47; }
 
-/* Buttons */
+/* Boutons */
 .lv-theme-orange .lv-btn { border-color: rgba(223, 94, 71, 0.3); background: rgba(223, 94, 71, 0.12); }
 .lv-theme-orange .lv-btn:hover { background: rgba(223, 94, 71, 0.25); border-color: rgba(223, 94, 71, 0.5); }
 
-/* Category bar */
+/* Barre de catégorie */
 .lv-theme-orange .lv-catbar { background: #5c1a0e; border-color: #a83520; }
 
-/* Country separator */
+/* Séparateur de pays */
 .lv-theme-orange .lv-country-sep { color: #ff9a85; }
 .lv-theme-orange .lv-country-sep::after { background: linear-gradient(90deg, rgba(223, 94, 71, 0.4), transparent); }
 
-/* Engine hover */
+/* Survol des fiches */
 .lv-theme-orange .lv-engine:hover .lv-leftcol .lv-title .lv-name { color: #ff9a85; }
 .lv-theme-orange .lv-engine.has-scroll:hover .lv-imgframe { box-shadow: 0 0 0 2px rgba(223, 94, 71, 0.08), 0 6px 18px rgba(2, 6, 23, 0.35); }
 
@@ -656,49 +606,45 @@ body:has(.lv-theme-red) .subnav-link:hover { color: #ff6b6b !important; }
 .lv-theme-orange .lv-list .lv-engine:hover { border-color: rgba(223, 94, 71, 0.55); }
 .lv-theme-orange .lv-engine.stack.has-scroll:hover .lv-imgframe { box-shadow: none; }
 
-/* Meta accent */
+/* Accent des métadonnées */
 .lv-theme-orange .lv-title .lv-meta { color: #ff9a85; }
 
-/* Flip button */
+/* Bouton R */
 .lv-theme-orange .lv-flip-btn { background: #c04530; border-color: #DF5E47; }
 
-/* Scroll track */
+/* Piste de défilement */
 .lv-theme-orange .lv-scroll-track { background: rgba(223, 94, 71, 0.08); border-color: rgba(223, 94, 71, 0.25); scrollbar-color: #DF5E47 rgba(223, 94, 71, 0.08); }
 .lv-theme-orange .lv-scroll-track::-webkit-scrollbar-track { background: rgba(223, 94, 71, 0.08); }
 .lv-theme-orange .lv-scroll-track::-webkit-scrollbar-thumb { background: #DF5E47; border-color: rgba(223, 94, 71, 0.08); }
 .lv-theme-orange .lv-scroll-track::-webkit-scrollbar-thumb:hover { background: #ff9a85; }
 
-/* Page navigation */
-.lv-theme-orange .page-nav a { background: rgba(223, 94, 71, 0.12); border-color: rgba(223, 94, 71, 0.3); }
-.lv-theme-orange .page-nav a:hover { background: rgba(223, 94, 71, 0.25); border-color: rgba(223, 94, 71, 0.5); }
-
-/* h2 headings in orange theme */
+/* Titres h2 */
 .lv-theme-orange h2 { background: #DF5E47; }
 
-/* Subnav active state override for orange pages */
+/* Lien actif du sous-menu */
 body:has(.lv-theme-orange) .subnav-link.active { color: #ff9a85 !important; background: rgba(223, 94, 71, 0.18); }
 body:has(.lv-theme-orange) .subnav-link:hover { color: #ff9a85 !important; }
 
 /* ========================================
-   CFP Theme
-   Palette: #C44C4C → #D10422
+   Thème CFP
+   Palette : #C44C4C → #D10422
    ======================================== */
 
-/* Topbar */
+/* En-tête */
 .lv-theme-cfp .lv-topbar { background: #D10422; }
 
-/* Buttons */
+/* Boutons */
 .lv-theme-cfp .lv-btn { border-color: rgba(209, 4, 34, 0.3); background: rgba(209, 4, 34, 0.12); }
 .lv-theme-cfp .lv-btn:hover { background: rgba(209, 4, 34, 0.25); border-color: rgba(209, 4, 34, 0.5); }
 
-/* Category bar */
+/* Barre de catégorie */
 .lv-theme-cfp .lv-catbar { background: #5c0212; border-color: #8a0316; }
 
-/* Country separator */
+/* Séparateur de pays */
 .lv-theme-cfp .lv-country-sep { color: #ff7a8a; }
 .lv-theme-cfp .lv-country-sep::after { background: linear-gradient(90deg, rgba(209, 4, 34, 0.4), transparent); }
 
-/* Engine hover */
+/* Survol des fiches */
 .lv-theme-cfp .lv-engine:hover .lv-leftcol .lv-title .lv-name { color: #ff7a8a; }
 .lv-theme-cfp .lv-engine.has-scroll:hover .lv-imgframe { box-shadow: 0 0 0 2px rgba(209, 4, 34, 0.08), 0 6px 18px rgba(2, 6, 23, 0.35); }
 
@@ -706,57 +652,50 @@ body:has(.lv-theme-orange) .subnav-link:hover { color: #ff9a85 !important; }
 .lv-theme-cfp .lv-list .lv-engine:hover { border-color: rgba(209, 4, 34, 0.55); }
 .lv-theme-cfp .lv-engine.stack.has-scroll:hover .lv-imgframe { box-shadow: none; }
 
-/* Meta accent */
+/* Accent des métadonnées */
 .lv-theme-cfp .lv-title .lv-meta { color: #ff7a8a; }
 
-/* Flip button */
+/* Bouton R */
 .lv-theme-cfp .lv-flip-btn { background: #a50219; border-color: #D10422; }
 
-/* Scroll track */
+/* Piste de défilement */
 .lv-theme-cfp .lv-scroll-track { background: rgba(209, 4, 34, 0.08); border-color: rgba(209, 4, 34, 0.25); scrollbar-color: #D10422 rgba(209, 4, 34, 0.08); }
 .lv-theme-cfp .lv-scroll-track::-webkit-scrollbar-track { background: rgba(209, 4, 34, 0.08); }
 .lv-theme-cfp .lv-scroll-track::-webkit-scrollbar-thumb { background: #D10422; border-color: rgba(209, 4, 34, 0.08); }
 .lv-theme-cfp .lv-scroll-track::-webkit-scrollbar-thumb:hover { background: #ff4d5e; }
 
-/* Page navigation */
-.lv-theme-cfp .page-nav a { background: rgba(209, 4, 34, 0.12); border-color: rgba(209, 4, 34, 0.3); }
-.lv-theme-cfp .page-nav a:hover { background: rgba(209, 4, 34, 0.25); border-color: rgba(209, 4, 34, 0.5); }
-
-/* h2 headings in CFP theme */
+/* Titres h2 */
 .lv-theme-cfp h2 { background: #D10422; }
 
-/* Subnav active state override for CFP pages */
+/* Lien actif du sous-menu */
 body:has(.lv-theme-cfp) .subnav-link.active { color: #ff7a8a !important; background: rgba(209, 4, 34, 0.18); }
 body:has(.lv-theme-cfp) .subnav-link:hover { color: #ff7a8a !important; }
 
 /* ========================================
-   Flamingo Theme (Flamingo Rail Leasing)
-   Accent: #FC8EAB — aplats: #cc335c, bordure de catbar #7a293f
+   Thème Flamingo (Flamingo Rail Leasing)
+   Accent : #FC8EAB ; aplats : #cc335c ; bordure de catbar : #7a293f
 
-   Pas de dégradé : seul MLCC en garde un. #FC8EAB est un rose clair, il tient
-   donc le rôle de teinte claire (accents de texte, bordures, pistes de
-   défilement) et non celui des aplats : .lv-topbar et .lv-page h2 imposent
-   color:#fff en dur, et du blanc sur #FC8EAB ne donne que 2,19:1 — illisible.
-   L'aplat est dérivé de la même teinte (344°) en plus sombre, ce qui remonte
-   le blanc à 5,01:1. Même écart que SanGo, dont la carte d'index est #F7864F
-   alors que son aplat est #DF5E47.
+   Pas de dégradé (seule MLCC en a un). #FC8EAB est trop clair pour porter le
+   texte blanc imposé par .lv-topbar et .lv-page h2 (2,19:1) : il sert aux
+   accents, bordures et pistes. L'aplat est la même teinte (344°) assombrie,
+   à 5,01:1, comme SanGo (carte d'index #F7864F, aplat #DF5E47).
    ======================================== */
 
-/* Topbar */
+/* En-tête */
 .lv-theme-flamingo .lv-topbar { background: #cc335c; }
 
-/* Buttons */
+/* Boutons */
 .lv-theme-flamingo .lv-btn { border-color: rgba(252, 142, 171, 0.3); background: rgba(252, 142, 171, 0.12); }
 .lv-theme-flamingo .lv-btn:hover { background: rgba(252, 142, 171, 0.25); border-color: rgba(252, 142, 171, 0.5); }
 
-/* Category bar */
+/* Barre de catégorie */
 .lv-theme-flamingo .lv-catbar { background: #431420; border-color: #7a293f; }
 
-/* Country separator */
+/* Séparateur de pays */
 .lv-theme-flamingo .lv-country-sep { color: #FC8EAB; }
 .lv-theme-flamingo .lv-country-sep::after { background: linear-gradient(90deg, rgba(252, 142, 171, 0.4), transparent); }
 
-/* Engine hover */
+/* Survol des fiches */
 .lv-theme-flamingo .lv-engine:hover .lv-leftcol .lv-title .lv-name { color: #FC8EAB; }
 .lv-theme-flamingo .lv-engine.has-scroll:hover .lv-imgframe { box-shadow: 0 0 0 2px rgba(252, 142, 171, 0.08), 0 6px 18px rgba(2, 6, 23, 0.35); }
 
@@ -764,36 +703,30 @@ body:has(.lv-theme-cfp) .subnav-link:hover { color: #ff7a8a !important; }
 .lv-theme-flamingo .lv-list .lv-engine:hover { border-color: rgba(252, 142, 171, 0.55); }
 .lv-theme-flamingo .lv-engine.stack.has-scroll:hover .lv-imgframe { box-shadow: none; }
 
-/* Meta accent */
+/* Accent des métadonnées */
 .lv-theme-flamingo .lv-title .lv-meta { color: #FC8EAB; }
 
-/* Flip button */
+/* Bouton R */
 .lv-theme-flamingo .lv-flip-btn { background: #a63050; border-color: #FC8EAB; }
 
-/* Scroll track */
+/* Piste de défilement */
 .lv-theme-flamingo .lv-scroll-track { background: rgba(252, 142, 171, 0.08); border-color: rgba(252, 142, 171, 0.25); scrollbar-color: #FC8EAB rgba(252, 142, 171, 0.08); }
 .lv-theme-flamingo .lv-scroll-track::-webkit-scrollbar-track { background: rgba(252, 142, 171, 0.08); }
 .lv-theme-flamingo .lv-scroll-track::-webkit-scrollbar-thumb { background: #FC8EAB; border-color: rgba(252, 142, 171, 0.08); }
 .lv-theme-flamingo .lv-scroll-track::-webkit-scrollbar-thumb:hover { background: #ffb3c7; }
 
-/* Page navigation */
-.lv-theme-flamingo .page-nav a { background: rgba(252, 142, 171, 0.12); border-color: rgba(252, 142, 171, 0.3); }
-.lv-theme-flamingo .page-nav a:hover { background: rgba(252, 142, 171, 0.25); border-color: rgba(252, 142, 171, 0.5); }
-
-/* h2 headings in Flamingo theme */
+/* Titres h2 */
 .lv-theme-flamingo h2 { background: #cc335c; }
 
-/* Subnav active state override for Flamingo pages */
+/* Lien actif du sous-menu */
 body:has(.lv-theme-flamingo) .subnav-link.active { color: #FC8EAB !important; background: rgba(252, 142, 171, 0.18); }
 body:has(.lv-theme-flamingo) .subnav-link:hover { color: #FC8EAB !important; }
 
 /* ========================================
-   Compagnies historiques (CCFM / WME / MSER)
-   Chaque époque de livrée porte sa propre couleur (posée en inline style
-   via --era-color / --era-text sur le h2 et sur chaque section .lv-cat de
-   cette époque), au lieu d'un thème unique par page comme pour les autres
-   compagnies : ces trois compagnies fondatrices doivent se distinguer
-   visuellement du reste des pages livrées.
+   Compagnies historiques (CCFM, WME, MSER)
+   Une couleur par époque de livrée, posée en style inline (--era-color,
+   --era-text) sur le h2 et sur chaque section .lv-cat de l'époque, plutôt
+   qu'un thème par page.
    ======================================== */
 .lv-historic-badge {
    display: inline-flex;
@@ -822,10 +755,10 @@ h2.lv-era { background: var(--era-color, var(--primary-700)); color: var(--era-t
 .lv-era .lv-var-btn[data-index]:not([data-index="0"]) { background: var(--era-color); border-color: var(--era-color); }
 .lv-era .lv-box { color: var(--era-box-text, inherit); }
 
-/* === Responsive === */
+/* ---- Responsive ---- */
 @media (max-width: 940px) { .lv-leftrow { grid-template-columns:180px 300px; } .lv-imgframe { width:300px; } .lv-imgframe img { height:auto; width:auto; } }
 @media (max-width: 760px) {
-   /* All engine cards: stack vertically on mobile */
+   /* Fiches empilées verticalement sur mobile */
    .lv-engine { grid-template-columns:1fr; grid-template-rows:auto auto auto; grid-template-areas:"title" "image" "text"; }
    .lv-left { display:contents; }
    .lv-leftrow { display:contents; }
@@ -837,7 +770,7 @@ h2.lv-era { background: var(--era-color, var(--primary-700)); color: var(--era-t
    .lv-right .lv-box { padding:10px 12px; font-size:0.85em; display:block; }
    .lv-title .lv-name { font-size:0.85em; }
    .lv-title .lv-meta { font-size:0.68em; }
-   /* Stack variant on mobile */
+   /* Variante empilée sur mobile */
    .lv-engine.stack { grid-template-columns:1fr; grid-template-rows:auto auto auto; grid-template-areas:"title" "image" "text"; }
    .lv-engine.stack.has-scroll { grid-template-columns:1fr; grid-template-rows:auto auto auto; grid-template-areas:"title" "image" "text"; }
    .lv-engine.stack.has-scroll .lv-scroll-track { display:none; }
@@ -854,8 +787,8 @@ h2.lv-era { background: var(--era-color, var(--primary-700)); color: var(--era-t
    .lv-title .lv-name { font-size:0.78em; }
    .lv-title .lv-meta { font-size:0.6em; }
    .lv-right .lv-box { font-size:0.78em; }
-   /* Keep image height consistent across stacked and non-stacked liveries on phones
-      so trains do not appear larger than others. */
+   /* Même hauteur d'image, empilée ou non, pour que les trains gardent la
+      même échelle sur téléphone. */
    .lv-imgframe { min-height:58px; }
    .lv-imgframe img,
    .lv-engine.stack .lv-imgframe img { max-height:58px; }
@@ -863,7 +796,7 @@ h2.lv-era { background: var(--era-color, var(--primary-700)); color: var(--era-t
    .lv-engine.stack .lv-imgframe { height:59px; background-size:auto 100%; }
 }
 
-/* Touch scroll hint - mobile only */
+/* Indication de défilement tactile, mobile seulement */
 .lv-touch-hint {
    display: none;
 }

@@ -1,15 +1,14 @@
 // ========================================
-// MathLoo Portfolio - Main JavaScript
+// MathLoo : script commun à toutes les pages
 // ========================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Theme Toggle
+    // Thème clair / sombre
     const themeToggle = document.querySelector('.theme-toggle');
     const html = document.documentElement;
-    
-    // Check for saved theme preference or default to light.
-    // If an inline pre-script has forced a theme (e.g. dark mode on livrée subpages),
-    // respect it and do not override with the saved preference.
+
+    // Thème enregistré, clair par défaut. Un thème imposé par la page
+    // (data-theme-forced, le sombre des pages livrées) l'emporte.
     const forcedTheme = html.getAttribute('data-theme-forced');
     const savedTheme = localStorage.getItem('theme') || 'light';
     if (forcedTheme) {
@@ -17,18 +16,18 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         html.setAttribute('data-theme', savedTheme);
     }
-    
+
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
             const currentTheme = html.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
+
             html.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
         });
     }
 
-    // Mobile Navigation Toggle
+    // Menu mobile
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
 
@@ -38,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
             navMenu.classList.toggle('active');
         });
 
-        // Close menu when clicking a link
+        // Refermer le menu au clic sur un lien
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 hamburger.classList.remove('active');
@@ -47,9 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Navbar scroll effect
+    // Ombre de la barre de navigation au défilement
     const navbar = document.querySelector('.navbar');
-    let lastScrollY = window.scrollY;
 
     window.addEventListener('scroll', () => {
         if (window.scrollY > 100) {
@@ -59,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Smooth reveal animations
+    // Apparition des blocs au défilement
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -73,14 +71,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, observerOptions);
 
-    document.querySelectorAll('.featured-card, .about-content, .project-card, .explore-card').forEach(el => {
+    document.querySelectorAll('.about-content, .project-card, .explore-card').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(el);
     });
 
-    // Add revealed styles
     const style = document.createElement('style');
     style.textContent = `
         .revealed {
@@ -90,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.head.appendChild(style);
 
-    // Disclaimer popup
+    // Avertissement affiché une fois par session
     const disclaimerOverlay = document.getElementById('disclaimer-overlay');
     const disclaimerClose = document.getElementById('disclaimer-close');
 
@@ -106,8 +103,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // MLTC Sub-navigation : barre de liens à plat. Sur mobile, un bouton
-    // « Menu MLTC » (injecté ici, visible via le CSS) replie la liste.
+    // Sous-menu MLTC. Sur mobile, un bouton « Menu MLTC » (injecté ici,
+    // affiché par le CSS) replie la liste.
     const mltcSubnav = document.querySelector('.mltc-subnav');
     if (mltcSubnav) {
         let mobileBtn = mltcSubnav.querySelector('.subnav-mobile-toggle');
@@ -133,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
             mobileBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
         });
 
-        // Refermer le panneau mobile au clic en dehors, ou sur un lien
+        // Refermer le panneau au clic en dehors ou sur un lien
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.mltc-subnav')) closeMobile();
         });
@@ -141,5 +138,4 @@ document.addEventListener('DOMContentLoaded', () => {
             link.addEventListener('click', closeMobile);
         });
     }
-
 });

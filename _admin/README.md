@@ -1,4 +1,4 @@
-# Outil admin — pages Livrées
+# Outil admin : pages Livrées
 
 Éditeur graphique local pour `mltc/livrees.html` et les pages de
 `mltc/livrees_pages/`. Pas de Node, pas de `package.json`, pas d'étape de build :
@@ -10,7 +10,7 @@ File System Access API.
 Le dossier commence par `_`, donc **Jekyll l'exclut du build GitHub Pages** :
 l'outil est versionné dans git mais jamais publié.
 
-**Recommandé** — via le serveur local déjà nécessaire au site (Live Server VS Code,
+**Recommandé** : via le serveur local déjà nécessaire au site (Live Server VS Code,
 `python -m http.server`) :
 
     http://localhost:xxxx/_admin/
@@ -18,7 +18,7 @@ l'outil est versionné dans git mais jamais publié.
 Sur `localhost`, IndexedDB fonctionne et l'autorisation du dossier est mémorisée
 d'une session à l'autre.
 
-**Alternative** — ouvrir `_admin/index.html` directement (`file://`). Fonctionne
+**Alternative** : ouvrir `_admin/index.html` directement (`file://`). Fonctionne
 aussi, mais IndexedDB est désactivé sur `file://` : il faut re-sélectionner le
 dossier à chaque ouverture.
 
@@ -27,7 +27,7 @@ Navigateur : **Chrome ou Edge**. Firefox et Safari n'implémentent pas
 
 ## Avant d'éditer
 
-Committez ou stashez. **Git est le seul mécanisme d'annulation** — l'outil ne
+Committez ou stashez. **Git est le seul mécanisme d'annulation** : l'outil ne
 crée aucun `.bak`. Après chaque enregistrement, relisez `git diff`.
 
 ## Principe
@@ -44,9 +44,9 @@ sort indenté sur 18 lignes).
 Conséquences directes :
 
 - le head, la navbar, le sous-menu et le footer sont découpés comme des chaînes
-  opaques et recollés tels quels — ils ne peuvent structurellement pas être
+  opaques et recollés tels quels : ils ne peuvent structurellement pas être
   modifiés (ce qui est indispensable : ils diffèrent d'une page à l'autre) ;
-- l'encodage est préservé à l'identique — le dépôt est uniformisé en **CRLF
+- l'encodage est préservé à l'identique : le dépôt est uniformisé en **CRLF
   sans BOM**, et l'outil réécrit exactement ce qu'il a lu quel que soit l'état ;
 - éditer un engin dans une page de 76 engins produit un diff d'une seule ligne.
 
@@ -57,7 +57,7 @@ il round-trip intact et reste éditable en HTML brut.
 
 Le bouton **Auto-test** relit et réécrit les 21 pages sans aucune modification et
 vérifie l'identité à l'octet près. **Il doit être vert avant toute session
-d'édition** — c'est le test d'acceptation du parseur et du sérialiseur.
+d'édition** : c'est le test d'acceptation du parseur et du sérialiseur.
 
 ## Garde-fous à l'enregistrement
 
@@ -75,10 +75,10 @@ d'édition** — c'est le test d'acceptation du parseur et du sérialiseur.
 
 ## Intégrité inter-fichiers
 
-Le bouton **Intégrité** croise les pages avec `mltc/data/circulations.js`,
-`js/services-page.js` et les liens de `mltc/livrees.html`. **Lecture seule** :
-l'éditeur Livrées n'écrit jamais ces fichiers, il se contente d'avertir. Le
-rayon d'explosion d'un bug reste confiné au HTML des livrées.
+Le bouton **Intégrité** croise les pages avec `mltc/data/circulations.js`
+et les liens de `mltc/livrees.html`. **Lecture seule** : l'éditeur Livrées
+n'écrit jamais ces fichiers, il se contente d'avertir. Un bug reste ainsi
+confiné au HTML des livrées.
 `circulations.js` s'édite à part, dans l'éditeur Compositions (voir plus bas).
 
 ## Dernières nouveautés
@@ -86,7 +86,7 @@ rayon d'explosion d'un bug reste confiné au HTML des livrées.
 Le bouton **Nouveautés** ouvre un éditeur manuel pour le bloc "Dernières
 nouveautés" en haut de `mltc/livrees.html` (la liste à puces avec vignette,
 nom, page/date, badge Nouveauté/Modification et lien). Chaque champ est
-tapé ou choisi à la main — aucune détection automatique de date ou de
+tapé ou choisi à la main, sans détection automatique de date ou de
 statut : ce bloc n'est pas modélisé par le parseur (comme le head ou la
 navbar, `lv-changelog` n'existe pas dans `classify()`), il est donc lu et
 réécrit comme un simple remplacement de texte, avec le même aperçu de diff

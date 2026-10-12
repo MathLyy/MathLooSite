@@ -1,6 +1,6 @@
 /* =========================================================================
-   parse.js — Texte source -> modele Page.
-   Le scanner (scan.js) fournit les offsets ; DOMParser n'est JAMAIS utilise
+   parse.js : Texte source -> modele Page.
+   Le scanner (scan.js) fournit les offsets ; DOMParser n'est jamais utilisé
    pour resserialiser, uniquement pour decoder du texte. Chaque noeud garde
    sa chaine source d'origine dans `raw`.
    ========================================================================= */
@@ -266,7 +266,7 @@
         }
         if (text.indexOf('</main>', mainCloseStart + 1) >= 0) {
             page.readOnly = true;
-            page.parseError = 'Plusieurs </main> — decoupe ambigue';
+            page.parseError = 'Plusieurs </main> : découpe ambiguë';
             return page;
         }
 

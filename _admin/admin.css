@@ -1,5 +1,5 @@
-/* Habillage de l'outil admin. Ne style JAMAIS l'apercu : celui-ci vit dans
-   une iframe isolee avec le vrai CSS du site. */
+/* Habillage de l'outil admin. Ne touche pas à l'aperçu : celui-ci vit dans
+   une iframe isolée avec le vrai CSS du site. */
 
 :root {
     --bg: #0d0a14;

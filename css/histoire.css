@@ -1,58 +1,39 @@
-/* ════════════════════════════════════════════════════════════════════════
-   Chronique du Mathlyens — feuille de style dédiée aux 5 pages Histoire
-   (histoire.html + histoire_pages/{origines,expansion,hisservices}.html +
-   histoire_pages/lignes_territoires/index.html).
+/* ========================================
+   Chronique du Mathlyens : pages Histoire
+   histoire.html, histoire_pages/{origines,expansion,hisservices}.html et
+   histoire_pages/lignes_territoires/index.html.
 
-   Refonte intégrale : ces pages ne sont plus une suite de blocs de contenu
-   génériques, mais une chronique d'archives du Mathlyens. Trois parties
-   chronologiques (I, II, III) racontent l'histoire dans l'ordre ; un dossier
-   thématique, visuellement distinct (identité ambre plutôt que violette),
-   documente un sujet hors chronologie.
+   Trois parties chronologiques (I, II, III) racontent l'histoire dans
+   l'ordre ; un dossier thématique, en ambre plutôt qu'en violet, traite un
+   sujet hors chronologie.
 
-   Namespace : .chr- (Chronique), entièrement nouveau, pour ne courir aucun
-   risque de collision avec les anciennes classes .ht-/.olv-/.prod- retirées
-   de mltc.css. Seules les classes .cov-* (carte de couverture, page
-   Expansion) sont conservées telles quelles : js/coverage-map.js les cible
-   par leur nom exact et n'a pas été modifié.
+   Préfixe .chr- pour toutes les classes. Les classes .cov-* de la carte de
+   couverture (page Expansion) gardent leur nom : js/coverage-map.js les cible.
 
-   Contrainte absolue : aucun border-radius, nulle part, y compris sur les
-   pastilles et points de frise (des carrés, pas des disques). Les jetons
-   --radius-* de style.css valent déjà 0 partout ; ce fichier n'en définit
-   aucun en dur.
+   Aucun arrondi, y compris sur les pastilles et les points de frise (des
+   carrés). Les jetons --radius-* de style.css valent 0.
 
-   Rythme des fonds : une seule règle, et elle ne souffre pas d'exception.
-   Fond teinté (et pleine largeur) pour les sections de contexte ou de
-   données, qui sortent du récit : aujourd'hui la seule "Alliance du
-   Mathlyens". Fond de page pour tout ce qui relève du récit et de la
-   navigation : couverture, chronologie, chapitres, dossier, structure.
-   Avant cette passe, l'alternance ne suivait aucune règle et le dossier
-   portait un aplat violet sans que rien ne le justifie.
-   ════════════════════════════════════════════════════════════════════════ */
+   Fonds : teinté et pleine largeur pour les sections de contexte qui sortent
+   du récit (l'Alliance du Mathlyens) ; fond de page pour le récit et la
+   navigation (couverture, chronologie, chapitres, dossier, structure).
+   ======================================== */
 
-/* ── Fondations ──────────────────────────────────────────────────────── */
+/* ---- Fondations ---- */
 
-/* Les quatre variables locales ci-dessous ne sont plus que des alias des
-   trois niveaux d'usage du violet definis dans style.css (--accent-action /
-   --accent-label / --accent-decor, cf. le commentaire de :root la-bas) :
+/* Alias locaux des trois niveaux de violet de style.css (voir :root) :
      --chr-accent-strong -> ce qui est cliquable ou lu en premier ;
-     --chr-accent-ink    -> les reperes de lecture (labels, periodes, annees) ;
-     --chr-accent        -> le decoratif (noeuds de frise, filigrane, carte) ;
-     --chr-accent-line / -soft -> filets et aplats.
-   Avant cette passe, tout tirait sur deux teintes voisines (500 et 600) et
-   rien ne ressortait : un lien avait exactement le poids d'un point de
-   frise. */
+     --chr-accent-ink    -> les repères de lecture (labels, périodes, années) ;
+     --chr-accent        -> le décoratif (nœuds de frise, filigrane, carte) ;
+     --chr-accent-line / -soft -> filets et aplats. */
 .chr-page {
     --chr-accent: var(--accent-decor);
     --chr-accent-strong: var(--accent-action);
     --chr-accent-ink: var(--accent-label);
     --chr-accent-soft: var(--accent-decor-wash);
     --chr-accent-line: var(--accent-decor-line);
-    /* La police d'affichage (Syne) ne sert plus qu'au titre principal de
-       chaque page (voir .chr-opening h1 / .chr-cover-inner h1 plus bas, qui
-       appellent var(--font-display) directement) : tout le reste du systeme
-       typographique (numeros, chapitres, mention MATHLYENS, structure...)
-       utilise desormais la police de texte en gras, pour eviter la
-       surenchere de police de titre denoncee sur la page d'index. */
+    /* Syne est réservée au titre principal de chaque page (.chr-opening h1,
+       .chr-cover-inner h1) ; le reste de la chronique utilise la police de
+       texte en gras. */
     --chr-serif: var(--font-body);
     max-width: 1240px;
     width: 100%;
@@ -60,12 +41,9 @@
     padding: 0 var(--spacing-lg);
     font-family: var(--font-body);
 }
-/* Plus de surcharge de theme sombre ici : les trois niveaux de style.css
-   basculent deja d'eux-memes sous [data-theme="dark"]. */
 
-/* Dossier hors chronologie : identité ambre, pour que l'oeil sache tout de
-   suite qu'on a quitté le fil chronologique des Parties I/II/III. La meme
-   hierarchie a trois niveaux y est rejouee en ambre. */
+/* Dossier hors chronologie : identité ambre, pour signaler qu'on quitte le
+   fil des parties I, II et III. Même hiérarchie à trois niveaux qu'en violet. */
 .chr-page.chr-dossier {
     --chr-accent: #b6790a;
     --chr-accent-strong: #7a5008;
@@ -84,7 +62,6 @@
 .chr-page * { box-sizing: border-box; }
 
 .chr-page section { padding: var(--spacing-3xl) 0; }
-.chr-page section.chr-tight { padding: var(--spacing-2xl) 0; }
 .chr-page section + section { border-top: 1px solid var(--border); }
 .chr-page section.chr-nodiv { border-top: 0; }
 
@@ -93,7 +70,7 @@
     .chr-page section { padding: var(--spacing-2xl) 0; }
 }
 
-/* ── Vocabulaire typographique récurrent ─────────────────────────────── */
+/* ---- Vocabulaire typographique récurrent ---- */
 
 .chr-eyebrow {
     display: flex;
@@ -124,18 +101,9 @@
     color: var(--chr-accent);
 }
 
-.chr-h3 {
-    font-family: var(--chr-serif);
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin: var(--spacing-xl) 0 var(--spacing-sm);
-}
-.chr-h3:first-child { margin-top: 0; }
-
 .chr-mt { margin-top: var(--spacing-xl); }
 
-/* ── Prose ────────────────────────────────────────────────────────────── */
+/* ---- Prose ---- */
 
 .chr-prose { max-width: 74ch; }
 .chr-prose p {
@@ -162,34 +130,11 @@
     font-weight: 500;
 }
 
-/* Citation détachée du texte courant : un mot qui résume l'enjeu. */
-.chr-pull {
-    border-left: 3px solid var(--chr-accent);
-    padding: 4px 0 4px var(--spacing-xl);
-    margin: var(--spacing-xl) 0;
-}
-.chr-pull p {
-    font-family: var(--chr-serif);
-    font-size: 1.35rem;
-    font-weight: 600;
-    line-height: 1.4;
-    color: var(--text-primary);
-    letter-spacing: -0.01em;
-}
+/* ---- En-tête de chaque page (héros) ---- */
 
-/* ── En-tête de chaque page (héros) ──────────────────────────────────── */
-
-/* La navbar (70px) + le sous-menu MLTC (44px fixe, top:70px) occupent
-   114px en haut de chaque page : la marge doit rester nettement au-dessus
-   de ce total pour ne jamais mordre sur le titre. Aligne sur le
-   padding-top:156px deja utilise ailleurs sur le site (.lv-page-section,
-   .page-hero), avec un peu plus de marge.
-   Selecteur "en dur" .chr-page section.chr-opening (2 classes + 1 element) :
-   .chr-page section seul (1 classe + 1 element) a une specificite plus
-   faible mais suffisante pour gagner sur ".chr-opening" seul si celui-ci
-   n'a qu'une classe. Cette regle ecrasait silencieusement le padding-top
-   ci-dessus par les 4rem generiques de .chr-page section, recreant le bug
-   de titre sous la navbar malgre cette declaration. */
+/* La navbar (70px) et le sous-menu MLTC (44px) occupent 114px en haut de
+   page : le titre doit commencer nettement en dessous. Le sélecteur à deux
+   classes l'emporte sur la règle générique .chr-page section. */
 .chr-page section.chr-opening {
     padding: 168px 0 var(--spacing-2xl);
 }
@@ -236,10 +181,8 @@
     border-left: 1px solid var(--border);
     padding-left: var(--spacing-md);
 }
-/* Seul titre de toute la chronique a utiliser la police d'affichage (Syne) :
-   le vrai titre de page (h1), sur les sous-pages (.chr-opening) comme sur
-   la couverture de l'index (.chr-cover-inner). Tout le reste du systeme
-   (chapitres, chiffres, mention MATHLYENS...) reste en police de texte. */
+/* Seul usage de la police d'affichage (Syne) : le titre de page, sur les
+   sous-pages (.chr-opening) comme sur la couverture de l'index. */
 .chr-opening h1,
 .chr-cover-inner h1 {
     font-family: var(--font-display);
@@ -262,13 +205,11 @@
     .chr-page section.chr-opening { padding-top: 148px; }
 }
 
-/* ── Section : entête générique (eyebrow + titre) ────────────────────── */
+/* ---- Section : entête générique (eyebrow + titre) ---- */
 
 .chr-head { margin-bottom: var(--spacing-xl); max-width: 68ch; }
-/* Les sections qui n'ont plus de libelle a tiret commencent directement par
-   leur h2 : il reprend a son compte le petit espace que le libelle occupait
-   au-dessus, pour que le rythme vertical reste le meme d'une section a
-   l'autre. */
+/* Section sans eyebrow : le h2 reprend le petit espace qu'il occuperait,
+   pour garder le même rythme vertical. */
 .chr-head h2:first-child { margin-top: 2px; }
 .chr-head h2 {
     font-family: var(--chr-serif);
@@ -280,30 +221,17 @@
 }
 .chr-head p { color: var(--text-secondary); margin-top: var(--spacing-sm); line-height: 1.6; }
 
-/* ════════════════════════════════════════════════════════════════════════
-   INDEX (histoire.html) — couverture, chronologie, chapitres, interlude,
-   contexte, structure.
+/* ========================================
+   Index (histoire.html) : couverture, chronologie, chapitres, dossier,
+   contexte, structure. Chaque bloc a sa propre mise en page, dans le même
+   système graphique (violet, ambre pour le hors-chronologie, aucun arrondi).
+   ======================================== */
 
-   Deuxieme passe : la premiere version lisait comme une page documentaire
-   (frise discrete en encart, trois liens identiques, cartes alignees). Ici
-   chaque bloc est traite comme une piece editoriale distincte — couverture,
-   frise monumentale, chapitres a l'echelle d'une ouverture de livre,
-   interlude dossier, section de contexte avec mention typographique, et
-   une hierarchie organisationnelle plutot qu'une grille de cartes — tout
-   en restant assemble par le meme systeme graphique (violet, ambre pour le
-   hors-chronologie, aucun angle arrondi).
-   ════════════════════════════════════════════════════════════════════════ */
-
-/* ── Couverture ──────────────────────────────────────────────────────────
-   Le role de cette page n'est pas de raconter l'histoire de la MLTC mais
-   d'ouvrir son univers : la couverture installe donc le cadre (chronique du
-   Mathlyens), la promesse de lecture, et se termine par l'avertissement de
-   fiction.
-   Toute la bande sort de la colonne de texte et prend la largeur de la
-   fenetre, sur un violet plat (une seule teinte, pas de degrade ni d'image)
-   assez clair pour que le texte sombre reste lisible tel quel.
-   Le padding haut de 168px reserve la place de la navbar (70px) et du
-   sous-menu MLTC (44px), qui sont fixes au-dessus de chaque page. */
+/* ---- Couverture ----
+   La couverture installe le cadre (chronique du Mathlyens), la promesse de
+   lecture, puis l'avertissement de fiction. Pleine largeur, sur un violet
+   plat assez clair pour garder le texte sombre lisible.
+   Le padding haut de 168px laisse la place à la navbar et au sous-menu. */
 .chr-page section.chr-cover {
     position: relative;
     overflow: hidden;
@@ -319,12 +247,9 @@
     .chr-page section.chr-cover { padding-top: 148px; }
 }
 
-/* Photo d'archive en fond fondu : la photo (mltc/histoire_pages/fondh.jpg)
-   n'est ni recadree hors de ses proportions ni etiree, seulement affichee en
-   "cover" (remplissage proportionnel, comme partout ailleurs sur le site) et
-   dissoute par un masque radial plutot que coupee par un bord net. Positionnee
-   a droite, la ou la colonne de texte (62ch) laisse le plus d'espace libre a
-   large largeur, pour ne jamais passer derriere le titre. */
+/* Photo d'archive en fond (mltc/histoire_pages/fondh.jpg) : affichée en
+   cover, sans déformation, et fondue par un masque radial. Placée à droite,
+   là où la colonne de texte (62ch) laisse le plus de place. */
 .chr-cover-photo {
     position: absolute;
     top: 0;
@@ -341,12 +266,9 @@
 }
 [data-theme="dark"] .chr-cover-photo { opacity: 0.3; }
 
-/* Credit d'autrice, en coin d'image : le conteneur de la photo couvre toute
-   la hauteur de la section (top:0 a bottom:0) mais le masque radial ne laisse
-   l'image visible qu'autour de son centre (82% / 38%) ; un coin "bas-droite"
-   litteral serait donc pose sur la partie deja dissoute a rien, illisible.
-   Le credit est ancre pres de ce centre optique a la place, dans la zone ou
-   l'image reste effectivement visible. */
+/* Crédit d'autrice : le masque radial ne laisse voir l'image qu'autour de
+   son centre (82% / 38%). Un coin bas-droite tomberait dans la partie
+   effacée, le crédit est donc placé près de ce centre. */
 .chr-cover-credit {
     position: absolute;
     top: 54%;
@@ -358,9 +280,8 @@
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
 }
 
-/* Sous 900px, la colonne de texte occupe toute la largeur : la photo
-   passerait derriere le texte plutot qu'a cote, elle est donc retiree plutot
-   que recadree en catastrophe. */
+/* Sous 900px, la colonne de texte prend toute la largeur : la photo
+   passerait derrière le texte, elle est masquée. */
 @media (max-width: 900px) {
     .chr-cover-photo { display: none; }
 }
@@ -374,15 +295,12 @@
     color: var(--text-muted);
 }
 
-/* ── Mention de fiction ──────────────────────────────────────────────────
-   La page cite des dates, des pays, des traites et des evenements reels
-   (traite de Londres, reunification allemande, tunnel sous la Manche) : sans
-   avertissement, rien ne distingue cette chronique de la notice d'une vraie
-   entreprise. C'est donc une information editoriale de premier plan, pas une
-   note de bas de page, d'ou l'etiquette pleine et le filet qui l'isole.
-   Le violet de l'etiquette est pris dans la palette fixe (--primary-700) et
-   non dans les jetons de theme : il doit rester assez fonce pour porter du
-   texte blanc dans les deux themes. */
+/* ---- Mention de fiction ----
+   La page cite des dates et des événements réels (traité de Londres,
+   réunification allemande, tunnel sous la Manche) : l'avertissement de
+   fiction est mis en avant, avec une étiquette pleine et un filet.
+   L'étiquette utilise --primary-700, fixe, pour porter du texte blanc dans
+   les deux thèmes. */
 .chr-fiction {
     position: relative;
     z-index: 1;
@@ -417,23 +335,18 @@
     .chr-fiction { flex-direction: column; gap: var(--spacing-md); }
 }
 
-/* ── Trois chapitres : le coeur de la page ───────────────────────────────
-   Precedemment trois colonnes etroites, qui donnaient aux trois periodes le
-   poids de trois vignettes de navigation. Ce sont pourtant elles le recit :
-   chaque chapitre occupe donc une rangee pleine largeur, avec un numero a
-   l'echelle d'une ouverture de livre, un titre de vraie taille et de l'air
-   autour. Trois rangees empilees se lisent aussi dans l'ordre 01, 02, 03,
-   ce que trois colonnes cote a cote ne garantissaient pas. */
+/* ---- Trois chapitres ----
+   Une rangée pleine largeur par chapitre : grand numéro, titre, lien. Les
+   rangées empilées se lisent dans l'ordre 01, 02, 03. */
 .chr-chapters {
     margin-top: var(--spacing-xl);
     display: flex;
     flex-direction: column;
     border-top: 1px solid var(--border);
 }
-/* La colonne du numero est de largeur fixe et non "auto" : le "1" etroit de
-   01 rendait sinon sa colonne plus courte que celles de 02 et 03, et les
-   trois titres ne tombaient pas sur la meme verticale. (font-variant-numeric
-   ne suffit pas : DM Sans n'expose pas de chiffres tabulaires ici.) */
+/* Colonne du numéro de largeur fixe : en auto, le « 1 » étroit de 01
+   décalerait son titre par rapport à 02 et 03 (DM Sans n'a pas de chiffres
+   tabulaires). */
 .chr-chapter {
     display: grid;
     grid-template-columns: clamp(3.6rem, 8.4vw, 6.5rem) minmax(0, 1fr) auto;
@@ -450,9 +363,8 @@
     background: var(--chr-accent-soft);
     outline: none;
 }
-/* Chapitres et dossiers desactives en attendant leur reecriture : la carte
-   reste visible (on ne cache pas qu'un chapitre existe) mais n'est plus un
-   lien, se grise, et l'invite de lecture est remplacee par un statut. */
+/* Chapitre ou dossier désactivé : la carte reste visible mais n'est plus
+   un lien, se grise, et l'invite de lecture devient un statut. */
 .chr-chapter--disabled,
 .chr-dossier-card--disabled {
     cursor: default;
@@ -480,8 +392,8 @@
     letter-spacing: 0.06em;
     color: var(--text-secondary);
 }
-/* Le numero est grand mais pose en retrait (couleur de filet) : il structure
-   la page sans venir concurrencer le titre du chapitre. */
+/* Numéro grand mais en retrait (couleur de filet), pour ne pas concurrencer
+   le titre. */
 .chr-chapter-num {
     font-family: var(--chr-serif);
     font-weight: 800;
@@ -537,8 +449,8 @@
 .chr-chapter:hover .chr-chapter-go svg,
 .chr-chapter:focus-visible .chr-chapter-go svg { transform: translateX(5px); }
 
-/* Sous 860px, la rangee a trois colonnes se replie : le numero coiffe le
-   texte et le lien passe en bas, l'ordre de lecture restant le meme. */
+/* Sous 860px, la rangée se replie : le numéro au-dessus du texte, le lien
+   en bas. */
 @media (max-width: 860px) {
     .chr-chapter {
         grid-template-columns: 1fr;
@@ -548,17 +460,11 @@
     .chr-chapter-num { font-size: 2.6rem; line-height: 1; }
 }
 
-/* ── Dossiers thematiques ────────────────────────────────────────────────
-   Liste extensible, plus un bloc unique code en dur : ajouter un dossier ne
-   demande que de dupliquer une carte dans le HTML, la grille se reorganise
-   seule (une colonne tant qu'il n'y a qu'une carte, deux des que la largeur
-   le permet).
-   Accent dore et non violet : c'est le seul signal qui distingue, d'un coup
-   d'oeil, un dossier hors chronologie des trois chapitres du recit. La meme
-   ambre que celle deja definie pour les pages de dossier (.chr-dossier plus
-   haut dans ce fichier), pour qu'il n'y ait pas deux dorés sur le site. Le
-   dore ne touche que le liseré, l'etiquette et le lien : le fond, le titre
-   et la description restent neutres. */
+/* ---- Dossiers thématiques ----
+   Pour ajouter un dossier, dupliquer une carte dans le HTML : la grille
+   passe seule d'une à deux colonnes.
+   Accent ambre (le même que .chr-dossier) pour distinguer les dossiers des
+   chapitres. Il ne touche que le liseré, l'étiquette et le lien. */
 .chr-dossiers {
     --dos-accent: #b6790a;
     --dos-accent-strong: #7a5008;
@@ -591,8 +497,8 @@
 .chr-dossier-card:hover,
 .chr-dossier-card:focus-visible { background: var(--dos-soft); outline: none; }
 
-/* Etiquette de tranche : le mot DOSSIER lu de bas en haut, comme au dos
-   d'une chemise d'archives. */
+/* Étiquette de tranche : DOSSIER lu de bas en haut, comme au dos d'une
+   chemise d'archives. */
 .chr-dossier-spine {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
@@ -646,19 +552,14 @@
     }
 }
 
-/* ── Alliance du Mathlyens : contexte geopolitique, avec la carte des Etats
-   membres (memes geometries que la carte de couverture de la page
-   Expansion, cf. js/coverage-map-data.js, jamais modifie) en calque tres
-   discret derriere le texte -- jamais une illustration dominante. Rendue
-   par une fonction dediee dans js/histoire.js (pas d'interactivite, pas de
-   legende : ce n'est ici qu'un repere geographique en toile de fond). */
-/* Traitee comme une double page detachee du reste : la section sort de la
-   colonne de texte et occupe toute la largeur de la fenetre, la carte des
-   Etats membres en toile de fond assumee. Le padding lateral recale le texte
-   sur la meme marge que les autres sections.
-   La meme geometrie sert a la bande teintee (.chr-band) : l'Alliance a besoin
-   de la pleine largeur pour laisser la carte deborder et se fondre au bord
-   droit de la fenetre, la bande pour porter son aplat d'un bord a l'autre. */
+/* ---- Alliance du Mathlyens ----
+   Contexte géopolitique, avec la carte des États membres en calque discret
+   derrière le texte (mêmes géométries que la carte de couverture, voir
+   js/coverage-map-data.js). Dessinée par js/histoire.js, sans interaction
+   ni légende. */
+/* Pleine largeur, comme .chr-band : la carte peut déborder et se fondre au
+   bord droit de la fenêtre. Le padding latéral aligne le texte sur les
+   autres sections. */
 .chr-page section.chr-alliance,
 .chr-page section.chr-band {
     position: relative;
@@ -669,23 +570,17 @@
     padding: var(--spacing-3xl) max(var(--spacing-lg), calc((100vw - 1240px) / 2 + var(--spacing-lg)));
     border-top: 0;
 }
-/* L'aplat lavande est porte par la position, pas par le contenu : il doit
-   alterner avec les sections sur fond de page (couverture teintee, Contexte
-   sur fond de page, chronologie teintee, Structure sur fond de page). Quand
-   le Contexte est passe juste sous la couverture, lui laisser son aplat
-   aurait colle deux violets presque identiques l'un sur l'autre, sans
-   couture visible entre les deux. */
+/* L'aplat lavande dépend de la position de la section : il alterne avec
+   les sections sur fond de page. */
 .chr-page section.chr-band {
     background: linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, rgba(124, 58, 237, 0.13) 100%);
 }
 [data-theme="dark"] .chr-page section.chr-band {
     background: linear-gradient(135deg, rgba(167, 139, 250, 0.07) 0%, rgba(167, 139, 250, 0.16) 100%);
 }
-/* Carte volontairement plus grande que son cadre : elle est rognee en haut,
-   en bas et a droite (preserveAspectRatio="slice" cote SVG), ce qui donne
-   une echelle de vraie carte plutot qu'une vignette centree. Le degrade de
-   masque la dissout avant le bord droit de la fenetre, pour qu'elle sorte du
-   champ au lieu de s'y arreter net. */
+/* Carte plus grande que son cadre, rognée en haut, en bas et à droite
+   (preserveAspectRatio="slice") ; un dégradé de masque la fond avant le bord
+   droit. */
 .chr-alliance-map {
     position: absolute;
     top: -15%;
@@ -699,11 +594,8 @@
     mask-image: linear-gradient(to right, #000 0%, #000 38%, transparent 88%);
 }
 [data-theme="dark"] .chr-alliance-map { opacity: 0.24; }
-/* Un trait de separation entre les aplats : sans lui, les douze Etats
-   membres se fondaient en une seule tache de couleur et le chiffre "12"
-   affiche juste a cote n'etait verifiable nulle part. La couleur du trait
-   est celle du fond de section, pour lire comme un interstice plutot que
-   comme un contour ajoute. */
+/* Trait entre les pays, de la couleur du fond, pour que les douze États
+   membres restent distincts. */
 .chr-alliance-shape {
     fill: var(--chr-accent);
     stroke: var(--background);
@@ -720,8 +612,7 @@
     color: var(--text-primary);
     margin: 0;
 }
-/* Phrase d'accroche : elle donne la mesure de l'Alliance avant les chiffres,
-   pour que "12" et "1955" tombent sur un contexte deja pose. */
+/* Phrase d'accroche : elle pose le contexte avant les chiffres. */
 .chr-alliance-lead {
     max-width: 46ch;
     margin: var(--spacing-md) 0 0;
@@ -729,17 +620,14 @@
     line-height: 1.5;
     color: var(--text-secondary);
 }
-/* Chiffres monumentaux : c'est le contexte fondamental de tout l'univers,
-   il doit s'afficher a l'echelle d'une ouverture et non en note. */
+/* Chiffres en très grand : le contexte de tout l'univers. */
 .chr-ctx-figures { display: flex; gap: var(--spacing-2xl); margin: var(--spacing-2xl) 0; }
 .chr-ctx-fig { padding-left: var(--spacing-xl); border-left: 1px solid var(--border); }
 .chr-ctx-fig:first-child { padding-left: 0; border-left: 0; }
 .chr-ctx-fig .chr-num { display: block; font-size: clamp(2.8rem, 6vw, 4.4rem); }
 .chr-ctx-fig span:last-child { display: block; font-size: 0.78rem; color: var(--text-muted); margin-top: 8px; text-transform: uppercase; letter-spacing: 0.1em; }
 
-/* Legende de la carte : sans elle, le chiffre "12" affiche a cote d'une
-   silhouette continue n'etait verifiable nulle part. La pastille reprend
-   exactement la teinte des aplats de la carte. */
+/* Légende de la carte : la pastille reprend la teinte des pays. */
 .chr-alliance-legend {
     display: flex;
     align-items: baseline;
@@ -764,17 +652,13 @@
     .chr-ctx-figures { flex-wrap: wrap; gap: var(--spacing-xl); }
 }
 
-/* ── Qui possede quoi ────────────────────────────────────────────────────
-   Mathlyens, Mathly, MLTC, MLTC Railways, Mathly Alliance Airlines : les
-   noms de l'univers se ressemblent trop pour qu'un visiteur devine seul la
-   relation entre eux. Ce schema existe uniquement pour repondre a la
-   question "qui detient quoi", donc la relation est portee par un mot
-   ("detient", "reunit") pose sur le connecteur, et pas seulement par la
-   position des blocs.
-   Deux niveaux, pas trois : l'Alliance detient le groupe, le groupe reunit
-   six filiales de meme rang. MLTC Railways est l'une d'elles et ne recoit
-   aucun traitement particulier ici ; c'est la section suivante, et elle
-   seule, qui la designe comme le sujet de la page. */
+/* ---- Qui possède quoi ----
+   Les noms de l'univers se ressemblent (Mathlyens, Mathly, MLTC, MLTC
+   Railways, Mathly Alliance Airlines) : le schéma porte la relation par un
+   mot posé sur le connecteur (« détient », « réunit »).
+   Deux niveaux : l'Alliance détient le groupe, le groupe réunit six filiales
+   de même rang. MLTC Railways n'est mise en avant que dans la section
+   suivante. */
 .chr-own {
     margin-top: var(--spacing-2xl);
     display: flex;
@@ -827,13 +711,9 @@
     background: var(--chr-accent-line);
 }
 
-/* Les six filiales : de vrais blocs fermes (fond + bordure), et non des
-   colonnes de texte separees par de simples filets verticaux, qui lisaient
-   comme un tableau plutot que comme six entites distinctes. Chaque bloc
-   accroche sa propre descente au filet horizontal partage, dans le meme
-   esprit que les connecteurs "detient"/"reunit" au-dessus. Le mode de
-   transport passe devant le nom commercial : "Ferroviaire" se comprend
-   immediatement, "MLCC" non. */
+/* Les six filiales : des blocs fermés (fond et bordure), chacun relié au
+   filet horizontal commun. Le mode de transport passe avant le nom
+   commercial, plus parlant. */
 .chr-modes {
     position: relative;
     width: 100%;
@@ -895,11 +775,10 @@
     .chr-modes { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* ── Charniere : MLTC Railways ───────────────────────────────────────────
-   La page bascule ici du cadre institutionnel au recit. Bande inversee sur
-   un violet profond fixe (hors jetons de theme, donc identique en clair et
-   en sombre) : elle doit trancher a la fois sur le fond de page et sur
-   l'aplat lavande des bandes de contexte, dans les deux themes. */
+/* ---- Charnière : MLTC Railways ----
+   Passage du cadre institutionnel au récit. Bande sur un violet profond
+   fixe, identique dans les deux thèmes, qui tranche sur le fond de page
+   comme sur les bandes lavande. */
 .chr-page section.chr-pivot {
     position: relative;
     width: 100vw;
@@ -928,49 +807,10 @@
     color: rgba(255, 255, 255, 0.76);
 }
 
-/* ── Sortie de page ──────────────────────────────────────────────────────
-   La chronique s'arrete a 2015 ; le reste du site documente le present. */
-.chr-outro-title {
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    color: var(--text-primary);
-    margin: 0 0 var(--spacing-sm);
-}
-.chr-outro-text {
-    max-width: 58ch;
-    margin: 0 0 var(--spacing-xl);
-    color: var(--text-secondary);
-    line-height: 1.65;
-}
-.chr-outro-go {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: var(--spacing-md) var(--spacing-xl);
-    border: 1px solid var(--chr-accent);
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--chr-accent-strong);
-    text-decoration: none;
-    transition: background var(--transition-base), color var(--transition-base);
-}
-.chr-outro-go:hover,
-.chr-outro-go:focus-visible {
-    background: var(--chr-accent-strong);
-    color: #fff;
-    outline: none;
-}
-.chr-outro-go svg { width: 16px; height: 16px; transition: transform var(--transition-base); }
-.chr-outro-go:hover svg,
-.chr-outro-go:focus-visible svg { transform: translateX(4px); }
-
-/* ════════════════════════════════════════════════════════════════════════
-   CARTE DE COUVERTURE (partie II) : balisage .cov-* câblé par
-   js/coverage-map.js, seule l'enveloppe visuelle est définie ici.
-   ════════════════════════════════════════════════════════════════════════ */
+/* ========================================
+   Carte de couverture (partie II) : le balisage .cov-* est géré par
+   js/coverage-map.js, seule l'apparence est définie ici.
+   ======================================== */
 
 .cov-map-wrap { position: relative; }
 .cov-status { font-size: 0.85rem; color: var(--text-muted); margin-bottom: var(--spacing-sm); min-height: 1.2em; }
@@ -997,7 +837,6 @@
 .cov-legend-scale { display: flex; flex-wrap: wrap; gap: 10px; }
 .cov-legend-item { display: inline-flex; align-items: center; gap: 5px; font-size: 0.76rem; color: var(--text-muted); }
 .cov-legend-swatch { display: inline-block; width: 10px; height: 10px; }
-.cov-map-hint { font-size: 0.78rem; color: var(--text-muted); margin-top: var(--spacing-sm); }
 
 .cov-tooltip {
     margin-top: var(--spacing-md);
@@ -1026,7 +865,7 @@
     padding: 2px 8px;
 }
 
-/* ── Carte de couverture, dans le fil de la partie II ─────────────────── */
+/* ---- Carte de couverture, dans le fil de la partie II ---- */
 
 /* Paliers de couverture : une teinte, du clair (ciblée) au foncé (quasi
    totale). En thème sombre, l'ordre s'inverse : le plus couvert est le plus
@@ -1044,7 +883,7 @@
     --cov-l4: #d8ccfe;
 }
 
-/* ── Révélation au défilement ─────────────────────────────────────────── */
+/* ---- Révélation au défilement ---- */
 
 .chr-reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .chr-reveal.chr-in { opacity: 1; transform: translateY(0); }
@@ -1058,9 +897,9 @@
     }
 }
 
-/* ════════════════════════════════════════════════════════════════════════
-   Gabarit des parties (réécriture 2026)
-   ════════════════════════════════════════════════════════════════════════ */
+/* ========================================
+   Gabarit des parties
+   ======================================== */
 
 /* Pleine largeur : sort de la colonne de 1240px et recale le contenu sur la
    même marge que le reste de la page (même calcul que .chr-band). */
@@ -1078,9 +917,9 @@
     padding-right: max(var(--spacing-lg), calc((100vw - 1240px) / 2 + var(--spacing-lg)));
 }
 
-/* ── Sommaire : frise horizontale collée sous le sous-menu MLTC ────────── */
-/* Navbar (70px) + sous-menu MLTC (44px). Le contenu garde la même marge
-   gauche que l'en-tête : plus de colonne latérale qui décale le texte. */
+/* ---- Sommaire : frise horizontale collée sous le sous-menu MLTC ---- */
+/* Collée sous la navbar (70px) et le sous-menu MLTC (44px). Le contenu
+   garde la même marge gauche que l'en-tête. */
 .chr-body { display: block; }
 .chr-rail {
     position: sticky;
@@ -1123,7 +962,7 @@
 /* Ancre : ne pas finir sous la navbar, le sous-menu et la frise. */
 .chr-period { scroll-margin-top: 190px; }
 
-/* ── Grandes dates : chaque période s'ouvre sur sa date en très grand ──── */
+/* ---- Grandes dates : chaque période s'ouvre sur sa date en très grand ---- */
 .chr-period .chr-head .chr-eyebrow {
     display: block;
     font-size: clamp(2.6rem, 6vw, 4.4rem);
@@ -1136,7 +975,7 @@
 }
 .chr-period .chr-head .chr-eyebrow::before { display: none; }
 
-/* ── Aplats alternés : une période sur deux sur fond teinté ───────────── */
+/* ---- Aplats alternés : une période sur deux sur fond teinté ---- */
 .chr-body-main > .chr-period:nth-child(even) {
     background: linear-gradient(135deg, rgba(124, 58, 237, 0.04) 0%, rgba(124, 58, 237, 0.11) 100%);
     border-top: 0;
@@ -1152,7 +991,7 @@
     background: linear-gradient(135deg, rgba(227, 169, 74, 0.05) 0%, rgba(227, 169, 74, 0.12) 100%);
 }
 
-/* ── Bandeau animé en tête de chapitre (même composant que l'accueil) ─ */
+/* ---- Bandeau animé en tête de chapitre (même composant que l'accueil) ---- */
 .chr-trainband {
     width: 100vw;
     margin-left: calc(50% - 50vw);
@@ -1165,7 +1004,7 @@
     color: var(--text-muted);
 }
 
-/* ── Transition de chapitre : grande bande vers la suite ─────────────── */
+/* ---- Transition de chapitre : grande bande vers la suite ---- */
 /* Même violet profond que la charnière « MLTC Railways » de la page
    Histoire, identique dans les deux thèmes. */
 .chr-page section.chr-next {
@@ -1246,7 +1085,7 @@
     .chr-next-go { justify-self: start; }
 }
 
-/* ════════════════════════════════════════════════════════════════════════
+/* ========================================
    SOUS-PAGES (parties I, II, III et dossier) : système « La ligne »
 
    Toutes les sous-pages portent .chr-part sur leur <main>, plus une
@@ -1273,9 +1112,9 @@
 
    Tout est préfixé par .chr-part : la page d'index (histoire.html), qui
    partage ce fichier, n'est pas touchée.
-   ════════════════════════════════════════════════════════════════════════ */
+   ======================================== */
 
-/* ── Jetons ──────────────────────────────────────────────────────────── */
+/* ---- Jetons ---- */
 
 .chr-part {
     --gutter: max(var(--spacing-lg), calc((100vw - 1240px) / 2 + var(--spacing-lg)));
@@ -1346,7 +1185,7 @@
     --next-stripe: #8b5cf6;
 }
 
-/* ── En-tête : héros sombre, pleine largeur, trame propre à la page ──── */
+/* ---- En-tête : héros sombre, pleine largeur, trame propre à la page ---- */
 
 .chr-part section.chr-opening {
     position: relative;
@@ -1455,7 +1294,7 @@
 .chr-part .chr-trainband { margin-top: 0; }
 .chr-part .chr-train-cap { margin: 10px 0 0; }
 
-/* ── Sommaire : le tracé de la ligne ─────────────────────────────────── */
+/* ---- Sommaire : le tracé de la ligne ---- */
 
 .chr-part .chr-rail {
     margin-top: var(--spacing-md);
@@ -1506,7 +1345,7 @@
 }
 .chr-part .chr-rail-link.is-active { color: var(--text-primary); }
 
-/* ── Périodes : chacune s'ouvre sur sa gare ──────────────────────────── */
+/* ---- Périodes : chacune s'ouvre sur sa gare ---- */
 
 .chr-part .chr-body-main { counter-reset: chr-period; }
 .chr-part section.chr-period {
@@ -1573,7 +1412,7 @@
     letter-spacing: -0.02em;
 }
 
-/* ── Texte courant ───────────────────────────────────────────────────── */
+/* ---- Texte courant ---- */
 
 .chr-part .chr-prose { max-width: none; }
 .chr-part .chr-prose p { font-size: 1.06rem; line-height: 1.78; }
@@ -1592,7 +1431,7 @@
     .chr-part .chr-prose--cols { columns: 1; }
 }
 
-/* ── Fin de partie : la suite, dans l'ambiance de sa propre page ────── */
+/* ---- Fin de partie : la suite, dans l'ambiance de sa propre page ---- */
 
 .chr-part section.chr-next {
     position: relative;
@@ -1624,11 +1463,11 @@
 .chr-part .chr-next-main:focus-visible .chr-next-go { background: transparent; color: #fff; border-color: #fff; }
 .chr-part .chr-next-main:focus-visible { outline-color: var(--next-accent); }
 
-/* ════════════════════════════════════════════════════════════════════════
+/* ========================================
    Composants des parties
-   ════════════════════════════════════════════════════════════════════════ */
+   ======================================== */
 
-/* ── Bande de livrée ─────────────────────────────────────────────────── */
+/* ---- Bande de livrée ---- */
 /* Image de sprite à taille réelle, jamais redimensionnée : cadre à
    défilement horizontal si elle déborde, centrée sinon. */
 .chr-strip {
@@ -1661,7 +1500,7 @@
     font-style: italic;
 }
 
-/* ── I · Trois projets : un dossier d'archives, trois verdicts ───────── */
+/* ---- I · Trois projets : un dossier d'archives, trois verdicts ---- */
 
 .chr-options {
     display: grid;
@@ -1755,7 +1594,7 @@
     color: var(--chr-accent);
 }
 
-/* ── I · Fiches des compagnies fondatrices (1958) ────────────────────── */
+/* ---- I · Fiches des compagnies fondatrices (1958) ---- */
 
 .chr-co-list { margin-top: var(--spacing-xl); border-top: 1px solid var(--border); }
 .chr-co {
@@ -1799,40 +1638,6 @@
     .chr-co { grid-template-columns: minmax(0, 1fr); gap: var(--spacing-md); }
 }
 
-/* Fiche pleine couleur : le fond reprend la couleur de livrée de la
-   compagnie (partie I) ou de la marque (partie II), le texte passe en
-   clair. La liste prend au moins la largeur de la colonne, et s'élargit
-   jusqu'à la largeur des images (--band-w) quand elles sont plus larges,
-   en restant centrée. */
-.chr-co-list:has(.chr-co--band) {
-    border-top: 0;
-    display: grid;
-    gap: var(--spacing-xl);
-    width: min(max(100%, calc(var(--band-w, 2154px) + 2 * var(--spacing-xl))), calc(100vw - 48px));
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-}
-.chr-co--band {
-    padding: var(--spacing-xl);
-    background: var(--co-color);
-    border: 0;
-    color: #fff;
-}
-.chr-co--band .chr-co-acro { color: #d9ae2b; font-size: 3rem; letter-spacing: -0.01em; }
-.chr-co--band .chr-co-full { color: rgba(255, 255, 255, 0.78); }
-.chr-co--band .chr-co-facts dt { color: var(--co-accent); }
-.chr-co--band .chr-co-facts dd { color: #fff; }
-.chr-co--band .chr-co-body {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    column-gap: var(--spacing-xl);
-}
-.chr-co--band .chr-co-body > :not(.chr-co-cta) { grid-column: 1; }
-.chr-co--band .chr-co-body > p { color: rgba(255, 255, 255, 0.92); margin-bottom: 0; }
-.chr-co--band > .chr-strip { margin-top: calc(-1 * var(--spacing-md)); scrollbar-width: none; }
-.chr-co--band > .chr-strip::-webkit-scrollbar { display: none; }
-.chr-co--band .chr-strip-hint { display: none; }
 .chr-co-cta {
     grid-column: 2;
     grid-row: 1 / span 2;
@@ -1854,24 +1659,8 @@
 }
 .chr-co-cta svg { width: 22px; height: 22px; flex-shrink: 0; }
 .chr-co-cta:hover, .chr-co-cta:focus-visible { background: var(--co-color); color: #d9ae2b; }
-/* Marques de 2001 (partie II) : noms plus longs que les sigles, et deux
-   repères (avant 2001, en 2012) en cases translucides sous le texte. */
-.chr-co-list--brandband .chr-co--band { grid-template-columns: 290px minmax(0, 1fr); }
-.chr-co-list--brandband .chr-co-acro { font-size: clamp(1.9rem, 3vw, 2.4rem); overflow-wrap: break-word; }
-.chr-co--band .chr-co-body > p + .chr-co-facts { margin-top: var(--spacing-lg); }
-.chr-co--band .chr-co-facts--rows {
-    background: rgba(255, 255, 255, 0.16);
-    border-color: rgba(255, 255, 255, 0.16);
-}
-.chr-co--band .chr-co-facts--rows > div { background: rgba(0, 0, 0, 0.22); }
-.chr-co--band .chr-co-facts--rows dd { color: #fff; }
 @media (max-width: 900px) {
-    .chr-co--band .chr-co-body { display: block; }
     .chr-co-cta { margin-top: var(--spacing-md); max-width: none; }
-}
-@media (max-width: 720px) {
-    .chr-co--band,
-    .chr-co-list--brandband .chr-co--band { padding: var(--spacing-lg); grid-template-columns: minmax(0, 1fr); }
 }
 
 /* Fiche d'immatriculation (partie I) : fond neutre, liseré épais à gauche
@@ -1927,7 +1716,7 @@
     .chr-co--fiche { padding: var(--spacing-lg); }
 }
 
-/* ── Parcours parallèles (I : par compagnie ; II : par pays) ─────────── */
+/* ---- Parcours parallèles (I : par compagnie ; II : par pays) ---- */
 
 .chr-paths {
     display: grid;
@@ -2012,7 +1801,7 @@
     .chr-paths--2 { grid-template-columns: 1fr; }
 }
 
-/* ── Frises ──────────────────────────────────────────────────────────── */
+/* ---- Frises ---- */
 /* Horizontale sur grand écran : une voie, une gare par événement. */
 
 .chr-frise {
@@ -2102,7 +1891,7 @@
     .chr-part--dossier .chr-frise-item p { grid-column: 1; }
 }
 
-/* ── II / III · Fiches de marque ─────────────────────────────────────── */
+/* ---- II / III · Fiches de marque ---- */
 /* Une fiche par marque, numérotée, la bande de livrée en tête comme un
    train qui entre en gare. */
 
@@ -2159,7 +1948,7 @@
     .chr-co-list--brands .chr-co > .chr-strip { margin: calc(-1 * var(--spacing-lg)) calc(-1 * var(--spacing-lg)) var(--spacing-sm); }
 }
 
-/* ── II · Carte de couverture ────────────────────────────────────────── */
+/* ---- II · Carte de couverture ---- */
 
 .chr-mapfig {
     margin: var(--spacing-2xl) 0 0;
@@ -2194,7 +1983,7 @@
     .chr-mapfig { padding: var(--spacing-lg); }
 }
 
-/* ── III · Filiation 2001 → 2012 : un tableau des départs ────────────── */
+/* ---- III · Filiation 2001 → 2012 : un tableau des départs ---- */
 /* Panneau sombre dans les deux thèmes, comme un afficheur de gare. */
 
 .chr-lin {
@@ -2251,7 +2040,7 @@
     .chr-lin-row--head > span:last-child { display: none; }
 }
 
-/* ── Dossier · Le plan : chiffres de la première phase ───────────────── */
+/* ---- Dossier · Le plan : chiffres de la première phase ---- */
 
 .chr-figures {
     display: grid;
@@ -2289,7 +2078,7 @@
     .chr-figures > div:nth-child(n + 3) { margin-top: var(--spacing-md); }
 }
 
-/* ── Dossier · Les lignes : chacune dessinée comme un tracé ──────────── */
+/* ---- Dossier · Les lignes : chacune dessinée comme un tracé ---- */
 
 .chr-lines {
     display: grid;
@@ -2409,7 +2198,7 @@
     color: var(--chr-accent-ink);
 }
 
-/* ── Dossier · La Valado : trois planches techniques ─────────────────── */
+/* ---- Dossier · La Valado : trois planches techniques ---- */
 /* Chaque version : nom, rames à taille réelle sur la voie du bandeau
    animé (même image, mêmes 8 px), une cote sous chaque rame avec sa
    capacité, puis le texte et la fiche. Les sprites ne sont jamais
@@ -2550,15 +2339,6 @@
 }
 @media (max-width: 480px) {
     .chr-version-spec > div { grid-template-columns: 1fr; gap: 2px; }
-}
-
-.chr-page .visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    white-space: nowrap;
 }
 
 @media (max-width: 640px) {

@@ -1,10 +1,10 @@
 /* ========================================
    Hub 3D
-   Page d'entree de la rubrique 3D : elle emprunte a la 3D ses propres reperes
-   (vue isometrique, axes X/Y/Z, sol quadrille, extrusion). Le modele du
-   hero (3D/scene-modele.js) est dessine cube par cube en SVG par js/scene-iso.js.
-   Angles droits partout, aucun arrondi.
-   Charge apres style.css et pages.css, sur 3D/index.html uniquement.
+   Page d'entrée de la rubrique 3D, qui reprend les repères d'un logiciel 3D
+   (vue isométrique, axes X/Y/Z, sol quadrillé, extrusion). Le modèle de
+   l'en-tête (3D/scene-modele.js) est dessiné cube par cube en SVG par
+   js/scene-iso.js. Aucun arrondi.
+   Chargé après style.css et pages.css, sur 3D/index.html uniquement.
    ======================================== */
 
 .td-page {
@@ -17,7 +17,7 @@
     overflow-x: clip;
 }
 
-/* ── Hero ── */
+/* ---- En-tête ---- */
 .td-hero {
     position: relative;
     isolation: isolate;
@@ -26,7 +26,7 @@
     overflow: hidden;
 }
 
-/* Quadrillage isometrique (deux familles de lignes a 30 degres), estompe vers le bas */
+/* Quadrillage isométrique (deux familles de lignes à 30 degrés), estompé vers le bas */
 .td-hero::before {
     content: '';
     position: absolute;
@@ -67,8 +67,8 @@
     background: currentColor;
 }
 
-/* Titre extrude : une pile d'ombres pleines decalees en diagonale donne l'epaisseur.
-   A l'ouverture, l'epaisseur "sort" de la face avant. */
+/* Titre extrudé : une pile d'ombres pleines décalées en diagonale donne
+   l'épaisseur, qui « sort » de la face avant à l'ouverture. */
 .td-hero h1 {
     display: block;
     width: fit-content;
@@ -117,7 +117,7 @@
     font-weight: 600;
 }
 
-/* ── Fenetre de vue 3D ── */
+/* ---- Fenêtre de vue 3D ---- */
 .td-viewport {
     position: relative;
     background: #171021;
@@ -173,7 +173,7 @@
     display: none;
 }
 
-/* Le modele se monte cube par cube. Ordre, duree et hauteur de chute
+/* Le modèle se monte cube par cube. Ordre, durée et hauteur de chute
    viennent de 3D/scene-modele.js, via js/scene-iso.js. */
 .td-voxel {
     animation: tdDrop var(--td-duree, 0.55s) cubic-bezier(0.2, 0.9, 0.25, 1) both;
@@ -223,7 +223,7 @@
     color: #fff;
 }
 
-/* Repere d'axes, en bas a gauche de la fenetre */
+/* Repère d'axes, en bas à gauche de la fenêtre */
 .td-gizmo {
     position: absolute;
     left: var(--spacing-md);
@@ -242,7 +242,7 @@
     font-weight: 700;
 }
 
-/* ── Projets ── */
+/* ---- Projets ---- */
 .td-projects {
     padding: var(--spacing-3xl) var(--spacing-lg);
 }
@@ -275,7 +275,7 @@
     color: var(--text-muted);
 }
 
-/* Carte-bloc : posee sur sa propre extrusion, qui s'allonge au survol */
+/* Carte-bloc, posée sur sa propre extrusion, qui s'allonge au survol */
 .td-project {
     position: relative;
     display: grid;
@@ -425,7 +425,7 @@
     color: var(--text-muted);
 }
 
-/* ── Responsive ── */
+/* ---- Responsive ---- */
 @media (max-width: 900px) {
     .td-hero {
         padding-top: 120px;
@@ -464,7 +464,7 @@
     }
 }
 
-/* Pas de survol sur ecran tactile */
+/* Pas de survol sur écran tactile */
 @media (hover: none) {
     .td-project:hover {
         transform: none;

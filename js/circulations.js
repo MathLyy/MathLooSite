@@ -1,9 +1,9 @@
 // MLTC - Circulations : carte géographique du Mathlyens
-// Renders 12 member countries from world-atlas TopoJSON with Mercator projection
+// Les douze pays membres, tirés du TopoJSON world-atlas, en projection Mercator.
 (function () {
     'use strict';
 
-    /* ---- ISO 3166-1 numeric → Mathlyens display name ---- */
+    /* ---- Code ISO 3166-1 numérique -> nom affiché ---- */
     const COUNTRY_IDS = new Map([
         [250, 'France'],        [826, 'Royaume-Uni'],
         [56,  'Belgique'],      [528, 'Pays-Bas'],
@@ -18,7 +18,7 @@
     const HISTORIC_COUNTRIES = new Set(['France', 'Royaume-Uni', 'Belgique', 'Pays-Bas', 'Luxembourg',
         'Allemagne', 'Danemark', 'Suisse', 'Italie']);
 
-    /* ---- Operator groupings (used by the operator tab strip) ---- */
+    /* ---- Regroupement des opérateurs (onglets) ---- */
     const OPERATOR_SERVICES = {
         mltc:   ['HSX', 'Xpress', 'TransRegio', 'Vivarail', 'Nocrail', 'Frail', 'Urbahn', 'Intracity'],
         prives: ['SanGo!', 'CFP'],
@@ -41,12 +41,11 @@
     })();
     let activeOperator = 'mltc';
 
-    /* ---- DOM refs ---- */
+    /* ---- Éléments de la page ---- */
     const svgEl    = document.querySelector('.circ-map');
     const layoutEl = document.getElementById('circ-layout');
     const panelEl  = document.getElementById('circ-panel');
     const titleEl  = document.getElementById('circ-country-name');
-    const descEl   = document.getElementById('circ-country-desc');
     const listEl   = document.getElementById('circ-list');
     const emptyEl  = document.getElementById('circ-empty');
     const compsEl  = document.querySelector('.circ-compositions');
@@ -68,7 +67,6 @@
     const PER_SERVICE = 3;
 
     const DEFAULT_TITLE = 'Sélectionnez un pays';
-    const DEFAULT_DESC = 'Choisissez un territoire sur la carte pour afficher les services, compositions et variantes associées.';
     const HISTORIC_HINT = 'Historique : France, Royaume-Uni, Benelux, Allemagne, Danemark, Suisse et Italie.';
 
     let shapes = [];
@@ -79,7 +77,7 @@
     let epoch = EPOCHS[0];      // époque affichée en historique
     let renderToken = 0;
 
-    /* ---- Helpers ---- */
+    /* ---- Utilitaires ---- */
     const esc = s => (s || '').replace(/[&<>"]/g, c =>
         ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
@@ -184,7 +182,7 @@
         const opts = ['<option value="">Tous les services</option>']
             .concat(services.map(s => '<option value="' + esc(s) + '">' + esc(s) + '</option>'));
         filterEl.innerHTML = opts.join('');
-        // Preserve previous selection only if still valid in the new operator group
+        // Garder la sélection si elle existe encore dans le nouveau groupe
         if (previous && services.indexOf(previous) !== -1) {
             filterEl.value = previous;
         } else {
@@ -263,7 +261,7 @@
         }));
     }
 
-    /* shared onload: size to native pixels, then update scroll spacer */
+    /* Au chargement : taille native, puis mise à jour de la piste de défilement */
     const IMG_ONLOAD = `this.style.width=this.naturalWidth+'px';this.style.height=this.naturalHeight+'px';var el=this;requestAnimationFrame(function(){var w=el.closest('.circ-consist-wrap');if(w){var s=w.querySelector('.circ-scroll-spacer');if(s)s.style.width=el.closest('.circ-consist').scrollWidth+'px'}})`;
 
     /* Rame résolue ({ src } ou attelage { src, coupler, overlap, bottom }). */
@@ -309,7 +307,7 @@
         const stops = Array.isArray(t.route) ? t.route : [];
         const nameHTML = t.name ? `<span class="circ-route-name">${esc(t.name)}</span>` : '';
 
-        /* Route: show departure → terminus, expandable to full */
+        /* Trajet : départ → terminus, dépliable en trajet complet */
         let routeHTML;
         if (stops.length > 2) {
             const mid = stops.slice(1, -1).map(s => '<span class="circ-route-mid">' + esc(s) + '</span>').join(' → ');
@@ -338,9 +336,9 @@
             </li>`;
     }
 
-    /* ---- Rendering ---- */
+    /* ---- Affichage ---- */
 
-    /** Toggle collapsed/expanded route on click */
+    /* Plie ou déplie le trajet au clic */
     function wireRouteExpand() {
         document.querySelectorAll('.circ-route-toggle').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -369,7 +367,7 @@
         });
     }
 
-    /** Wire scroll-sync between hidden-overflow frame and visible scrollbar below */
+    /* Synchronise le cadre (sans barre) et la barre de défilement placée dessous */
     function wireScrollSync() {
         document.querySelectorAll('.circ-consist-wrap').forEach(wrap => {
             const frame = wrap.querySelector('.circ-consist');
@@ -433,7 +431,7 @@
         }
     }
 
-    /* ---- Search / filter ---- */
+    /* ---- Recherche et filtre ---- */
 
     function applyFilter() {
         const q       = (searchEl.value || '').toLowerCase().trim();
@@ -495,7 +493,7 @@
         periodChanged();
     }
 
-    /* ---- Wire SVG shapes ---- */
+    /* ---- Interactions sur la carte ---- */
 
     function wireShapes() {
         shapes.forEach(s => {
@@ -520,9 +518,9 @@
         });
     }
 
-    /* ==========================================================
-       MAP BUILDER - Mercator projection of TopoJSON world-atlas
-       ========================================================== */
+    /* ========================================
+       Construction de la carte (TopoJSON world-atlas, projection Mercator)
+       ======================================== */
 
     const NS  = 'http://www.w3.org/2000/svg';
     const W   = 800;
@@ -534,7 +532,7 @@
         return Math.log(Math.tan(Math.PI / 4 + r / 2));
     }
 
-    /** Keep only polygon rings whose centroid falls in Europe */
+    /* Ne garde que les polygones dont le centre tombe en Europe */
     function europeanOnly(feature) {
         const inEurope = (ring) => {
             let sLon = 0, sLat = 0;
@@ -554,7 +552,7 @@
         return { ...feature, geometry: { ...g, coordinates: coords } };
     }
 
-    /** Compute geographic bounding box of features */
+    /* Emprise géographique des pays */
     function geoBounds(features) {
         let minLon = Infinity, maxLon = -Infinity,
             minLat = Infinity, maxLat = -Infinity;
@@ -572,7 +570,7 @@
         return { minLon, maxLon, minLat, maxLat };
     }
 
-    /** Build a Mercator projection function that fits bounds into the SVG */
+    /* Projection Mercator qui fait tenir l'emprise dans le SVG */
     function fitProjection(bounds) {
         const { minLon, maxLon, minLat, maxLat } = bounds;
         const toR = Math.PI / 180;
@@ -590,7 +588,7 @@
         ];
     }
 
-    /** Convert a coordinate ring to SVG path d string */
+    /* Anneau de coordonnées -> attribut d d'un chemin SVG */
     function ringD(ring, proj) {
         return ring.map((c, i) => {
             const [x, y] = proj(c[0], c[1]);
@@ -598,7 +596,7 @@
         }).join('') + 'Z';
     }
 
-    /** Convert a GeoJSON feature geometry to a full SVG path d */
+    /* Géométrie GeoJSON -> attribut d complet */
     function featureD(f, proj) {
         const g = f.geometry;
         const rings = g.type === 'MultiPolygon'
@@ -607,27 +605,25 @@
         return rings.map(r => ringD(r, proj)).join('');
     }
 
-    /** Fetch TopoJSON, project to Mercator, render SVG country shapes */
+    /* Charge le TopoJSON, projette et dessine les pays */
     async function buildMap() {
         const resp = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
         if (!resp.ok) throw new Error('Carte : HTTP ' + resp.status);
         const world = await resp.json();
 
-        // TopoJSON → GeoJSON
         const all = topojson.feature(world, world.objects.countries);
 
-        // Keep only Mathlyens members, European territories only
+        // Membres du Mathlyens, territoires européens seulement
         let features = all.features
             .filter(f => COUNTRY_IDS.has(Number(f.id)))
             .map(europeanOnly)
             .filter(Boolean);
 
-        // Projection
         const bounds = geoBounds(features);
         const proj   = fitProjection(bounds);
         svgEl.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
 
-        // Render each country as a <g><path/></g>
+        // Un <g><path/></g> par pays
         features.forEach(f => {
             const name = COUNTRY_IDS.get(Number(f.id));
 
@@ -647,11 +643,9 @@
             svgEl.appendChild(g);
         });
 
-        // Populate shapes reference
         shapes = Array.from(svgEl.querySelectorAll('.circ-country'));
 
-        // Tighten the viewBox to the actual rendered content, removing
-        // empty gutters on the sides (purely visual - country geometry unchanged).
+        // Resserre la viewBox sur le dessin pour supprimer les marges vides.
         try {
             const bbox = svgEl.getBBox();
             const pad = 8;
@@ -660,10 +654,10 @@
             const vw = Math.min(W - vx, bbox.width + pad * 2);
             const vh = Math.min(H - vy, bbox.height + pad * 2);
             svgEl.setAttribute('viewBox', vx + ' ' + vy + ' ' + vw + ' ' + vh);
-        } catch (e) { /* getBBox unsupported - leave default */ }
+        } catch (e) { /* getBBox indisponible : viewBox par défaut */ }
     }
 
-    /* ---- Init ---- */
+    /* ---- Initialisation ---- */
 
     async function init() {
         setLayoutState(false);
@@ -686,7 +680,7 @@
             t.addEventListener('click', () => setActiveOperator(t.dataset.operator));
         });
         resetView();
-        var skel = document.getElementById('circ-skeleton');
+        const skel = document.getElementById('circ-skeleton');
         if (skel) skel.classList.add('hidden');
     }
 
